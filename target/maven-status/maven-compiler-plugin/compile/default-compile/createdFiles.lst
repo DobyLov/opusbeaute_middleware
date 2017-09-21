@@ -1,0 +1,10 @@
+fr\labonbonniere\opusbeaute\App.class
+fr\labonbonniere\opusbeaute\middleware\dao\RdvDaoException.class
+fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInvalideException.class
+fr\labonbonniere\opusbeaute\middleware\dao\RdvDao.class
+fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\Rdv.class
+fr\labonbonniere\opusbeaute\middleware\service\RdvService.class
+fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvExistantException.class
+fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.class
+fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInexistantException.class
+fr\labonbonniere\opusbeaute\middleware\webservice\RdvWs.class
