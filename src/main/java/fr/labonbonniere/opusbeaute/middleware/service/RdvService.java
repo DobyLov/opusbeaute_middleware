@@ -1,5 +1,6 @@
 package fr.labonbonniere.opusbeaute.middleware.service;
 
+
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -16,15 +17,30 @@ public class RdvService {
 	
 	public Rdv recupererUnRdv(final Integer idRdv) {
 
-		Rdv rdv = rdvdao.obtenirRdv(idRdv); 
+		Rdv rdv = rdvdao.obtenirRdv(idRdv);
 		return rdv;
 	}
 	
 	public List<Rdv> recupereListeRdv() {
 		
-		List<Rdv> lalisterdv = rdvdao.obtenirListeRdv();
+		List<Rdv> lalisterdv = rdvdao.obtenirListeRdv();		
 		return lalisterdv;
 	}
+	
+	public List<Rdv> recupereListeRdvParDate(final String listeRdvDateDuJour) {
+		
+		List<Rdv> lalisterdvpardate = rdvdao.obtenirListeRdvParDate(listeRdvDateDuJour);
+		return lalisterdvpardate;
+		
+	};
+	
+	public List<Rdv> recupereListeRdvViaPlageDate(String RdvPlageJourA, String RdvPlageJourB) {
+		
+		List<Rdv> lalisterdvplagedate = rdvdao.obtenirListeRdvViaPlageDate(RdvPlageJourA, RdvPlageJourB);
+		return lalisterdvplagedate;
+		
+	};
+	
 	
 	public void ajoutRdv(Rdv rdv) {
 		
@@ -32,9 +48,10 @@ public class RdvService {
 		
 	}
 	
-	public void  modifduRdv(Rdv rdv) {
-		
+	 public void  modifduRdv(Rdv rdv) {
+	//public Rdv  modifduRdv(Integer idRdv, Rdv rdv) { // modif du 22/09
 		rdvdao.modifieUnRdv(rdv);
+		//return rdv; // modif du 22/09 il n y a vait pas de return
 				
 	}
 	

@@ -38,6 +38,32 @@ public class RdvWs {
 		
 	}
 	
+	
+	@GET
+	@Path("/rdvspardate/{listeRdvDateDuJour}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListeRdvParDate (@PathParam("listeRdvDateDuJour") final String listeRdvDateDuJour ) {
+		
+		Response.ResponseBuilder builder = null;
+		final List<Rdv> listerdvpardate = rdvService.recupereListeRdvParDate(listeRdvDateDuJour);
+		builder = Response.ok(listerdvpardate);
+		return builder.build();
+	}
+	
+	@GET
+	@Path("/rdvsplagedate/{RdvPlageJourA},{RdvPlageJourB}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListeRdvParPlageDate (@PathParam("RdvPlageJourA") final String RdvPlageJourA, 
+										@PathParam("RdvPlageJourB") final String RdvPlageJourB) {
+		
+		Response.ResponseBuilder builder = null;
+		final List<Rdv> listerdvpardate = rdvService.recupereListeRdvViaPlageDate(RdvPlageJourA, RdvPlageJourB );
+		builder = Response.ok(listerdvpardate);
+		return builder.build();
+	}
+	
+	
+	
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/$idRdv
 	@GET
     @Path("/{idRdv}") // fonctionne bien 11/07
@@ -50,6 +76,9 @@ public class RdvWs {
 		return builder.build();
 
 		}
+	
+
+	
 	
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/modifrdv
 	// Mettre l idRdv de l objet et les parametres a modifier rdv

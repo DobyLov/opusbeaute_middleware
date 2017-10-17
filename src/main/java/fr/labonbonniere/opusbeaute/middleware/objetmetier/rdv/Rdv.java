@@ -1,7 +1,6 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv;
 import java.io.Serializable;
-import java.time.Instant;
-
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,9 +23,9 @@ public class Rdv implements Serializable {
 	private Integer idRdv;
 	private String nom;
 	private String prenom;
-	private Instant dateHeureDebut;
-	private Instant dateDeSaisie;
-	private Instant dateHeureFin;
+	private Timestamp dateHeureDebut;
+	private Timestamp dateDeSaisie;
+	private Timestamp dateHeureFin;
 	private Integer prestation;
 	private Integer compteurSeances;
 	private Integer produit;
@@ -39,8 +38,9 @@ public class Rdv implements Serializable {
 	}
 
 	public Rdv(Integer idRdv, String nom, String prenom,
-			Instant dateHeureDebut,Instant dateHeureFin, Instant dateDeSaisie,
-			Integer prestation, Integer compteurSeances, Integer produit, Integer lieuRdv, Integer devis,
+			Timestamp dateHeureDebut,Timestamp dateHeureFin, Timestamp dateDeSaisie,
+			Integer prestation, Integer compteurSeances, Integer produit, 
+			Integer lieuRdv, Integer devis,
 			Integer facture) {
 		super();
 		this.idRdv = idRdv;
@@ -89,33 +89,32 @@ public class Rdv implements Serializable {
 	
 	@Column(name = "RDV_DHDEBUT", nullable = true)
 	//@Temporal(TemporalType.TIMESTAMP)
-	public Instant getdateHeureDebut() {
-	//	dateHeureDebutInstant.toEpochMilli();		
+	public Timestamp getdateHeureDebut() {
 		return dateHeureDebut;
 	}
 		
-	public void setdateHeureDebut(Instant dateHeureDebut) {
+	public void setdateHeureDebut(Timestamp dateHeureDebut) {
 		this.dateHeureDebut = dateHeureDebut;
 	}
 	
 	@Column(name = "RDV_DHFIN", nullable = true)
 	//@Temporal(TemporalType.TIMESTAMP)
-	public Instant getdateHeureFin() {
+	public Timestamp getdateHeureFin() {
 		return dateHeureFin;
 	}
 	
-	public void setdateHeureFin(Instant dateHeureFin) {
+	public void setdateHeureFin(Timestamp dateHeureFin) {
 		this.dateHeureFin = dateHeureFin;
 	}
 	
 	
 	@Column(name = "RDV_DATEDESAISIE", nullable = true)
 	//@Temporal(TemporalType.TIMESTAMP)
-	public Instant getDateDeSaisie() {
+	public Timestamp getDateDeSaisie() {
 		return dateDeSaisie;
 	}
 
-	public void setDateDeSaisie(Instant dateDeSaisie) {
+	public void setDateDeSaisie(Timestamp dateDeSaisie) {
 		this.dateDeSaisie = dateDeSaisie;
 	}
 	
