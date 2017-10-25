@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @XmlRootElement
 @Entity
 @Table(name = "T_RDV")
-public class Rdv implements Serializable {
+public class Rdv  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,16 +51,15 @@ public class Rdv implements Serializable {
 		this.dateDeSaisie = dateDeSaisie;
 		this.prestation = prestation;
 		this.compteurSeances = compteurSeances;
-		this.produit = produit;
-		this.lieuRdv = lieuRdv;
-		this.devis = devis;
-		this.facture = facture;
+		this.produit = produit;// asuppr
+		this.lieuRdv = lieuRdv;// asuppr
+		this.devis = devis;// asuppr
+		this.facture = facture;// asuppr
 	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "RDV_IDRDV", nullable = false, length = 2)
-	//@NotNull
+	@Column(name = "RDV_IDRDV", nullable = false, length = 8)	
 	public Integer getIdRdv() {
 		return idRdv;
 	}
@@ -69,7 +68,7 @@ public class Rdv implements Serializable {
 		this.idRdv = idRdv;
 	}
 
-	@Column(name = "RDV_NOM", nullable = false, length = 20)
+	@Column(name = "RDV_NOM", nullable = false, length = 30)
 	public String getNom() {
 		return nom;
 	}
@@ -77,8 +76,8 @@ public class Rdv implements Serializable {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	//@Size(max = 20)
-	@Column(name = "RDV_PRENOM", nullable = false, length = 20)
+	
+	@Column(name = "RDV_PRENOM", nullable = false, length = 30)
 	public String getPrenom() {
 		return prenom;
 	}
@@ -87,8 +86,8 @@ public class Rdv implements Serializable {
 		this.prenom = prenom;
 	}
 	
-	@Column(name = "RDV_DHDEBUT", nullable = true)
-	//@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "RDV_DHDEBUT", nullable = false)
+//	@Temporal( TemporalType.TIMESTAMP)
 	public Timestamp getdateHeureDebut() {
 		return dateHeureDebut;
 	}
@@ -98,7 +97,7 @@ public class Rdv implements Serializable {
 	}
 	
 	@Column(name = "RDV_DHFIN", nullable = true)
-	//@Temporal(TemporalType.TIMESTAMP)
+//	@Temporal( TemporalType.TIMESTAMP)
 	public Timestamp getdateHeureFin() {
 		return dateHeureFin;
 	}
@@ -109,7 +108,7 @@ public class Rdv implements Serializable {
 	
 	
 	@Column(name = "RDV_DATEDESAISIE", nullable = true)
-	//@Temporal(TemporalType.TIMESTAMP)
+//	@Temporal( TemporalType.TIMESTAMP)
 	public Timestamp getDateDeSaisie() {
 		return dateDeSaisie;
 	}
