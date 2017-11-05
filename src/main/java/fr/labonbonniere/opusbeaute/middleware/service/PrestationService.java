@@ -90,9 +90,9 @@ public class PrestationService {
 	public List<Prestation> recupereListePrestationCriteresGenreActivite(String genre, String activite) throws DaoException {		
 		
 		try {				
-			logger.info("PrestationService log : Demande au Dao la liste des Prestations Homme");
+			logger.info("PrestationService log : Demande au Dao la liste des Prestations par genre et activite");
 			List<Prestation> lalisteprestationGA = prestationdao.obtenirListPrestationsCriteresGenreActivite(genre, activite);
-			logger.info("PrestationService - Liste des Prestation Homme's recuperee");			
+			logger.info("PrestationService - Liste des Prestation par genre et activite recuperee");			
 			return lalisteprestationGA;			
 		
 		} catch ( DaoException message ) {			
@@ -106,9 +106,9 @@ public class PrestationService {
 	public List<Prestation> recupereListePrestationCriteresGenreActiviteSoins(String genre, String activite, String soin) throws DaoException {		
 		
 		try {				
-			logger.info("PrestationService log : Demande au Dao la liste des Prestations Homme");
+			logger.info("PrestationService log : Demande au Dao la liste des Prestations par genre,activite et soin");
 			List<Prestation> lalisteprestationGAS = prestationdao.obtenirListPrestationsCriteresGenreActiviteSoins(genre, activite, soin);
-			logger.info("PrestationService - Liste des Prestation Homme's recuperee");			
+			logger.info("PrestationService - Liste des Prestation par genre,activite et soin recuperee");			
 			return lalisteprestationGAS;			
 		
 		} catch ( DaoException message ) {			

@@ -125,6 +125,51 @@ public class PrestationWs {
 	}
 	
 	
+	@GET
+	@Path("/searchga/{genre},{activite}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListePrestationCriteresGA (
+			@PathParam("genre") final String genre, 
+			@PathParam("activite") final String activite)throws DaoException {
+		
+		Response.ResponseBuilder builder = null;
+		try {
+			logger.info("-----------------------------------------------------");
+			logger.info("PrestationWs log : Demande au PrestationService la liste des Prestations avec le criteres genre, activite.");
+			final List<Prestation> listeprestaGA = prestationservice.recupereListePrestationCriteresGenreActivite(genre, activite);
+			logger.info("PrestationWs log : Transmission de la Liste des Prestation'sselon les criteres genre, activite.");
+			builder = Response.ok(listeprestaGA);
+		} catch (Exception message) {
+			logger.error("PrestationWs Exception : probleme sur le format de la requete.");
+			builder = Response.status(Response.Status.NOT_ACCEPTABLE);
+		}
+		return builder.build();
+	}
+	
+	
+	@GET
+	@Path("searchgas/{genre},{activite},{soin}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListePrestationCriteresGAS (
+			@PathParam("genre") final String genre, 
+			@PathParam("activite") final String activite,
+			@PathParam("soin") final String soin) throws DaoException {
+		
+		Response.ResponseBuilder builder = null;
+		try {
+			logger.info("-----------------------------------------------------");
+			logger.info("PrestationWs log : Demande au PrestationService la liste des Prestations avec le criteres genre, activite, soin.");
+			final List<Prestation> listeprestaGAS = prestationservice.recupereListePrestationCriteresGenreActiviteSoins(genre, activite, soin);
+			logger.info("PrestationWs log : Transmission de la Liste des Prestation'sselon les criteres genre, activite et soin.");
+			builder = Response.ok(listeprestaGAS);
+		} catch (Exception message) {
+			logger.error("PrestationWs Exception : probleme sur le format de la requete.");
+			builder = Response.status(Response.Status.NOT_ACCEPTABLE);
+		}
+		return builder.build();
+	}
+	
+	
 	@POST
 	@Path("/addprestation")
 	@Produces(MediaType.APPLICATION_JSON)

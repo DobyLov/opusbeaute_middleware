@@ -8,12 +8,13 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+//import javax.persistence.criteria.CriteriaBuilder;
+//import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+//import org.hibernate.criterion.Order;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation;
@@ -33,22 +34,30 @@ public class PrestationDao {
 	public List<Prestation> obtenirListePrestations() throws DaoException {
 		
 		
-		final CriteriaBuilder cb = em.getCriteriaBuilder();		
-		final CriteriaQuery<Prestation> reqCriteria = cb.createQuery(Prestation.class);
-		reqCriteria.from(Prestation.class);
-		final TypedQuery<Prestation> requete = em.createQuery(reqCriteria);
-		List<Prestation> listePrestations;
+//		final CriteriaBuilder cb = em.getCriteriaBuilder();		
+//		final CriteriaQuery<Prestation> reqCriteria = cb.createQuery(Prestation.class);
+//		reqCriteria.from(Prestation.class)
+//		final TypedQuery<Prestation> requete = em.createQuery(reqCriteria);
+//		List<Prestation> listePrestations;
+
+		
 		
 		try {
 			logger.info("PrestationsDao log : Demande a la bdd la liste des Prestations");
-			listePrestations = requete.getResultList();
+			String requete =  "SELECT P FROM Prestation P"
+							+ " ORDER BY idPrestation asc";;
+					
+			TypedQuery<Prestation> query = em.createQuery(requete,Prestation.class);
+			List<Prestation> listePrestations = query.getResultList();
+			
+			logger.info("PrestationsDao log :  Envoi de la liste de Prestations");
+			return listePrestations;
 			
 		} catch (Exception message) {
 			logger.error("PrestationsDao Exception : Probleme de la bdd.");
 			throw new DaoException("RdvDao Exception : Probleme de la bdd.");
 		}
-		logger.info("PrestationsDao log :  Envoi de la liste de Prestations");
-		return listePrestations;
+
 		
 	}
 	
@@ -75,7 +84,7 @@ public class PrestationDao {
 		try {
 			logger.info("PrestationsDao log : Demande la liste des Prestations par homme.");
 			String requete =  "SELECT P FROM Prestation P"
-							+ " WHERE PRESTATION_GENRE = + genre";
+							+ " WHERE PRESTATION_GENRE = 'homme' ";
 			
 			TypedQuery<Prestation> query = em.createQuery(requete,Prestation.class);
 			List<Prestation> prestationH = query.getResultList();
@@ -94,7 +103,7 @@ public class PrestationDao {
 		try {
 			logger.info("PrestationsDao log : Demande la liste des Prestations par genre femme.");
 			String requete =  "SELECT P FROM Prestation P"
-							+ " WHERE PRESTATION_GENRE = femme";
+							+ " WHERE PRESTATION_GENRE = 'femme' ";
 			
 			TypedQuery<Prestation> query = em.createQuery(requete,Prestation.class);
 			List<Prestation> prestationF = query.getResultList();
@@ -135,7 +144,7 @@ public class PrestationDao {
 			String requete =  "SELECT P FROM Prestation P"
 							+ " WHERE PRESTATION_GENRE = '" + genre + "'"  
 							+ " AND PRESTATION_ACTIVITE = '" + activite + "'"
-							+ " AND PRESTATION_SOIN = '" + soin + "'";
+							+ " AND PRESTATION_SOIN like '" + soin + "%" + "'";
 			
 			TypedQuery<Prestation> query = em.createQuery(requete,Prestation.class);
 			List<Prestation> prestationGAS = query.getResultList();

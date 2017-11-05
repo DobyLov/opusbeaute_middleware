@@ -26,7 +26,7 @@ public class Prestation implements Serializable {
 	private Boolean forfait;
 	private Integer nbSeance; 
 	private Integer dureeSeance;
-	private Integer prix;
+	private float prix;
 	private String description;
 
 
@@ -36,7 +36,7 @@ public class Prestation implements Serializable {
 	
 	public Prestation( Integer idPrestation, String activite, 
 			String soin, String genre, boolean forfait, Integer nbSeance,
-			Integer dureeSeance, Integer prix, String description) {
+			Integer dureeSeance, float prix, String description) {
 		
 		super();
 		this.idPrestation = idPrestation;
@@ -48,6 +48,7 @@ public class Prestation implements Serializable {
 		this.dureeSeance = dureeSeance;
 		this.prix = prix;
 		this.description = description;
+		
 	}
 	
 	@Id
@@ -111,11 +112,11 @@ public class Prestation implements Serializable {
 	}
 
 	@Column(name = "PRESTATION_PRIX", nullable = true, length = 3)
-	public Integer getPrix() {
+	public float getPrix() {
 		return prix;
 	}
 
-	public void setPrix(Integer prix) {
+	public void setPrix(float prix) {
 		this.prix = prix;
 	}
 	@Column(name = "PRESTATION_DESCRIPTION", nullable = true, length = 500 )
@@ -125,6 +126,10 @@ public class Prestation implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
@@ -154,7 +159,7 @@ public class Prestation implements Serializable {
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((idPrestation == null) ? 0 : idPrestation.hashCode());
 		result = prime * result + ((nbSeance == null) ? 0 : nbSeance.hashCode());
-		result = prime * result + ((prix == null) ? 0 : prix.hashCode());
+//		result = prime * result + ((prix == null) ? 0 : prix.hashCode());
 		result = prime * result + ((soin == null) ? 0 : soin.hashCode());
 		return result;
 	}
@@ -202,11 +207,6 @@ public class Prestation implements Serializable {
 			if (other.nbSeance != null)
 				return false;
 		} else if (!nbSeance.equals(other.nbSeance))
-			return false;
-		if (prix == null) {
-			if (other.prix != null)
-				return false;
-		} else if (!prix.equals(other.prix))
 			return false;
 		if (soin == null) {
 			if (other.soin != null)
