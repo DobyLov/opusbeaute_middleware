@@ -11,6 +11,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\o
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInexistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\RdvService.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdv.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvDateIncorrecte.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\RdvDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInexistantException.java
@@ -22,7 +23,6 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\s
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInvalideException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\PrestationWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\Utilisateur.java
-E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\methodeprospection\MethodeProspection.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInexistanteException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\App.java

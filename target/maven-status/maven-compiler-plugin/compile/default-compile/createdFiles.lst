@@ -1,10 +1,10 @@
 fr\labonbonniere\opusbeaute\App.class
 fr\labonbonniere\opusbeaute\middleware\dao\PrestationDao.class
+fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdv.class
 fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\Client.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresse\Adresse.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvDateIncorrecte.class
-fr\labonbonniere\opusbeaute\middleware\objetmetier\methodeprospection\MethodeProspection.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PrestationWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInvalideException.class

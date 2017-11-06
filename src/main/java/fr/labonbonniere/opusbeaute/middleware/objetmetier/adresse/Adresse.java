@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 @XmlRootElement
 @Entity
@@ -110,6 +112,7 @@ public class Adresse implements Serializable {
 				.append("numero", this.numero)
 				.append("rue", this.rue)
 				.append("zipCode", this.zipCode)
+				.append("ville", this.ville)
 				.append("pays", this.pays)
 				.build();
 	}
@@ -122,45 +125,35 @@ public class Adresse implements Serializable {
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result + ((pays == null) ? 0 : pays.hashCode());
 		result = prime * result + ((rue == null) ? 0 : rue.hashCode());
+		result = prime * result + ((ville == null) ? 0 : ville.hashCode());
 		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object candidat) {
+		if (candidat == this)
 			return true;
-		if (obj == null)
+		
+		if (candidat == null)
 			return false;
-		if (getClass() != obj.getClass())
+		
+		if (!(candidat instanceof Adresse))
 			return false;
-		Adresse other = (Adresse) obj;		
-		if (idAdresse == null) {
-			if (other.idAdresse != null)
-				return false;
-		} else if (!idAdresse.equals(other.idAdresse))
-			return false;		
-		if (numero == null) {
-			if (other.numero != null)
-				return false;
-		} else if (!numero.equals(other.numero))
-			return false;
-		if (pays == null) {
-			if (other.pays != null)
-				return false;
-		} else if (!pays.equals(other.pays))
-			return false;
-		if (rue == null) {
-			if (other.rue != null)
-				return false;
-		} else if (!rue.equals(other.rue))
-			return false;
-		if (zipCode == null) {
-			if (other.zipCode != null)
-				return false;
-		} else if (!zipCode.equals(other.zipCode))
-			return false;
-		return true;
+		
+		final Adresse autre = (Adresse) candidat; 
+		
+		return new EqualsBuilder()
+				.append(this.idAdresse, autre.idAdresse)
+				.append(this.numero, autre.numero)
+				.append(this.rue, autre.rue)
+				.append(this.ville, autre.ville)
+				.append(this.zipCode, autre.zipCode)
+				.append(this.pays, autre.pays)
+				.build();
 	}
+
+
+	
 
 }

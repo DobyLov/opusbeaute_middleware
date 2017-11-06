@@ -25,7 +25,6 @@ import org.hibernate.annotations.Parameter;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.methodeprospection.MethodeProspection;
 
 
 @XmlRootElement
@@ -43,9 +42,7 @@ public class Client implements Serializable {
 	private Genre genreClient; 		// table Client mappee en OneTone
 	private String adresseMailClient;	// table Genre mappee en OneTone
 	private Date dateAnniversaireClient;
-	private MethodeProspection methodeProspection;
-	private String parrainDe;
-	private Boolean abonneNewsLetter;
+
 
 	public Client() {
 		super();
@@ -53,8 +50,7 @@ public class Client implements Serializable {
 
 	public Client(Long idClient, String nomClient, String prenomClient, 
 			String telephoneClient, Genre genreClient, Adresse adresse, 
-			String adresseMailClient, Date dateAnniversaireClient,
-			MethodeProspection methodeProspection, String parrainDe, boolean abonneNewsLetter) {
+			String adresseMailClient, Date dateAnniversaireClient) {
 
 		super();
 		this.idClient = idClient;
@@ -65,10 +61,7 @@ public class Client implements Serializable {
 		this.adresse = adresse;
 		this.adresseMailClient = adresseMailClient;
 		this.dateAnniversaireClient = dateAnniversaireClient;
-		this.methodeProspection = methodeProspection;
-		this.parrainDe = parrainDe;
-		this.abonneNewsLetter = abonneNewsLetter;
-
+		
 	}
 
 	@Id
@@ -154,41 +147,14 @@ public class Client implements Serializable {
 		this.dateAnniversaireClient = dateAnniversaireClient;
 	}
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "METHODEPROSPECTION_IDMETHODEPROSPECTION",foreignKey = @ForeignKey(name = "CLIENT_IDMETHODEPROSPECTION_FK"))
-	public MethodeProspection getMethodeProspection() {
-		return methodeProspection;
-	}
-
-	public void setMethodeProspection(MethodeProspection methodeProspection) {
-		this.methodeProspection = methodeProspection;
-	}
-
-	@Column(name = "CLIENT_PARAINDE", nullable = true, length = 30)
-	public String getParrainDe() {
-		return parrainDe;
-	}
-
-	public void setParrainDe(String parrainDe) {
-		this.parrainDe = parrainDe;
-	}
-
-	@Column(name = "CLIENT_ABONNENEWSLETTER", nullable = true)
-	public Boolean getAbonneNewsLetter() {
-		return abonneNewsLetter;
-	}
-
-	public void setAbonneNewsLetter(Boolean abonneNewsLetter) {
-		this.abonneNewsLetter = abonneNewsLetter;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idClient", this.idClient)
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				.append("idClient", this.idClient)
 				.append("nomClient", this.nomClient)
 				.append("prenomClient", this.prenomClient)
 				.append("telephoneClient", this.telephoneClient)
@@ -196,9 +162,6 @@ public class Client implements Serializable {
 				.append("adresse", this.adresse)
 				.append("adresseMailClient", this.adresseMailClient)
 				.append("dateAnniversaireClient", this.dateAnniversaireClient)
-				.append("methodeProspection", this.methodeProspection)
-				.append("parrainDe", this.parrainDe)
-				.append("abonneNewsLetter", this.abonneNewsLetter)
 				.build();
 
 	}
@@ -212,12 +175,9 @@ public class Client implements Serializable {
 		result = prime * result + ((dateAnniversaireClient == null) ? 0 : dateAnniversaireClient.hashCode());
 		result = prime * result + ((idClient == null) ? 0 : idClient.hashCode());
 		result = prime * result + ((genreClient == null) ? 0 : genreClient.hashCode());
-		result = prime * result + ((methodeProspection == null) ? 0 : methodeProspection.hashCode());
 		result = prime * result + ((nomClient == null) ? 0 : nomClient.hashCode());
-		result = prime * result + ((parrainDe == null) ? 0 : parrainDe.hashCode());
 		result = prime * result + ((prenomClient == null) ? 0 : prenomClient.hashCode());
-		result = prime * result + ((telephoneClient == null) ? 0 : telephoneClient.hashCode());
-		result = prime * result + ((abonneNewsLetter == null) ? 0 : abonneNewsLetter.hashCode());		
+		result = prime * result + ((telephoneClient == null) ? 0 : telephoneClient.hashCode());		
 		return result;
 	}
 
@@ -255,20 +215,10 @@ public class Client implements Serializable {
 				return false;
 		} else if (!idClient.equals(other.idClient))
 			return false;
-		if (methodeProspection == null) {
-			if (other.methodeProspection != null)
-				return false;
-		} else if (!methodeProspection.equals(other.methodeProspection))
-			return false;
 		if (nomClient == null) {
 			if (other.nomClient != null)
 				return false;
 		} else if (!nomClient.equals(other.nomClient))
-			return false;
-		if (parrainDe == null) {
-			if (other.parrainDe != null)
-				return false;
-		} else if (!parrainDe.equals(other.parrainDe))
 			return false;
 		if (prenomClient == null) {
 			if (other.prenomClient != null)
@@ -279,11 +229,6 @@ public class Client implements Serializable {
 			if (other.telephoneClient != null)
 				return false;
 		} else if (!telephoneClient.equals(other.telephoneClient))
-			return false;
-		if (abonneNewsLetter == null) {
-			if (other.abonneNewsLetter != null)
-				return false;
-		} else if (!abonneNewsLetter.equals(other.abonneNewsLetter))
 			return false;
 		return true;
 	}

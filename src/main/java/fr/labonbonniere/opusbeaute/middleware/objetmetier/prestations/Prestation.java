@@ -3,14 +3,20 @@ package fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 
 @XmlRootElement
 @Entity
@@ -22,7 +28,7 @@ public class Prestation implements Serializable {
 	private Integer idPrestation;
 	private String activite;
 	private String soin;
-	private String genre;
+	private Genre genre;
 	private Boolean forfait;
 	private Integer nbSeance; 
 	private Integer dureeSeance;
@@ -35,7 +41,7 @@ public class Prestation implements Serializable {
 	}
 	
 	public Prestation( Integer idPrestation, String activite, 
-			String soin, String genre, boolean forfait, Integer nbSeance,
+			String soin, Genre genre, boolean forfait, Integer nbSeance,
 			Integer dureeSeance, float prix, String description) {
 		
 		super();
@@ -78,12 +84,14 @@ public class Prestation implements Serializable {
 	public void setSoin(String soin) {
 		this.soin = soin;
 	}
-	@Column(name = "PRESTATION_GENRE", nullable = true, length = 10)
-	public String getGenre() {
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="GENRE_IDGENRE", foreignKey = @ForeignKey(name = "PRESTATION_IDGENRE_FK"))
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
 	@Column(name = "PRESTATION_FORFAIT", nullable = false, length = 3)
@@ -159,61 +167,32 @@ public class Prestation implements Serializable {
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((idPrestation == null) ? 0 : idPrestation.hashCode());
 		result = prime * result + ((nbSeance == null) ? 0 : nbSeance.hashCode());
-//		result = prime * result + ((prix == null) ? 0 : prix.hashCode());
 		result = prime * result + ((soin == null) ? 0 : soin.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object candidat) {
+		if (candidat == this)
 			return true;
-		if (obj == null)
+		
+		if (candidat == null)
 			return false;
-		if (getClass() != obj.getClass())
+		
+		if (!(candidat instanceof Prestation))
 			return false;
-		Prestation other = (Prestation) obj;
-		if (activite == null) {
-			if (other.activite != null)
-				return false;
-		} else if (!activite.equals(other.activite))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (dureeSeance == null) {
-			if (other.dureeSeance != null)
-				return false;
-		} else if (!dureeSeance.equals(other.dureeSeance))
-			return false;
-		if (forfait == null) {
-			if (other.forfait != null)
-				return false;
-		} else if (!forfait.equals(other.forfait))
-			return false;
-		if (genre == null) {
-			if (other.genre != null)
-				return false;
-		} else if (!genre.equals(other.genre))
-			return false;
-		if (idPrestation == null) {
-			if (other.idPrestation != null)
-				return false;
-		} else if (!idPrestation.equals(other.idPrestation))
-			return false;
-		if (nbSeance == null) {
-			if (other.nbSeance != null)
-				return false;
-		} else if (!nbSeance.equals(other.nbSeance))
-			return false;
-		if (soin == null) {
-			if (other.soin != null)
-				return false;
-		} else if (!soin.equals(other.soin))
-			return false;
-		return true;
+		
+		final Prestation autre = (Prestation) candidat; 
+		
+		return new EqualsBuilder()
+				.append(this.idPrestation, autre.idPrestation)
+				.append(this.activite, autre.activite)
+				.append(this.description, autre.description)
+				.append(this.dureeSeance, autre.dureeSeance)
+				.append(this.forfait, autre.forfait)
+				.append(this.genre, autre.genre)
+				.append(this.nbSeance, autre.nbSeance)
+				.append(this.soin, autre.soin)
+				.build();
 	}
-
 }

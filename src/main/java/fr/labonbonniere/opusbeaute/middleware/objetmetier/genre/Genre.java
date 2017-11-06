@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 @XmlRootElement
 @Entity
@@ -76,25 +78,21 @@ public class Genre implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object candidat) {
+		if (candidat == this)
 			return true;
-		if (obj == null)
+		
+		if (candidat == null)
 			return false;
-		if (getClass() != obj.getClass())
+		
+		if (!(candidat instanceof Genre))
 			return false;
-		Genre other = (Genre) obj;
-		if (genre == null) {
-			if (other.genre != null)
-				return false;
-		} else if (!genre.equals(other.genre))
-			return false;
-		if (idGenre == null) {
-			if (other.idGenre != null)
-				return false;
-		} else if (!idGenre.equals(other.idGenre))
-			return false;
-		return true;
+		
+		final Genre autre = (Genre) candidat; 
+		
+		return new EqualsBuilder()
+				.append(this.idGenre, autre.idGenre)
+				.append(this.genre, autre.genre)
+				.build();
 	}
-
 }
