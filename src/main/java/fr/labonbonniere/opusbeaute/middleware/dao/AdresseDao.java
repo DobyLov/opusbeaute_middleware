@@ -20,7 +20,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseInexist
 @Stateless
 @Transactional
 public class AdresseDao {
-	static final Logger logger = LogManager.getLogger(PrestationDao.class);
+	static final Logger logger = LogManager.getLogger(AdresseDao.class);
 
 	@PersistenceContext(unitName="dobyPUtest")
 	private EntityManager em;

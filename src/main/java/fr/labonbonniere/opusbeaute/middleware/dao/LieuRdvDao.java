@@ -20,7 +20,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInexist
 @Stateless
 @Transactional
 public class LieuRdvDao {
-	static final Logger logger = LogManager.getLogger(PrestationDao.class);
+	static final Logger logger = LogManager.getLogger(LieuRdvDao.class);
 
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;

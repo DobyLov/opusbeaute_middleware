@@ -140,8 +140,8 @@ public class PrestationService {
 			logger.info("PrestationService log : Prestation id : " + prestation.getIdPrestation() + " a ete modifie dans la Bdd.");
 			
 		 } catch (PrestationInexistanteException message) {
-			logger.error("PrestationService log : Rdv id : " + prestation.getIdPrestation() + " ne peut etre modifie dans la Bdd.");
-			throw new PrestationInexistanteException("RdvService Exception : Rdv avec l Id : " + prestation.getIdPrestation() + " ne peut etre modifie.");
+			logger.error("PrestationService log : Prestation id : " + prestation.getIdPrestation() + " ne peut etre modifie dans la Bdd.");
+			throw new PrestationInexistanteException("PrestationService Exception : Prestation avec l Id : " + prestation.getIdPrestation() + " ne peut etre modifie.");
 		 }				
 	}
 	

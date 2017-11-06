@@ -21,12 +21,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistan
 @Transactional
 public class ClientDao {
 
-	static final Logger logger = LogManager.getLogger(PrestationDao.class);
+	static final Logger logger = LogManager.getLogger(ClientDao.class);
 
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
-	public List<Client> obtenirListegClient() throws DaoException {
+	public List<Client> obtenirListeClient() throws DaoException {
 
 		try {
 			logger.info("ClientDao log : Demande a la bdd la liste des Clients");

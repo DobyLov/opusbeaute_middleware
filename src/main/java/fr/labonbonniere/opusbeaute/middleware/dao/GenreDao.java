@@ -21,12 +21,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantE
 @Transactional
 public class GenreDao {
 
-	static final Logger logger = LogManager.getLogger(PrestationDao.class);
+	static final Logger logger = LogManager.getLogger(GenreDao.class);
 
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
-	public List<Genre> obtenirListegGenre() throws DaoException {
+	public List<Genre> obtenirListeGenre() throws DaoException {
 
 		try {
 			logger.info("GenreDao log : Demande a la bdd la liste des Genres");
