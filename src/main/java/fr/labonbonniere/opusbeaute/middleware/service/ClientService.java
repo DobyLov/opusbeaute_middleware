@@ -57,7 +57,13 @@ public class ClientService {
 		
 		try {
 			logger.info("ClientService log : Demande d ajout d un nouveau Client dans la Bdd.");
-			clientdao.ajouterUnClient(client);;
+			logger.info("ClientService log : Formatage de la string nom en Majuscule.");
+			logger.info("ClientService log : Formatage de la string prenom en Majuscule.");
+			String formatPrenom = client.getPrenomClient().substring(0,0).toUpperCase() + client.getPrenomClient().substring(1).toLowerCase();
+			String formatNom = client.getNomClient().toUpperCase();
+			client.setNomClient(formatNom);
+			client.setPrenomClient(formatPrenom);
+			clientdao.ajouterUnClient(client);
 			logger.info("ClientService log : Nouveau Client ajoute, avec l id : " + client.getIdClient());
 			
 		} catch (ClientExistantException message) {
@@ -71,7 +77,13 @@ public class ClientService {
 		 
 		 try {
 			logger.info("ClientService log : Demande de modification du Client id : " + client.getIdClient() + " dans la Bdd.");
-			clientdao.modifieUnClient(client);;
+			logger.info("ClientService log : Formatage de la string nom en Majuscule.");
+			logger.info("ClientService log : Formatage de la string prenom en Majuscule.");
+			String formatPrenom = client.getPrenomClient().substring(0,0).toUpperCase() + client.getPrenomClient().substring(1).toLowerCase();
+			String formatNom = client.getNomClient().toUpperCase();
+			client.setNomClient(formatNom);
+			client.setPrenomClient(formatPrenom);
+			clientdao.modifieUnClient(client);
 			logger.info("ClientService log : Client id : " + client.getIdClient() + " a ete modifie dans la Bdd.");
 			
 		 } catch (ClientInexistantException message) {

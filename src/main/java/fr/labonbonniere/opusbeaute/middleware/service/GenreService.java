@@ -53,6 +53,9 @@ public class GenreService {
 
 		try {
 			logger.info("GenreService log : Demande d ajout d un nouveu Genre dans la Bdd.");
+			logger.info("GenreService log : Format la string genre.genrehum en Majuscule.");
+			String genremaj = genre.getIdGenre().toString().toUpperCase();
+			genre.setGenre(genremaj);
 			genredao.ajouterUnGenre(genre);
 			logger.info("GenreService log : Nouveau Genre ajoute, avec l id : " + genre.getIdGenre());
 
@@ -65,10 +68,13 @@ public class GenreService {
 	public void modifDeLGenre(Genre genre) throws GenreInexistantException {
 
 		try {
-			logger.info(
-					"GenreService log : Demande de modification du Genre id : " + genre.getIdGenre() + " dans la Bdd.");
+			logger.info("GenreService log : Demande de modification du Genre id : " + genre.getIdGenre() + " dans la Bdd.");
+			logger.info("GenreService log : Format la string genre.genrehum en Majuscule.");
+			String genremaj = genre.getIdGenre().toString().toUpperCase();
+			genre.setGenre(genremaj);
 			genredao.modifieUnGenre(genre);
 			;
+
 			logger.info("GenreService log : Genre id : " + genre.getIdGenre() + " a ete modifie dans la Bdd.");
 
 		} catch (GenreInexistantException message) {

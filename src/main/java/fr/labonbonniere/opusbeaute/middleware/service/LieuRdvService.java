@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,6 +55,12 @@ public class LieuRdvService {
 
 		try {
 			logger.info("LieuRdvService log : Demande d ajout d un nouveu Genre dans la Bdd.");
+			logger.info("ClientService log : Formatage de la string LieuRdv Via Capitalize.");
+			String formatlieurdvcaptalize = lieuRdv.getLieuRdv();
+			String formatlieurrdvCapialized = WordUtils.capitalize(formatlieurdvcaptalize);
+			lieuRdv.setLieuRdv(formatlieurrdvCapialized);
+		
+			
 			lieurdvdao.ajouterUnLieuRdv(lieuRdv);
 			logger.info("LieuRdvService log : Nouveau Genre ajoute, avec l id : " + lieuRdv);
 
@@ -68,6 +75,10 @@ public class LieuRdvService {
 		try {
 			logger.info("LieuRdvService log : Demande de modification du Genre id : " + lieuRdv.getIdLieuRdv()
 					+ " dans la Bdd.");
+			logger.info("ClientService log : Formatage de la string LieuRdv Via Capitalize.");
+			String formatlieurdvcaptalize = lieuRdv.getLieuRdv();
+			String formatlieurrdvCapialized = WordUtils.capitalize(formatlieurdvcaptalize);
+			lieuRdv.setLieuRdv(formatlieurrdvCapialized);
 			lieurdvdao.modifieUnLieuRdv(lieuRdv);
 			logger.info("LieuRdvService log : Genre id : " + lieuRdv.getIdLieuRdv() + " a ete modifie dans la Bdd.");
 

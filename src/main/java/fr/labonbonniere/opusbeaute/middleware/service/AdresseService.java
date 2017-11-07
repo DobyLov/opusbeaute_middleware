@@ -56,6 +56,15 @@ public class AdresseService {
 
 		try {
 			logger.info("AdresseService log : Demande d ajout d une nouvelle Adresse dans la Bdd.");
+			logger.info("AdresseService log : Formatage des la string Adress.ville en Majuscule.");
+			logger.info("AdresseService log : Formatage des la string Adresse.rue en Minuscule.");
+			logger.info("AdresseService log : Formatage des la string Adresse.pays en Majuscule.");			
+			String villeformat = adresse.getVille().toUpperCase();
+			adresse.setVille(villeformat);
+			String rueformat = adresse.getRue().toLowerCase();
+			adresse.setRue(rueformat);
+			String paysformat = adresse.getPays().toUpperCase();
+			adresse.setPays(paysformat);
 			adressedao.ajouterUneAdresse(adresse);
 			logger.info("AdresseService log : Nouvelle Adresse ajoutee, avec l id : " + adresse.getIdAdresse());
 

@@ -54,6 +54,13 @@ public class UtilisateurService {
 
 		try {
 			logger.info("UtilistaeurService log : Demande d ajout d un nouvel Utilisateur dans la Bdd.");
+			logger.info("ClientService log : Formatage de la string nom en Majuscule.");
+			logger.info("ClientService log : Formatage de la string prenom en Majuscule.");
+			String nomformat = utilisateur.getNomUtilisateur().toUpperCase();
+			String prenomformat = utilisateur.getPrenomUtilisateur().substring(0,0).toUpperCase() + 
+					utilisateur.getPrenomUtilisateur().substring(1).toLowerCase();
+			utilisateur.setNomUtilisateur(nomformat);
+			utilisateur.setPrenomUtilisateur(prenomformat);
 			utilisateurdao.ajouterUnutilisateur(utilisateur);
 			logger.info("UtilistaeurService log : Nouvelle Utilisateur ajoutee, avec l id : " + utilisateur.getIdUtilisateur());
 
@@ -69,6 +76,13 @@ public class UtilisateurService {
 		try {
 			logger.info("UtilistaeurService log : Demande de modification du Utilisateur id : "
 					+ utilisateur.getIdUtilisateur() + " dans la Bdd.");
+			logger.info("ClientService log : Formatage de la string nom en Majuscule.");
+			logger.info("ClientService log : Formatage de la string prenom en Majuscule.");
+			String nomformat = utilisateur.getNomUtilisateur().toUpperCase();
+			String prenomformat = utilisateur.getPrenomUtilisateur().substring(0,0).toUpperCase() + 
+					utilisateur.getPrenomUtilisateur().substring(1).toLowerCase();
+			utilisateur.setNomUtilisateur(nomformat);
+			utilisateur.setPrenomUtilisateur(prenomformat);			
 			utilisateurdao.modifieUnUtilisateur(utilisateur);
 			logger.info("UtilistaeurService log : Utilisateur id : " + utilisateur.getIdUtilisateur()
 					+ " a ete modifie dans la Bdd.");
