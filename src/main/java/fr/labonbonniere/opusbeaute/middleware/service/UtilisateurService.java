@@ -3,6 +3,7 @@ package fr.labonbonniere.opusbeaute.middleware.service;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 
+@Stateless
 public class UtilisateurService {
 	static final Logger logger = LogManager.getLogger(UtilisateurService.class);
 

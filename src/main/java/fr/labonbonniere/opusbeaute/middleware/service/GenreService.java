@@ -3,6 +3,7 @@ package fr.labonbonniere.opusbeaute.middleware.service;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
 
+@Stateless
 public class GenreService {
 	static final Logger logger = LogManager.getLogger(GenreService.class);
 
@@ -54,8 +56,8 @@ public class GenreService {
 		try {
 			logger.info("GenreService log : Demande d ajout d un nouveu Genre dans la Bdd.");
 			logger.info("GenreService log : Format la string genre.genrehum en Majuscule.");
-			String genremaj = genre.getIdGenre().toString().toUpperCase();
-			genre.setGenre(genremaj);
+			String genremaj = genre.getGenrehum().toString().toUpperCase();
+			genre.setGenrehum(genremaj);
 			genredao.ajouterUnGenre(genre);
 			logger.info("GenreService log : Nouveau Genre ajoute, avec l id : " + genre.getIdGenre());
 
@@ -70,8 +72,8 @@ public class GenreService {
 		try {
 			logger.info("GenreService log : Demande de modification du Genre id : " + genre.getIdGenre() + " dans la Bdd.");
 			logger.info("GenreService log : Format la string genre.genrehum en Majuscule.");
-			String genremaj = genre.getIdGenre().toString().toUpperCase();
-			genre.setGenre(genremaj);
+			String genremaj = genre.getGenrehum().toString().toUpperCase();
+			genre.setGenrehum(genremaj);
 			genredao.modifieUnGenre(genre);
 			;
 

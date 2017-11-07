@@ -3,6 +3,7 @@ package fr.labonbonniere.opusbeaute.middleware.service;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 
-
+@Stateless
 public class ClientService {
 	static final Logger logger = LogManager.getLogger(ClientService.class);
 

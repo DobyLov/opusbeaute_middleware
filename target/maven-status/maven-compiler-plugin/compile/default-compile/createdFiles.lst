@@ -15,6 +15,7 @@ fr\labonbonniere\opusbeaute\middleware\service\AdresseService.class
 fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreExistantException.class
+fr\labonbonniere\opusbeaute\middleware\webservice\UtilisateurWs.class
 fr\labonbonniere\opusbeaute\middleware\dao\GenreDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurExistantException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurInvalideException.class
@@ -29,8 +30,10 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInexistantException.cl
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresse\AdresseInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvExistantException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInvalideException.class
+fr\labonbonniere\opusbeaute\middleware\webservice\GenreWs.class
 fr\labonbonniere\opusbeaute\middleware\dao\PrestationDao.class
 fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.class
+fr\labonbonniere\opusbeaute\middleware\webservice\LieuRdvWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\Client.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvDateIncorrecte.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PrestationWs.class

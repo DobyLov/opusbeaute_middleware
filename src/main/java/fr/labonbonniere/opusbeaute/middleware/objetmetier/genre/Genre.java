@@ -14,7 +14,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
 @XmlRootElement
 @Entity
 @Table(name = "T_GENRE")
@@ -48,12 +47,12 @@ public class Genre implements Serializable {
 		this.idGenre = idGenre;
 	}
 
-	@Column(name = "GENRE_GENRE", nullable = true, length = 5)
+	@Column(name = "GENRE_GENREHUM", nullable = true, length = 5)
 	public String getGenrehum() {
 		return genrehum;
 	}
 
-	public void setGenre(String genrehum) {
+	public void setGenrehum(String genrehum) {
 		this.genrehum = genrehum;
 	}
 
@@ -81,18 +80,15 @@ public class Genre implements Serializable {
 	public boolean equals(Object candidat) {
 		if (candidat == this)
 			return true;
-		
+
 		if (candidat == null)
 			return false;
-		
+
 		if (!(candidat instanceof Genre))
 			return false;
-		
-		final Genre autre = (Genre) candidat; 
-		
-		return new EqualsBuilder()
-				.append(this.idGenre, autre.idGenre)
-				.append(this.genrehum, autre.genrehum)
-				.build();
+
+		final Genre autre = (Genre) candidat;
+
+		return new EqualsBuilder().append(this.idGenre, autre.idGenre).append(this.genrehum, autre.genrehum).build();
 	}
 }

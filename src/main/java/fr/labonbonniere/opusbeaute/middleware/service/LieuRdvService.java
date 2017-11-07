@@ -3,6 +3,7 @@ package fr.labonbonniere.opusbeaute.middleware.service;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInexistantException;
 
+@Stateless
 public class LieuRdvService {
 	static final Logger logger = LogManager.getLogger(LieuRdvService.class);
 
