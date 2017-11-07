@@ -35,7 +35,7 @@ public class GenreService {
 		}
 	}
 
-	public Genre recupererUneGenre(final Integer idGenre) throws GenreInexistantException {
+	public Genre recupererUnGenre(final Integer idGenre) throws GenreInexistantException {
 
 		try {
 			logger.info("GenreService log : Demande a la bdd le Genre id : " + idGenre);

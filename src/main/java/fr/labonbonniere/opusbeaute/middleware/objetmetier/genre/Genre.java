@@ -23,17 +23,17 @@ public class Genre implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer idGenre;
-	private String genre;
+	private String genrehum;
 
 	public Genre() {
 		super();
 
 	}
 
-	public Genre(Integer idGenre, String genre) {
+	public Genre(Integer idGenre, String genrehum) {
 
 		this.idGenre = idGenre;
-		this.genre = genre;
+		this.genrehum = genrehum;
 
 	}
 
@@ -49,12 +49,12 @@ public class Genre implements Serializable {
 	}
 
 	@Column(name = "GENRE_GENRE", nullable = true, length = 5)
-	public String getGenre() {
-		return genre;
+	public String getGenrehum() {
+		return genrehum;
 	}
 
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public void setGenre(String genrehum) {
+		this.genrehum = genrehum;
 	}
 
 	public static long getSerialversionuid() {
@@ -64,7 +64,7 @@ public class Genre implements Serializable {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idGenre", this.idGenre)
-				.append("genre", this.genre).build();
+				.append("genrehum", this.genrehum).build();
 
 	}
 
@@ -72,7 +72,7 @@ public class Genre implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+		result = prime * result + ((genrehum == null) ? 0 : genrehum.hashCode());
 		result = prime * result + ((idGenre == null) ? 0 : idGenre.hashCode());
 		return result;
 	}
@@ -92,7 +92,7 @@ public class Genre implements Serializable {
 		
 		return new EqualsBuilder()
 				.append(this.idGenre, autre.idGenre)
-				.append(this.genre, autre.genre)
+				.append(this.genrehum, autre.genrehum)
 				.build();
 	}
 }
