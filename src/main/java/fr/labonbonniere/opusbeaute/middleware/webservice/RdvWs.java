@@ -27,6 +27,11 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.NoRdvException;
+import fr.labonbonniere.opusbeaute.middleware.service.RdvDebutChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.RdvEgaliteChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.RdvEnglobantException;
+import fr.labonbonniere.opusbeaute.middleware.service.RdvFinChevauchementException;
 import fr.labonbonniere.opusbeaute.middleware.service.RdvService;
 
 @Stateless
@@ -151,7 +156,9 @@ public class RdvWs {
 	@Path("/addrdv")	// fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnRdv(Rdv rdv) throws RdvExistantException {
+	public Response creerUnRdv(Rdv rdv) throws RdvExistantException, DaoException, 
+											RdvEgaliteChevauchementException, NoRdvException, RdvDebutChevauchementException, 
+											RdvFinChevauchementException, RdvEnglobantException {
 		
 		Response.ResponseBuilder builder = null;
 		try {

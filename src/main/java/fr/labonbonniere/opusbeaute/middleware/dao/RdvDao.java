@@ -1,6 +1,5 @@
 package fr.labonbonniere.opusbeaute.middleware.dao;
 
-
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.Stateless;
@@ -10,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityExistsException;
 import javax.persistence.TypedQuery;
@@ -158,6 +158,25 @@ public class RdvDao {
 				logger.error("RdvDao log : Rdv id : " + idRdv + " inexistant alors il ne peut etre supprime de la Bdd.");
 				throw new RdvInexistantException("RdvDao Exception : Rdv id : " + idRdv + " ne peut etre supprime de la Bdd.");
 			}
+	}
+	
+	
+	public Integer renvoyerLeNbDeRdvDuJour(String rdvDateDuJour) throws DaoException {
+		
+		try {
+			logger.info("RdvDao log : Demande a la Bdd le nombre de Rdv's a la date selectionnee.");
+			String requete =  "SELECT COUNT(r) FROM Rdv r"
+							+ " WHERE rdv_dhdebut >= '" + rdvDateDuJour + " 00:00:00'"
+							+ " AND rdv_dhdebut <= '" + rdvDateDuJour + " 23:59:00'";	
+			Query query = em.createQuery(requete,Rdv.class);
+			Integer compteurRdv = query.getFirstResult();
+			logger.info("RdvDao log : Transmission du nombre de Rdv's par date selectionnee.");
+			return compteurRdv;	
+				
+		} catch (Exception message) {
+			logger.error("RdvDao log : probleme sur le format de la date.");
+			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
+		}
 	}
 }
 	
