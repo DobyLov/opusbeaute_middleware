@@ -1,27 +1,21 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.client;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
@@ -34,23 +28,23 @@ public class Client implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long idClient;
+	private Integer idClient;
 	private String nomClient;
 	private String prenomClient;
 	private String telephoneClient;
 	private Adresse adresse;
 	private Genre genreClient; 		// table Client mappee en OneTone
 	private String adresseMailClient;	// table Genre mappee en OneTone
-	private Date dateAnniversaireClient;
+	private Timestamp dateAnniversaireClient;
 
 
 	public Client() {
 		super();
 	}
 
-	public Client(Long idClient, String nomClient, String prenomClient, 
+	public Client(Integer idClient, String nomClient, String prenomClient, 
 			String telephoneClient, Genre genreClient, Adresse adresse, 
-			String adresseMailClient, Date dateAnniversaireClient) {
+			String adresseMailClient, Timestamp dateAnniversaireClient) {
 
 		super();
 		this.idClient = idClient;
@@ -64,17 +58,15 @@ public class Client implements Serializable {
 		
 	}
 
+
 	@Id
-	@Basic(optional = false)	
-	@Column(name = "CLIENT_IDCLIENT")
-	@GeneratedValue(generator ="gen")
-	@GenericGenerator(name = "gen", strategy = "foreign",
-	parameters=@Parameter(name = "property", value = "adresse"))
-	public Long getIdClient() {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "CLIENT_IDCLIENT", nullable = false, length = 5)
+	public Integer getIdClient() {
 		return idClient;
 	}
 
-	public void setIdClient(Long idClient) {
+	public void setIdClient(Integer idClient) {
 		this.idClient = idClient;
 	}
 
@@ -115,11 +107,7 @@ public class Client implements Serializable {
 		this.genreClient = genreClient;
 	}
 
-	// Declaration d'une Relation O2O sur id partagé avec adresse (cascade) 
-	@JoinColumn(name = "CLIENT_IDADRESSE", referencedColumnName = "ADRESSE_IDADRESSE",
-			insertable = false, updatable = false,
-			foreignKey = @ForeignKey(name = "CLIENT_IDADRESSE_FK"))
-	@OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)	
+	// Declaration d'une Relation O2O sur id partagé avec adresse (cascade).
 	public Adresse getAdresse() {
 		return adresse;
 	}
@@ -138,12 +126,11 @@ public class Client implements Serializable {
 	}
 
 	@Column(name = "CLIENT_DATEANNIVERSAIRE", nullable = true)
-	@Temporal(TemporalType.DATE)
-	public Date getDateAnniversaireClient() {
+	public Timestamp getDateAnniversaireClient() {
 		return dateAnniversaireClient;
 	}
 
-	public void setDateAnniversaireClient(Date dateAnniversaireClient) {
+	public void setDateAnniversaireClient(Timestamp dateAnniversaireClient) {
 		this.dateAnniversaireClient = dateAnniversaireClient;
 	}
 	

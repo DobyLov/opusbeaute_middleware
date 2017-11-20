@@ -25,7 +25,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseInexist
 import fr.labonbonniere.opusbeaute.middleware.service.AdresseService;
 
 @Stateless
-@Path("/prestation")
+@Path("/adresse")
 public class AdresseWs {
 	private static final Logger logger = LogManager.getLogger(AdresseWs.class);
 

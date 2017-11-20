@@ -1,7 +1,6 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.genre;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -47,7 +45,7 @@ public class Genre implements Serializable {
 		this.idGenre = idGenre;
 	}
 
-	@Column(name = "GENRE_GENREHUM", nullable = true, length = 5)
+	@Column(name = "GENRE_GENREHUM", length = 5)
 	public String getGenrehum() {
 		return genrehum;
 	}
