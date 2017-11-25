@@ -87,6 +87,9 @@ public class Genre implements Serializable {
 
 		final Genre autre = (Genre) candidat;
 
-		return new EqualsBuilder().append(this.idGenre, autre.idGenre).append(this.genrehum, autre.genrehum).build();
+		return new EqualsBuilder()
+				.append(this.idGenre, autre.idGenre)
+				.append(this.genrehum, autre.genrehum)
+				.build();
 	}
 }

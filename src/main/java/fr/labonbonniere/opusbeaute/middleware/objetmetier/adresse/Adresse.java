@@ -2,22 +2,15 @@ package fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 
@@ -40,11 +33,11 @@ public class Adresse implements Serializable {
 		super();
 	}
 
-	public Adresse(Integer idAdresse, Client client, String numero, String rue, Integer zipCode, String ville,
+	public Adresse(Integer idAdresse,String numero, String rue, Integer zipCode, String ville,
 			String pays) {
 
 		this.idAdresse = idAdresse;
-		this.client = client;
+//		this.client = client;
 		this.numero = numero;
 		this.rue = rue;
 		this.zipCode = zipCode;
@@ -53,24 +46,10 @@ public class Adresse implements Serializable {
 
 	}
 
-	@JoinColumn(name = "ADRESSE_IDADRESSE", 
-			referencedColumnName = "CLIENT_IDCLIENT", 
-			insertable = false, updatable = false)
-	@OneToOne(cascade = CascadeType.ALL, optional = false)
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
 
 	@Id
-	@Basic(optional = false)
-	@Column(name = "ADRESSE_IDADRESSE", nullable = false)
-	@GeneratedValue(generator = "gen")
-	@GenericGenerator(name = "gen", strategy = "foreign", 
-		parameters = @Parameter(name = "property", value = "T_CLIENT"))
+	@Column(name = "ADRESSE_IDADRESSE")
+//	@GeneratedValue(strategy=GenerationType.)
 	public Integer getIdAdresse() {
 		return idAdresse;
 	}
@@ -78,6 +57,15 @@ public class Adresse implements Serializable {
 	public void setIdAdresse(Integer idAdresse) {
 		this.idAdresse = idAdresse;
 	}
+
+//	@Transient
+//	public Client getClient() {
+//		return client;
+//	}
+//
+//	public void setClient(Client client) {
+//		this.client = client;
+//	}
 
 	@Column(name = "ADRESSE_NUMERO", nullable = true, length = 3)
 	public String getNumero() {
@@ -88,7 +76,7 @@ public class Adresse implements Serializable {
 		this.numero = numero;
 	}
 
-	@Column(name = "ADRESSE_RUE", nullable = false, length = 30)
+	@Column(name = "ADRESSE_RUE", nullable = true, length = 100)
 	public String getRue() {
 		return rue;
 	}
@@ -97,7 +85,7 @@ public class Adresse implements Serializable {
 		this.rue = rue;
 	}
 
-	@Column(name = "ADRESSE_ZIPCODE", nullable = false, length = 10)
+	@Column(name = "ADRESSE_ZIPCODE", nullable = true, length = 10)
 	public Integer getZipCode() {
 		return zipCode;
 	}
@@ -106,7 +94,7 @@ public class Adresse implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	@Column(name = "ADRESSE_VILLE", nullable = false, length = 20)
+	@Column(name = "ADRESSE_VILLE", nullable = true, length = 20)
 	public String getVille() {
 		return ville;
 	}
@@ -139,7 +127,7 @@ public class Adresse implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((client == null) ? 0 : client.hashCode());
+//		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		result = prime * result + ((idAdresse == null) ? 0 : idAdresse.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result + ((pays == null) ? 0 : pays.hashCode());
@@ -162,9 +150,13 @@ public class Adresse implements Serializable {
 
 		final Adresse autre = (Adresse) candidat;
 
-		return new EqualsBuilder().append(this.idAdresse, autre.idAdresse).append(this.client, autre.client)
+		return new EqualsBuilder().append(this.idAdresse, autre.idAdresse)
+//				.append(this.client, autre.client)
 				.append(this.numero, autre.numero).append(this.rue, autre.rue).append(this.ville, autre.ville)
 				.append(this.zipCode, autre.zipCode).append(this.pays, autre.pays).build();
 	}
-
+//	@PrePersist
+//	public void avantSauvegarde() {
+//		this.idAdresse = client.getIdClient();
+//	}
 }

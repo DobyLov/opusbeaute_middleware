@@ -8,8 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
@@ -164,19 +168,27 @@ public class Rdv  implements Serializable {
 
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object candidat) {
+		if (candidat == this)
 			return true;
-		if (obj == null)
+
+		if (candidat == null)
 			return false;
-		if (getClass() != obj.getClass())
+
+		if (!(candidat instanceof Adresse))
 			return false;
-		Rdv other = (Rdv) obj;
-		if (idRdv == null) {
-			if (other.idRdv != null)
-				return false;
-		} else if (!idRdv.equals(other.idRdv))
-			return false;
-		return true;
+
+		final Rdv autre = (Rdv) candidat;
+
+		return new EqualsBuilder()
+				.append(this.idRdv, autre.idRdv)
+				.append(this.dateHeureDebut, autre.dateHeureDebut)
+				.append(this.dateDeSaisie, autre.dateDeSaisie)
+				.append(this.dateHeureFin, autre.dateHeureFin)
+				.append(this.prestation, autre.prestation)
+				.append(this.genre, autre.genre)
+				.append(this.lieuRdv, autre.lieuRdv)
+				.append(this.client, autre.client)
+				.build();
 	}
 }
