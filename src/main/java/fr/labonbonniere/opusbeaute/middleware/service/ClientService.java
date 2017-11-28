@@ -5,14 +5,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import fr.labonbonniere.opusbeaute.middleware.dao.AdresseDao;
 import fr.labonbonniere.opusbeaute.middleware.dao.ClientDao;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientExistantException;
@@ -72,21 +69,21 @@ public class ClientService {
 					+ " formatee XXXX : " + formatMail);
 			// formatage de la rue dans l adresse
 			// uppercase the first letter
-			Adresse adresseRueformatee = new Adresse();
-			adresseRueformatee.setNumero(client.getAdresse().getNumero());
-			adresseRueformatee.setPays(client.getAdresse().getPays().toUpperCase());
-			adresseRueformatee.setRue(WordUtils.capitalizeFully(client.getAdresse().getRue()));
-			adresseRueformatee.setVille(client.getAdresse().getVille().toUpperCase());
-			adresseRueformatee.setZipCode(client.getAdresse().getZipCode());
+//			Adresse adresseRueformatee = new Adresse();
+//			adresseRueformatee.setNumero(client.getAdresse().getNumero());
+//			adresseRueformatee.setPays(client.getAdresse().getPays().toUpperCase());
+//			adresseRueformatee.setRue(WordUtils.capitalizeFully(client.getAdresse().getRue()));
+//			adresseRueformatee.setVille(client.getAdresse().getVille().toUpperCase());
+//			adresseRueformatee.setZipCode(client.getAdresse().getZipCode());
 			
-			client.setAdresse(adresseRueformatee);
-			logger.info("ClientService log : Post persistace du client avec Formatagae de l adresse : " + client.getAdresse());
+//			client.setAdresse(adresseRueformatee);
+//			logger.info("ClientService log : Post persistace du client avec Formatagae de l adresse : " + client.getAdresse());
 			client.setPrenomClient(formatPrenom);
 			client.setNomClient(formatNom);
 			client.setAdresseMailClient(formatMail);
 			logger.info("ClientService log : Persistance du client avec les nom et prenom formates : " + formatPrenom
 					+ " " + formatNom);
-			logger.info("ClientService log : extraction adresse : " + client.getAdresse());
+//			logger.info("ClientService log : extraction adresse : " + client.getAdresse());
 			
 			clientdao.ajouterUnClient(client);
 

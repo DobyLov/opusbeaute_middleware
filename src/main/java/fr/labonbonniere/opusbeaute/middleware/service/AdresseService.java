@@ -58,7 +58,7 @@ public class AdresseService {
 			logger.info("AdresseService log : Demande d ajout d une nouvelle Adresse dans la Bdd.");
 			logger.info("AdresseService log : Formatage des la string Adress.ville en Majuscule.");
 			logger.info("AdresseService log : Formatage des la string Adresse.rue en Minuscule.");
-			logger.info("AdresseService log : Formatage des la string Adresse.pays en Majuscule.");			
+			logger.info("AdresseService log : Formatage des la string Adresse.pays en Majuscule.");
 			String villeformat = adresse.getVille().toUpperCase();
 			adresse.setVille(villeformat);
 			String rueformat = adresse.getRue().toLowerCase();
@@ -89,6 +89,31 @@ public class AdresseService {
 					+ " ne peut etre modifie dans la Bdd.");
 			throw new AdresseInexistanteException("AdresseService Exception : Adresse avec l id : "
 					+ adresse.getIdAdresse() + " ne peut etre modifie.");
+		}
+	}
+
+	public void setToNullDeLAdresse(Integer idAdresse) throws AdresseInexistanteException {
+
+		try {
+			logger.info("AdresseService log : Demande de reinitialisation de l Adresse id : " + idAdresse
+					+ " dans la Bdd.");
+			// recup de l adresse avec l id
+			Adresse adresse = adressedao.obtenirAdresse(idAdresse);
+			// reset to null de l adresse
+			adresse.setNumero(null);
+			adresse.setPays(null);
+			adresse.setRue(null);
+			adresse.setVille(null);
+			adresse.setZipCode(null);
+			// Persistance de l adresse
+			adressedao.reinitUneAdresse(adresse);
+			logger.info("AdresseService log : Adresse id : " + adresse.getIdAdresse()
+					+ " a ete reinitialisee dans la Bdd.");
+
+		} catch (AdresseInexistanteException message) {
+			logger.error("AdresseService log : Adresse id : " + idAdresse + " ne peut etre reinitialisee dans la Bdd.");
+			throw new AdresseInexistanteException(
+					"AdresseService Exception : Adresse avec l id : " + idAdresse + " ne peut etre reinitialisee.");
 		}
 	}
 

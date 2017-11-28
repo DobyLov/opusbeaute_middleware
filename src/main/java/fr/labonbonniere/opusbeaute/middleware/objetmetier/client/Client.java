@@ -6,8 +6,6 @@ import java.sql.Timestamp;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 
@@ -96,20 +95,12 @@ public class Client implements Serializable {
 		this.telephoneClient = telephoneClient;
 	}
 
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "CLIENT_IDGENRE", foreignKey = @ForeignKey(name = "CLIENT_IDGENRE_FK"))
-//	@Column(name="CLIENT_GENRE")
-//	public Genre getGenreClient() {
-//		return genreClient;
-//	}
-//
-//	public void setGenreClient(Genre genreClient) {
-//		this.genreClient = genreClient;
-//	}
-
-	// Declaration d'une Relation O2O sur id partagé avec adresse (cascade).
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "CLIENT_IDADRESSE", foreignKey = @ForeignKey(name = "CLIENT_IDADRESSE"))
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "CLIENT_IDADRESSE_fk",
+				referencedColumnName = "CLIENT_IDADRESSE",
+//				nullable= false,
+				insertable = false,
+				updatable = false)
 	public Adresse getAdresse() {
 		return adresse;
 	}
@@ -146,7 +137,8 @@ public class Client implements Serializable {
 				.append("nomClient", this.nomClient).append("prenomClient", this.prenomClient)
 				.append("telephoneClient", this.telephoneClient)
 //				.append("genreClient", this.genreClient)
-				.append("adresse", this.adresse).append("adresseMailClient", this.adresseMailClient)
+				.append("adresse", this.adresse)
+				.append("adresseMailClient", this.adresseMailClient)
 				.append("dateAnniversaireClient", this.dateAnniversaireClient).build();
 
 	}
@@ -185,65 +177,11 @@ public class Client implements Serializable {
 				.append(this.prenomClient, autre.prenomClient)
 				.append(this.telephoneClient, autre.telephoneClient)
 				.append(this.adresse, autre.adresse)
-//				.append(this.genre, autre.genre)
 //				.append(this.genreClient, autre.genreClient)
 				.append(this.adresseMailClient, autre.adresseMailClient)
 				.append(this.dateAnniversaireClient, autre.dateAnniversaireClient)
 				.build();
 
 	}
-	
-	
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Client other = (Client) obj;
-//		if (adresse == null) {
-//			if (other.adresse != null)
-//				return false;
-//		} else if (!adresse.equals(other.adresse))
-//			return false;
-//		if (genreClient == null) {
-//			if (other.genreClient != null)
-//				return false;
-//		} else if (!genreClient.equals(other.genreClient))
-//			return false;
-//		if (adresseMailClient == null) {
-//			if (other.adresseMailClient != null)
-//				return false;
-//		} else if (!adresseMailClient.equals(other.adresseMailClient))
-//			return false;
-//		if (dateAnniversaireClient == null) {
-//			if (other.dateAnniversaireClient != null)
-//				return false;
-//		} else if (!dateAnniversaireClient.equals(other.dateAnniversaireClient))
-//			return false;
-//		if (idClient == null) {
-//			if (other.idClient != null)
-//				return false;
-//		} else if (!idClient.equals(other.idClient))
-//			return false;
-//		if (nomClient == null) {
-//			if (other.nomClient != null)
-//				return false;
-//		} else if (!nomClient.equals(other.nomClient))
-//			return false;
-//		if (prenomClient == null) {
-//			if (other.prenomClient != null)
-//				return false;
-//		} else if (!prenomClient.equals(other.prenomClient))
-//			return false;
-//		if (telephoneClient == null) {
-//			if (other.telephoneClient != null)
-//				return false;
-//		} else if (!telephoneClient.equals(other.telephoneClient))
-//			return false;
-//		return true;
-//	}
 
 }

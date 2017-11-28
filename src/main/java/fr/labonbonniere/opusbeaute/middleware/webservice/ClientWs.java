@@ -36,7 +36,7 @@ public class ClientWs {
 	private ClientService clientservice;
 
 	@GET
-	@Path("/listeclient")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeClient() throws DaoException {
 
@@ -79,7 +79,7 @@ public class ClientWs {
 	}
 
 	@POST
-	@Path("/addclient")
+	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnClient(Client client) throws ClientExistantException, AdresseExistanteException {
@@ -100,7 +100,7 @@ public class ClientWs {
 	}
 
 	@PUT
-	@Path("/modifclient")
+	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifieUnClient(Client client) throws ClientInexistantException, AdresseInexistanteException {
@@ -127,7 +127,7 @@ public class ClientWs {
 	}
 
 	@DELETE
-	@Path("/remove/{idClient: \\d+}")
+	@Path("/del/{idClient: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteTheClient(@PathParam("idClient") final Integer idClient) throws ClientInexistantException {

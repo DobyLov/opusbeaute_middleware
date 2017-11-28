@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,8 +13,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 
 @XmlRootElement
 @Entity
@@ -22,7 +22,7 @@ public class Adresse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer idAdresse;
-	private Client client;
+//	private Client client;
 	private String numero;
 	private String rue;
 	private Integer zipCode;
@@ -46,10 +46,17 @@ public class Adresse implements Serializable {
 
 	}
 
-
+	// declare le champs/propriete comme clee primaire
 	@Id
-	@Column(name = "ADRESSE_IDADRESSE")
-//	@GeneratedValue(strategy=GenerationType.)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Basic(optional = false)
+//	// defini le nom de la colonne et autre params 
+	@Column(name = "CLIENT_IDADRESSE", unique = true, nullable = false)
+//	// Indique que la la gestion de lid et faite par un un generateur
+//	@GeneratedValue(generator = "gen")
+//	// Indique que l id de l entite T_CLIENT sera reporté sur l id de l entite T_ADRESSE
+//	@GenericGenerator(name = "gen", strategy = "foreign",
+//						parameters = @Parameter (name ="property", value = "CLIENT_IDCLIENT"))	
 	public Integer getIdAdresse() {
 		return idAdresse;
 	}
@@ -58,7 +65,7 @@ public class Adresse implements Serializable {
 		this.idAdresse = idAdresse;
 	}
 
-//	@Transient
+	
 //	public Client getClient() {
 //		return client;
 //	}
@@ -119,7 +126,8 @@ public class Adresse implements Serializable {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idAdresse", this.idAdresse)
-				.append("client", this.client).append("numero", this.numero).append("rue", this.rue)
+//				.append("client", this.client)
+				.append("numero", this.numero).append("rue", this.rue)
 				.append("zipCode", this.zipCode).append("ville", this.ville).append("pays", this.pays).build();
 	}
 

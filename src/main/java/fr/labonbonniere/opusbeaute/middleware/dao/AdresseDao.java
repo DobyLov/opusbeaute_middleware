@@ -92,6 +92,21 @@ public class AdresseDao {
 						+ adresse.getIdAdresse() + " demande.");
 			}			
 	}
+	 
+	 public void reinitUneAdresse(Adresse adresse) throws AdresseInexistanteException {
+		 
+			logger.info("AdresseDao log : Demande de reinitialisation de l adresse id : " + adresse.getIdAdresse() + " a la Bdd.");
+			Adresse adresseBdd = em.find(Adresse.class, adresse.getIdAdresse());		
+			if ( Objects.nonNull(adresseBdd) ) {
+				em.merge(adresse);			
+				logger.info("AdresseDao log : Adresse id : " + adresse.getIdAdresse() + " a ete reinitialise dans la Bdd.");
+			} else {
+				logger.error("AdresseDao log : Adresse id : " + adresse.getIdAdresse() + " ne peut etre reinitialisee dans la Bdd.");
+				throw new AdresseInexistanteException("AdresseDao log : Reinitialisation impossible," 				
+						+ "il n'y a pas d adresse à reinitialiser pour l'id : " 
+						+ adresse.getIdAdresse() + " demande.");
+			}			
+	}
 		
 	
 	public void supprimeUneAdresse(final Integer idAdresse) throws AdresseInexistanteException {

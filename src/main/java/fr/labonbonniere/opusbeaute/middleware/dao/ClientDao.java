@@ -18,6 +18,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
 @Stateless
 @Transactional
@@ -32,16 +33,12 @@ public class ClientDao {
 
 		try {
 			logger.info("ClientDao log : Demande a la bdd la liste des Clients");
-//			 String requeteCli = "SELECT c FROM Client c" + " ORDER BY idClient asc";
-			 String requeteCli = "SELECT * FROM T_CLIENT JOIN T_ADRESSE ON CLIENT_IDCLIENT = ADRESSE_IDADRESSE";
-//			String requete = "SELECT c.idClient, c.nomClient, c.prenomclient FROM Client c";
-			Query query = em.createNativeQuery(requeteCli, Client.class);
+			String requeteCli = "SELECT c FROM Client c" + " ORDER BY idClient asc";
+			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
 			List<Client> listeClient = query.getResultList();
-//			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
-//			List<Client> listeClient = query.getResultList();
-			for (Client client : listeClient) {
-				client.getAdresse();
-			}
+//			String kiri = "SELECT * FROM T_CLIENT, T_ADRESSE WHERE CLIENT_IDCLIENT = CLIENT_IDADRESSE";
+//			Query myKiri = em.createNativeQuery(kiri, Client.class); 
+//			List<Client> listeClient = myKiri.getResultList();		
 
 			logger.info("ClientDao log :  Envoi de la liste de Clients");
 			return listeClient;
@@ -78,6 +75,7 @@ public class ClientDao {
 			logger.info("ClientDao log : Demande d ajout d un nouveau Client dans la Bdd.");
 			// Creation d un nouvel objet Client et Adresse depuis les donnees
 			// de l objet Client.
+//			logger.info("Test client : " + client);
 			Client cliSansAdresse = new Client();
 			cliSansAdresse.setNomClient(client.getNomClient());
 			cliSansAdresse.setPrenomClient(client.getPrenomClient());
@@ -85,22 +83,36 @@ public class ClientDao {
 			cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
 			cliSansAdresse.setAdresseMailClient(client.getAdresseMailClient());
 			cliSansAdresse.setDateAnniversaireClient(client.getDateAnniversaireClient());
+//			 Persiste le Client sans adresse	
 			Adresse addrCli = client.getAdresse();
-			// Persiste le Client sans adresse
-			em.persist(cliSansAdresse);
-			// Récupère l id du client et donne le meme a l adresse
-			Integer idAdresseClient = cliSansAdresse.getIdClient();
-			addrCli.setIdAdresse(idAdresseClient);
+			addrCli.setNumero(client.getAdresse().getNumero());
+			addrCli.setRue(client.getAdresse().getRue());
+			addrCli.setVille(client.getAdresse().getVille());
+			addrCli.setZipCode(client.getAdresse().getZipCode());
+			addrCli.setPays(client.getAdresse().getPays());
+
 			// Persiste l adresse.
-			em.persist(addrCli);
+//			logger.info("Test client sans adresse : " + client);
+			em.persist(addrCli);			
+			em.persist(client);
+//			client.setIdClient(cliSansAdresse.getIdClient());
+//			addrCli.setIdAdresse(client.getIdClient());
 
-			logger.info("ClientDao log : Nouveau Client ajoute, avec l id : " + cliSansAdresse.getIdClient());
 
-			logger.info("ClientDao log : adresse avec l id : " + addrCli.getIdAdresse());
-			logger.info("ClientDao log : adresse avec l id : " + addrCli);
-		} catch (EntityExistsException message) {
+//			client.setIdClient(cliSansAdresse.getIdClient());
+//			addrCli.setIdAdresse(cliSansAdresse.getIdClient());
+			
+//			em.persist(addrCli);
+
+
+//			logger.info("ClientDao log : Nouveau Client ajoute, avec l id : " + cliSansAdresse.getIdClient());
+
+//			logger.info("ClientDao log : adresse avec l id : " + addrCli.getIdAdresse());
+//			logger.info("ClientDao log : adresse avec l id : " + addrCli);
+		} catch (EntityExistsException cause) {
 			logger.error("ClientDao log : Impossible de creer ce nouveeu Client dans la Bdd.");
-			throw new ClientExistantException("ClientDao Exception : Probleme, ce Client a l air d'être deja persiste");
+			throw new ClientExistantException(cause);
+//			("ClientDao Exception : Probleme, ce Client a l air d'être deja persiste");
 
 		}
 	}
@@ -108,20 +120,20 @@ public class ClientDao {
 	public void modifieUnClient(Client client) throws ClientInexistantException {
 
 		logger.info("ClientDao log : Demande de modification du Client id : " + client.getIdClient() + " a la Bdd.");
-		Client cliSansAdresse = new Client();
-		cliSansAdresse.setIdClient(client.getIdClient());
-		cliSansAdresse.setNomClient(client.getNomClient());
-		cliSansAdresse.setPrenomClient(client.getPrenomClient());
-		cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
-		cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
-		cliSansAdresse.setAdresseMailClient(client.getAdresseMailClient());
-		cliSansAdresse.setDateAnniversaireClient(client.getDateAnniversaireClient());
-		Adresse addrCli = client.getAdresse();
-		addrCli.setIdAdresse(addrCli.getIdAdresse());
+//		Client cliSansAdresse = new Client();
+//		cliSansAdresse.setIdClient(client.getIdClient());
+//		cliSansAdresse.setNomClient(client.getNomClient());
+//		cliSansAdresse.setPrenomClient(client.getPrenomClient());
+//		cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
+//		cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
+//		cliSansAdresse.setAdresseMailClient(client.getAdresseMailClient());
+//		cliSansAdresse.setDateAnniversaireClient(client.getDateAnniversaireClient());
+//		Adresse addrCli = client.getAdresse();
+//		addrCli.setIdAdresse(addrCli.getIdAdresse());
 //		Adresse adressBdd = em.find(Adresse.class, addrCli.getIdAdresse());
 		Client clientBdd = em.find(Client.class, client.getIdClient());
 		if (Objects.nonNull(clientBdd)) {
-			em.merge(cliSansAdresse);
+			em.merge(client);
 			// em.merge(addrCli);
 
 			logger.info("ClientDao log : Rdv id : " + client.getIdClient() + " a ete modifie dans la Bdd.");

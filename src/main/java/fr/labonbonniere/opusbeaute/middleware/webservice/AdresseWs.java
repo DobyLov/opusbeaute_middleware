@@ -33,7 +33,7 @@ public class AdresseWs {
 	private AdresseService adresseservice;
 
 	@GET
-	@Path("/listeadresse")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListe() throws DaoException {
 
@@ -76,7 +76,7 @@ public class AdresseWs {
 	}
 
 	@POST
-	@Path("/addadresse")
+	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUneadresse(Adresse adresse) throws AdresseExistanteException {
@@ -98,7 +98,7 @@ public class AdresseWs {
 	}
 
 	@PUT
-	@Path("/modifadresse")
+	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifieUneadresse(Adresse adresse) throws AdresseInexistanteException {
@@ -110,8 +110,8 @@ public class AdresseWs {
 					+ " dans la Bdd.");
 			adresseservice.modifDeLAdresse(adresse);
 			logger.info("AdresseWs log : Adresse id : " + adresse.getIdAdresse() + " a bien ete modifiee dans la Bdd.");
-			String msg = "Adresse id : " + adresse.getIdAdresse() + " a bien ete modifiee dans la Bdd.";
-			builder = Response.ok(msg);
+//			String msg = "Adresse id : " + adresse.getIdAdresse() + " a bien ete modifiee dans la Bdd.";
+			builder = Response.ok(adresse);
 
 		} catch (AdresseInexistanteException message) {
 			logger.error(
@@ -124,8 +124,37 @@ public class AdresseWs {
 
 	}
 
+	
+	@PUT
+	@Path("/settonull/{idAdresse: \\d+}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response sesToNullUneadresse(@PathParam("idAdresse") final Integer idAdresse) throws AdresseInexistanteException {
+
+		Response.ResponseBuilder builder = null;
+		try {
+			logger.info("-----------------------------------------------------");
+			logger.info("AdresseWs log : Demande de renitialisation de l Adresse id : " + idAdresse
+					+ " dans la Bdd.");
+			adresseservice.setToNullDeLAdresse(idAdresse);;
+			logger.info("AdresseWs log : Adresse id : " + idAdresse + " a bien ete reinitialisee dans la Bdd.");
+//			String msg = "Adresse id : " + adresse.getIdAdresse() + " a bien ete modifiee dans la Bdd.";
+			builder = Response.ok();
+
+		} catch (AdresseInexistanteException message) {
+			logger.error(
+					"AdresseWs log : l Adresse id : " + idAdresse + " ne peut etre reinitialisee dans la Bdd.");
+			builder = Response.notModified();
+
+		}
+
+		return builder.build();
+
+	}
+	
+	
 	@DELETE
-	@Path("/remove/{idAdresse: \\d+}")
+	@Path("/del/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteTheAdresse(@PathParam("idAdresse") final Integer idAdresse)
@@ -137,8 +166,8 @@ public class AdresseWs {
 			logger.info("AdresseWs log : Demande de suppression de l Adresse id : " + idAdresse + " dans la Bdd.");
 			adresseservice.suppressionddUneAdresse(idAdresse);
 			logger.info("AdresseWs log : Prestation id : " + idAdresse + " a bien ete modifie dans la Bdd.");
-			String msg = "AdresseWs log : l adresse id : " + idAdresse + " a ien ete supprimee de la Bdd.";
-			builder = Response.ok(msg);
+//			String msg = "AdresseWs log : l adresse id : " + idAdresse + " a ien ete supprimee de la Bdd.";
+			builder = Response.ok();
 
 		} catch (AdresseInexistanteException message) {
 			logger.error("AdresseWs log : l Adresse id : " + idAdresse + " ne peut etre supprimee dans la Bdd.");
