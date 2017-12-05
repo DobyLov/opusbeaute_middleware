@@ -27,12 +27,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.NoRdvException;
-import fr.labonbonniere.opusbeaute.middleware.service.RdvDebutChevauchementException;
-import fr.labonbonniere.opusbeaute.middleware.service.RdvEgaliteChevauchementException;
-import fr.labonbonniere.opusbeaute.middleware.service.RdvEnglobantException;
-import fr.labonbonniere.opusbeaute.middleware.service.RdvFinChevauchementException;
-import fr.labonbonniere.opusbeaute.middleware.service.RdvService;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.NoRdvException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDebutChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEgaliteChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEnglobantException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvFinChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
 
 @Stateless
 @Path("/rdv")

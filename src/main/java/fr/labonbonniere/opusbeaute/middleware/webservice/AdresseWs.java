@@ -22,7 +22,11 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseInexistanteException;
-import fr.labonbonniere.opusbeaute.middleware.service.AdresseService;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.AdresseService;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 
 @Stateless
 @Path("/adresse")
@@ -93,7 +97,24 @@ public class AdresseWs {
 			logger.error("AdresseWs log : Impossible de creer cette Adresse dans la Bdd.");
 			throw new AdresseExistanteException(
 					"PrestationWs Exception : Impossible de creer cette Prestation dans la Bdd.");
+		}catch (NbNumRueException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.NumeroRue.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPaysException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.Pays.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbNumZipcodeException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.Zipcode.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharRueVilleException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.Ville.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
 		}
+		
 		return builder.build();
 	}
 
@@ -117,6 +138,22 @@ public class AdresseWs {
 			logger.error(
 					"AdresseWs log : l Adresse id : " + adresse.getIdAdresse() + " ne peut etre modifiee dans la Bdd.");
 			builder = Response.notModified();
+
+		}catch (NbNumRueException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.NumeroRue.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPaysException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.Pays.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbNumZipcodeException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.Zipcode.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharRueVilleException message) {
+			logger.error("AdresseWS log : Verifiez Adresse.Ville.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		}
 

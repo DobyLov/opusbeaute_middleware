@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
 
 @Stateless
@@ -25,6 +24,15 @@ public class GenreDao {
 
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
+	
+	public long CountGenre() throws DaoException {
+		logger.info("GenreDao log : Compte le nombre de Genre dans la table Genre");
+		String requete = "SELECT COUNT(G) FROM Genre g";
+//		String requete = "SELECT COUNT(*) FROM T_CLIENT";
+		Query query = em.createQuery(requete);
+		long nbGenreRowsinBdd = (long) query.getSingleResult();
+		return nbGenreRowsinBdd;
+	}
 
 	public List<Genre> obtenirListeGenre() throws DaoException {
 
@@ -63,16 +71,16 @@ public class GenreDao {
 
 	}
 
-	public void ajouterUnGenre(Genre genre) throws GenreExistantException {
+	public void ajouterUnGenre(Genre genre) throws DaoException{
 
 		try {
 			logger.info("GenreDao log : Demande d ajout d un nouveau Genre dans la Bdd.");
 			em.persist(genre);
 			logger.info("GenreDao log : Nouveau type de Genre ajoute, avec l id : " + genre.getIdGenre());
 
-		} catch (EntityExistsException message) {
+		} catch (Exception message) {
 			logger.error("GenreDao log : Impossible de creer ce nouveau Genre dans la Bdd.");
-			throw new GenreExistantException("GenreDao Exception : Probleme, ce Genre a l air d'être deja persistee");
+			throw new DaoException("GenreDao Exception : Probleme, ce Genre a l air d'être deja persistee");
 
 		}
 	}

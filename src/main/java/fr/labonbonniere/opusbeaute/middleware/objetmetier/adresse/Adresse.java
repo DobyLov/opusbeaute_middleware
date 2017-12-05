@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,10 +21,9 @@ public class Adresse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer idAdresse;
-//	private Client client;
 	private String numero;
 	private String rue;
-	private Integer zipCode;
+	private String zipCode;
 	private String ville;
 	private String pays;
 
@@ -33,30 +31,22 @@ public class Adresse implements Serializable {
 		super();
 	}
 
-	public Adresse(Integer idAdresse,String numero, String rue, Integer zipCode, String ville,
-			String pays) {
+	public Adresse(Integer idAdresse, String numero, String rue, String zipCode, String ville, String pays) {
 
 		this.idAdresse = idAdresse;
-//		this.client = client;
 		this.numero = numero;
 		this.rue = rue;
 		this.zipCode = zipCode;
 		this.ville = ville;
 		this.pays = pays;
+		
 
 	}
 
-	// declare le champs/propriete comme clee primaire
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Basic(optional = false)
-//	// defini le nom de la colonne et autre params 
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "CLIENT_IDADRESSE", unique = true, nullable = false)
-//	// Indique que la la gestion de lid et faite par un un generateur
-//	@GeneratedValue(generator = "gen")
-//	// Indique que l id de l entite T_CLIENT sera reporté sur l id de l entite T_ADRESSE
-//	@GenericGenerator(name = "gen", strategy = "foreign",
-//						parameters = @Parameter (name ="property", value = "CLIENT_IDCLIENT"))	
 	public Integer getIdAdresse() {
 		return idAdresse;
 	}
@@ -64,15 +54,6 @@ public class Adresse implements Serializable {
 	public void setIdAdresse(Integer idAdresse) {
 		this.idAdresse = idAdresse;
 	}
-
-	
-//	public Client getClient() {
-//		return client;
-//	}
-//
-//	public void setClient(Client client) {
-//		this.client = client;
-//	}
 
 	@Column(name = "ADRESSE_NUMERO", nullable = true, length = 3)
 	public String getNumero() {
@@ -83,7 +64,7 @@ public class Adresse implements Serializable {
 		this.numero = numero;
 	}
 
-	@Column(name = "ADRESSE_RUE", nullable = true, length = 100)
+	@Column(name = "ADRESSE_RUE", nullable = true, length = 30)
 	public String getRue() {
 		return rue;
 	}
@@ -92,16 +73,16 @@ public class Adresse implements Serializable {
 		this.rue = rue;
 	}
 
-	@Column(name = "ADRESSE_ZIPCODE", nullable = true, length = 10)
-	public Integer getZipCode() {
+	@Column(name = "ADRESSE_ZIPCODE", nullable = true, length = 5)
+	public String getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(Integer zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
-	@Column(name = "ADRESSE_VILLE", nullable = true, length = 20)
+	@Column(name = "ADRESSE_VILLE", nullable = true, length = 30)
 	public String getVille() {
 		return ville;
 	}
@@ -126,16 +107,14 @@ public class Adresse implements Serializable {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idAdresse", this.idAdresse)
-//				.append("client", this.client)
-				.append("numero", this.numero).append("rue", this.rue)
-				.append("zipCode", this.zipCode).append("ville", this.ville).append("pays", this.pays).build();
+				.append("numero", this.numero).append("rue", this.rue).append("zipCode", this.zipCode)
+				.append("ville", this.ville).append("pays", this.pays).build();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-//		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		result = prime * result + ((idAdresse == null) ? 0 : idAdresse.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result + ((pays == null) ? 0 : pays.hashCode());
@@ -159,12 +138,10 @@ public class Adresse implements Serializable {
 		final Adresse autre = (Adresse) candidat;
 
 		return new EqualsBuilder().append(this.idAdresse, autre.idAdresse)
-//				.append(this.client, autre.client)
+				// .append(this.client, autre.client)
 				.append(this.numero, autre.numero).append(this.rue, autre.rue).append(this.ville, autre.ville)
 				.append(this.zipCode, autre.zipCode).append(this.pays, autre.pays).build();
 	}
-//	@PrePersist
-//	public void avantSauvegarde() {
-//		this.idAdresse = client.getIdClient();
-//	}
+	
+
 }

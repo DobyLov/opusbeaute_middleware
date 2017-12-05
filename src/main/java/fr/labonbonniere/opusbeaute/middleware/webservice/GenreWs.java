@@ -3,6 +3,7 @@ package fr.labonbonniere.opusbeaute.middleware.webservice;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,10 +20,12 @@ import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.GenreService;
+import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
+import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
 
+@Stateless
+@Path("/genre")
 public class GenreWs {
 	private static final Logger logger = LogManager.getLogger(GenreWs.class);
 
@@ -30,7 +33,7 @@ public class GenreWs {
 	private GenreService genreservice;
 
 	@GET
-	@Path("/listegenre")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeGenre() throws DaoException {
 
@@ -73,10 +76,10 @@ public class GenreWs {
 	}
 
 	@POST
-	@Path("/addgenre")
+	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnClient(Genre genre) throws GenreExistantException {
+	public Response creerUnClient(Genre genre) throws DaoException, GenreClientNullException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -86,33 +89,40 @@ public class GenreWs {
 			logger.info("GenreWs log : Nouveau Client ajoute, avec l id : " + genre.getIdGenre());
 			builder = Response.ok(genre);
 
-		} catch (GenreExistantException message) {
+		} catch (DaoException message) {
 			logger.error("GenreWs log : Impossible de creer ce Client dans la Bdd.");
-			throw new GenreExistantException("GenreWs Exception : Impossible de creer ce Client dans la Bdd.");
+			throw new DaoException("GenreWs Exception : Impossible de creer ce Client dans la Bdd.");
+
+		} catch (GenreClientNullException message) {
+			logger.error("GenreWs log : Verifiez Genre.Genrehum.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
 		}
 		return builder.build();
 	}
 
 	@PUT
-	@Path("/modifGenre")
+	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnGenre(Genre genre) throws GenreInexistantException {
+	public Response modifieUnGenre(Genre genre) throws GenreInexistantException, GenreClientNullException {
 
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("GenreWs log : Demande de modification du Client id : " + genre.getIdGenre()
-					+ " dans la Bdd.");
+			logger.info("GenreWs log : Demande de modification du Client id : " + genre.getIdGenre() + " dans la Bdd.");
 			genreservice.modifDeLGenre(genre);
 			logger.info("GenreWs log : Client id : " + genre.getIdGenre() + " a bien ete modifie dans la Bdd.");
 			String msg = "Client id : " + genre.getIdGenre() + " a bien ete modifie dans la Bdd.";
 			builder = Response.ok(msg);
 
 		} catch (GenreInexistantException message) {
-			logger.error(
-					"GenreWs log : le Client id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
+			logger.error("GenreWs log : le Client id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
 			builder = Response.notModified();
+
+		} catch (GenreClientNullException message) {
+			logger.error("GenreWs log : Verifiez Genre.Genrehum.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		}
 
@@ -121,11 +131,10 @@ public class GenreWs {
 	}
 
 	@DELETE
-	@Path("/remove/{idGenre: \\d+}")
+	@Path("/del/{idGenre: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteTheClient(@PathParam("idGenre") final Integer idGenre)
-			throws GenreInexistantException {
+	public Response deleteTheClient(@PathParam("idGenre") final Integer idGenre) throws GenreInexistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -133,8 +142,7 @@ public class GenreWs {
 			logger.info("GenreWs log : Demande de suppression de le Client id : " + idGenre + " dans la Bdd.");
 			genreservice.suppressionddUnGenre(idGenre);
 			logger.info("GenreWs log : Client id : " + idGenre + " a bien ete modifie dans la Bdd.");
-			String msg = "GenreWs log : Client id : " + idGenre + " a ien ete supprime de la Bdd.";
-			builder = Response.ok(msg);
+			builder = Response.ok();
 
 		} catch (GenreInexistantException message) {
 			logger.error("GenreWs log : Client id : " + idGenre + " ne peut etre supprime dans la Bdd.");
@@ -144,6 +152,6 @@ public class GenreWs {
 
 		return builder.build();
 
-}
+	}
 
 }

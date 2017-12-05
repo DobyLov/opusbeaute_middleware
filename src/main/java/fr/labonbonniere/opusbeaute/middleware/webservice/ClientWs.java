@@ -19,12 +19,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.ClientService;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.ClientService;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTsAniversaire;
+import fr.labonbonniere.opusbeaute.middleware.service.client.PhoneMobileNotStartWith0607Exception;
+import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribeMailReminderException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedNewsLetterException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedSmsReminderException;
+import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 
 @Stateless
 @Path("/client")
@@ -82,7 +95,10 @@ public class ClientWs {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnClient(Client client) throws ClientExistantException, AdresseExistanteException {
+	public Response creerUnClient(Client client)
+			throws NbNumZipcodeException, NbNumRueException, NbCharRueVilleException, NbCharPrenomException,
+			NbCharNomException, NbCharTsAniversaire, NbCharPaysException, NbCharTelException, EmailFormatInvalid,
+			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -92,10 +108,56 @@ public class ClientWs {
 			logger.info("ClientWs log : Nouveau Client ajoute, avec l id : " + client.getIdClient());
 			builder = Response.ok(client);
 
-		} catch (ClientExistantException message) {
-			logger.error("ClientWs log : Impossible de creer ce Client dans la Bdd.");
-			throw new ClientExistantException("ClientWs Exception : Impossible de creer ce Client dans la Bdd.");
-		}
+		}  catch (EmailFormatInvalid message) {
+			logger.error("ClientWs log : Verifiez Client.Email.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharTelException message) {
+			logger.error("ClientWs log : Verifiez Client.Telephone.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharTsAniversaire message) {
+			logger.error("ClientWs log : Verifiez Client.DateAnniversaire.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPrenomException message) {
+			logger.error("ClientWs log : Verifiez Client.Prenom.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharNomException message) {
+			logger.error("ClientWs log : Verifiez Client.Nom.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+			
+		} catch (NbNumRueException message) {
+			logger.error("ClientWs log : Verifiez Adresse.NumeroRue.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPaysException message) {
+			logger.error("ClientWs log : Verifiez Adresse.Pays.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbNumZipcodeException message) {
+			logger.error("ClientWs log : Verifiez Adresse.Zipcode.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharRueVilleException message) {
+			logger.error("ClientWs log : Verifiez Adresse.Ville.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (DaoException message) {
+			logger.error("ClientWs log : Impossible de creer ce Client dans la Bdd le client est deja existant.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (GenreInvalideException message) {
+			logger.error("ClientWs log : il y aun probleme avec l Id Genre, ne match pac dans la table Genre.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (GenreClientNullException message) {
+			logger.error("ClientWs log : il y aun probleme avec l Id Genredeclare dans le client.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		}  
+
 		return builder.build();
 	}
 
@@ -103,7 +165,10 @@ public class ClientWs {
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnClient(Client client) throws ClientInexistantException, AdresseInexistanteException {
+	public <clientservice> Response modifieUnClient(Client client)
+			throws ClientInexistantException, AdresseInexistanteException, NbNumRueException, NbCharPrenomException,
+			NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalid, NbCharRueVilleException,
+			NbNumZipcodeException, NbCharPaysException, GenreInvalideException, DaoException, GenreClientNullException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -112,8 +177,45 @@ public class ClientWs {
 					"ClientWs log : Demande de modification du Client id : " + client.getIdClient() + " dans la Bdd.");
 			clientservice.modifduClient(client);
 			logger.info("ClientWs log : Client id : " + client.getIdClient() + " a bien ete modifie dans la Bdd.");
-//			String msg = "Client id : " + client.getIdClient() + " a bien ete modifie dans la Bdd.";
+			// String msg = "Client id : " + client.getIdClient() + " a bien ete
+			// modifie dans la Bdd.";
 			builder = Response.ok();
+
+		} catch (NbNumRueException message) {
+			logger.error("ClientWs log : Le num de rue dans l adresse depasee 3 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (EmailFormatInvalid message) {
+			logger.error("ClientWs log : L email ne respecte pas le format xyz@xyz.xyz.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharTelException message) {
+			logger.error("ClientWs log : Le Telephone du Client 10 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharTsAniversaire message) {
+			logger.error("ClientWs log : Le TimeStamp de la date Anniversaire du Client depasee 12 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPrenomException message) {
+			logger.error("ClientWs log : Le Prenom du Client depasee 30 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharNomException message) {
+			logger.error("ClientWs log : Le Nom du Client depasee 30 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPaysException message) {
+			logger.error("ClientWs log : Le Pays dans  l adresse depasse 6 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbNumZipcodeException message) {
+			logger.error("ClientWs log : Le Zipcode dans l adresse depasse 5 caracteres.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharRueVilleException message) {
+			logger.error("ClientWs log : Le nombre de caracteres ville OU rue dans l adresse est superieur a 30.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		} catch (ClientInexistantException message) {
 			logger.error(

@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -16,9 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
 @Stateless
 @Transactional
@@ -36,17 +32,11 @@ public class ClientDao {
 			String requeteCli = "SELECT c FROM Client c" + " ORDER BY idClient asc";
 			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
 			List<Client> listeClient = query.getResultList();
-//			String kiri = "SELECT * FROM T_CLIENT, T_ADRESSE WHERE CLIENT_IDCLIENT = CLIENT_IDADRESSE";
-//			Query myKiri = em.createNativeQuery(kiri, Client.class); 
-//			List<Client> listeClient = myKiri.getResultList();		
-
 			logger.info("ClientDao log :  Envoi de la liste de Clients");
 			return listeClient;
 
 		} catch (Exception e) {
 			logger.error("GenreDao Exception : Probleme de la bdd.");
-			// throw new DaoException("GenreDao Exception : Probleme de la
-			// bdd.");
 			throw new DaoException(e);
 		}
 
@@ -69,76 +59,30 @@ public class ClientDao {
 
 	}
 
-	public void ajouterUnClient(Client client) throws ClientExistantException {
-
+	public void ajouterUnClient(Client client) throws DaoException {
+		
 		try {
 			logger.info("ClientDao log : Demande d ajout d un nouveau Client dans la Bdd.");
-			// Creation d un nouvel objet Client et Adresse depuis les donnees
-			// de l objet Client.
-//			logger.info("Test client : " + client);
-			Client cliSansAdresse = new Client();
-			cliSansAdresse.setNomClient(client.getNomClient());
-			cliSansAdresse.setPrenomClient(client.getPrenomClient());
-			cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
-			cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
-			cliSansAdresse.setAdresseMailClient(client.getAdresseMailClient());
-			cliSansAdresse.setDateAnniversaireClient(client.getDateAnniversaireClient());
-//			 Persiste le Client sans adresse	
-			Adresse addrCli = client.getAdresse();
-			addrCli.setNumero(client.getAdresse().getNumero());
-			addrCli.setRue(client.getAdresse().getRue());
-			addrCli.setVille(client.getAdresse().getVille());
-			addrCli.setZipCode(client.getAdresse().getZipCode());
-			addrCli.setPays(client.getAdresse().getPays());
-
-			// Persiste l adresse.
-//			logger.info("Test client sans adresse : " + client);
-			em.persist(addrCli);			
 			em.persist(client);
-//			client.setIdClient(cliSansAdresse.getIdClient());
-//			addrCli.setIdAdresse(client.getIdClient());
-
-
-//			client.setIdClient(cliSansAdresse.getIdClient());
-//			addrCli.setIdAdresse(cliSansAdresse.getIdClient());
-			
-//			em.persist(addrCli);
-
-
-//			logger.info("ClientDao log : Nouveau Client ajoute, avec l id : " + cliSansAdresse.getIdClient());
-
-//			logger.info("ClientDao log : adresse avec l id : " + addrCli.getIdAdresse());
-//			logger.info("ClientDao log : adresse avec l id : " + addrCli);
-		} catch (EntityExistsException cause) {
-			logger.error("ClientDao log : Impossible de creer ce nouveeu Client dans la Bdd.");
-			throw new ClientExistantException(cause);
-//			("ClientDao Exception : Probleme, ce Client a l air d'être deja persiste");
-
+			logger.info("ClientDao log : Client Id : " + client.getIdClient() + " enregistre dans la Bdd dans la Bdd.");
+		} catch (Exception e) {
+			logger.error("GenreDao Exception : Probleme de la bdd.");
+			throw new DaoException();
 		}
 	}
 
 	public void modifieUnClient(Client client) throws ClientInexistantException {
 
 		logger.info("ClientDao log : Demande de modification du Client id : " + client.getIdClient() + " a la Bdd.");
-//		Client cliSansAdresse = new Client();
-//		cliSansAdresse.setIdClient(client.getIdClient());
-//		cliSansAdresse.setNomClient(client.getNomClient());
-//		cliSansAdresse.setPrenomClient(client.getPrenomClient());
-//		cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
-//		cliSansAdresse.setTelephoneClient(client.getTelephoneClient());
-//		cliSansAdresse.setAdresseMailClient(client.getAdresseMailClient());
-//		cliSansAdresse.setDateAnniversaireClient(client.getDateAnniversaireClient());
-//		Adresse addrCli = client.getAdresse();
-//		addrCli.setIdAdresse(addrCli.getIdAdresse());
-//		Adresse adressBdd = em.find(Adresse.class, addrCli.getIdAdresse());
 		Client clientBdd = em.find(Client.class, client.getIdClient());
 		if (Objects.nonNull(clientBdd)) {
+			Adresse adresse = client.getAdresse();
+			adresse.setIdAdresse(client.getIdClient());
+			client.setAdresse(adresse);
 			em.merge(client);
-			// em.merge(addrCli);
-
-			logger.info("ClientDao log : Rdv id : " + client.getIdClient() + " a ete modifie dans la Bdd.");
+			logger.info("ClientDao log : Client id : " + client.getIdClient() + " a ete modifie dans la Bdd.");
 		} else {
-			logger.error("ClientDao log : Rdv id : " + client.getIdClient() + " ne peut etre modifie dans la Bdd.");
+			logger.error("ClientDao log : Client id : " + client.getIdClient() + " ne peut etre modifie dans la Bdd.");
 			throw new ClientInexistantException("ClientDao log : Modification impossible,"
 					+ "il n'y a pas de Client à modifier pour l'id : " + client.getIdClient() + " demande.");
 		}
@@ -147,13 +91,8 @@ public class ClientDao {
 	public void supprimeUnClient(final Integer idClient) throws ClientInexistantException {
 
 		logger.info("ClientDao log : Demande de suppression du Client id : " + idClient + " dans la Bdd.");
-		Adresse adresse = null;
 		Client client = null;
-		adresse = em.find(Adresse.class, idClient);
 		client = em.find(Client.class, idClient);
-		if (Objects.nonNull(adresse)) {
-			em.remove(adresse);
-		}
 		if (Objects.nonNull(client)) {
 			em.remove(client);
 			logger.info("ClientDao log : Le Client et Adresse id : " + idClient + " ont bien ete supprimes de la Bdd.");
