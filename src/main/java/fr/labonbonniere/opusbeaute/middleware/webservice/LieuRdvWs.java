@@ -22,8 +22,12 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInexistantException;
-
-import fr.labonbonniere.opusbeaute.middleware.service.LieuRdvService;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInvalideException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
+import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
+import fr.labonbonniere.opusbeaute.middleware.service.lieurdv.LieuRdvService;
 
 @Stateless
 @Path("/lieurdv")
@@ -34,7 +38,7 @@ public class LieuRdvWs {
 	private LieuRdvService lieurdvservice;
 
 	@GET
-	@Path("/listelieurdv")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeLieuRdv() throws DaoException {
 
@@ -77,10 +81,10 @@ public class LieuRdvWs {
 	}
 
 	@POST
-	@Path("/addlieurdv")
+	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnLieuRdv(LieuRdv lieurdv) throws LieuRdvExistantException {
+	public Response creerUnLieuRdv(LieuRdv lieurdv) throws LieuRdvExistantException, LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -93,30 +97,38 @@ public class LieuRdvWs {
 		} catch (LieuRdvExistantException message) {
 			logger.error("LieuRdvWs log : Impossible de creer ceLieuRdv dans la Bdd.");
 			throw new LieuRdvExistantException("LieuRdvWs Exception : Impossible de creer ce LieuRdv dans la Bdd.");
+			
+		} catch (LieuRdvInvalideException message) {
+			logger.error("LieuRdvWs log : Verifiez LieuRdv.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
 		}
 		return builder.build();
 	}
 
 	@PUT
-	@Path("/modiflieurdv")
+	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnLieuRdv(LieuRdv lieurdv) throws LieuRdvInexistantException {
+	public Response modifieUnLieuRdv(LieuRdv lieurdv) throws LieuRdvInexistantException, LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("LieuRdvWs log : Demande de modification du LieuRdv id : " + lieurdv.getIdLieuRdv()
 					+ " dans la Bdd.");
-			lieurdvservice.modifDeLLieuRdv(lieurdv);
+			lieurdvservice.modifDuLieuRdv(lieurdv);
 			logger.info("LieuRdvWs log : LieuRdv id : " + lieurdv.getIdLieuRdv() + " a bien ete modifie dans la Bdd.");
-			String msg = "LieuRdv id : " + lieurdv.getIdLieuRdv() + " a bien ete modifie dans la Bdd.";
-			builder = Response.ok(msg);
+			builder = Response.ok();
 
 		} catch (LieuRdvInexistantException message) {
 			logger.error(
 					"LieuRdvWs log : LieuRdv id : " + lieurdv.getIdLieuRdv() + " ne peut etre modifie dans la Bdd.");
 			builder = Response.notModified();
+
+		} catch (LieuRdvInvalideException message) {
+			logger.error("LieuRdvWs log : Genre.genreHum verifiez genreHum.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		}
 
@@ -125,7 +137,7 @@ public class LieuRdvWs {
 	}
 
 	@DELETE
-	@Path("/remove/{idLieuRdv: \\d+}")
+	@Path("/del/{idLieuRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteTheAdresse(@PathParam("idLieuRdv") final Integer idLieuRdv)
@@ -137,8 +149,8 @@ public class LieuRdvWs {
 			logger.info("LieuRdvWs log : Demande de suppression du LieuRdv id : " + idLieuRdv + " dans la Bdd.");
 			lieurdvservice.suppressionddUnLieuRdv(idLieuRdv);
 			logger.info("LieuRdvWs log : LieuRdv id : " + idLieuRdv + " a bien ete modifie dans la Bdd.");
-			String msg = "LieuRdvWs log : l LieuRdv id : " + idLieuRdv + " a ien ete supprimee de la Bdd.";
-			builder = Response.ok(msg);
+//			String msg = "LieuRdv id : " + idLieuRdv + " a ien ete supprimee de la Bdd.";
+			builder = Response.ok();
 
 		} catch (LieuRdvInexistantException message) {
 			logger.error("LieuRdvWs log : LieuRdv id : " + idLieuRdv + " ne peut etre supprime dans la Bdd.");

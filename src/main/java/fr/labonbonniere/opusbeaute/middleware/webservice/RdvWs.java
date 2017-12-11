@@ -153,7 +153,7 @@ public class RdvWs {
 	// POSTMAN
 	//		POST	BODY	raw		JSON
 	@POST
-	@Path("/addrdv")	// fonctionne bien 11/07
+	@Path("/add")	// fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnRdv(Rdv rdv) throws RdvExistantException, DaoException, 
@@ -181,7 +181,7 @@ public class RdvWs {
 	// POSTMAN
 	//		PUT
 	@PUT
-	@Path("/modifrdv") // fonctionne bien 11/07
+	@Path("/mod") // fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifieUnRdv (Rdv rdv) throws RdvInexistantException {
@@ -212,7 +212,7 @@ public class RdvWs {
 	// POSTMAN
 	// 		DELETE	Authorisation	Body	Json	
 	@DELETE
-    @Path("/remove/{idRdv: \\d+}")
+    @Path("/del/{idRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteTheRdv(

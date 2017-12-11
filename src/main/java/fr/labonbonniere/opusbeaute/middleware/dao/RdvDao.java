@@ -162,7 +162,7 @@ public class RdvDao {
 	
 	
 	public Integer renvoyerLeNbDeRdvDuJour(String rdvDateDuJour) throws DaoException {
-		
+//		Integer compteurRdvInitZero;
 		try {
 			logger.info("RdvDao log : Demande a la Bdd le nombre de Rdv's a la date selectionnee.");
 			String requete =  "SELECT COUNT(r) FROM Rdv r"
@@ -171,10 +171,14 @@ public class RdvDao {
 			Query query = em.createQuery(requete,Rdv.class);
 			Integer compteurRdv = query.getFirstResult();
 			logger.info("RdvDao log : Transmission du nombre de Rdv's par date selectionnee.");
+//			if (compteurRdv == null) {
+//				compteurRdvInitZero = 0;
+//			}
 			return compteurRdv;	
 				
 		} catch (Exception message) {
-			logger.error("RdvDao log : probleme sur le format de la date.");
+			logger.error("RdvDao log : Date non existante dans calendrier.");
+//			return compteurRdvInitZero;
 			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
 		}
 	}

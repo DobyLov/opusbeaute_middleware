@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 
@@ -76,7 +76,7 @@ public class ClientDao {
 		logger.info("ClientDao log : Demande de modification du Client id : " + client.getIdClient() + " a la Bdd.");
 		Client clientBdd = em.find(Client.class, client.getIdClient());
 		if (Objects.nonNull(clientBdd)) {
-			Adresse adresse = client.getAdresse();
+			AdresseClient adresse = client.getAdresse();
 			adresse.setIdAdresse(client.getIdClient());
 			client.setAdresse(adresse);
 			em.merge(client);

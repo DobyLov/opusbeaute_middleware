@@ -1,20 +1,20 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 @XmlRootElement
 @Entity
@@ -26,35 +26,38 @@ public class Utilisateur implements Serializable {
 	private Integer idUtilisateur;
 	private String nomUtilisateur;
 	private String prenomUtilisateur;
-	private String telephoneUtilisateur;
-	private String adresseUtilisateur;
+	private String teleMobileUtilisateur;
 	private String adresseMailUtilisateur;
 	private String motDePasse;
-	private Date dateAnniversaireUtilisateur;
-	private boolean isLogged;
+	private String isLogged;
+	private String suscribedSmsReminder;
+	private String suscribedMailReminder;
 
 	public Utilisateur() {
 		super();
 	}
 
 	public Utilisateur(Integer idUtilisateur, String nomUtilisateur, String prenomUtilisateur,
-			String telephoneUtilisateur, String adresseUtilisateur, String adresseMailUtilisateur, String motDePasse,
-			Date dateAnniversaireUtilisateur, boolean isLogged) {
+			String teleMobileUtilisateur, String adresseMailUtilisateur, String motDePasse,
+			String isLogged, String suscribedSmsReminder, String suscribedMailReminder) {
 
 		this.idUtilisateur = idUtilisateur;
 		this.nomUtilisateur = nomUtilisateur;
 		this.prenomUtilisateur = prenomUtilisateur;
-		this.telephoneUtilisateur = telephoneUtilisateur;
-		this.adresseUtilisateur = adresseUtilisateur;
+		this.teleMobileUtilisateur = teleMobileUtilisateur;
 		this.adresseMailUtilisateur = adresseMailUtilisateur;
 		this.motDePasse = motDePasse;
-		this.dateAnniversaireUtilisateur = dateAnniversaireUtilisateur;
 		this.isLogged = isLogged;
+		this.suscribedSmsReminder = suscribedSmsReminder;
+		this.suscribedMailReminder = suscribedMailReminder;
 
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="seq",sequenceName="UTILISATEUR_SEQ",
+	initialValue = 1, allocationSize = 5)
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "UTILISATEUR_IDUTILISATEUR", nullable = false, length = 4)
 	public Integer getIdUtilisateur() {
 		return idUtilisateur;
@@ -80,22 +83,15 @@ public class Utilisateur implements Serializable {
 	public void setPrenomUtilisateur(String prenomUtilisateur) {
 		this.prenomUtilisateur = prenomUtilisateur;
 	}
-	@Column(name = "UTILISATEUR_TELEPHONE", nullable = true, length = 10)
-	public String getTelephoneUtilisateur() {
-		return telephoneUtilisateur;
+	@Column(name = "UTILISATEUR_TELMOBILE", nullable = true, length = 10)
+	public String getTeleMobileUtilisateur() {
+		return teleMobileUtilisateur;
 	}
 
-	public void setTelephoneUtilisateur(String telephoneUtilisateur) {
-		this.telephoneUtilisateur = telephoneUtilisateur;
-	}
-	@Column(name = "UTILISATEUR_ADRESSE", nullable = true, length = 30)
-	public String getAdresseUtilisateur() {
-		return adresseUtilisateur;
+	public void setTeleMobileUtilisateur(String teleMobileUtilisateur) {
+		this.teleMobileUtilisateur = teleMobileUtilisateur;
 	}
 
-	public void setAdresseUtilisateur(String adresseUtilisateur) {
-		this.adresseUtilisateur = adresseUtilisateur;
-	}
 	@Column(name = "UTILISATEUR_MAIL", nullable = true, length = 30)
 	public String getAdresseMailUtilisateur() {
 		return adresseMailUtilisateur;
@@ -104,6 +100,7 @@ public class Utilisateur implements Serializable {
 	public void setAdresseMailUtilisateur(String adresseMailUtilisateur) {
 		this.adresseMailUtilisateur = adresseMailUtilisateur;
 	}
+	
 	@Column(name = "UTILISATEUR_MOTDEPASSE", nullable = false, length = 30)
 	public String getMotDePasse() {
 		return motDePasse;
@@ -112,22 +109,32 @@ public class Utilisateur implements Serializable {
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
 	}
-	@Column(name = "UTILISATEUR_DATEANNIVERSAIRE", nullable = false, length = 30)
-	@Temporal(TemporalType.DATE)
-	public Date getDateAnniversaireUtilisateur() {
-		return dateAnniversaireUtilisateur;
-	}
 
-	public void setDateAnniversaireUtilisateur(Date dateAnniversaireUtilisateur) {
-		this.dateAnniversaireUtilisateur = dateAnniversaireUtilisateur;
-	}
-	@Column(name = "UTILISATEUR_ISLOGGED", nullable = false)
-	public boolean isLogged() {
+	@Column(name = "UTILISATEUR_ISLOGGED", nullable = false, length = 1)
+	public String getIsLogged() {
 		return isLogged;
 	}
 
-	public void setLogged(boolean isLogged) {
+	public void setIsLogged(String isLogged) {
 		this.isLogged = isLogged;
+	}
+
+	@Column(name = "UTILISATEUR_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
+	public String getSuscribedSmsReminder() {
+		return suscribedSmsReminder;
+	}
+
+	public void setSuscribedSmsReminder(String suscribedSmsReminder) {
+		this.suscribedSmsReminder = suscribedSmsReminder;
+	}
+
+	@Column(name = "UTILISATEUR_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
+	public String getSuscribedMailReminder() {
+		return suscribedMailReminder;
+	}
+
+	public void setSuscribedMailReminder(String suscribedMailReminder) {
+		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
 	public static long getSerialversionuid() {
@@ -136,12 +143,17 @@ public class Utilisateur implements Serializable {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idUtilisateur", this.idUtilisateur)
-				.append("nomUtilisateur", this.nomUtilisateur).append("prenomUtilisateur", this.prenomUtilisateur)
-				.append("telephoneUtilisateur", this.telephoneUtilisateur)
-				.append("adressUtilisateur", this.adresseMailUtilisateur)
-				.append("adresseMailUtilisateur", this.adresseMailUtilisateur).append("isLogged", this.isLogged)
-				.append("dateAnniversaireUtilisateur", this.dateAnniversaireUtilisateur).build();
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				.append("idUtilisateur", this.idUtilisateur)
+				.append("nomUtilisateur", this.nomUtilisateur)
+				.append("prenomUtilisateur", this.prenomUtilisateur)
+				.append("teleMobileUtilisateur", this.teleMobileUtilisateur)
+				.append("adresseMailUtilisateur", this.adresseMailUtilisateur)
+				.append("motdePasse", this.motDePasse)
+				.append("isLogged", this.isLogged)
+				.append("isLogged", this.isLogged)
+				.append("suscribedSmsReminder",this.suscribedSmsReminder)
+				.build();
 
 	}
 
@@ -150,69 +162,43 @@ public class Utilisateur implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((adresseMailUtilisateur == null) ? 0 : adresseMailUtilisateur.hashCode());
-		result = prime * result + ((adresseUtilisateur == null) ? 0 : adresseUtilisateur.hashCode());
-		result = prime * result + ((dateAnniversaireUtilisateur == null) ? 0 : dateAnniversaireUtilisateur.hashCode());
 		result = prime * result + ((idUtilisateur == null) ? 0 : idUtilisateur.hashCode());
-		result = prime * result + (isLogged ? 1231 : 1237);
+		result = prime * result + ((isLogged == null) ? 0 : isLogged.hashCode());
 		result = prime * result + ((motDePasse == null) ? 0 : motDePasse.hashCode());
 		result = prime * result + ((nomUtilisateur == null) ? 0 : nomUtilisateur.hashCode());
 		result = prime * result + ((prenomUtilisateur == null) ? 0 : prenomUtilisateur.hashCode());
-		result = prime * result + ((telephoneUtilisateur == null) ? 0 : telephoneUtilisateur.hashCode());
+		result = prime * result + ((teleMobileUtilisateur == null) ? 0 : teleMobileUtilisateur.hashCode());		
+		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
+		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
+		
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object candidat) {
+		if (candidat == this)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Utilisateur other = (Utilisateur) obj;
-		if (adresseMailUtilisateur == null) {
-			if (other.adresseMailUtilisateur != null)
-				return false;
-		} else if (!adresseMailUtilisateur.equals(other.adresseMailUtilisateur))
-			return false;
-		if (adresseUtilisateur == null) {
-			if (other.adresseUtilisateur != null)
-				return false;
-		} else if (!adresseUtilisateur.equals(other.adresseUtilisateur))
-			return false;
-		if (dateAnniversaireUtilisateur == null) {
-			if (other.dateAnniversaireUtilisateur != null)
-				return false;
-		} else if (!dateAnniversaireUtilisateur.equals(other.dateAnniversaireUtilisateur))
-			return false;
-		if (idUtilisateur == null) {
-			if (other.idUtilisateur != null)
-				return false;
-		} else if (!idUtilisateur.equals(other.idUtilisateur))
-			return false;
-		if (isLogged != other.isLogged)
-			return false;
-		if (motDePasse == null) {
-			if (other.motDePasse != null)
-				return false;
-		} else if (!motDePasse.equals(other.motDePasse))
-			return false;
-		if (nomUtilisateur == null) {
-			if (other.nomUtilisateur != null)
-				return false;
-		} else if (!nomUtilisateur.equals(other.nomUtilisateur))
-			return false;
-		if (prenomUtilisateur == null) {
-			if (other.prenomUtilisateur != null)
-				return false;
-		} else if (!prenomUtilisateur.equals(other.prenomUtilisateur))
-			return false;
-		if (telephoneUtilisateur == null) {
-			if (other.telephoneUtilisateur != null)
-				return false;
-		} else if (!telephoneUtilisateur.equals(other.telephoneUtilisateur))
-			return false;
-		return true;
-	}
 
+		if (candidat == null)
+			return false;
+
+		if (!(candidat instanceof Utilisateur))
+			return false;
+
+		final Utilisateur autre = (Utilisateur) candidat;
+
+		return new EqualsBuilder()
+				.append(this.idUtilisateur, autre.idUtilisateur)
+				.append(this.nomUtilisateur, autre.nomUtilisateur)
+				.append(this.prenomUtilisateur, autre.prenomUtilisateur)
+				.append(this.teleMobileUtilisateur, autre.teleMobileUtilisateur)
+				.append(this.adresseMailUtilisateur, autre.adresseMailUtilisateur)
+				.append(this.motDePasse, autre.motDePasse)
+				.append(this.isLogged, autre.isLogged)
+				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
+				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)
+				
+				.build();
+
+	}
 }

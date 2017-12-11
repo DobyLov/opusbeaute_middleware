@@ -93,11 +93,11 @@ public class RdvService {
 				"Rdvservice log : Requeter la bdd avec la date du Rdv afin de recuperer la liste des Rdv du jour demande.");
 
 		// Recuperation des ts debut et fin du rdv proposé
-		Timestamp tsRdvDebut = rdv.getdateHeureDebut();
+		Timestamp tsRdvDebut = rdv.getDateHeureDebut();
 		long longTsRdvDebutMilliSec = tsRdvDebut.getTime();
 		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvDebut);
 
-		Timestamp tsRdvFin = rdv.getdateHeureFin();
+		Timestamp tsRdvFin = rdv.getDateHeureFin();
 		long longTsRdvFinMilliSec = tsRdvFin.getTime();
 		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvFin);
 
@@ -124,7 +124,7 @@ public class RdvService {
 			// recuperation des la dates de debut et fin du rdv a plannifier
 			// Compteur de rdv ds la bdd, si different de Zero rdv poursuivre l
 			// enregistrement du rdv
-			if (compteurRdvDuJour != 0) {
+			if (compteurRdvDuJour != null ) {
 				// recuperer la liste des rdv selon la date du rdv au format
 				// Json et la gere en JSONARRAY
 				List<Rdv> listeRdvJson = rdvdao.obtenirListeRdvParDate(rdvDateDuJour);

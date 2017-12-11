@@ -19,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseInexistanteException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
@@ -183,39 +183,39 @@ public class ClientWs {
 
 		} catch (NbNumRueException message) {
 			logger.error("ClientWs log : Le num de rue dans l adresse depasee 3 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (EmailFormatInvalid message) {
 			logger.error("ClientWs log : L email ne respecte pas le format xyz@xyz.xyz.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbCharTelException message) {
 			logger.error("ClientWs log : Le Telephone du Client 10 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbCharTsAniversaire message) {
 			logger.error("ClientWs log : Le TimeStamp de la date Anniversaire du Client depasee 12 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbCharPrenomException message) {
 			logger.error("ClientWs log : Le Prenom du Client depasee 30 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbCharNomException message) {
 			logger.error("ClientWs log : Le Nom du Client depasee 30 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbCharPaysException message) {
 			logger.error("ClientWs log : Le Pays dans  l adresse depasse 6 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbNumZipcodeException message) {
 			logger.error("ClientWs log : Le Zipcode dans l adresse depasse 5 caracteres.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (NbCharRueVilleException message) {
 			logger.error("ClientWs log : Le nombre de caracteres ville OU rue dans l adresse est superieur a 30.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
+			builder = Response.notModified();
 
 		} catch (ClientInexistantException message) {
 			logger.error(

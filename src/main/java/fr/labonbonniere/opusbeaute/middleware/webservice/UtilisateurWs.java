@@ -19,11 +19,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.AdresseInexistanteException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.UtilisateurService;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
 @Stateless
 @Path("/utilisateur")
@@ -34,7 +38,7 @@ public class UtilisateurWs {
 	private UtilisateurService utilisateurservice;
 
 	@GET
-	@Path("/listeutilisateur")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeUtilisateur() throws DaoException {
 
@@ -42,10 +46,10 @@ public class UtilisateurWs {
 
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("UtilisateurWs log : Demande au Service la liste des Prestations");
-			final List<Utilisateur> listeadresse = utilisateurservice.recupereListeUtilisateur();
-			logger.info("UtilisateurWs log : Transmission du contenu(liste Prestation).");
-			builder = Response.ok(listeadresse);
+			logger.info("UtilisateurWs log : Demande au Service la liste des Utilisateurs");
+			final List<Utilisateur> listeUtilisateur = utilisateurservice.recupereListeUtilisateur();
+			logger.info("UtilisateurWs log : Transmission du contenu(liste Utilisateur).");
+			builder = Response.ok(listeUtilisateur);
 
 		} catch (DaoException message) {
 			logger.error("AdresseWs log : Il doit y avoir un probleme avec la BDD.");
@@ -58,18 +62,19 @@ public class UtilisateurWs {
 	@GET
 	@Path("/{idUtilisateur: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response theRdv(@PathParam("idUtilisateur") final Integer idUtilisateur) throws UtilisateurInexistantException {
+	public Response theRdv(@PathParam("idUtilisateur") final Integer idUtilisateur)
+			throws UtilisateurInexistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("UtilisateurWs log - Demande a la bdd le Adresse id :  " + idUtilisateur);
+			logger.info("UtilisateurWs log - Demande a la bdd le Utilisateur id :  " + idUtilisateur);
 			Utilisateur utilisateur = utilisateurservice.recupererUnUtilisateur(idUtilisateur);
-			logger.info("UtilisateurWs log - Adresse demande " + utilisateur.getIdUtilisateur() + " transmise");
+			logger.info("UtilisateurWs log - Utilisateur demande " + utilisateur.getIdUtilisateur() + " transmis");
 			builder = Response.ok(utilisateur);
 
 		} catch (UtilisateurInexistantException message) {
-			logger.error("UtilisateurWs log - l Adresse id : " + idUtilisateur + " demande est introuvable");
+			logger.error("UtilisateurWs log - l Utilisateur id : " + idUtilisateur + " demande est introuvable");
 			builder = Response.status(Response.Status.NOT_FOUND);
 		}
 
@@ -77,47 +82,82 @@ public class UtilisateurWs {
 	}
 
 	@POST
-	@Path("/addutilisateur")
+	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException {
+	public Response creerUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalid,
+			NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("UtilisateurWs log : Demande d ajout d une nouvelle Adresse dans la Bdd.");
+			logger.info("UtilisateurWs log : Demande d ajout d une nouvel Utilisateur dans la Bdd.");
 			utilisateurservice.ajoutUnUtilisateur(utilisateur);
-			logger.info("UtilisateurWs log : Nouvelle Adresse ajoutee, avec l id : " + utilisateur.getIdUtilisateur());
+			logger.info("UtilisateurWs log : Nouvel Utilisateur ajoute, avec l id : " + utilisateur.getIdUtilisateur());
 			builder = Response.ok(utilisateur);
 
 		} catch (UtilisateurExistantException message) {
-			logger.error("UtilisateurWs log : Impossible de creer cette Adresse dans la Bdd.");
+			logger.error("UtilisateurWs log : Impossible de creer cet Utilisateur dans la Bdd.");
 			throw new UtilisateurExistantException(
-					"UtilisateurWs Exception : Impossible de creer cette Prestation dans la Bdd.");
+					"UtilisateurWs Exception : Impossible de creer cet utilisateur dans la Bdd.");
+		} catch (NbCharPrenomException message) {
+			logger.error("UtilisateurWs log : Verifiez Utilisateur.Prenom.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharNomException message) {
+			logger.error("UtilisateurWs log : Verifiez Utilisateur.Nom.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (EmailFormatInvalid message) {
+			logger.error("UtilisateurWs log : Verifiez Utilisateur.Email.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharTelException message) {
+			logger.error("UtilisateurWs log : Verifiez Utilisateur.Telephone.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
 		}
 		return builder.build();
 	}
 
 	@PUT
-	@Path("/modifutilisateur")
+	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException {
+	public Response modifieUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException,
+			EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("UtilisateurWs log : Demande de modification de l Adresse id : " + utilisateur.getIdUtilisateur()
-					+ " dans la Bdd.");
+			logger.info("UtilisateurWs log : Demande de modification de l Adresse id : "
+					+ utilisateur.getIdUtilisateur() + " dans la Bdd.");
 			utilisateurservice.modifierUnUtilisateur(utilisateur);
-			logger.info("UtilisateurWs log : Adresse id : " + utilisateur.getIdUtilisateur() + " a bien ete modifiee dans la Bdd.");
+			logger.info("UtilisateurWs log : Adresse id : " + utilisateur.getIdUtilisateur()
+					+ " a bien ete modifiee dans la Bdd.");
 			String msg = "Adresse id : " + utilisateur.getIdUtilisateur() + " a bien ete modifiee dans la Bdd.";
 			builder = Response.ok(msg);
 
 		} catch (UtilisateurInexistantException message) {
-			logger.error(
-					"UtilisateurWs log : l Adresse id : " + utilisateur.getIdUtilisateur() + " ne peut etre modifiee dans la Bdd.");
+			logger.error("UtilisateurWs log : l Adresse id : " + utilisateur.getIdUtilisateur()
+					+ " ne peut etre modifiee dans la Bdd.");
 			builder = Response.notModified();
+
+		} catch (NbCharPrenomException message) {
+			logger.error("UtilisateurWs log : Verifiez Client.Prenom.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharNomException message) {
+			logger.error("UtilisateurWs log : Verifiez Client.Nom.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (EmailFormatInvalid message) {
+			logger.error("UtilisateurWs log : Verifiez Client.Email.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharTelException message) {
+			logger.error("UtilisateurWs log : Verifiez Client.Telephone.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		}
 
@@ -126,7 +166,7 @@ public class UtilisateurWs {
 	}
 
 	@DELETE
-	@Path("/remove/{idUtilisateur: \\d+}")
+	@Path("/del/{idUtilisateur: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteTheUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur)
@@ -135,14 +175,16 @@ public class UtilisateurWs {
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("UtilisateurWs log : Demande de suppression de l Adresse id : " + idUtilisateur + " dans la Bdd.");
+			logger.info(
+					"UtilisateurWs log : Demande de suppression de l Adresse id : " + idUtilisateur + " dans la Bdd.");
 			utilisateurservice.suppressionDUnUtilisateur(idUtilisateur);
-			logger.info("UtilisateurWs log : Prestation id : " + idUtilisateur+ " a bien ete modifie dans la Bdd.");
+			logger.info("UtilisateurWs log : Prestation id : " + idUtilisateur + " a bien ete modifie dans la Bdd.");
 			String msg = "UtilisateurWs log : l adresse id : " + idUtilisateur + " a ien ete supprimee de la Bdd.";
 			builder = Response.ok(msg);
 
 		} catch (UtilisateurInexistantException message) {
-			logger.error("UtilisateurWs log : l Adresse id : " + idUtilisateur + " ne peut etre supprimee dans la Bdd.");
+			logger.error(
+					"UtilisateurWs log : l Adresse id : " + idUtilisateur + " ne peut etre supprimee dans la Bdd.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		}

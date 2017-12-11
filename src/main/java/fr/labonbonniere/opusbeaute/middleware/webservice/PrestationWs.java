@@ -19,125 +19,127 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInexistanteException;
-import fr.labonbonniere.opusbeaute.middleware.service.PrestationService;
-
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInvalideException;
+import fr.labonbonniere.opusbeaute.middleware.service.prestation.GenrePrestationNullException;
+import fr.labonbonniere.opusbeaute.middleware.service.prestation.NbCharPrestationException;
+import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationService;
 
 @Stateless
 @Path("/prestation")
 public class PrestationWs {
-	
+
 	private static final Logger logger = LogManager.getLogger(PrestationWs.class);
 
 	@EJB
 	private PrestationService prestationservice;
-	
-	
+
 	@GET
 	@Path("/listeprestations")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListe() throws DaoException {
-		
-		Response.ResponseBuilder builder = null;	
-		
-		try { 
+
+		Response.ResponseBuilder builder = null;
+
+		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("PrestationWs log : Demande au Service la liste des Prestations");
 			final List<Prestation> listeprestation = prestationservice.recupereListePrestation();
 			logger.info("PrestationWs log : Transmission du contenu(liste Prestation).");
-			builder = Response.ok(listeprestation);	
-			
-		} catch ( DaoException message ) {
-				logger.error("PrestationWs log : Il doit y avoir un probleme avec la BDD." );
-				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(listeprestation);
+
+		} catch (DaoException message) {
+			logger.error("PrestationWs log : Il doit y avoir un probleme avec la BDD.");
+			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-			
-		return builder.build(); 
+
+		return builder.build();
 	}
-	
+
 	@GET
-    @Path("/{idPrestation: \\d+}")
+	@Path("/{idPrestation: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response theRdv(
-			@PathParam("idPrestation") final Integer idPrestation) throws PrestationInexistanteException  {
+	public Response theRdv(@PathParam("idPrestation") final Integer idPrestation)
+			throws PrestationInexistanteException {
 
 		Response.ResponseBuilder builder = null;
 		try {
-		logger.info("-----------------------------------------------------");			
-		logger.info("WebService log - Demande a la bdd le Prestation id :  " + idPrestation);
-		Prestation prestation = prestationservice.recupererUnePrestation(idPrestation);
-		logger.info("WebService log - Le Prestation demande " + prestation.getIdPrestation() + " transmis");
-		builder = Response.ok(prestation);
-		
+			logger.info("-----------------------------------------------------");
+			logger.info("WebService log - Demande a la bdd le Prestation id :  " + idPrestation);
+			Prestation prestation = prestationservice.recupererUnePrestation(idPrestation);
+			logger.info("WebService log - Le Prestation demande " + prestation.getIdPrestation() + " transmis");
+			builder = Response.ok(prestation);
+
 		} catch (PrestationInexistanteException message) {
 			logger.error("WebService log - La Prestation id : " + idPrestation + " demande est introuvable");
 			builder = Response.status(Response.Status.NOT_FOUND);
-		}	
-		
+		}
+
 		return builder.build();
 	}
-	
+
 	@GET
-	@Path("/listeprestationsH")
+	@Path("/listph")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListePrestationHomme() throws DaoException {
-		
-		Response.ResponseBuilder builder = null;	
-		
-		try { 
+
+		Response.ResponseBuilder builder = null;
+
+		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("PrestationWs log : Demande au Service la liste des Prestations homme");
 			final List<Prestation> listeprestationH = prestationservice.recupereListePrestationHomme();
 			logger.info("PrestationWs log : Transmission du contenu(liste Prestation homme).");
-			builder = Response.ok(listeprestationH);	
-			
-		} catch ( DaoException message ) {
-				logger.error("PrestationWs log : Il doit y avoir un probleme avec la BDD." );
-				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(listeprestationH);
+
+		} catch (DaoException message) {
+			logger.error("PrestationWs log : Il doit y avoir un probleme avec la BDD.");
+			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-			
-		return builder.build(); 
+
+		return builder.build();
 	}
-	
-	
+
 	@GET
-	@Path("/listeprestationsF")
+	@Path("/listpf")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListePrestationFemme() throws DaoException {
-		
-		Response.ResponseBuilder builder = null;	
-		
-		try { 
+
+		Response.ResponseBuilder builder = null;
+
+		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("PrestationWs log : Demande au Service la liste des Prestations femme");
 			final List<Prestation> listeprestationF = prestationservice.recupereListePrestationFemme();
 			logger.info("PrestationWs log : Transmission du contenu(liste Prestation femme).");
-			builder = Response.ok(listeprestationF);	
-			
-		} catch ( DaoException message ) {
-				logger.error("PrestationWs log : Il doit y avoir un probleme avec la BDD." );
-				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			builder = Response.ok(listeprestationF);
+
+		} catch (DaoException message) {
+			logger.error("PrestationWs log : Il doit y avoir un probleme avec la BDD.");
+			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-			
-		return builder.build(); 
+
+		return builder.build();
 	}
-	
-	
+
 	@GET
 	@Path("/searchga/{genre},{activite}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response laListePrestationCriteresGA (
-			@PathParam("genre") final String genre, 
-			@PathParam("activite") final String activite)throws DaoException {
-		
+	public Response laListePrestationCriteresGA(@PathParam("genre") final String genre,
+			@PathParam("activite") final String activite) throws DaoException {
+
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("PrestationWs log : Demande au PrestationService la liste des Prestations avec le criteres genre, activite.");
-			final List<Prestation> listeprestaGA = prestationservice.recupereListePrestationCriteresGenreActivite(genre, activite);
-			logger.info("PrestationWs log : Transmission de la Liste des Prestation'sselon les criteres genre, activite.");
+			logger.info(
+					"PrestationWs log : Demande au PrestationService la liste des Prestations avec le criteres genre, activite.");
+			final List<Prestation> listeprestaGA = prestationservice.recupereListePrestationCriteresGenreActivite(genre,
+					activite);
+			logger.info(
+					"PrestationWs log : Transmission de la Liste des Prestation'sselon les criteres genre, activite.");
 			builder = Response.ok(listeprestaGA);
 		} catch (Exception message) {
 			logger.error("PrestationWs Exception : probleme sur le format de la requete.");
@@ -145,22 +147,22 @@ public class PrestationWs {
 		}
 		return builder.build();
 	}
-	
-	
+
 	@GET
 	@Path("searchgas/{genre},{activite},{soin}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response laListePrestationCriteresGAS (
-			@PathParam("genre") final String genre, 
-			@PathParam("activite") final String activite,
-			@PathParam("soin") final String soin) throws DaoException {
-		
+	public Response laListePrestationCriteresGAS(@PathParam("genre") final String genre,
+			@PathParam("activite") final String activite, @PathParam("soin") final String soin) throws DaoException {
+
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("PrestationWs log : Demande au PrestationService la liste des Prestations avec le criteres genre, activite, soin.");
-			final List<Prestation> listeprestaGAS = prestationservice.recupereListePrestationCriteresGenreActiviteSoins(genre, activite, soin);
-			logger.info("PrestationWs log : Transmission de la Liste des Prestation'sselon les criteres genre, activite et soin.");
+			logger.info(
+					"PrestationWs log : Demande au PrestationService la liste des Prestations avec le criteres genre, activite, soin.");
+			final List<Prestation> listeprestaGAS = prestationservice
+					.recupereListePrestationCriteresGenreActiviteSoins(genre, activite, soin);
+			logger.info(
+					"PrestationWs log : Transmission de la Liste des Prestation'sselon les criteres genre, activite et soin.");
 			builder = Response.ok(listeprestaGAS);
 		} catch (Exception message) {
 			logger.error("PrestationWs Exception : probleme sur le format de la requete.");
@@ -168,14 +170,15 @@ public class PrestationWs {
 		}
 		return builder.build();
 	}
-	
-	
+
 	@POST
-	@Path("/addprestation")
+	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnePrestation(Prestation prestation) throws PrestationExistanteException {
-		
+	public Response creerUnePrestation(Prestation prestation)
+			throws PrestationExistanteException, NbCharPrestationException, PrestationInvalideException,
+			GenreInvalideException, DaoException, GenrePrestationNullException {
+
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
@@ -183,63 +186,80 @@ public class PrestationWs {
 			prestationservice.ajoutPrestation(prestation);
 			logger.info("PrestationWs log : Nouvelle Prestation ajoutee, avec l id : " + prestation.getIdPrestation());
 			builder = Response.ok(prestation);
-			
+
 		} catch (PrestationExistanteException message) {
 			logger.error("PrestationWs log : Impossible de creer cette Prestation dans la Bdd.");
-			throw new PrestationExistanteException("PrestationWs Exception : Impossible de creer cette Prestation dans la Bdd.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (NbCharPrestationException message) {
+			logger.error("PrestationWs log : Verifiez les informations dans Prestation.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+
+		} catch (PrestationInvalideException message) {
+			logger.error("PrestationWs log : Verifiez les informations dans Prestation.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+		} catch (GenreInvalideException message) {
+			logger.error("PrestationWs log : Verifiez les informations dans Prestation.Genre.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
 		}
+
 		return builder.build();
 	}
-	
+
 	@PUT
-	@Path("/modifprestation")
+	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnePrestation (Prestation prestation) throws PrestationInexistanteException {
-		
+	public Response modifieUnePrestation(Prestation prestation)
+			throws PrestationInexistanteException, NbCharPrestationException, PrestationInvalideException,
+			GenreInvalideException, DaoException, GenrePrestationNullException {
+
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("PrestationWs log : Demande de modification de la Prestation id : " + prestation.getIdPrestation() + " dans la Bdd.");
+			logger.info("PrestationWs log : Demande de modification de la Prestation id : "
+					+ prestation.getIdPrestation() + " dans la Bdd.");
 			prestationservice.modifierUnePrestation(prestation);
-			logger.info("PrestationWs log : Prestation id : " + prestation.getIdPrestation() + " a bien ete modifiee dans la Bdd.");
+			logger.info("PrestationWs log : Prestation id : " + prestation.getIdPrestation()
+					+ " a bien ete modifiee dans la Bdd.");
 			String msg = "Prestation id : " + prestation.getIdPrestation() + " a bien ete modifie dans la Bdd.";
 			builder = Response.ok(msg);
-			
+
 		} catch (PrestationInexistanteException message) {
-			logger.error("PrestationWs log : Rdv id : " + prestation.getIdPrestation() + " ne peut etre modifie dans la Bdd.");
+			logger.error("PrestationWs log : Rdv id : " + prestation.getIdPrestation()
+					+ " ne peut etre modifie dans la Bdd.");
 			builder = Response.notModified();
-			
 		}
-		
+
 		return builder.build();
-		
+
 	}
-	
+
 	@DELETE
-    @Path("/remove/{idPrestation: \\d+}")
+	@Path("/del/{idPrestation: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteThePrestation(
-			@PathParam("idPrestation") final Integer idPrestation) throws PrestationInexistanteException {
+	public Response deleteThePrestation(@PathParam("idPrestation") final Integer idPrestation)
+			throws PrestationInexistanteException {
 
-		Response.ResponseBuilder builder = null;		
+		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("PrestationWs log : Demande de suppression de la Prestation id : " + idPrestation + " dans la Bdd.");
+			logger.info("PrestationWs log : Demande de suppression de la Prestation id : " + idPrestation
+					+ " dans la Bdd.");
 			prestationservice.suppressionUnePrestation(idPrestation);
-			logger.info("PrestationWs log : Prestation id : " + idPrestation + " a bien ete modifie dans la Bdd.");	
+			logger.info("PrestationWs log : Prestation id : " + idPrestation + " a bien ete modifie dans la Bdd.");
 			String msg = "PrestationWs log : le Rdv id : " + idPrestation + " a ien ete supprime de la Bdd.";
 			builder = Response.ok(msg);
 
-		} catch (PrestationInexistanteException message ) {
-			logger.error("PrestationWs log : Rdv id : " + idPrestation + " ne peut etre supprime dans la Bdd.");	
+		} catch (PrestationInexistanteException message) {
+			logger.error("PrestationWs log : Rdv id : " + idPrestation + " ne peut etre supprime dans la Bdd.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
-			
+
 		}
-		
+
 		return builder.build();
-		
-		}
+
+	}
 
 }

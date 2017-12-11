@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,7 +19,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 
 @XmlRootElement
@@ -33,7 +34,7 @@ public class Client implements Serializable {
 	private String prenomClient;
 	private String telephoneClient;
 	private String telMobileClient;
-	private Adresse adresse;
+	private AdresseClient adresse;
 	private Genre genreClient; // table Client mappee en OneTone
 	private String adresseMailClient; // table Genre mappee en OneTone
 	private Timestamp dateAnniversaireClient;
@@ -47,7 +48,7 @@ public class Client implements Serializable {
 	}
 
 	public Client(Integer idClient, String nomClient, String prenomClient, String telephoneClient,
-			String telMobileClient, Genre genreClient, Adresse adresse, String adresseMailClient,
+			String telMobileClient, Genre genreClient, AdresseClient adresse, String adresseMailClient,
 			Timestamp dateAnniversaireClient, String suscribedNewsLetter, String suscribedMailReminder,
 			String suscribedSmsRemider, String suscribedCommercials) {
 
@@ -69,7 +70,10 @@ public class Client implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="seq",sequenceName="CLIENT_SEQ",
+	initialValue = 1, allocationSize = 2000)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "CLIENT_IDCLIENT")
 	public Integer getIdClient() {
 		return idClient;
@@ -116,7 +120,8 @@ public class Client implements Serializable {
 	}
 
 	@OneToOne
-	@JoinColumn(name = "CLIENT_IDGENRE_fk", referencedColumnName = "GENRE_IDGENRE", nullable = true, updatable = true, insertable = true)
+	@JoinColumn(name = "CLIENT_IDGENRE_fk", referencedColumnName = "GENRE_IDGENRE", 
+	nullable = true, updatable = true, insertable = true)
 	public Genre getGenreClient() {
 		return genreClient;
 	}
@@ -127,11 +132,11 @@ public class Client implements Serializable {
 //	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "CLIENT_IDADRESSE_fk", referencedColumnName = "CLIENT_IDADRESSE", nullable = true, updatable = true, insertable = true)
-	public Adresse getAdresse() {
+	public AdresseClient getAdresse() {
 		return adresse;
 	}
 
-	public void setAdresse(Adresse adresse) {
+	public void setAdresse(AdresseClient adresse) {
 		this.adresse = adresse;
 	}
 

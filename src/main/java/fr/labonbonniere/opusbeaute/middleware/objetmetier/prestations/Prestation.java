@@ -3,19 +3,19 @@ package fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 
 @XmlRootElement
@@ -29,7 +29,7 @@ public class Prestation implements Serializable {
 	private String activite;
 	private String soin;
 	private Genre genre;
-	private Boolean forfait;
+	private String forfait;
 	private Integer nbSeance; 
 	private Integer dureeSeance;
 	private float prix;
@@ -41,7 +41,7 @@ public class Prestation implements Serializable {
 	}
 	
 	public Prestation( Integer idPrestation, String activite, 
-			String soin, Genre genre, boolean forfait, Integer nbSeance,
+			String soin, Genre genre, String forfait, Integer nbSeance,
 			Integer dureeSeance, float prix, String description) {
 		
 		super();
@@ -58,8 +58,11 @@ public class Prestation implements Serializable {
 	}
 	
 	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	@Column(name = "PRESTATION_IDPRESTAION", nullable = false, length = 3)
+//	@GeneratedValue( strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="seq",sequenceName="PRESTATION_SEQ",
+	initialValue = 1, allocationSize = 200)
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	@Column(name = "PRESTATION_IDPRESTATION", nullable = false, length = 3)
 	public Integer getIdPrestation() {
 		return idPrestation;
 	}
@@ -85,8 +88,9 @@ public class Prestation implements Serializable {
 		this.soin = soin;
 	}
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="GENRE_IDGENRE", foreignKey = @ForeignKey(name = "PRESTATION_IDGENRE_FK"))
+	@OneToOne
+	@JoinColumn(name = "PRESTATION_IDGENRE_fk", referencedColumnName = "GENRE_IDGENRE", 
+	nullable = true, updatable = true, insertable = true)
 	public Genre getGenre() {
 		return genre;
 	}
@@ -95,11 +99,11 @@ public class Prestation implements Serializable {
 		this.genre = genre;
 	}
 	@Column(name = "PRESTATION_FORFAIT", nullable = false, length = 3)
-	public Boolean getForfait() {
+	public String getForfait() {
 		return forfait;
 	}
 
-	public void setForfait(Boolean forfait) {
+	public void setForfait(String forfait) {
 		this.forfait = forfait;
 	}
 	@Column(name = "PRESTATION_NBSEANCE", nullable = false, length = 3)
@@ -145,7 +149,7 @@ public class Prestation implements Serializable {
 		return new ToStringBuilder(this,  ToStringStyle.JSON_STYLE)
 				.append("idPrestation", this.idPrestation)
 				.append("activite", this.activite)
-				.append("soin=", this.soin)
+				.append("soin", this.soin)
 				.append("genre", this.genre)
 				.append("forfait", this.forfait)
 				.append("nsSeance",this.nbSeance)

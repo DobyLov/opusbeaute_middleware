@@ -9,14 +9,13 @@ import javax.ejb.Stateless;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import fr.labonbonniere.opusbeaute.middleware.dao.AdresseDao;
+import fr.labonbonniere.opusbeaute.middleware.dao.AdresseClientDao;
 import fr.labonbonniere.opusbeaute.middleware.dao.ClientDao;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.dao.GenreDao;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresse.Adresse;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
@@ -31,7 +30,7 @@ public class ClientService {
 	@EJB
 	private ClientDao clientdao;
 	@EJB
-	private AdresseDao adressedao;
+	private AdresseClientDao adressedao;
 	@EJB
 	private GenreDao genredao;
 
@@ -85,7 +84,7 @@ public class ClientService {
 			logger.info("ClientService log : L objet Client.Genre est valide");
 
 			logger.info("ClientService log : Check Adresse.");
-			Adresse adresseCheker = client.getAdresse();
+			AdresseClient adresseCheker = client.getAdresse();
 			if (Objects.isNull(adresseCheker)) {
 				logger.info("ClientService log : Adresse est null.");
 				adresseSetToNull(client);
@@ -127,7 +126,7 @@ public class ClientService {
 			logger.info("ClientService log : L objet Client.Genre est valide");
 
 			logger.info("ClientService log : Check Adresse.");
-			Adresse adresseCheker = client.getAdresse();
+			AdresseClient adresseCheker = client.getAdresse();
 			if (Objects.isNull(adresseCheker)) {
 				logger.info("ClientService log : Adresse est null.");
 				adresseSetToNull(client);
@@ -171,7 +170,7 @@ public class ClientService {
 	private Client adresseValiderFormater(Client client)
 			throws NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
 
-		Adresse adresseFormatee = new Adresse();
+		AdresseClient adresseFormatee = new AdresseClient();
 		
 		if (client.getAdresse().getNumero() != null && !client.getAdresse().getNumero().isEmpty()) {
 			
@@ -238,7 +237,7 @@ public class ClientService {
 
 	private Client adresseSetToNull(Client client) {
 		logger.info("ClientService log : Attribution d une adresse nulle a l objet Client.");
-		Adresse setToNullAdresse = new Adresse();
+		AdresseClient setToNullAdresse = new AdresseClient();
 		setToNullAdresse.setNumero(null);
 		setToNullAdresse.setRue(null);
 		setToNullAdresse.setVille(null);
@@ -365,7 +364,7 @@ public class ClientService {
 				logger.info("ClientService log : SuscribedSmsReminder force a etre FALSE");
 				client.setTelMobileClient(null);
 				throw new NbCharTelException(
-						"ClientService Validation Exception : Client.Telephone numero <10> à caracteres");
+						"ClientService Validation Exception : Client.Telephone numero <10< à caracteres");
 			}
 
 		} else {
@@ -439,18 +438,23 @@ public class ClientService {
 		logger.info("ClientService log : Nombre d id Genre BDD : " + NbRowGenreFromBdd);
 
 		try {
-			Genre nbGenreFromClient = client.getGenreClient();
-			Integer testIdGenreDuClient = nbGenreFromClient.getIdGenre();
-			logger.info("ClientService log : id Genre Client : " + testIdGenreDuClient);
-			if (testIdGenreDuClient <= 0) {
+			//Genre nbGenreFromClient = client.getGenreClient();
+//			Integer testIdGenreDuClient = nbGenreFromClient.getIdGenre();
+//			logger.info("ClientService log : id Genre Client : " + testIdGenreDuClient);
+			logger.info("ClientService log : id Genre Client : " + client.getGenreClient().getIdGenre());
+			
+//			if (testIdGenreDuClient <= 0) {
+			if (client.getGenreClient().getIdGenre() <= 0) {
 				logger.error("ClientService log : Il y a un probleme sur L id Genre.");
 				throw new GenreInvalideException(
 						"ClientService Validation Exception : Il y a un probleme sur L id Genre < 0");
 			}
 
-			if (testIdGenreDuClient > NbRowGenreFromBdd) {
+//			if (testIdGenreDuClient > NbRowGenreFromBdd) {
+			if (client.getGenreClient().getIdGenre() > NbRowGenreFromBdd) {
 				throw new GenreInvalideException(
-						"ClientService Validation Exception : Il y a un probleme sur L id Genre :" + testIdGenreDuClient
+						"ClientService Validation Exception : Il y a un probleme sur L id Genre :" 
+								+ client.getGenreClient().getIdGenre()
 								+ " depasse le nombre de genre de la table : " + NbRowGenreFromBdd);
 			}
 		} catch (Exception message) {
@@ -506,7 +510,7 @@ public class ClientService {
 			client.setSuscribedNewsLetter("F");
 		}
 		
-		// MAIL NewsLetter
+		// SMSReminder
 		if (client.getSuscribedSmsReminder() != null && !client.getSuscribedSmsReminder().isEmpty()) {
 			if (client.getSuscribedSmsReminder().equalsIgnoreCase("T")) {
 				if (client.getTelMobileClient() !=null && !client.getTelMobileClient().isEmpty()) {
