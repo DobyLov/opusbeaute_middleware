@@ -1,11 +1,6 @@
 package fr.labonbonniere.opusbeaute.middleware.webservice;
 
-
-
-
 import java.util.List;
-
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -24,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
-
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.NoRdvException;
@@ -46,7 +40,7 @@ public class RdvWs {
 	
 	//	http://localhost:8080/opusbeaute-0/obws/rdvs
 	@GET
-	@Path("/rdvs")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListe() throws DaoException {
 		
@@ -102,7 +96,7 @@ public class RdvWs {
 	// dd => 01 à 31
 	// !!! le regex ne gere pas le 30 fevrier ! a completer dans la partie service / metiers
 	@GET
-	@Path("/rdvspardate/{listeRdvDateDuJour: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
+	@Path("/pardate/{listeRdvDateDuJour: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParDate (
 			@PathParam("listeRdvDateDuJour") final String listeRdvDateDuJour ) throws DaoException {		
@@ -127,7 +121,7 @@ public class RdvWs {
 	
 	
 	@GET
-	@Path("/rdvsplagedate/{RdvPlageJourA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{RdvPlageJourB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
+	@Path("/plagedate/{RdvPlageJourA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{RdvPlageJourB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParPlageDate (
 			@PathParam("RdvPlageJourA") final String RdvPlageJourA, 
@@ -159,7 +153,8 @@ public class RdvWs {
 	public Response creerUnRdv(Rdv rdv) throws RdvExistantException, DaoException, 
 											RdvEgaliteChevauchementException, NoRdvException, RdvDebutChevauchementException, 
 											RdvFinChevauchementException, RdvEnglobantException {
-		
+		logger.info("-----------------------------------------------------");
+		logger.info("RdvWs log : Demande d ajout d un nouveau Rdv dans la Bdd.");
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");

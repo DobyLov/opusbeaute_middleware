@@ -60,7 +60,7 @@ public class Prestation implements Serializable {
 	@Id
 //	@GeneratedValue( strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="PRESTATION_SEQ",
-	initialValue = 1, allocationSize = 200)
+	initialValue = 135, allocationSize = 300)
 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "PRESTATION_IDPRESTATION", nullable = false, length = 3)
 	public Integer getIdPrestation() {

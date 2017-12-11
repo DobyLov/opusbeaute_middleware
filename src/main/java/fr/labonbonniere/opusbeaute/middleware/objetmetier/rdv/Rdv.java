@@ -17,7 +17,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
@@ -45,9 +44,9 @@ public class Rdv implements Serializable {
 		super();
 	}
 
-	public Rdv(Integer idRdv, String nom, String prenom, Timestamp dateHeureDebut, Timestamp dateHeureFin,
-			Timestamp dateDeSaisie, Prestation prestation, Praticien praticien, Client client, LieuRdv lieuRdv,
-			Utilisateur utilisateur) {
+	public Rdv(Integer idRdv, String nom, String prenom, Timestamp dateHeureDebut, 
+			Timestamp dateHeureFin,	Timestamp dateDeSaisie, Prestation prestation, 
+			Praticien praticien, Client client, LieuRdv lieuRdv, Utilisateur utilisateur) {
 
 		super();
 		this.idRdv = idRdv;
@@ -65,8 +64,8 @@ public class Rdv implements Serializable {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="RDV_SEQ",
-	initialValue = 1, allocationSize = 999999999)
-@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	initialValue = 2, allocationSize = 99999)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "RDV_IDRDV", nullable = false, length = 8)
 	public Integer getIdRdv() {
 		return idRdv;
@@ -124,7 +123,8 @@ public class Rdv implements Serializable {
 	}
 
 	@OneToOne
-	@JoinColumn(name = "RDV_IDCLIENT_fk", referencedColumnName = "CLIENT_IDCLIENT", nullable = true, updatable = true, insertable = true)
+	@JoinColumn(name = "RDV_IDCLIENT_fk", referencedColumnName = "CLIENT_IDCLIENT", 
+		nullable = true, updatable = true, insertable = true)
 	public Client getClient() {
 		return client;
 	}
@@ -159,10 +159,16 @@ public class Rdv implements Serializable {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idRdv", this.idRdv)
-				.append("dateHeureDebut", this.dateHeureDebut).append("dateHeureFin", this.dateHeureFin)
-				.append("dateDeSaisie", this.dateDeSaisie).append(prestation).append(praticien).append(client)
-				.append(lieuRdv).build();
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				.append("idRdv", this.idRdv)
+				.append("dateHeureDebut", this.dateHeureDebut)
+				.append("dateHeureFin", this.dateHeureFin)
+				.append("dateDeSaisie", this.dateDeSaisie)
+				.append(prestation)
+				.append(praticien)
+				.append(client)
+				.append(lieuRdv)
+				.build();
 	}
 
 	@Override
@@ -189,14 +195,20 @@ public class Rdv implements Serializable {
 		if (candidat == null)
 			return false;
 
-		if (!(candidat instanceof AdresseClient))
+		if (!(candidat instanceof Rdv))
 			return false;
 
 		final Rdv autre = (Rdv) candidat;
 
-		return new EqualsBuilder().append(this.idRdv, autre.idRdv).append(this.dateHeureDebut, autre.dateHeureDebut)
-				.append(this.dateDeSaisie, autre.dateDeSaisie).append(this.dateHeureFin, autre.dateHeureFin)
-				.append(this.prestation, autre.prestation).append(this.praticien, autre.praticien)
-				.append(this.lieuRdv, autre.lieuRdv).append(this.client, autre.client).build();
+		return new EqualsBuilder()
+				.append(this.idRdv, autre.idRdv)
+				.append(this.dateHeureDebut, autre.dateHeureDebut)
+				.append(this.dateDeSaisie, autre.dateDeSaisie)
+				.append(this.dateHeureFin, autre.dateHeureFin)
+				.append(this.prestation, autre.prestation)
+				.append(this.praticien, autre.praticien)
+				.append(this.lieuRdv, autre.lieuRdv)
+				.append(this.client, autre.client)
+				.build();
 	}
 }

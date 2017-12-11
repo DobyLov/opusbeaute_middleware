@@ -49,7 +49,7 @@ public class AdresseClient implements Serializable {
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@GeneratedValue
 	@SequenceGenerator(name="seq",sequenceName="ADRESSECLIENT_SEQ",
-	initialValue = 1, allocationSize = 2000)
+	initialValue = 2, allocationSize = 2000)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "CLIENT_IDADRESSE", unique = true, nullable = false)
 	public Integer getIdAdresse() {

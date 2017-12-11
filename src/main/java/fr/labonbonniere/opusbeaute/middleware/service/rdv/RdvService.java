@@ -87,111 +87,115 @@ public class RdvService {
 
 	public void ajoutRdv(Rdv rdv) throws RdvExistantException, DaoException, RdvEgaliteChevauchementException,
 			NoRdvException, RdvDebutChevauchementException, RdvFinChevauchementException, RdvEnglobantException {
+		rdvdao.ajouterUnRdv(rdv);
 
-		logger.info("Rdvservice log : Debut traitement metier pour ajouter Du Rdv.");
-		logger.info(
-				"Rdvservice log : Requeter la bdd avec la date du Rdv afin de recuperer la liste des Rdv du jour demande.");
-
-		// Recuperation des ts debut et fin du rdv proposé
-		Timestamp tsRdvDebut = rdv.getDateHeureDebut();
-		long longTsRdvDebutMilliSec = tsRdvDebut.getTime();
-		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvDebut);
-
-		Timestamp tsRdvFin = rdv.getDateHeureFin();
-		long longTsRdvFinMilliSec = tsRdvFin.getTime();
-		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvFin);
-
-		// Conversion du TS date début prestation en String date yyyy-MM-dd
-		logger.info("Rdvservice log : Conversion du tsRdvDebut en STR pour requeter la bdd.");
-		// traitement du TS récupéré
-		String convTsToStr = Long.toString(longTsRdvDebutMilliSec) + "000";
-		logger.info("Rdvservice log : Conversion du TS en STR plus 000 : " + convTsToStr);
-		Date tsToDate = new Date(Long.parseLong(convTsToStr));
-		logger.info("Rdvservice log : Conversion de la STR en Date : " + tsToDate);
-		String dateformatpattern = "yyyy-MM-dd";
-		SimpleDateFormat sdf = new SimpleDateFormat(dateformatpattern);
-		logger.info("Rdvservice log : Formatage de la date avec le pattern yyyy-MM-dd.");
-		String rdvDateDuJour = (String) sdf.format(tsToDate);
-		System.out.println("date formatee : " + rdvDateDuJour);
-		logger.info("Rdvservice log : Date prete a envoyer a la Bdd pour requeter.");
-
-		try {
-			// Recupération du nombre de rdv programmés le jourj
-			logger.info("Rdvservice log : Demande a la Bdd le nb de Rdv a la date du : " + rdvDateDuJour);
-			Integer compteurRdvDuJour = rdvdao.renvoyerLeNbDeRdvDuJour(rdvDateDuJour);
-			logger.info("Rdvservice log : Il y a : " + compteurRdvDuJour + " a la date du : " + rdvDateDuJour);
-
-			// recuperation des la dates de debut et fin du rdv a plannifier
-			// Compteur de rdv ds la bdd, si different de Zero rdv poursuivre l
-			// enregistrement du rdv
-			if (compteurRdvDuJour != null ) {
-				// recuperer la liste des rdv selon la date du rdv au format
-				// Json et la gere en JSONARRAY
-				List<Rdv> listeRdvJson = rdvdao.obtenirListeRdvParDate(rdvDateDuJour);
-				// JSONParser listeRdvJsonPars = new JSONParser();
-				org.json.simple.JSONArray jsonobj = (JSONArray) listeRdvJson;
-
-				// Recupere le nombre d objet json pour les intervals
-				Integer nombreObjJson = jsonobj.size();
-				if (nombreObjJson == 0) {
-					throw new NoRdvException("probleme pour les intervals Il n y a pas de rdv");
-				}
-
-				// Genereateur d intermediare de Rdv pour check le chevauchement
-				long tsResultSoustraction = longTsRdvFinMilliSec - longTsRdvDebutMilliSec;
-				long divisionResultatSoustraction = tsResultSoustraction / 10;
-				long incremRdvDateDebut = longTsRdvDebutMilliSec + divisionResultatSoustraction;
-
-				for (int i = 0; i < nombreObjJson; i++) {
-
-					JSONObject obj = (JSONObject) jsonobj.get(i);
-					Long rdvBddDateDebut = (Long) obj.get("dateHeureDebut");
-					Long rdvBddDateFin = (Long) obj.get("dateHeureFin");
-					Boolean valbou = testInterval(incremRdvDateDebut, rdvBddDateDebut, rdvBddDateFin);
-
-					if (rdvBddDateDebut < longTsRdvDebutMilliSec && longTsRdvDebutMilliSec < rdvBddDateFin) {
-
-						logger.info(
-								"Rdvservice log : Probleme avec la Date de DEBUT du Rdv et le Rdv de la Bdd id : " + i);
-						logger.info("Rdvservice log : objet : " + obj);
-						throw new RdvDebutChevauchementException(
-								"Probleme de chevauchement sur le debut du Rdv Propose");
-
-					} else if (rdvBddDateDebut < longTsRdvFinMilliSec && longTsRdvFinMilliSec < rdvBddDateFin) {
-
-						logger.info(
-								"Rdvservice log : Probleme avec la date de FIN du Rdv et le Rdv de la Bdd id : " + i);
-						logger.info("Rdvservice log : objet : " + obj);
-						throw new RdvFinChevauchementException("Probleme de chevauchement sur la Fin du Rdv Propose");
-
-					} else if (rdvBddDateDebut == longTsRdvDebutMilliSec && longTsRdvFinMilliSec == rdvBddDateFin) {
-
-						logger.info(
-								"Rdvservice log : Probleme ce craineau est deja occupe par un rdv de la Bdd id : " + i);
-						logger.info("Rdvservice log : objet : " + obj);
-						throw new RdvEgaliteChevauchementException(
-								"Probleme de chevauchement sur le debut et la Fin du Rdv Propose");
-
-					} else if (valbou == true) {
-
-						logger.info(
-								"Rdvservice log : Probleme ce craineau est deja occupe par un rdv de la Bdd id : " + i);
-						logger.info("Rdvservice log : objet : " + obj);
-						System.out.println("entree dans la boucle test englobage");
-						throw new RdvEnglobantException(
-								"Probleme de chevauchement, ce rdv englobe un ou plusieur Rdv de la Bdd");
-					}
-				}
-			}
-
-			logger.info("RdvService log : Demande d ajout d un nouveau Rdv dans la Bdd.");
-			rdvdao.ajouterUnRdv(rdv);
-			logger.info("RdvService log : Nouveau Rdv ajoute, avec l id : " + rdv.getIdRdv());
-
-		} catch (RdvExistantException message) {
-			logger.error("RdvService log : Impossible de creer ce rdv dans la Bdd.");
-			throw new RdvExistantException("RdvService Exception : Impossible de creer ce rdv dans la Bdd.");
-		}
+//		logger.info(
+//				"Rdvservice log : Debut traitement metier pour ajouter Du Rdv.");
+//		logger.info(
+//				"Rdvservice log : Requeter la bdd avec la date du Rdv afin de recuperer la liste des Rdv du jour demande.");
+//
+//		// Recuperation des ts debut et fin du rdv proposé
+//		Timestamp tsRdvDebut = rdv.getDateHeureDebut();
+//		long longTsRdvDebutMilliSec = tsRdvDebut.getTime();
+//		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvDebut);
+//
+//		Timestamp tsRdvFin = rdv.getDateHeureFin();
+//		long longTsRdvFinMilliSec = tsRdvFin.getTime();
+//		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvFin);
+//
+//		// Conversion du TS date début prestation en String date yyyy-MM-dd
+//		logger.info("Rdvservice log : Conversion du tsRdvDebut en STR pour requeter la bdd.");
+//		// traitement du TS récupéré
+//		String convTsToStr = Long.toString(longTsRdvDebutMilliSec) + "000";
+//		logger.info("Rdvservice log : Conversion du TS en STR plus 000 : " + convTsToStr);
+//		Date tsToDate = new Date(Long.parseLong(convTsToStr));
+//		logger.info("Rdvservice log : Conversion de la STR en Date : " + tsToDate);
+//		String dateformatpattern = "yyyy-MM-dd";
+//		SimpleDateFormat sdf = new SimpleDateFormat(dateformatpattern);
+//		logger.info("Rdvservice log : Formatage de la date avec le pattern yyyy-MM-dd.");
+//		String rdvDateDuJour = (String) sdf.format(tsToDate);
+//		System.out.println("date formatee : " + rdvDateDuJour);
+//		logger.info("Rdvservice log : Date prete a envoyer a la Bdd pour requeter.");
+//
+//		try {
+//			// Recupération du nombre de rdv programmés le jourj
+//			logger.info(
+//					"Rdvservice log : Demande a la Bdd le nb de Rdv a la date du : " + rdvDateDuJour);
+//			Integer compteurRdvDuJour = rdvdao.renvoyerLeNbDeRdvDuJour(rdvDateDuJour);
+//			logger.info(
+//					"Rdvservice log : Il y a : " + compteurRdvDuJour + " a la date du : " + rdvDateDuJour);
+//
+//			// recuperation des la dates de debut et fin du rdv a plannifier
+//			// Compteur de rdv ds la bdd, si different de Zero rdv poursuivre l
+//			// enregistrement du rdv
+//			if (compteurRdvDuJour != null ) {
+//				// recuperer la liste des rdv selon la date du rdv au format
+//				// Json et la gere en JSONARRAY
+//				List<Rdv> listeRdvJson = rdvdao.obtenirListeRdvParDate(rdvDateDuJour);
+//				// JSONParser listeRdvJsonPars = new JSONParser();
+//				org.json.simple.JSONArray jsonobj = (JSONArray) listeRdvJson;
+//
+//				// Recupere le nombre d objet json pour les intervals
+//				Integer nombreObjJson = jsonobj.size();
+//				if (nombreObjJson == 0) {
+//					throw new NoRdvException("probleme pour les intervals Il n y a pas de rdv");
+//				}
+//
+//				// Genereateur d intermediare de Rdv pour check le chevauchement
+//				long tsResultSoustraction = longTsRdvFinMilliSec - longTsRdvDebutMilliSec;
+//				long divisionResultatSoustraction = tsResultSoustraction / 10;
+//				long incremRdvDateDebut = longTsRdvDebutMilliSec + divisionResultatSoustraction;
+//
+//				for (int i = 0; i < nombreObjJson; i++) {
+//
+//					JSONObject obj = (JSONObject) jsonobj.get(i);
+//					Long rdvBddDateDebut = (Long) obj.get("dateHeureDebut");
+//					Long rdvBddDateFin = (Long) obj.get("dateHeureFin");
+//					Boolean valbou = testInterval(incremRdvDateDebut, rdvBddDateDebut, rdvBddDateFin);
+//
+//					if (rdvBddDateDebut < longTsRdvDebutMilliSec && longTsRdvDebutMilliSec < rdvBddDateFin) {
+//
+//						logger.info(
+//								"Rdvservice log : Probleme avec la Date de DEBUT du Rdv et le Rdv de la Bdd id : " + i);
+//						logger.info("Rdvservice log : objet : " + obj);
+//						throw new RdvDebutChevauchementException(
+//								"Probleme de chevauchement sur le debut du Rdv Propose");
+//
+//					} else if (rdvBddDateDebut < longTsRdvFinMilliSec && longTsRdvFinMilliSec < rdvBddDateFin) {
+//
+//						logger.info(
+//								"Rdvservice log : Probleme avec la date de FIN du Rdv et le Rdv de la Bdd id : " + i);
+//						logger.info("Rdvservice log : objet : " + obj);
+//						throw new RdvFinChevauchementException("Probleme de chevauchement sur la Fin du Rdv Propose");
+//
+//					} else if (rdvBddDateDebut == longTsRdvDebutMilliSec && longTsRdvFinMilliSec == rdvBddDateFin) {
+//
+//						logger.info(
+//								"Rdvservice log : Probleme ce craineau est deja occupe par un rdv de la Bdd id : " + i);
+//						logger.info("Rdvservice log : objet : " + obj);
+//						throw new RdvEgaliteChevauchementException(
+//								"Probleme de chevauchement sur le debut et la Fin du Rdv Propose");
+//
+//					} else if (valbou == true) {
+//
+//						logger.info(
+//								"Rdvservice log : Probleme ce craineau est deja occupe par un rdv de la Bdd id : " + i);
+//						logger.info("Rdvservice log : objet : " + obj);
+//						System.out.println("entree dans la boucle test englobage");
+//						throw new RdvEnglobantException(
+//								"Probleme de chevauchement, ce rdv englobe un ou plusieur Rdv de la Bdd");
+//					}
+//				}
+//			}
+//
+//			logger.info("RdvService log : Demande d ajout d un nouveau Rdv dans la Bdd.");
+//			rdvdao.ajouterUnRdv(rdv);
+//			logger.info("RdvService log : Nouveau Rdv ajoute, avec l id : " + rdv.getIdRdv());
+//
+//		} catch (RdvExistantException message) {
+//			logger.error("RdvService log : Impossible de creer ce rdv dans la Bdd.");
+//			throw new RdvExistantException("RdvService Exception : Impossible de creer ce rdv dans la Bdd.");
+//		}
 	}
 
 	public void modifduRdv(Rdv rdv) throws RdvInexistantException {

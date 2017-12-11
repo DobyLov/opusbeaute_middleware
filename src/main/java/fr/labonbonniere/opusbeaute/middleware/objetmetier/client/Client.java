@@ -72,7 +72,7 @@ public class Client implements Serializable {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="CLIENT_SEQ",
-	initialValue = 1, allocationSize = 2000)
+	initialValue = 2, allocationSize = 2000)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "CLIENT_IDCLIENT")
 	public Integer getIdClient() {
@@ -201,10 +201,14 @@ public class Client implements Serializable {
 	
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idClient", this.idClient)
-				.append("nomClient", this.nomClient).append("prenomClient", this.prenomClient)
-				.append("telephoneClient", this.telephoneClient).append("telMobileClient", this.telMobileClient)
-				.append("genreClient", this.genreClient).append("adresse", this.adresse)
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				.append("idClient", this.idClient)
+				.append("nomClient", this.nomClient)
+				.append("prenomClient", this.prenomClient)
+				.append("telephoneClient", this.telephoneClient)
+				.append("telMobileClient", this.telMobileClient)
+				.append("genreClient", this.genreClient)
+				.append("adresse", this.adresse)
 				.append("adresseMailClient", this.adresseMailClient)
 				.append("dateAnniversaireClient", this.dateAnniversaireClient)
 				.append("suscribedNewsLetter", this.suscribedNewsLetter)
