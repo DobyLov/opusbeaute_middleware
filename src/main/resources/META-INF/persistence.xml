@@ -25,7 +25,7 @@
 			<property name="hibernate.format_sql" value="true" />
 			
 			<!-- Chanrgement du fichier d import pour peupler la bdd -->
-<!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_GENRE.sql"/>			
+<!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_GENRE.sql"/>	  -->			
 <!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_PRESTATION.sql"/>	  -->			
 <!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_LieuAdresseLieurRDV.sql"/>  -->	
 			<property name="hibernate.hbm2ddl.import_files" value="loaddata_OpusBeaute.sql"/>
