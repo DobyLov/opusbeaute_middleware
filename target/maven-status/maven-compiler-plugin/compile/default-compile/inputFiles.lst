@@ -40,6 +40,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\s
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\PraticienInexistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\NbCharPrenomException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\GenreDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\praticien\PraticienService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvService.java
@@ -51,10 +52,12 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\o
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\adresselieurdv\AdresseLieuRdvService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseClient.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\SuscribeMailReminderException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\EmailReminderClientWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\prestation\NbCharPrestationException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\ClientDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\PraticienExistantException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderClientService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\AdresseLieuRdvDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\adresselieurdv\AdresseLieuRdv.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseExistanteException.java
@@ -64,8 +67,10 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\w
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\SuscribedSmsReminderException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\mail\Mail.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInexistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\RdvDao.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderPraticienService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharPaysException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvExistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\Genre.java
@@ -77,6 +82,8 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\s
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\ClientService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\NbCharTelException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInvalideException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\sms\Sms.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderPraticienService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\AdresseLieuRdvWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\adresse\NbNumRueException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\NbCharNomException.java
