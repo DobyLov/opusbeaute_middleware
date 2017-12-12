@@ -112,10 +112,12 @@ public class LieuRdvService {
 			
 			if (lieuRdv.getLieuRdv().length() > 30) {
 				throw new LieuRdvInvalideException(
-						"LieuRdvService Exception : Genre.genreHum superieur a 30 caracteres.");
+						"LieuRdvService Exception : LieuRdv.LieuRdv superieur a 30 caracteres.");
 				
 			} else {
-				String lieurdvStringyfy = WordUtils.capitalizeFully(lieuRdv.getLieuRdv());
+				String checkSpaceAtStrBeginAndCharacSpec = lieuRdv.getLieuRdv();
+				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				String lieurdvStringyfy = WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec);
 				lieuRdv.setLieuRdv(lieurdvStringyfy);
 			}
 			
@@ -125,7 +127,9 @@ public class LieuRdvService {
 				if (lieuRdv.getAdresseLieuRdv().getNumero().length() > 3) {
 					throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue depasse 3 caracteres");
 				} else {
-					adresseLieuRdvFormatee.setNumero(lieuRdv.getAdresseLieuRdv().getNumero());
+					String checkSpaceAtStrBeginAndCharacSpec = lieuRdv.getAdresseLieuRdv().getNumero();
+					String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+					adresseLieuRdvFormatee.setNumero(StringWithoutSpaceAndCharspec);
 				}
 			} else {
 				throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue est a null");
@@ -136,7 +140,9 @@ public class LieuRdvService {
 				if (lieuRdv.getAdresseLieuRdv().getRue().length() > 30) {
 					throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue a depasse 30 caracteres");
 				} else {
-					adresseLieuRdvFormatee.setRue(WordUtils.capitalizeFully(lieuRdv.getAdresseLieuRdv().getRue()));
+					String checkSpaceAtStrBeginAndCharacSpec = lieuRdv.getAdresseLieuRdv().getRue();
+					String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+					adresseLieuRdvFormatee.setRue(WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec));
 				}
 			} else {
 				throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue est null");
@@ -148,7 +154,9 @@ public class LieuRdvService {
 					throw new NbCharRueVilleException(
 							"ClientService Validation Exception : Le nom de la Ville depasse 30 caracteres");
 				} else {
-					adresseLieuRdvFormatee.setVille(lieuRdv.getAdresseLieuRdv().getVille().toUpperCase());
+					String checkSpaceAtStrBeginAndCharacSpec = lieuRdv.getAdresseLieuRdv().getVille();
+					String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+					adresseLieuRdvFormatee.setVille(StringWithoutSpaceAndCharspec.toUpperCase());
 				}
 			} else {
 				throw new NbCharRueVilleException(
@@ -194,4 +202,56 @@ public class LieuRdvService {
 		return lieuRdv;
 	}
 
+	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
+	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
+	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
+
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
+	}
+	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
+
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
+	}	
 }

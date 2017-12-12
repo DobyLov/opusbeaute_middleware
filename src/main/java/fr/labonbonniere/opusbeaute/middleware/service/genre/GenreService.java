@@ -102,7 +102,9 @@ public class GenreService {
 				throw new GenreClientNullException(
 						"GenreService Validation Exception : Genre.Genrehum depasse 5 caracteres.");
 			} else {
-				genre.setGenreHum(genre.getGenreHum().toUpperCase());
+				String checkSpaceAtStrBeginAndCharacSpec = genre.getGenreHum();
+				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				genre.setGenreHum(StringWithoutSpaceAndCharspec.toUpperCase());
 			}
 			
 		} else {
@@ -112,5 +114,33 @@ public class GenreService {
 		}
 		return genre;
 	}
+	
+	
+	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
+	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
+	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
 
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
+	}
 }

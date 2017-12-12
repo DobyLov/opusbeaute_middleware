@@ -122,7 +122,9 @@ public class PraticienService {
 						"PraticienService Validation Exception : Praticien.Prenom est null ou depasse 30 caracteres");
 			} else {
 				logger.info("PraticienService log : Praticien.Prenom formate en Xxxxx.");
-				praticien.setPrenomPraticien(WordUtils.capitalizeFully(praticien.getPrenomPraticien(), '-'));
+				String checkSpaceAtStrBeginAndCharacSpec = praticien.getPrenomPraticien();
+				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+				praticien.setPrenomPraticien(WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec, '-'));
 
 			}
 
@@ -144,7 +146,9 @@ public class PraticienService {
 
 			} else {
 				logger.info("PraticienService log : Praticien.Nom Nom formate en MAJ.");
-				praticien.setNomPraticien(praticien.getNomPraticien().toUpperCase());
+				String checkSpaceAtStrBeginAndCharacSpec = praticien.getNomPraticien();
+				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+				praticien.setNomPraticien(StringWithoutSpaceAndCharspec.toUpperCase());
 			}
 
 		} else {
@@ -161,7 +165,9 @@ public class PraticienService {
 
 		if (praticien.getTeleMobilePraticien() != null && !praticien.getTeleMobilePraticien().isEmpty()) {
 			logger.info("PraticienService log : Praticien.TelMobile n est pas null :)");
-
+			String checkSpaceAtStrBeginAndCharacSpec = praticien.getTeleMobilePraticien();
+			String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+			praticien.setTeleMobilePraticien(StringWithoutSpaceAndCharspec);;
 			if (praticien.getTeleMobilePraticien().length() == 10) {
 
 				if (praticien.getTeleMobilePraticien().substring(0, 2).equalsIgnoreCase("06") == true
@@ -203,6 +209,10 @@ public class PraticienService {
 		if (praticien.getAdresseMailPraticien() != null && !praticien.getAdresseMailPraticien().isEmpty()) {
 
 			logger.info("PraticienService log : test Praticien.AdresseMail non null.");
+			String checkSpaceAtStrBeginAndCharacSpec = praticien.getAdresseMailPraticien();
+			String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpecMail(checkSpaceAtStrBeginAndCharacSpec);
+			praticien.setAdresseMailPraticien(StringWithoutSpaceAndCharspec);
+			
 			if (praticien.getAdresseMailPraticien().length() > 50) {
 				logger.info("PraticienService log : Praticien.AdresseMail format non valide depasse 50 caracteres.");
 				praticien.setSuscribedMailReminder("F");
@@ -240,5 +250,86 @@ public class PraticienService {
 		return m.matches();
 	}
 
+	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
+	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
+	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
 
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
+	}
+	
+	
+	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
+
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
+	}
+
+	public String checkSpaceAtStrBeginAndCharacSpecMail(String checkSpaceAtBeginAndCharacSpec) {
+
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^.^@^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^.^@^a-zA-Z^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
+	}
+	
+	
 }

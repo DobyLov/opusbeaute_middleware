@@ -188,7 +188,10 @@ public class PrestationService {
 						"PrestationService log : Prestation.Activite depasse 50 caracteres");
 			} else {
 				logger.info("PrestationService log : Prestation.Action est valide");
-				String activiteStringyfy = WordUtils.capitalizeFully(prestation.getActivite());
+				
+				String checkSpaceAtStrBeginAndCharacSpec = prestation.getActivite();
+				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				String activiteStringyfy = WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec);
 				prestation.setActivite(activiteStringyfy);
 			}
 		} else {
@@ -204,7 +207,9 @@ public class PrestationService {
 				throw new NbCharPrestationException("PrestationService log : Prestation.Soin depasse 50 caracteres");
 			} else {
 				logger.info("PrestationService log : Prestation.Action est valide");
-				String soinStringyfy = WordUtils.capitalizeFully(prestation.getSoin());
+				String checkSpaceAtStrBeginAndCharacSpec = prestation.getSoin();
+				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				String soinStringyfy = WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec);
 				prestation.setActivite(soinStringyfy);
 			}
 		} else {
@@ -221,7 +226,9 @@ public class PrestationService {
 						"PrestationService log : Prestation.Description depasse 500 caracteres");
 			} else {
 				logger.info("PrestationService log : Prestation.Description est valide");
-				String descriptionstringyfy = prestation.getDescription().substring(0, 1).toUpperCase()
+				String checkSpaceAtStrBeginAndCharacSpec = prestation.getDescription();
+				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				String descriptionstringyfy = StringWithoutSpaceAndCharspec.substring(0, 1).toUpperCase()
 						+ prestation.getDescription().substring(1).toLowerCase();
 				prestation.setDescription(descriptionstringyfy);
 			}
@@ -342,5 +349,33 @@ public class PrestationService {
 		} catch (Exception message) {
 			throw new GenrePrestationNullException("PrestationService log : Le Genre dans Prestation n est pas renseigne. ");
 		}
+	}
+	
+	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
+	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
+	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
+
+		String strWithoutSpaceAtBegin = null;
+		String strWithoutSpaceAtBeginCheckedCSpec = null;
+		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
+		
+		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+
+			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
+		
+		} else {
+			
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
+		}
+		
+		return strWithoutSpaceAtBegin;
 	}
 }

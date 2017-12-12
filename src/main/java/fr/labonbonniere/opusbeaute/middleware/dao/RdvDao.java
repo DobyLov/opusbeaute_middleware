@@ -162,23 +162,31 @@ public class RdvDao {
 	
 	
 	public Integer renvoyerLeNbDeRdvDuJour(String rdvDateDuJour) throws DaoException {
-//		Integer compteurRdvInitZero;
+		
 		try {
 			logger.info("RdvDao log : Demande a la Bdd le nombre de Rdv's a la date selectionnee.");
-			String requete =  "SELECT COUNT(r) FROM Rdv r"
+			logger.info("RdvDao log : date a traiter : " + rdvDateDuJour);
+			
+			String requete =  "SELECT count(c) FROM Rdv c"
 							+ " WHERE rdv_dhdebut >= '" + rdvDateDuJour + " 00:00:00'"
-							+ " AND rdv_dhdebut <= '" + rdvDateDuJour + " 23:59:00'";	
-			Query query = em.createQuery(requete,Rdv.class);
+							+ " AND rdv_dhdebut <= '" + rdvDateDuJour + " 23:59:00'";
+			
+//			String requete =  "SELECT count(*) FROM T_RDV";
+//					+ " WHERE rdv_dhdebut >= '" + rdvDateDuJour + " 00:00:00'"
+//					+ " AND rdv_dhdebut <= '" + rdvDateDuJour + " 23:59:00'";			
+			
+			logger.info("RdvDao log : Requete : " + requete);
+			Query query = em.createQuery(requete);
 			Integer compteurRdv = query.getFirstResult();
+			
+			
 			logger.info("RdvDao log : Transmission du nombre de Rdv's par date selectionnee.");
-//			if (compteurRdv == null) {
-//				compteurRdvInitZero = 0;
-//			}
+
 			return compteurRdv;	
 				
 		} catch (Exception message) {
+			message.printStackTrace();
 			logger.error("RdvDao log : Date non existante dans calendrier.");
-//			return compteurRdvInitZero;
 			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
 		}
 	}
