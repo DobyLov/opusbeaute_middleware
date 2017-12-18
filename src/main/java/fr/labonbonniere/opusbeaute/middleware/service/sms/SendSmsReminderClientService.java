@@ -26,10 +26,8 @@ public class SendSmsReminderClientService {
 	
 	
 	private static final Logger logger = LogManager.getLogger(SendSmsReminderClientService.class);
-	
-
-    
-	// RASPISMS ip et authetification 
+	    
+	// RASPISMS ip et authentification 
 	
 	private String adresseIp = "192.168.1.50";
 	private String raspiSmsLogin = "admin@example.fr";
