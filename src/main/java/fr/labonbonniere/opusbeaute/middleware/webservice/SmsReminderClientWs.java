@@ -24,7 +24,7 @@ public class SmsReminderClientWs {
 	private SendSmsReminderClientService sendSmsReminderClientservice;
 	
 	@GET
-	@Path("/sendtest")
+	@Path("/sendclients")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response envoyerUnSmsTest() throws Exception {
 		
@@ -33,8 +33,8 @@ public class SmsReminderClientWs {
 		
 		try {
 			logger.info("SMSReminderClientWs Exception : Tentative d envoie du Sms.)");	
-		sendSmsReminderClientservice.sendSmsClientTest();
-		logger.info("SMSReminderClientWs Exception : Sms envoye :)");
+		sendSmsReminderClientservice.sendSmsClientTriggerWsTest();
+		logger.info("SMSReminderClientWs log : Sms envoye :)");
 		builder = Response.ok();
 
 		

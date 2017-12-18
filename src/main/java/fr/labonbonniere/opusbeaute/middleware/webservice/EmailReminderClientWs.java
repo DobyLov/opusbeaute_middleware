@@ -3,9 +3,7 @@ package fr.labonbonniere.opusbeaute.middleware.webservice;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,52 +22,51 @@ public class EmailReminderClientWs {
 	@EJB
 	private SendMailReminderClientService sendmailreminderclient;
 	
-	@POST
-	@Path("/sendcli/{adresseemail}/{corpsemail}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response envoyerEMailReminderRdvClient (@PathParam("adresseemail") final String adresseemail,
-												@PathParam("corpsemail") final String corpsemail) {
-
-		Response.ResponseBuilder builder = null;
-		
-		logger.info("EmailReminderClientWs Exception : Demande envoi Email Adresse : " + adresseemail);
-		logger.info("EmailReminderClientWs Exception : Demande envoi Email Corps : " + corpsemail);
-		try {	
-			
-			sendmailreminderclient.envoyerUnEMail(adresseemail, corpsemail);
-			logger.info("EmailReminderClientWs log : Envoi email ok.");
-			builder = Response.ok();
-			
-		} catch (Exception message) {
-			
-			logger.error("EmailReminderClientWs Exception : Echec Envoi email.");
-			builder = Response.status(Response.Status.BAD_REQUEST);
-		
-		}
-		
-		return builder.build();
-	}
-	
 	@GET
-	@Path("/sendmailtestautomatic")
+	@Path("/sendclients")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response envoyerEMailTestAutomatique() {
+	public Response envoyerEMailClients() {
 		
 		Response.ResponseBuilder builder = null;
-		logger.info("EmailReminderClientWs log : Demande envoi Email Test Automatique : ");
+		logger.info("EmailReminderClientWs log : Debut de Procedure envoi Email Client via TriggerWS");
 		
 		try {
 			
-			sendmailreminderclient.envoyerUnEmailTestAutomatique();
-			logger.info("EmailReminderClientWs log : Envoi Email Test  ok.");
+			sendmailreminderclient.envoyerUnEmailRappelClientTriggerWs();
+			logger.info("EmailReminderClientWs log : Fin de procedure Envoi Email Cleint via TriggerWS terminee.");
 			builder = Response.ok();
 			
 		} catch(Exception message) {
 			
-			logger.error("EmailReminderClientWs Exception : Echec Envoi email test automatique.");
+			logger.error("EmailReminderClientWs Exception : Echec de la procedure d envoi Email Client via TriggerWS.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 		
 		}
 		return builder.build();
 	}
+	
+	@GET
+	@Path("/sendpraticiens")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response envoyerEMailPraticiens() {
+		
+		Response.ResponseBuilder builder = null;
+		logger.info("EmailReminderClientWs log : Debut de la Procedure Envoi Email Praticien via TriggerWS");
+		
+		try {
+			
+			sendmailreminderclient.envoyerUnMailRecapRdvPraticienTriggerWs();
+			logger.info("EmailReminderClientWs log : Fin de procedure d Envoi Email Praticien via TriggerWS terminee.");
+			builder = Response.ok();
+			
+		} catch(Exception message) {
+			
+			logger.error("EmailReminderClientWs Exception : Echec de la procedure d Envoi Email praticien via TriggerWS.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+		
+		}
+		return builder.build();
+	}
+	
+	
 }

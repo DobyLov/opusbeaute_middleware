@@ -5,7 +5,8 @@
     </Properties>
     <Appenders>
         <Appender type="Console" name="Console">
-            <Layout type="PatternLayout" pattern="%d %p [%t] %m%n" />
+            <!-- <Layout type="PatternLayout" pattern="%d %p [%t] %m%n" /> -->
+            <Layout type="PatternLayout" pattern="%m%n" />
         </Appender>
         <Appender type="File" name="File" fileName="${filename}">
             <Layout type="PatternLayout" pattern="%d %p  %m%n" />

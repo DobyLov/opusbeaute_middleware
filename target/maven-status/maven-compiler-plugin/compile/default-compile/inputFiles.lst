@@ -64,6 +64,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\o
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseExistanteException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInexistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharRueVilleException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\sms\toto.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\UtilisateurWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.java

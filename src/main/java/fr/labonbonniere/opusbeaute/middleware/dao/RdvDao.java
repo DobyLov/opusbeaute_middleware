@@ -190,6 +190,48 @@ public class RdvDao {
 			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
 		}
 	}
+	
+	public List<Rdv> obtenirListeRdvViaDateAndMailSuscribedTrue(String rdvDateDuJourFormate) throws DaoException {
+			
+			try {
+				logger.info("RdvDao log : Demande au RdvDao la liste des Rdv's par plage de dates selectionnees et abonne au MailReminder.");
+				String requete =  "SELECT c FROM Rdv c"
+						+ " WHERE rdv_dhdebut >= '" + rdvDateDuJourFormate + " 00:00:00'"
+						+ " AND rdv_dhdebut <= '" + rdvDateDuJourFormate + " 23:59:00'";	
+				TypedQuery<Rdv> query = em.createQuery(requete,Rdv.class);
+				List<Rdv> rdv = query.getResultList();
+				logger.info("RdvDao log : Transmission de la Liste des Rdv's par plage de dates selectionnees.");
+				return rdv;
+				
+			} catch (Exception message) {
+				logger.error("RdvDao log : probleme sur le format de la/des date(s).");
+				throw new DaoException("RdvDao Exception : probleme sur le format de la/des date(s).");
+			}
+	}
+	
+	public List<Rdv> obtenirListeRdvViaDatePraticienSuscribedMailReminder(String rdvDateDuJourFormate) throws DaoException {
+		
+		try {
+			logger.info("RdvDao log : Demande au RdvDao la liste des Rdv's du jour demande.");
+			
+			String requete =  "SELECT c FROM Rdv c"
+					+ " WHERE rdv_dhdebut >= '" + rdvDateDuJourFormate + " 00:00:00'"
+					+ " AND rdv_dhdebut <= '" + rdvDateDuJourFormate + " 23:59:00'";
+//					+ " AND suscribedMailReminder = 'T' ";
+			
+			TypedQuery<Rdv> query = em.createQuery(requete,Rdv.class);
+			List<Rdv> rdv = query.getResultList();
+			
+			logger.info("RdvDao log : Transmission de la Liste des Rdv's du jour selectionnes.");
+			return rdv;
+			
+		} catch (Exception message) {
+			logger.error("RdvDao log : probleme sur le format de la date.");
+			throw new DaoException("RdvDao Exception : probleme sur le format de la date.");
+		}
+}
+	
+	
 }
 	
 
