@@ -34,9 +34,11 @@ public class Client implements Serializable {
 	private String prenomClient;
 	private String telephoneClient;
 	private String telMobileClient;
+
 	private AdresseClient adresse;
-	private Genre genreClient; // table Client mappee en OneTone
-	private String adresseMailClient; // table Genre mappee en OneTone
+	private Genre genreClient;
+	private String adresseMailClient;
+
 	private Timestamp dateAnniversaireClient;
 	private String suscribedCommercials;
 	private String suscribedNewsLetter;
@@ -70,10 +72,9 @@ public class Client implements Serializable {
 	}
 
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@SequenceGenerator(name="seq",sequenceName="CLIENT_SEQ",
-	initialValue = 2, allocationSize = 2000)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "seq", sequenceName = "CLIENT_SEQ", initialValue = 2, allocationSize = 2000)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "CLIENT_IDCLIENT")
 	public Integer getIdClient() {
 		return idClient;
@@ -120,8 +121,7 @@ public class Client implements Serializable {
 	}
 
 	@OneToOne
-	@JoinColumn(name = "CLIENT_IDGENRE_fk", referencedColumnName = "GENRE_IDGENRE", 
-	nullable = true, updatable = true, insertable = true)
+	@JoinColumn(name = "CLIENT_IDGENRE_fk", referencedColumnName = "GENRE_IDGENRE", nullable = true, updatable = true, insertable = true)
 	public Genre getGenreClient() {
 		return genreClient;
 	}
@@ -129,7 +129,9 @@ public class Client implements Serializable {
 	public void setGenreClient(Genre genreClient) {
 		this.genreClient = genreClient;
 	}
-//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+
+	// @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+	// orphanRemoval = true)
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "CLIENT_IDADRESSE_fk", referencedColumnName = "CLIENT_IDADRESSE", nullable = true, updatable = true, insertable = true)
 	public AdresseClient getAdresse() {
@@ -184,7 +186,7 @@ public class Client implements Serializable {
 	public void setSuscribedSmsReminder(String suscribedSmsReminder) {
 		this.suscribedSmsReminder = suscribedSmsReminder;
 	}
-	
+
 	@Column(name = "CLIENT_SUSCRIBEDCOMMERCIALS", nullable = false, length = 4)
 	public String getSuscribedCommercials() {
 		return suscribedCommercials;
@@ -197,25 +199,19 @@ public class Client implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-				.append("idClient", this.idClient)
-				.append("nomClient", this.nomClient)
-				.append("prenomClient", this.prenomClient)
-				.append("telephoneClient", this.telephoneClient)
-				.append("telMobileClient", this.telMobileClient)
-				.append("genreClient", this.genreClient)
-				.append("adresse", this.adresse)
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idClient", this.idClient)
+				.append("nomClient", this.nomClient).append("prenomClient", this.prenomClient)
+				.append("telephoneClient", this.telephoneClient).append("telMobileClient", this.telMobileClient)
+				.append("genreClient", this.genreClient).append("adresse", this.adresse)
 				.append("adresseMailClient", this.adresseMailClient)
 				.append("dateAnniversaireClient", this.dateAnniversaireClient)
 				.append("suscribedNewsLetter", this.suscribedNewsLetter)
 				.append("suscribedMailReminder", this.suscribedMailReminder)
 				.append("suscribedSmsReminder", this.suscribedSmsReminder)
-				.append("suscribedCommercials", this.suscribedCommercials)
-				.build();
+				.append("suscribedCommercials", this.suscribedCommercials).build();
 
 	}
 
@@ -260,14 +256,13 @@ public class Client implements Serializable {
 				.append(this.suscribedNewsLetter, autre.suscribedNewsLetter)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)
-				.append(this.suscribedCommercials, autre.suscribedCommercials)
-				.build();
+				.append(this.suscribedCommercials, autre.suscribedCommercials).build();
 
 	}
-	
-//	@PreUpdate
-//	@PrePersist
-//	public void avantPersist() {
-//		adresse.setIdAdresse(this.getIdClient());
-//	}
+
+	// @PreUpdate
+	// @PrePersist
+	// public void avantPersist() {
+	// adresse.setIdAdresse(this.getIdClient());
+	// }
 }

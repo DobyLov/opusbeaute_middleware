@@ -402,7 +402,8 @@ public class ClientService {
 			
 			String checkSpaceAtStrBeginAndCharacSpec = client.getAdresseMailClient();
 			String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpecMail(checkSpaceAtStrBeginAndCharacSpec);
-			client.setAdresseMailClient(StringWithoutSpaceAndCharspec);
+			String StringWithoutSpaceAndCharspecToLowC = StringWithoutSpaceAndCharspec.toLowerCase();
+			client.setAdresseMailClient(StringWithoutSpaceAndCharspecToLowC);
 			
 			if (client.getAdresseMailClient().length() > 50) {
 				logger.info("ClientService log : Client.AdresseMail format non valide depasse 50 caracteres.");

@@ -36,7 +36,7 @@ public class ClientDao {
 			return listeClient;
 
 		} catch (Exception e) {
-			logger.error("GenreDao Exception : Probleme de la bdd.");
+			logger.error("ClientDao Exception : Probleme de la bdd.");
 			throw new DaoException(e);
 		}
 
@@ -66,7 +66,7 @@ public class ClientDao {
 			em.persist(client);
 			logger.info("ClientDao log : Client Id : " + client.getIdClient() + " enregistre dans la Bdd dans la Bdd.");
 		} catch (Exception e) {
-			logger.error("GenreDao Exception : Probleme de la bdd.");
+			logger.error("ClientDao Exception : Probleme de la bdd.");
 			throw new DaoException();
 		}
 	}
@@ -103,6 +103,28 @@ public class ClientDao {
 			throw new ClientInexistantException(
 					"ClientDao Exception : Le Client id : " + idClient + " ne peut etre supprime de la Bdd.");
 		}
+	}
+	
+	public Client retrouveUnClientViaEmail (String adresseMailClient) throws ClientInexistantException{
+		
+		try {
+			logger.info("ClientDao log : Recherche de Client Via une adresseEmail.");
+			String requeteCli = "SELECT c FROM Client c" 
+								+ " WHERE adresseMailClient = '" + adresseMailClient + "'";
+			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
+			Client client = query.getSingleResult();
+			logger.info("ClientDao log :  Envoi au serce le Client trouve : " 
+						+ client.getPrenomClient() + "\n " + client.getNomClient() + "\n " + client.getAdresseMailClient());
+			
+			return client;
+
+		} catch (Exception message) {
+			logger.error("ClientDao Exception : AdresseMail non trouvee dans la bdd.");
+			throw new ClientInexistantException("ClientDao Exception : L adresse mail : " 
+			+ adresseMailClient + " ne retourne pas de client ou mail non renseigne.");
+		}
+		
+		
 	}
 
 }

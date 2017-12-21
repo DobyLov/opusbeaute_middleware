@@ -5,7 +5,6 @@ fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullExc
 fr\labonbonniere\opusbeaute\middleware\service\client\EmailFormatInvalid.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\Rdv.class
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharTelException.class
-fr\labonbonniere\opusbeaute\middleware\service\sms\toto.class
 fr\labonbonniere\opusbeaute\middleware\dao\DaoException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharPaysException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInvalideException.class
@@ -28,7 +27,6 @@ fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderClientService.
 fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.class
 fr\labonbonniere\opusbeaute\middleware\webservice\LieuRdvWs.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvEgaliteChevauchementException.class
-fr\labonbonniere\opusbeaute\middleware\service\sms\toto$1.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PrestationWs.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\client\ClientService.class
@@ -74,7 +72,9 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\mail\Mail.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\lieurdv\LieuRdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\utilisateur\UtilisateurService.class
+fr\labonbonniere\opusbeaute\middleware\service\mail\UnsuscribeMailReminderClientService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\SmsReminderWs.class
+fr\labonbonniere\opusbeaute\middleware\webservice\UnsuscribeRdvMailReminderClientWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\Prestation.class
 fr\labonbonniere\opusbeaute\middleware\webservice\RdvWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseClient.class
