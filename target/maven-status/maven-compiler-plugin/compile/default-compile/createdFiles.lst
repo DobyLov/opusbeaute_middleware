@@ -10,13 +10,11 @@ fr\labonbonniere\opusbeaute\middleware\dao\DaoException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharPaysException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\dao\GenreDao.class
-fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService$4.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurExistantException.class
 fr\labonbonniere\opusbeaute\middleware\dao\AdresseClientDao.class
 fr\labonbonniere\opusbeaute\middleware\service\client\SuscribedSmsReminderException.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvDebutChevauchementException.class
 fr\labonbonniere\opusbeaute\middleware\dao\PraticienDao.class
-fr\labonbonniere\opusbeaute\middleware\webservice\SmsReminderClientWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharPrenomException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvExistantException.class
@@ -45,7 +43,6 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInexista
 fr\labonbonniere\opusbeaute\App.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.class
-fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService$3.class
 fr\labonbonniere\opusbeaute\middleware\dao\LieuRdvDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\AdresseClientService.class
@@ -67,6 +64,7 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInexist
 fr\labonbonniere\opusbeaute\middleware\dao\UtilisateurDao.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbNumRueException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInexistantException.class
+fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderPraticienService$1.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvExistantException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\GenreWs.class
 fr\labonbonniere\opusbeaute\middleware\service\prestation\PrestationService.class
@@ -76,7 +74,7 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\mail\Mail.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\lieurdv\LieuRdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\utilisateur\UtilisateurService.class
-fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService$2.class
+fr\labonbonniere\opusbeaute\middleware\webservice\SmsReminderWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\Prestation.class
 fr\labonbonniere\opusbeaute\middleware\webservice\RdvWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseClient.class

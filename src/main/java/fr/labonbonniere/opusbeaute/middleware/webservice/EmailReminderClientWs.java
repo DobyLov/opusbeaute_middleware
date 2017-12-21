@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderClientService;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPraticienService;
 
 @Stateless
 @Path("/email")
@@ -21,6 +22,9 @@ public class EmailReminderClientWs {
 	
 	@EJB
 	private SendMailReminderClientService sendmailreminderclient;
+	
+	@EJB
+	private SendMailReminderPraticienService sendmailreminderpraticien;
 	
 	@GET
 	@Path("/sendclients")
@@ -32,7 +36,7 @@ public class EmailReminderClientWs {
 		
 		try {
 			
-			sendmailreminderclient.envoyerUnEmailRappelClientTriggerWs();
+			sendmailreminderclient.envoyerEmailRappelRdvClientScheduled();;
 			logger.info("EmailReminderClientWs log : Fin de procedure Envoi Email Cleint via TriggerWS terminee.");
 			builder = Response.ok();
 			
@@ -55,7 +59,7 @@ public class EmailReminderClientWs {
 		
 		try {
 			
-			sendmailreminderclient.envoyerUnMailRecapRdvPraticienTriggerWs();
+			sendmailreminderpraticien.envoyerUnMailRecapRdvPraticienScheduled();
 			logger.info("EmailReminderClientWs log : Fin de procedure d Envoi Email Praticien via TriggerWS terminee.");
 			builder = Response.ok();
 			
