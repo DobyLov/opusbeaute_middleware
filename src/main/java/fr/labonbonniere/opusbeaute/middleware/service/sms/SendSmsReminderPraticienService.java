@@ -121,7 +121,6 @@ public class SendSmsReminderPraticienService {
 				praticienPrenom = WordUtils.capitalize(rdvList.get(numRdv).getPraticien().getPrenomPraticien());
 				praticienTelMobile = rdvList.get(numRdv).getPraticien().getTeleMobilePraticien();
 				String clientPrenom = WordUtils.capitalize(rdvList.get(numRdv).getClient().getPrenomClient());
-//				String clientPrenomformate = WordUtils.capitalize(clientPrenom);
 				String clientNom = (rdvList.get(numRdv).getClient().getNomClient()).toUpperCase();
 				String activite = (rdvList.get(numRdv).getPrestation().getActivite()).toUpperCase();
 				String prestationsoin = WordUtils.capitalizeFully(rdvList.get(numRdv).getPrestation().getSoin());
@@ -227,11 +226,9 @@ public class SendSmsReminderPraticienService {
         Boolean idPrattMoreThanOnce = false;
         
         for (int i = 0 ; i < arrayOfIdPrattFromArrayListOfIdPratt.length; i++) {
-//        	logger.info("Occurrences checker : test si occurrence de l idPratt : " + arrayOfIdPrattFromArrayListOfIdPratt[i]);	
         	if (arrayOfIdPrattFromArrayListOfIdPratt[i] == nbIdPrattFiltreeUnique) {
         		iFound++;
-        	}
-  
+        	}  
         }  
         
       	if (iFound > 1) {
@@ -261,16 +258,6 @@ public class SendSmsReminderPraticienService {
 	
 		// formatage de J+1 String pour passage au RdvDao
 		String rdvDateDuJourPlusUnFormate = jourJPlusUn.toString();
-		// logger.info("MailRemiderSender log : Conversion de la DateHeure j+1
-		// en Date: " + rdvDateDuJourPlusUnFormate);
-	
-		// // recuperation du nombre de Rdv plannifés à J+1
-		// logger.info("MailRemiderSender log : Envoie à RdvDao la date J+1 : "
-		// + rdvDateDuJourFormate);
-		// Integer nbRdvJPlusUn =
-		// rdvdao.renvoyerLeNbDeRdvDuJour(rdvDateDuJourFormate);
-		// logger.info("MailRemiderSender log : " + nbRdvJPlusUn +" Rdv de
-		// plannifes le : " + rdvDateDuJourFormate);
 	
 		return rdvDateDuJourPlusUnFormate;
 	}

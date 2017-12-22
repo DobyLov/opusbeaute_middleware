@@ -146,13 +146,13 @@ public class SendSmsReminderClientService {
 				logger.info("MailRemiderSender log : Tentative Envoi SMS.");
 
 				String messageClientPrenom = "Bonjour%20" + clientPrenom + ",%0d%0a%0d%0a";
-				String messageCorps01 = "La%20Bonbonnière%20d%27%20Audrey,%0d%0avous%20rappèle%20votre%20rendez-vous%0d%0ade%20demain%20à%20"
+				String messageCorps01 = "La%20Bonbonnière%20d%27Audrey%0d%0avous%20rappelle%20votre%20rendez-vous%0d%0ade%20demain%20à%20"
 						+ rdvHeure + ".";
 				String messagePrestaSoin = "%0d%0aPour%20le%20soin%20:%0d%0a"
 						+ activite.toUpperCase() + "_" + WordUtils.capitalizeFully(prestationsoin)
 								.replaceAll(" ", "%20").replace("è", "%C3%A8").replace("é", "%C3%A9")
 						+ "%0d%0a" + "%0d%0a";
-				String messageAnnonceAdresse = "À%20l%27%20adresse%20suivante%20:%0d%0a";
+				String messageAnnonceAdresse = "À%20l%27adresse%20suivante%20:%0d%0a";
 				String messageLieuRdv = lieuRdv + "%0d%0a";
 				String messageAdressePart1 = adresseLieuRdvNumeroRue + "%20" + adresseLieuRdvRue + "%0d%0a";
 				String messageAdressePart2 = adresseLieuRdvZipCode + "%20" + adresseLieuRdvVille;

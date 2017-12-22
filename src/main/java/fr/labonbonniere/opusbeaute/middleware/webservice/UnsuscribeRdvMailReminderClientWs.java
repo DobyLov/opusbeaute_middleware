@@ -29,7 +29,7 @@ public class UnsuscribeRdvMailReminderClientWs {
 	private UnsuscribeMailReminderClientService unsuscribemailrdvreminderclientservice;
 
 	@GET
-	@Path("/rdvreminder/{adresseMailClient:}-{key:}")
+	@Path("/rdvreminder/{adresseMailClient}/{key}")
 //	@Path("/rdvreminder")
 	@Produces(MediaType.TEXT_HTML)
 	public Response envoyerUnSmsRappelRdvClient(@PathParam("adresseMailClient") final String adresseMailClient,
@@ -51,11 +51,11 @@ public class UnsuscribeRdvMailReminderClientWs {
 		if (matches != true) {
 			logger.info("UnsuscribeRdvMailReminderClientWs log : Le format email n est pas correcte :(");
 			throw new Exception("UnsuscribeRdvMailReminderClientWs Exception : Le format email n est pas correcte :(");
-		} if (key != keyMustMatch) {
-			logger.info("UnsuscribeRdvMailReminderClientWs log : La pseudo clee de validation ne correspond pas :(");
+		} if (key.contentEquals(keyMustMatch) == false ) {
+			logger.info("UnsuscribeRdvMailReminderClientWs log : La clee de validation ne correspond pas :(");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 			throw new Exception(
-					"UnsuscribeRdvMailReminderClientWs Exception : La pseudo clee de validation ne correspond pas :(");
+					"UnsuscribeRdvMailReminderClientWs Exception : La clee de validation ne correspond pas :(");
 		}
 
 
@@ -66,13 +66,20 @@ public class UnsuscribeRdvMailReminderClientWs {
 			logger.info("UnsuscribeMailReminderClientWs log : valeur de passeDeTaF : " + passeDeTaF);
 			
 			if ( passeDeTaF != false  ) {
-			builder = Response.ok().entity("<html> " + "<title>" + "OpusBeaute_UnsuscribeRdvMail"
-					+ "</title><body><b>Opus_Beauté vous informe que votre demande a bien étée enregistrée</b></body></html>");
+				logger.info("UnsuscribeMailReminderClientWs log : Desinscription de l adresse: " + adresseMailClient);	
+				
+				String messagensusbcribe = 
+						 "<p>&nbsp;</p>"
+						+ "<p><span style=\"font-family: helvetica; font-size: medium;\">Votre demande de d&eacute;sinscritpion au rappel automatique est prise en compte.&nbsp;</span></p>"
+						+ "<p><span style=\"font-family: helvetica;\"><span style=\"font-size: medium;\">Cordialement,</span></span></p>"
+						+ "<p><span style=\"font-family: helvetica; font-size: medium;\">La_bonbonn&egrave;re_d'audrey</span></p>";
+				
+				
+				builder = Response.ok().entity(messagensusbcribe);
 			
 			} if (passeDeTaF != true) {
-				
-				builder = Response.notModified().entity("<html> " + "<title>" + "OpusBeaute_UnsuscribeRdvMail"
-						+ "</title><body><b>Opus_Beauté vous informe que votre demande n' pas été traitée</b></body></html>");
+				logger.info("UnsuscribeMailReminderClientWs log : Echec de la desinscription de l adresse: " + adresseMailClient);
+				builder = Response.notModified();
 				
 			}
 

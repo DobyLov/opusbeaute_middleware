@@ -41,14 +41,15 @@ public class SendMailReminderPraticienService {
 	private static final String compteEmailPwd = "lasouris";
 	private static String customMailSubject;
 	private static String customMessageDynamic;
-	// private String clientEmail;
 	private String lieuRdv;
-
+	private String introSingPlur;
+	
 	// Service Timer: Envoyer un mail de rappel au client.
 	// Freq: Tous les jours de la semaine à 20H00.
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
 	public ArrayList<Rdv> envoyerUnMailRecapRdvPraticienScheduled() throws DaoException {
 
+		
 		// d ici que ca commence
 		String rdvDateDuJourFormate = recuDateDuJourplusUnFormate();
 
@@ -93,6 +94,15 @@ public class SendMailReminderPraticienService {
 			String rdvDate = "";
 			while (iterRdv.hasNext()) {
 				if (rdvList.get(numRdv).getPraticien().getIdPraticien() == nbIdPrattFiltreeUnique[bouclePraticien]) {
+					
+					// appel à la methode pour savoir si l idPraticien a plusieur rdv dan rdvList
+					// envoie a la methode Arraylist<Rdv>listIdPratt et Integer IdPraticien
+					logger.info("Avant detecteur d ocurences rdvLsit : " + rdvList.get(numRdv).getIdRdv());
+					logger.info("Avant detecteur d ocurences idPratitien : " + rdvList.get(numRdv).getPraticien().getIdPraticien());
+					logger.info("Avant detecteur d ocurences : liste idPratt: " + listIdPratt.toString());
+					Boolean idPrattMoreThanOnce = numberOfidPrattMoreThanOnceDetector(listIdPratt, rdvList.get(numRdv).getPraticien().getIdPraticien());
+					logger.info("SmsPraticien log: idpraticien > 1 : " + idPrattMoreThanOnce);
+					
 					Timestamp rdvDateHeureTS = rdvList.get(numRdv).getDateHeureDebut();
 					long rdvDHDebutTsToLong = rdvDateHeureTS.getTime();
 					String rdvDHDebutLongToString = Long.toString(rdvDHDebutTsToLong);
@@ -107,16 +117,16 @@ public class SendMailReminderPraticienService {
 					String rdvHeure = rdvHeureConvertedToString;
 					praticienPrenom = rdvList.get(numRdv).getPraticien().getPrenomPraticien();
 					praticienEmail = rdvList.get(numRdv).getPraticien().getAdresseMailPraticien();
-					String clientPrenom = rdvList.get(numRdv).getClient().getPrenomClient();
-					String clientNom = rdvList.get(numRdv).getClient().getNomClient();
-					String activite = rdvList.get(numRdv).getPrestation().getActivite();
-					String prestationsoin = rdvList.get(numRdv).getPrestation().getSoin();
+					String clientPrenom = WordUtils.capitalize(rdvList.get(numRdv).getClient().getPrenomClient());
+					String clientNom = rdvList.get(numRdv).getClient().getNomClient().toUpperCase();
+					String activite = rdvList.get(numRdv).getPrestation().getActivite().toUpperCase();
+					String prestationsoin = WordUtils.capitalize(rdvList.get(numRdv).getPrestation().getSoin());
 					Integer idLieuRdv = rdvList.get(numRdv).getLieuRdv().getIdLieuRdv();
 					String adresseLieuRdvNumeroRue, adresseLieuRdvRue, adresseLieuRdvZipCode, adresseLieuRdvVille;
 
 					if (idLieuRdv == 3) {
 
-						lieuRdv = "Domicile clientelle";
+						lieuRdv = "Domicile clientèle";
 						adresseLieuRdvNumeroRue = rdvList.get(numRdv).getClient().getAdresse().getNumero();
 						adresseLieuRdvRue = rdvList.get(numRdv).getClient().getAdresse().getRue();
 						adresseLieuRdvZipCode = rdvList.get(numRdv).getClient().getAdresse().getZipCode();
@@ -131,12 +141,19 @@ public class SendMailReminderPraticienService {
 						adresseLieuRdvVille = rdvList.get(numRdv).getLieuRdv().getAdresseLieuRdv().getVille();
 					}
 
+					// Si plus d un Rdv mettre au singulier ou pluriel
+					if (idPrattMoreThanOnce == true) {					
+						introSingPlur = "Vos rendez-vous de demain :";					
+					} else {					
+						introSingPlur = "Votre rendez-vous de demain :";				
+					}
+					
 					// Liste des Rdv à integrer dans l Email version HTML
 					lignesRdvToMail += "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-							+ "<b>" + rdvHeure + "</b>&nbsp" + activite.toUpperCase() + "_"
-							+ WordUtils.capitalizeFully(prestationsoin) + "." + "<br>&emsp;&emsp;Clientelle:&nbsp"
+							+ "<b>" + rdvHeure + "</b>&nbsp" + activite + "_"
+							+ prestationsoin + "." + "<br>&emsp;&emsp;Clientèle:&nbsp"
 							+ clientNom + "&nbsp" + clientPrenom + "<br>" + "&emsp;&emsp;Lieu:&nbsp"
-							+ WordUtils.capitalizeFully(lieuRdv) + "</span></p>"
+							+ lieuRdv + "</span></p>"
 							+ "<address style=\"font-size: 14.4px;\"><span style=\"font-size: large;\"><span style=\"font-family: arial, helvetica, sans-serif;\">"
 							+ "&emsp;&emsp;" + adresseLieuRdvNumeroRue + "&nbsp" + adresseLieuRdvRue
 							+ "<br /></span></span>"
@@ -160,9 +177,9 @@ public class SendMailReminderPraticienService {
 			customMailSubject = "La Bonbonnière d'Audrey : Rappel de Rdv du " + rdvDate;
 			String destinataire = praticienEmail;
 			String message = customMessageDynamic = "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
-					+ "Bonjour " + WordUtils.capitalizeFully(praticienPrenom) + ",</span></p>"
+					+ "Bonjour " + praticienPrenom + ",</span></p>"
 					+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-					+ "Voici le/les rendez-vous plannifié(s)<br> pour demain:</span></p>" + lignesRdvToMail
+					+ introSingPlur + "</span></p>" + lignesRdvToMail
 					+ "<p style=\"font-size: 14.4px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 					+ "Cordialement,</span></p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 					+ "La Bonbonni&egrave;re d'Audrey</span></p><p>&nbsp;</p><br>";
@@ -177,31 +194,6 @@ public class SendMailReminderPraticienService {
 
 	}
 
-	// private String timestampToStringTime(Timestamp rdvDateHeure) {
-	//
-	// // Formattage du timeStamp rdvHeure
-	// // logger.info("MailRemiderSender log : Conversion de tu TS
-	// // DatHeuredebut : " + rdvDateHeure);
-	// long rdvDHDebutTsToLong = rdvDateHeure.getTime();
-	// String rdvDHDebutLongToString = Long.toString(rdvDHDebutTsToLong);
-	// Date rdvDHDebuttsStringToDate = new
-	// Date(Long.parseLong(rdvDHDebutLongToString));
-	// // logger.info("MailRemiderSender log : Conversion de tu tsToDate : " +
-	// // rdvDHDebuttsStringToDate);
-	//
-	// String heureformatpattern = "HH:mm";
-	// SimpleDateFormat sdfH = new SimpleDateFormat(heureformatpattern);
-	// String rdvHeureConvertedToString = sdfH.format(rdvDHDebuttsStringToDate);
-	// // logger.info("MailRemiderSender log : Conversion de heure : " +
-	// // rdvHeureConvertedToString);
-	//
-	// String rdvHeure = rdvHeureConvertedToString;
-	// // logger.info("MailRemiderSender log : Conversion TS to Date : " +
-	// // rdvHeure);
-	//
-	// return rdvHeure;
-	//
-	// }
 
 	private String recuDateDuJourplusUnFormate() throws DaoException {
 
@@ -231,6 +223,40 @@ public class SendMailReminderPraticienService {
 		return rdvDateDuJourPlusUnFormate;
 	}
 
+	
+	private Boolean numberOfidPrattMoreThanOnceDetector(ArrayList<Integer> listIdPratt, Integer nbIdPrattFiltreeUnique) {
+		logger.info("Occurrences checker : Reception de la liste listIdPratt " + listIdPratt.toString());
+		logger.info("Occurrences checker : Taille de la liste listIdPratt " + listIdPratt.size());
+		logger.info("Occurrences checker : verifier si occurence de l idPratt suivant : " + nbIdPrattFiltreeUnique);
+		
+		// Conversion ArrayList en array
+		Integer arrayOfIdPrattFromArrayListOfIdPratt [] = new Integer [listIdPratt.size()];
+		listIdPratt.toArray(arrayOfIdPrattFromArrayListOfIdPratt);
+		logger.info("Occurrences checker : Conversion de la liste listIdPratt en Array taille : " 
+				+ arrayOfIdPrattFromArrayListOfIdPratt.length);
+		// detcter les occurences
+        int iFound =0;
+        Boolean idPrattMoreThanOnce = false;
+        
+        for (int i = 0 ; i < arrayOfIdPrattFromArrayListOfIdPratt.length; i++) {
+        	if (arrayOfIdPrattFromArrayListOfIdPratt[i] == nbIdPrattFiltreeUnique) {
+        		iFound++;
+        	}  
+        }  
+        
+      	if (iFound > 1) {
+    		logger.info("Occurrences checker : Occurrence idPratt => " + nbIdPrattFiltreeUnique + ", trouve "+ iFound + " fois");
+    		idPrattMoreThanOnce = true;
+    	} else {
+    		logger.info("Occurrences checker : Pas d occurrence pour l idPratt => " + nbIdPrattFiltreeUnique);
+    		idPrattMoreThanOnce = false;
+    	}
+
+        logger.info("Occurrences checker : Valeur du Boolean idPrattMoreThanOnce => " + idPrattMoreThanOnce);
+		return idPrattMoreThanOnce;
+	}
+	
+	
 	private void moteurEmail(String message, String destinataire, String customMailSubject) {
 
 		// Creation du mail

@@ -33,8 +33,12 @@ public class SendMailReminderClientService {
 
 	static final Logger logger = LogManager.getLogger(SendMailReminderClientService.class);
 
+	// credentiel du compt mail
 	private static final String compteEmailLogin = "dobylov";
 	private static final String compteEmailPwd = "lasouris";
+	// @IP du serveur ou est hebergé l application.
+	private static final String ipAppSrvHoster = "192.168.1.100";
+	
 	private static String customMailSubject;
 	private static String customMessageDynamic;
 	private String clientEmail;
@@ -46,24 +50,20 @@ public class SendMailReminderClientService {
 	public void envoyerEmailRappelRdvClientScheduled() throws DaoException {
 
 		// logger.info("SendMailReminderClientService log : Envoi de EMail
-		// Client TimerService.");
-		// calcule J+1
 		String rdvDateDuJourPlusUnFormate = recuDateDuJourplusUnFormate();
 
 		// Rempli l ArrayList avec la liste d objets Rdv J+1 avec SuscribedMail
-		// a T
 		ArrayList<Rdv> rdvList = new ArrayList<Rdv>();
 		rdvList = (ArrayList<Rdv>) rdvdao.obtenirListeRdvViaDateAndMailSuscribedTrue(rdvDateDuJourPlusUnFormate);
 		// logger.info("MailRemiderSender log : " + rdvList.size()
-		// + " mails de rappel de rdv seront evoyes sur les " + rdvList.size() +
-		// " plannifies");
+
 
 		// Iteration de l arrayList bien moche :
 		for (Integer i = 0; i < rdvList.size(); i++) {
 
 			String isSucribedMailreminder = rdvList.get(i).getClient().getSuscribedMailReminder();
 			// logger.info("MailRemiderSender log : SUSreminder : " +
-			// isSucribedMailreminder);
+
 			if (isSucribedMailreminder.equalsIgnoreCase("t")) {
 
 				// Recuperation des informations necessaires pour l envoie de l
@@ -110,7 +110,14 @@ public class SendMailReminderClientService {
 						+ adresseLieuRdvZipCode + "&nbsp" + adresseLieuRdvVille + "</span></address>"
 						+ "<p style=\"font-size: 14.4px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 						+ "Cordialement,</span></p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-						+ "La Bonbonni&egrave;re d'Audrey</span></p><p>&nbsp;</p>";
+						+ "La Bonbonni&egrave;re d'Audrey</span></p><p>&nbsp;</p>"
+						+ "<p style=\"font-size: 4.0px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: small;\">"
+						+ "Se desinscrire au rappel de rendez-vous " 
+						+ "<a href=\"http://" + ipAppSrvHoster + ":8080/opusbeaute-0/obws/unsuscribe/rdvreminder/"
+						+ clientEmail 
+						+ "/M7AkuQu2hGHvzdYcDfxbPkcWaP9fe42G\">ici</a>."
+						+"</p>";
+
 
 			} else {
 
@@ -123,6 +130,7 @@ public class SendMailReminderClientService {
 			customMailSubject = "La Bonbonnière d'Audrey : Rappel de Rdv ";
 			String destinataire = clientEmail;
 			moteurEmail(customMessageDynamic, destinataire, customMailSubject);
+			logger.info("Mail destinataire : " + clientEmail + "\n" + customMessageDynamic);
 
 		}
 
@@ -132,22 +140,19 @@ public class SendMailReminderClientService {
 
 		// Formattage du timeStamp rdvHeure
 		// logger.info("MailRemiderSender log : Conversion de tu TS
-		// DatHeuredebut : " + rdvDateHeure);
 		long rdvDHDebutTsToLong = rdvDateHeure.getTime();
 		String rdvDHDebutLongToString = Long.toString(rdvDHDebutTsToLong);
 		Date rdvDHDebuttsStringToDate = new Date(Long.parseLong(rdvDHDebutLongToString));
 		// logger.info("MailRemiderSender log : Conversion de tu tsToDate : " +
-		// rdvDHDebuttsStringToDate);
 
 		String heureformatpattern = "HH:mm";
 		SimpleDateFormat sdfH = new SimpleDateFormat(heureformatpattern);
 		String rdvHeureConvertedToString = sdfH.format(rdvDHDebuttsStringToDate);
 		// logger.info("MailRemiderSender log : Conversion de heure : " +
-		// rdvHeureConvertedToString);
 
 		String rdvHeure = rdvHeureConvertedToString;
 		// logger.info("MailRemiderSender log : Conversion TS to Date : " +
-		// rdvHeure);
+
 
 		return rdvHeure;
 
@@ -159,24 +164,11 @@ public class SendMailReminderClientService {
 
 		// recuperer la date du jour et ajout 1 jours pour J+1
 		LocalDate DateTimeDuJour = LocalDate.now();
-		// logger.info("MailRemiderSender log : Date du jour : " +
-		// DateTimeDuJour );
 		Period definiPlusUnJour = Period.of(0, 0, 1);
 		LocalDate jourJPlusUn = DateTimeDuJour.plus(definiPlusUnJour);
-		// logger.info("MailRemiderSender log : Date du j+1 : " + jourJPlusUn);
 
 		// formatage de J+1 String pour passage au RdvDao
 		String rdvDateDuJourPlusUnFormate = jourJPlusUn.toString();
-		// logger.info("MailRemiderSender log : Conversion de la DateHeure j+1
-		// en Date: " + rdvDateDuJourPlusUnFormate);
-
-		// // recuperation du nombre de Rdv plannifés à J+1
-		// logger.info("MailRemiderSender log : Envoie à RdvDao la date J+1 : "
-		// + rdvDateDuJourFormate);
-		// Integer nbRdvJPlusUn =
-		// rdvdao.renvoyerLeNbDeRdvDuJour(rdvDateDuJourFormate);
-		// logger.info("MailRemiderSender log : " + nbRdvJPlusUn +" Rdv de
-		// plannifes le : " + rdvDateDuJourFormate);
 
 		return rdvDateDuJourPlusUnFormate;
 	}
@@ -215,7 +207,7 @@ public class SendMailReminderClientService {
 			// Now send the message
 			Transport.send(messageobj);
 
-			logger.info("MailRemiderSender log : Tentative Envoi de l EMail.");
+			logger.info("MailRemiderSender log : Envoi de l EMail ");
 		} catch (MessagingException exp) {
 			logger.error("MailRemiderSender log : Echec Envoi de l EMail.");
 			throw new RuntimeException(exp);
