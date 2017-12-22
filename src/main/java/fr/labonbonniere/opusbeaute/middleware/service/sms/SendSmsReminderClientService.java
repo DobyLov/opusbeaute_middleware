@@ -97,22 +97,14 @@ public class SendSmsReminderClientService {
 				// logger.info("MailRemiderSender log : Conversion de tu
 				// tsToDate : " + rdvDHDebuttsStringToDate);
 
-				String dateformatpattern = "dd-MM-yyyy";
-				SimpleDateFormat sdfD = new SimpleDateFormat(dateformatpattern);
-				String rdvDateConvertedToString = sdfD.format(rdvDHDebuttsStringToDate);
-				// logger.info("MailRemiderSender log : Conversion Date : " +
-				// rdvDHDebuttsStringToDate);
 
 				String heureformatpattern = "HH:mm";
 				SimpleDateFormat sdfH = new SimpleDateFormat(heureformatpattern);
 				String rdvHeureConvertedToString = sdfH.format(rdvDHDebuttsStringToDate);
 				// logger.info("MailRemiderSender log : Conversion de heure : "
-				// + rdvHeureConvertedToString);
 
-				// String rdvDate = rdvDateConvertedToString;
+
 				String rdvHeure = rdvHeureConvertedToString;
-				// logger.info("MailRemiderSender log : Conversion TS to Date :
-				// " + rdvDate);
 				// logger.info("MailRemiderSender log : Conversion TS to Date :
 				// " + rdvHeure);
 

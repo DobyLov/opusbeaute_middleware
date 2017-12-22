@@ -2,7 +2,6 @@ package fr.labonbonniere.opusbeaute.middleware.service.sms;
 
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -10,12 +9,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentMap;
 
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
@@ -38,8 +33,7 @@ public class SendSmsReminderPraticienService {
 	private String raspiSmsLogin = "admin@example.fr";
 	private String raspiSmsPwd = "admin";
 	private String lignesDeRdv = "";
-	private String lieuRdv, mesgHeure, mesgClient, introSingPlur, 
-				rdvDate, rdvHeure, praticienTelMobile, praticienPrenom, mesHeurePrestaSoin;
+	private String lieuRdv, introSingPlur, rdvHeure, praticienTelMobile, praticienPrenom;
 	
 	private static final Logger logger = LogManager.getLogger(SendSmsReminderPraticienService.class);
 	
@@ -110,13 +104,13 @@ public class SendSmsReminderPraticienService {
 				long rdvDHDebutTsToLong = rdvDateHeureTS.getTime();
 				String rdvDHDebutLongToString = Long.toString(rdvDHDebutTsToLong);
 				Date rdvDHDebuttsStringToDate = new Date(Long.parseLong(rdvDHDebutLongToString));
-				String dateformatpattern = "dd-MM-yyyy";
-				SimpleDateFormat sdfD = new SimpleDateFormat(dateformatpattern);
-				String rdvDateConvertedToString = sdfD.format(rdvDHDebuttsStringToDate);
+//				String dateformatpattern = "dd-MM-yyyy";
+//				SimpleDateFormat sdfD = new SimpleDateFormat(dateformatpattern);
+//				String rdvDateConvertedToString = sdfD.format(rdvDHDebuttsStringToDate);
 				String heureformatpattern = "HH:mm";
 				SimpleDateFormat sdfH = new SimpleDateFormat(heureformatpattern);
 				String rdvHeureConvertedToString = sdfH.format(rdvDHDebuttsStringToDate);
-				rdvDate = rdvDateConvertedToString;
+//				rdvDate = rdvDateConvertedToString;
 				rdvHeure = rdvHeureConvertedToString;
 				praticienPrenom = WordUtils.capitalize(rdvList.get(numRdv).getPraticien().getPrenomPraticien());
 				praticienTelMobile = rdvList.get(numRdv).getPraticien().getTeleMobilePraticien();
@@ -127,7 +121,7 @@ public class SendSmsReminderPraticienService {
 				
 				Integer idLieuRdv = rdvList.get(numRdv).getLieuRdv().getIdLieuRdv();
 				Integer idClientGenre = rdvList.get(numRdv).getClient().getGenreClient().getIdGenre();
-				String clientCliente, lieurRdv, adresseLieuRdvNumeroRue, adresseLieuRdvRue, adresseLieuRdvZipCode, 
+				String clientCliente, adresseLieuRdvNumeroRue, adresseLieuRdvRue, adresseLieuRdvZipCode, 
 						adresseLieuRdvVille;
 				// Selon genre mettre client ou client 1F/2H
 				if (idClientGenre == 1) {					
