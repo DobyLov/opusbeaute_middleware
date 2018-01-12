@@ -77,10 +77,10 @@ public class SendSmsReminderPraticienService {
 	listWithSortedUniqIdPratt.toArray(nbIdPrattFiltreeUnique);
 	Iterator<Rdv> iterRdv = rdvList.iterator();
 	iterRdv = rdvList.iterator();	
-
+	
 	for(Integer bouclePraticien = 0;bouclePraticien<listWithSortedUniqIdPratt.size();bouclePraticien++)	{
 		logger.info("SmsPraticien log: Entree dans boucle principale FOR");
-		logger.info("SmsPraticien log: Position de la Boucle : " + bouclePraticien + " / " + listWithSortedUniqIdPratt.size());
+		logger.info("SmsPraticien log: Position de la Boucle : " + ((bouclePraticien) + 1 ) + " / " + listWithSortedUniqIdPratt.size());
 		
 		// Initialistion de numRdv pour
 		Integer numRdv = 0;
@@ -200,7 +200,7 @@ public class SendSmsReminderPraticienService {
 
 		iterRdv = rdvList.iterator();
 	} // Sortie dde la boucle for nb IdPraticien
-
+	
 	return;
 
 	}

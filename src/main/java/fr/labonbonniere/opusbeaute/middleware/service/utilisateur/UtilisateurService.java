@@ -328,4 +328,24 @@ public class UtilisateurService {
 		
 		return strWithoutSpaceAtBegin;
 	}
+	
+	public Utilisateur recupererUnUtilisateurViaeMail(final String email) throws UtilisateurInexistantException {
+
+		try {
+			
+			logger.info("UtilistaeurService log : Demande a la bdd le Utilisateur email : " + email);
+			
+			Utilisateur utilisateur = utilisateurdao.utilisateurParEmail(email);
+			logger.info("UtilistaeurService log : Utilisateur email : " + utilisateur.getAdresseMailUtilisateur()
+					+ " trouve, envoie de l objet Utilisateur a loginWS");
+			
+			return utilisateur;
+
+		} catch (UtilisateurInexistantException message) {
+			logger.error("UtilistaeurService log : L Utilisateur demande est introuvable");
+			throw new UtilisateurInexistantException(
+					"UtilistaeurService Exception : Pas d utilisateur est trouve dans la base avec l email : " + email);
+		}
+	}
+	
 }

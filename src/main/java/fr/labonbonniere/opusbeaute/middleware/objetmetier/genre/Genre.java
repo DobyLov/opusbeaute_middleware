@@ -45,7 +45,7 @@ public class Genre implements Serializable {
 		this.idGenre = idGenre;
 	}
 
-	@Column(name = "GENRE_GENREHUM", length = 5)
+	@Column(name = "GENRE_GENREHUM", length = 11)
 	public String getGenreHum() {
 		return genreHum;
 	}

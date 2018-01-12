@@ -133,7 +133,8 @@ public class Client implements Serializable {
 	// @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
 	// orphanRemoval = true)
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "CLIENT_IDADRESSE_fk", referencedColumnName = "CLIENT_IDADRESSE", nullable = true, updatable = true, insertable = true)
+	@JoinColumn(name = "CLIENT_IDADRESSE_fk", referencedColumnName = "CLIENT_IDADRESSE", 
+	nullable = true, updatable = true, insertable = true)
 	public AdresseClient getAdresse() {
 		return adresse;
 	}

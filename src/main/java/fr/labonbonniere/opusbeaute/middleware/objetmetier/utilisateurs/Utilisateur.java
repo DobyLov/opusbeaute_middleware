@@ -1,12 +1,13 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.Roles;
+
 
 
 @XmlRootElement
@@ -29,6 +33,7 @@ public class Utilisateur implements Serializable {
 	private String teleMobileUtilisateur;
 	private String adresseMailUtilisateur;
 	private String motDePasse;
+	private Roles roles;
 	private String isLogged;
 	private String suscribedSmsReminder;
 	private String suscribedMailReminder;
@@ -39,7 +44,7 @@ public class Utilisateur implements Serializable {
 
 	public Utilisateur(Integer idUtilisateur, String nomUtilisateur, String prenomUtilisateur,
 			String teleMobileUtilisateur, String adresseMailUtilisateur, String motDePasse,
-			String isLogged, String suscribedSmsReminder, String suscribedMailReminder) {
+			Roles roles, String isLogged, String suscribedSmsReminder, String suscribedMailReminder) {
 
 		this.idUtilisateur = idUtilisateur;
 		this.nomUtilisateur = nomUtilisateur;
@@ -47,6 +52,7 @@ public class Utilisateur implements Serializable {
 		this.teleMobileUtilisateur = teleMobileUtilisateur;
 		this.adresseMailUtilisateur = adresseMailUtilisateur;
 		this.motDePasse = motDePasse;
+		this.roles = roles;
 		this.isLogged = isLogged;
 		this.suscribedSmsReminder = suscribedSmsReminder;
 		this.suscribedMailReminder = suscribedMailReminder;
@@ -57,7 +63,7 @@ public class Utilisateur implements Serializable {
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="UTILISATEUR_SEQ",
 	initialValue = 1, allocationSize = 5)
-@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "UTILISATEUR_IDUTILISATEUR", nullable = false, length = 4)
 	public Integer getIdUtilisateur() {
 		return idUtilisateur;
@@ -110,10 +116,23 @@ public class Utilisateur implements Serializable {
 		this.motDePasse = motDePasse;
 	}
 
+	@OneToOne
+	@JoinColumn(name = "UTILISATEUR_IDROLES_fk", referencedColumnName = "ROLES_IDROLES", 
+	nullable = true, updatable = true, insertable = true)
+	public Roles getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Roles roles) {
+		this.roles = roles;
+	}
+
+
 	@Column(name = "UTILISATEUR_ISLOGGED", nullable = false, length = 1)
 	public String getIsLogged() {
 		return isLogged;
 	}
+
 
 	public void setIsLogged(String isLogged) {
 		this.isLogged = isLogged;
@@ -137,6 +156,8 @@ public class Utilisateur implements Serializable {
 		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
+	
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -150,6 +171,7 @@ public class Utilisateur implements Serializable {
 				.append("teleMobileUtilisateur", this.teleMobileUtilisateur)
 				.append("adresseMailUtilisateur", this.adresseMailUtilisateur)
 				.append("motdePasse", this.motDePasse)
+				.append("roles", this.roles)
 				.append("isLogged", this.isLogged)
 				.append("isLogged", this.isLogged)
 				.append("suscribedSmsReminder",this.suscribedSmsReminder)
@@ -165,6 +187,7 @@ public class Utilisateur implements Serializable {
 		result = prime * result + ((idUtilisateur == null) ? 0 : idUtilisateur.hashCode());
 		result = prime * result + ((isLogged == null) ? 0 : isLogged.hashCode());
 		result = prime * result + ((motDePasse == null) ? 0 : motDePasse.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((nomUtilisateur == null) ? 0 : nomUtilisateur.hashCode());
 		result = prime * result + ((prenomUtilisateur == null) ? 0 : prenomUtilisateur.hashCode());
 		result = prime * result + ((teleMobileUtilisateur == null) ? 0 : teleMobileUtilisateur.hashCode());		
@@ -194,6 +217,7 @@ public class Utilisateur implements Serializable {
 				.append(this.teleMobileUtilisateur, autre.teleMobileUtilisateur)
 				.append(this.adresseMailUtilisateur, autre.adresseMailUtilisateur)
 				.append(this.motDePasse, autre.motDePasse)
+				.append(this.roles, autre.roles)
 				.append(this.isLogged, autre.isLogged)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)

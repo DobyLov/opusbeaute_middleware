@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -112,6 +113,34 @@ public class UtilisateurDao {
 			throw new UtilisateurInexistantException("UtilisateurDao Exception : L utilisateur id : " + idUtilisateur
 					+ " ne peut etre supprime de la Bdd.");
 		}
+	}
+	
+	public Utilisateur utilisateurParEmail(final String email) throws UtilisateurInexistantException {
+		logger.info("UtilisateurDao log : Recherche utilisateur enregistre avec email : "
+				+ email + " a la Bdd.");
+		Utilisateur utilisateur = null;		
+		try {
+			String requete =  "SELECT u FROM Utilisateur u"
+					+ " WHERE adresseMailUtilisateur = '" + email + "'";			
+			Query query = em.createQuery(requete);
+			utilisateur = (Utilisateur) query.getSingleResult();
+			logger.info("UtilisateurDao log : id " + utilisateur.getIdUtilisateur());			
+			
+//			if (Objects.isNull(utilisateur)) {
+//				logger.error("UtilisateurDao log : l utilisateur avec eMail: " + email + " demande est introuvable");
+//				throw new UtilisateurInexistantException(
+//						"UtilisateurDao Exception : L' eMail : " + email + " est introuvable dans la base");
+//			}
+//	
+//			logger.info("UtilisateurDao log : l utilisateur id : " + utilisateur.getIdUtilisateur() + " identifie via email : " + email + " trouve, envoie de lutilisateur au serviceUtilisateur");
+//		
+		} catch (Exception message) {
+			throw new UtilisateurInexistantException("UtilisateurDao Exception : l utilisateur est introuvable");		
+			
+		} 
+		
+		return utilisateur;
+		
 	}
 
 }

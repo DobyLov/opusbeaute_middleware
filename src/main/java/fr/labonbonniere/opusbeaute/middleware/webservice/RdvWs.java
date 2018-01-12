@@ -21,6 +21,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.NoRdvException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDebutChevauchementException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEgaliteChevauchementException;
@@ -39,6 +40,7 @@ public class RdvWs {
 	private RdvService rdvService;
 	
 	//	http://localhost:8080/opusbeaute-0/obws/rdvs
+	@SecuApp
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
