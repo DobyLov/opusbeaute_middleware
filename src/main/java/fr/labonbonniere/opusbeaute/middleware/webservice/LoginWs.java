@@ -59,11 +59,11 @@ public class LoginWs {
         	String token = loginservice.tokenGenAtLogin(email, pwd);
             
         	// Return the token on the response
-        	logger.info("LoginWs log : Authentification Ok ");
+        	logger.info("LoginWs log : Authentification Ok du login : " + email);
             return Response.ok(token).build();
 
         } catch (Exception message) {
-        	logger.info("LoginWs Exception : Authentification Nok ");
+        	logger.info("LoginWs Exception : Authentification Nok du login : " + email);
             return Response.status(Response.Status.UNAUTHORIZED).build();
             
         }      

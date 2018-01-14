@@ -20,6 +20,9 @@ public class LoginService {
 	
 	@EJB
 	TokenGen tokengen;
+	
+	@EJB
+	PasswordHandler passwordHandler;
 
 	public String tokenGenAtLogin(String email, String pwd) throws Exception, UtilisateurInexistantException {
 		
@@ -74,9 +77,17 @@ public class LoginService {
 //		logger.info("LoginService log : Pwd From Web : " + utilisateurReconnu.getNomUtilisateur());
 //		logger.info("LoginService log : Pwd From Web : " + pwd);
 //		logger.info("LoginService log : Pwd From Bdd : " + utilisateurReconnu.getMotDePasse());
+//		logger.info("LoginService log : demande de Ashage :");
+		
+		
     	try {    		
         		// check si le mot de passe match
-        		if (utilisateurReconnu.getMotDePasse().contains(pwd) == false) {
+    			logger.info("LoginService log : Le mot de passe saisi par l utilisateur : " + pwd);
+    			logger.info("LoginService log : Le mot de passe Hash dans la BDD : " + utilisateurReconnu.getMotDePasse());
+    			
+    			boolean pwdAndHashMatch = passwordHandler.ashVerifier(pwd, utilisateurReconnu.getMotDePasse());
+    		
+        		if ( pwdAndHashMatch == false) {
         			logger.error("LoginService log : Le mot de passe ne correspond pas");
         			throw new UtilisateurInexistantException ();
 

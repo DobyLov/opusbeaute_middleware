@@ -4,6 +4,7 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\sms\Sms.class
 fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullException.class
 fr\labonbonniere\opusbeaute\middleware\service\client\EmailFormatInvalid.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\Rdv.class
+fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHandler.class
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharTelException.class
 fr\labonbonniere\opusbeaute\middleware\dao\DaoException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharPaysException.class
@@ -33,6 +34,7 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\client\ClientService.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\Clee.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInvalideException.class
+fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHasherOrVerify.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\PraticienInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\Genre.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientExistantException.class

@@ -14,6 +14,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.UtilisateurDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHandler;
 import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
@@ -25,6 +26,9 @@ public class UtilisateurService {
 
 	@EJB
 	private UtilisateurDao utilisateurdao;
+	
+	@EJB
+	private PasswordHandler passwordHandler;
 
 	public List<Utilisateur> recupereListeUtilisateur() throws DaoException {
 
@@ -108,6 +112,30 @@ public class UtilisateurService {
 	
 	private Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
 		
+		// Password validation et encryption Bcrypt
+		logger.info("UtilisateurService log : Test Utilisateur");
+		if (utilisateur.getMotDePasse() != null && !utilisateur.getMotDePasse().isEmpty()) {
+			logger.info("UtilisateurService log : Utilisateur.MotDePasse n est pas null.");
+			if (utilisateur.getMotDePasse().length() < 7) {
+				logger.error("UtilisateurService log : Utilisateur.MotDePasse est inferieur a 7 caracteres");
+				utilisateur.setPrenomUtilisateur(null);
+				throw new NbCharPrenomException(
+						"UtilisateurService Validation Exception : Utilisateur.MotDePasse est null ou depasse 30 caracteres");
+			} else {
+				logger.info("UtilisateurService log : Utilisateur.MotdePasse vas etre encrypte.");
+				String pwdEncryptedTobddStorage = passwordHandler.hashPwd(utilisateur.getMotDePasse());
+				utilisateur.setMotDePasse(pwdEncryptedTobddStorage);
+
+			}
+
+		} else {
+			logger.error("UtilisateurService log : Utilisateur.MotDePasse est null.");
+			utilisateur.setMotDePasse(null);
+			throw new NbCharNomException("UtilisateurService Validation Exception : Client.MotDePass est Null");
+		}
+		
+		
+		// ---------------------------------------------------------------------------------------------------------
 		// ok
 		// Check Prenom est vide / depasse 30 caracteres.
 		logger.info("UtilisateurService log : test Utilisateur.Prenom.");

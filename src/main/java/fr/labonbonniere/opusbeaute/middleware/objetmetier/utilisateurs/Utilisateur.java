@@ -107,7 +107,7 @@ public class Utilisateur implements Serializable {
 		this.adresseMailUtilisateur = adresseMailUtilisateur;
 	}
 	
-	@Column(name = "UTILISATEUR_MOTDEPASSE", nullable = false, length = 30)
+	@Column(name = "UTILISATEUR_MOTDEPASSE", nullable = false, length = 70)
 	public String getMotDePasse() {
 		return motDePasse;
 	}
