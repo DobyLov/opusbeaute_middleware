@@ -61,6 +61,7 @@ public class GenreService {
 			logger.error("GenreService log : Impossible de creer ce Genre dans la Bdd.");
 			throw new DaoException("GenreService Exception : Impossible de creer ce Genre dans la Bdd.");
 		}
+		
 	}
 
 	public void modifDeLGenre(Genre genre) throws GenreInexistantException, GenreClientNullException {

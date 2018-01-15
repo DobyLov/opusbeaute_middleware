@@ -1,8 +1,5 @@
 package fr.labonbonniere.opusbeaute.middleware.service.authentification;
 
-
-import java.util.function.Function;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -21,7 +18,7 @@ public class PasswordHandler {
 	//	private static final PasswordHasherOrVerify bcrypt = new PasswordHasherOrVerify(11);
 		
 	public  String hashPwd(String password) {
-		logger.info("PasswordHandler log : Demande de hashage du Pwd : " + password);
+//		logger.info("PasswordHandler log : Demande de hashage du Pwd : " + password);
 		String passwordHashed = passwordHasherOrVerify.hash(password);
 		logger.info("PasswordHandler log :Hash du Pwd : " + passwordHashed);
 		
@@ -32,10 +29,19 @@ public class PasswordHandler {
 	public boolean ashVerifier(String password, String hash) {
 		logger.info("PasswordHandler log : Verification du Pwd et du hash");
 		Boolean isPwdValid = passwordHasherOrVerify.verifyHash(password, hash);
-		logger.info("PasswordHandler log : Le hash est valide : " + isPwdValid);
+		logger.info("PasswordHandler log : Le hash est : " + isPwdValid);
 		
 		return isPwdValid; 
 //	    return bcrypt.verifyAndUpdateHash(password, hash, updateFunc);
+	}
+	
+	public String ashVerifierAndReGenerate(String password, String hash) throws Exception {
+		logger.info("PasswordHandler log : Generation d un nouveau Hash ");
+		String newHash = passwordHasherOrVerify.updateHash(password, hash);
+		logger.info("PasswordHandler log : Generation d un nouveau Hash " + newHash);
+		
+		return newHash;
+		
 	}
 	
 	

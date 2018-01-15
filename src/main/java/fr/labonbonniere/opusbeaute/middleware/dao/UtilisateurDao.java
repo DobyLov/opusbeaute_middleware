@@ -30,9 +30,8 @@ public class UtilisateurDao {
 	public List<Utilisateur> obtenirListeUtilisateur() throws DaoException {
 
 		try {
-			logger.info("UtilisateurDao log : Demande a la bdd la liste des Atilisateurs");
-			String requete = "SELECT U FROM Utilisateurs U" + " ORDER BY idUtilisateurs asc";
-			;
+			logger.info("UtilisateurDao log : Demande a la bdd la liste des Utilisateurs");
+			String requete = "SELECT U FROM Utilisateur U" + " ORDER BY idUtilisateur asc";
 
 			TypedQuery<Utilisateur> query = em.createQuery(requete, Utilisateur.class);
 			List<Utilisateur> listeUtilisateurs = query.getResultList();

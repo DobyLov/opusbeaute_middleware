@@ -62,7 +62,7 @@ public class Utilisateur implements Serializable {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="UTILISATEUR_SEQ",
-	initialValue = 1, allocationSize = 5)
+	initialValue = 2, allocationSize = 5)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "UTILISATEUR_IDUTILISATEUR", nullable = false, length = 4)
 	public Integer getIdUtilisateur() {

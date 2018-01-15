@@ -23,6 +23,9 @@ public class LoginService {
 	
 	@EJB
 	PasswordHandler passwordHandler;
+	
+	@EJB
+	UtilisateurService utilisateurService;
 
 	public String tokenGenAtLogin(String email, String pwd) throws Exception, UtilisateurInexistantException {
 		
@@ -74,19 +77,19 @@ public class LoginService {
 
 		boolean credentialsMatch = false;
 		logger.info("LoginService log : Verification du mot de passe :");
-//		logger.info("LoginService log : Pwd From Web : " + utilisateurReconnu.getNomUtilisateur());
-//		logger.info("LoginService log : Pwd From Web : " + pwd);
-//		logger.info("LoginService log : Pwd From Bdd : " + utilisateurReconnu.getMotDePasse());
-//		logger.info("LoginService log : demande de Ashage :");
 		
-		
+		boolean pwdAndHashMatch = false;
     	try {    		
         		// check si le mot de passe match
-    			logger.info("LoginService log : Le mot de passe saisi par l utilisateur : " + pwd);
+//    			logger.info("LoginService log : Le mot de passe saisi par l utilisateur : " + pwd);
     			logger.info("LoginService log : Le mot de passe Hash dans la BDD : " + utilisateurReconnu.getMotDePasse());
     			
-    			boolean pwdAndHashMatch = passwordHandler.ashVerifier(pwd, utilisateurReconnu.getMotDePasse());
-    		
+    			pwdAndHashMatch = passwordHandler.ashVerifier(pwd, utilisateurReconnu.getMotDePasse());
+    	    	utilisateurReconnu.setMotDePasse(pwd);
+    	    	utilisateurService.modifierUnUtilisateur(utilisateurReconnu);
+    	    	
+    	    	logger.info("LoginService log : Nouveau Hash persiste.");
+    	    	
         		if ( pwdAndHashMatch == false) {
         			logger.error("LoginService log : Le mot de passe ne correspond pas");
         			throw new UtilisateurInexistantException ();
@@ -99,8 +102,9 @@ public class LoginService {
     		   			
     	} catch (Exception e) {
 				logger.error("LoginService Exception : Le password ne match pas");
-				throw new Exception("LoginService log : Le mot de passe ne correspond pas");
+				throw new Exception("LoginService Exception : Le mot de passe ne correspond pas");
 		}
+
 
 	return credentialsMatch;
 	

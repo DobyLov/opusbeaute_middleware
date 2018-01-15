@@ -64,11 +64,11 @@ public class GenreWs {
 			logger.info("-----------------------------------------------------");
 			logger.info("GenreWs log - Demande a la bdd le Client id :  " + idGenre);
 			Genre genre = genreservice.recupererUnGenre(idGenre);
-			logger.info("GenreWs log - Client demande " + idGenre + " transmis");
+			logger.info("GenreWs log - Genre demande " + idGenre + " transmis");
 			builder = Response.ok(genre);
 
 		} catch (GenreInexistantException message) {
-			logger.error("GenreWs log - le Client id : " + idGenre + " demande est introuvable");
+			logger.error("GenreWs log - le Genre id : " + idGenre + " demande est introuvable");
 			builder = Response.status(Response.Status.NOT_FOUND);
 		}
 
@@ -84,14 +84,14 @@ public class GenreWs {
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("GenreWs log : Demande d ajout d un nouveau Client dans la Bdd.");
+			logger.info("GenreWs log : Demande d ajout d un nouveau Genre dans la Bdd.");
 			genreservice.ajoutGenre(genre);
 			logger.info("GenreWs log : Nouveau Client ajoute, avec l id : " + genre.getIdGenre());
 			builder = Response.ok(genre);
 
 		} catch (DaoException message) {
-			logger.error("GenreWs log : Impossible de creer ce Client dans la Bdd.");
-			throw new DaoException("GenreWs Exception : Impossible de creer ce Client dans la Bdd.");
+			logger.error("GenreWs log : Impossible de creer ce Genre dans la Bdd.");
+			throw new DaoException("GenreWs Exception : Impossible de creer ce Genre dans la Bdd.");
 
 		} catch (GenreClientNullException message) {
 			logger.error("GenreWs log : Verifiez Genre.Genrehum.");
@@ -110,14 +110,14 @@ public class GenreWs {
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("GenreWs log : Demande de modification du Client id : " + genre.getIdGenre() + " dans la Bdd.");
+			logger.info("GenreWs log : Demande de modification du Genre id : " + genre.getIdGenre() + " dans la Bdd.");
 			genreservice.modifDeLGenre(genre);
-			logger.info("GenreWs log : Client id : " + genre.getIdGenre() + " a bien ete modifie dans la Bdd.");
-			String msg = "Client id : " + genre.getIdGenre() + " a bien ete modifie dans la Bdd.";
+			logger.info("GenreWs log : Genre id : " + genre.getIdGenre() + " a bien ete modifie dans la Bdd.");
+			String msg = "Genre id : " + genre.getIdGenre() + " a bien ete modifie dans la Bdd.";
 			builder = Response.ok(msg);
 
 		} catch (GenreInexistantException message) {
-			logger.error("GenreWs log : le Client id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
+			logger.error("GenreWs log : le Genre id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
 			builder = Response.notModified();
 
 		} catch (GenreClientNullException message) {
@@ -139,13 +139,13 @@ public class GenreWs {
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
-			logger.info("GenreWs log : Demande de suppression de le Client id : " + idGenre + " dans la Bdd.");
+			logger.info("GenreWs log : Demande de suppression de le Genre id : " + idGenre + " dans la Bdd.");
 			genreservice.suppressionddUnGenre(idGenre);
-			logger.info("GenreWs log : Client id : " + idGenre + " a bien ete modifie dans la Bdd.");
+			logger.info("GenreWs log : Genre id : " + idGenre + " a bien ete modifie dans la Bdd.");
 			builder = Response.ok();
 
 		} catch (GenreInexistantException message) {
-			logger.error("GenreWs log : Client id : " + idGenre + " ne peut etre supprime dans la Bdd.");
+			logger.error("GenreWs log : Genre id : " + idGenre + " ne peut etre supprime dans la Bdd.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
 		}
