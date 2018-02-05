@@ -22,6 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresselieurdv.AdresseLieuRdv;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
@@ -30,12 +31,19 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresselieurdv.AdresseLieu
 
 @Stateless
 @Path("/adresselieurdv")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class AdresseLieuRdvWs {
 	private static final Logger logger = LogManager.getLogger(AdresseLieuRdvWs.class);
 
 	@EJB
 	private AdresseLieuRdvService adresselieurdvservice;
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +66,7 @@ public class AdresseLieuRdvWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idAdresseLieuRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -79,6 +88,7 @@ public class AdresseLieuRdvWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -118,6 +128,7 @@ public class AdresseLieuRdvWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -161,7 +172,7 @@ public class AdresseLieuRdvWs {
 
 	}
 
-	
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/settonull/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -189,7 +200,7 @@ public class AdresseLieuRdvWs {
 
 	}
 	
-	
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

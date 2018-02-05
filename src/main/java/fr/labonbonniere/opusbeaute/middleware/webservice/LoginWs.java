@@ -13,11 +13,18 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.LoginService;
 
 
 @Stateless
 @Path("/login")
+@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class LoginWs {
 	
 	static final Logger logger = LogManager.getLogger(LoginWs.class);

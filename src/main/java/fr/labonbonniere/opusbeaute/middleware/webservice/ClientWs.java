@@ -23,6 +23,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseI
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
@@ -41,6 +42,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullExcep
 
 @Stateless
 @Path("/client")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class ClientWs {
 
 	private static final Logger logger = LogManager.getLogger(ClientWs.class);
@@ -48,6 +55,7 @@ public class ClientWs {
 	@EJB
 	private ClientService clientservice;
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -70,6 +78,7 @@ public class ClientWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idClient: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -91,6 +100,7 @@ public class ClientWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -161,6 +171,7 @@ public class ClientWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -228,6 +239,7 @@ public class ClientWs {
 
 	}
 
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idClient: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

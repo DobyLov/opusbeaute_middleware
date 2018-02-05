@@ -21,17 +21,25 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
 
 @Stateless
 @Path("/genre")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class GenreWs {
 	private static final Logger logger = LogManager.getLogger(GenreWs.class);
 
 	@EJB
 	private GenreService genreservice;
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +62,7 @@ public class GenreWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idGenre: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -75,6 +84,7 @@ public class GenreWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -101,6 +111,7 @@ public class GenreWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -130,6 +141,7 @@ public class GenreWs {
 
 	}
 
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idGenre: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

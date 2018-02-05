@@ -36,6 +36,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
 @Stateless
 @Path("/rdv")
 //@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 //@DefineUserRole({"ALLOWALL"})
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
@@ -46,11 +48,8 @@ public class RdvWs {
 
 	@EJB
 	private RdvService rdvService;
-//	@DefineUserRole({"ANONYMOUS"})
-//	@DefineUserRole({"PRATICIEN", "ADMINISTRATEUR"})
+
 	@DefineUserRole({"ALLOWALL"})
-//	@DefineUserRole({"DENYALL"})
-//	@DefineUserRole({"ROOT","PRATICIEN", "ADMINISTRATEUR"})
 	@GET
 	@Path("/list")	
 	@Produces(MediaType.APPLICATION_JSON)
@@ -161,7 +160,7 @@ public class RdvWs {
 	// POSTMAN
 	//		POST	BODY	raw		JSON
 	
-	@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")	// fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
@@ -191,7 +190,7 @@ public class RdvWs {
 	// Mettre l idRdv de l objet et les parametres a modifier rdv
 	// POSTMAN
 	//		PUT
-	@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod") // fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
@@ -223,7 +222,7 @@ public class RdvWs {
 	// Mettre l id du rdv
 	// POSTMAN
 	// 		DELETE	Authorisation	Body	Json	
-	@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN"})
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
     @Path("/del/{idRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

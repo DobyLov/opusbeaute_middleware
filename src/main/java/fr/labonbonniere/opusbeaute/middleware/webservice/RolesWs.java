@@ -21,12 +21,19 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.Roles;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RolesInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RoleInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesService;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesUtilisateurNullException;
 
 @Stateless
 @Path("/roles")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class RolesWs {
 
 	private static final Logger logger = LogManager.getLogger(RolesWs.class);
@@ -34,7 +41,7 @@ public class RolesWs {
 	@EJB
 	RolesService rolesService;
 	
-//	@SecuApp({RoleEnum.ADMINISTRATEUR})
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -57,6 +64,7 @@ public class RolesWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idRole: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -78,6 +86,7 @@ public class RolesWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -104,6 +113,7 @@ public class RolesWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -133,6 +143,7 @@ public class RolesWs {
 
 	}
 
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idRole: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

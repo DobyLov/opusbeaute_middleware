@@ -24,12 +24,19 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInvalideException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.GenrePrestationNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.NbCharPrestationException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationService;
 
 @Stateless
 @Path("/prestation")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class PrestationWs {
 
 	private static final Logger logger = LogManager.getLogger(PrestationWs.class);
@@ -37,6 +44,7 @@ public class PrestationWs {
 	@EJB
 	private PrestationService prestationservice;
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/listeprestations")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -59,6 +67,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idPrestation: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -81,6 +90,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/listph")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -103,6 +113,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/listpf")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -125,6 +136,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/searchga/{genre},{activite}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -148,6 +160,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("searchgas/{genre},{activite},{soin}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -171,6 +184,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -206,6 +220,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -235,6 +250,7 @@ public class PrestationWs {
 
 	}
 
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idPrestation: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

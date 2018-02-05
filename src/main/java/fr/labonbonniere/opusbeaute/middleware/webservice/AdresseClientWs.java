@@ -22,6 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.AdresseClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
@@ -30,12 +31,18 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeExcept
 
 @Stateless
 @Path("/adresse")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class AdresseClientWs {
 	private static final Logger logger = LogManager.getLogger(AdresseClientWs.class);
 
 	@EJB
 	private AdresseClientService adresseservice;
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +65,7 @@ public class AdresseClientWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -79,6 +87,7 @@ public class AdresseClientWs {
 		return builder.build();
 	}
 
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -117,7 +126,7 @@ public class AdresseClientWs {
 		
 		return builder.build();
 	}
-
+	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -161,7 +170,7 @@ public class AdresseClientWs {
 
 	}
 
-	
+	@DefineUserRole({"PRATICIEN"})
 	@PUT
 	@Path("/settonull/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -189,7 +198,7 @@ public class AdresseClientWs {
 
 	}
 	
-	
+	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

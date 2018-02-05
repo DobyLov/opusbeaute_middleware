@@ -11,11 +11,18 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPraticienService;
 
 @Stateless
 @Path("/email")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class EmailReminderClientWs {
 
 	private static final Logger logger = LogManager.getLogger(EmailReminderClientWs.class);

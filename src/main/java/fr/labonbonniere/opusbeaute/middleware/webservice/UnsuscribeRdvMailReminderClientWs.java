@@ -15,10 +15,17 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.UnsuscribeMailReminderClientService;
 
 @Stateless
 @Path("/unsuscribe")
+@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class UnsuscribeRdvMailReminderClientWs {
 
 	private static final Logger logger = LogManager.getLogger(UnsuscribeRdvMailReminderClientWs.class);
@@ -65,12 +72,12 @@ public class UnsuscribeRdvMailReminderClientWs {
 		if (passeDeTaF != false) {
 			logger.info("UnsuscribeMailReminderClientWs log : Desinscription de l adresse: " + adresseMailClient);
 
-			String messagensusbcribe = "<p>&nbsp;</p>"
+			String messageUnsusbcribe = "<p>&nbsp;</p>"
 					+ "<p><span style=\"font-family: helvetica; font-size: medium;\">Votre demande de d&eacute;sinscritpion au rappel automatique est prise en compte.&nbsp;</span></p>"
 					+ "<p><span style=\"font-family: helvetica;\"><span style=\"font-size: medium;\">Cordialement,</span></span></p>"
 					+ "<p><span style=\"font-family: helvetica; font-size: medium;\">La_bonbonn&egrave;re_d'audrey</span></p>";
 
-			builder = Response.ok().entity(messagensusbcribe);
+			builder = Response.ok().entity(messageUnsusbcribe);
 
 		}
 		if (passeDeTaF != true) {
