@@ -16,7 +16,7 @@ public class LoginService {
 	static final Logger logger = LogManager.getLogger(LoginService.class);
 
 	@EJB
-	UtilisateurService utilisateurservice;
+	UtilisateurService utilisateurService;
 	
 	@EJB
 	TokenGen tokengen;
@@ -24,8 +24,6 @@ public class LoginService {
 	@EJB
 	PasswordHandler passwordHandler;
 	
-	@EJB
-	UtilisateurService utilisateurService;
 
 	public String tokenGenAtLogin(String email, String pwd) throws Exception, UtilisateurInexistantException {
 		
@@ -58,7 +56,7 @@ public class LoginService {
 
 		try {
 
-			loginexist = utilisateurservice.recupererUnUtilisateurViaeMail(email);
+			loginexist = utilisateurService.recupererUnUtilisateurViaeMail(email);
 
 			if (loginexist != null) {
 				logger.info("LoginService log : L utilisateur : " + loginexist.getPrenomUtilisateur()

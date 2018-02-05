@@ -9,9 +9,11 @@ import java.lang.annotation.Target;
 
 import javax.ws.rs.NameBinding;
 
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RoleEnum;
+
 @NameBinding
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })
 public @interface SecuApp {
-
+	RoleEnum[] value() default {};
 }

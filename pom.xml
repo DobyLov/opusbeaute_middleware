@@ -98,7 +98,14 @@
 		    <artifactId>jbcrypt</artifactId>
 		    <version>0.4</version>
 		</dependency>
-
+		
+		<!-- https://mvnrepository.com/artifact/org.picketbox/jboss-security-spi -->
+<!-- 		<dependency>
+		    <groupId>org.picketbox</groupId>
+		    <artifactId>jboss-security-spi</artifactId>
+		    <version>5.0.3.Beta1</version>
+		</dependency>
+ -->
 				
 	</dependencies>
 	<build>

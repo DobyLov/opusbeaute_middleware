@@ -80,6 +80,10 @@ public class LieuRdv implements Serializable {
 	public void setAdresseLieuRdv(AdresseLieuRdv adresseLieuRdv) {
 		this.adresseLieuRdv = adresseLieuRdv;
 	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	@Override
 	public String toString() {

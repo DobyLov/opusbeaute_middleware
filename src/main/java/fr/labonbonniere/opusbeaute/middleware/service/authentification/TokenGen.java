@@ -25,7 +25,7 @@ public class TokenGen {
 		// recupere la clee pour la signature
 		Clee clee = new Clee();
 		String cleeSecrete = clee.getCleeDuToken();
-		logger.info("TokenGen log : Recuperation de la clee secrete : " + cleeSecrete);
+		logger.info("TokenGen log : Recuperation de la clee secrete.");
 
 		// Definition du temps de validite du token
 		long ttlMillis = ((60 * 1000) * 60) * 3; // 1minute = 60 000 milisecondes :}
@@ -49,7 +49,7 @@ public class TokenGen {
 
 		// We will sign our JWT with our ApiKey secret
 		 byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(cleeSecrete);
-		 logger.info("TokenGen log : Conversion en byte de la cleesecrete : " + apiKeySecretBytes.toString());
+//		 logger.info("TokenGen log : Conversion en byte de la cleesecrete : " + apiKeySecretBytes.toString());
 		 
 //		 Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 //		 logger.info("TokenGen log : Generation de la signature : " + signingKey);

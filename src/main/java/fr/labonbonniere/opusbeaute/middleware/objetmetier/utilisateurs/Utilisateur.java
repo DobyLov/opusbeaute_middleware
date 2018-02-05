@@ -156,8 +156,6 @@ public class Utilisateur implements Serializable {
 		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
-	
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

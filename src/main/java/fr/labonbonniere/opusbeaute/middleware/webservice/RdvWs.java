@@ -1,6 +1,7 @@
 package fr.labonbonniere.opusbeaute.middleware.webservice;
 
 import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -21,6 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.NoRdvException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDebutChevauchementException;
@@ -29,8 +31,14 @@ import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEnglobantException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvFinChevauchementException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
 
+
+@SecuApp
 @Stateless
 @Path("/rdv")
+//@DefineUserRole({"ANONYMOUS"})
+//@DefineUserRole({"ALLOWALL"})
+//@DefineUserRole({"DENYALL"})
+@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class RdvWs {
 	
 	// logger
@@ -38,11 +46,13 @@ public class RdvWs {
 
 	@EJB
 	private RdvService rdvService;
-	
-	//	http://localhost:8080/opusbeaute-0/obws/rdvs
-	@SecuApp
+//	@DefineUserRole({"ANONYMOUS"})
+//	@DefineUserRole({"PRATICIEN", "ADMINISTRATEUR"})
+	@DefineUserRole({"ALLOWALL"})
+//	@DefineUserRole({"DENYALL"})
+//	@DefineUserRole({"ROOT","PRATICIEN", "ADMINISTRATEUR"})
 	@GET
-	@Path("/list")
+	@Path("/list")	
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListe() throws DaoException {
 		
@@ -65,6 +75,7 @@ public class RdvWs {
 	
 	
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/$idRdv
+	@DefineUserRole({"ALLOWALL"})
 	@GET
     @Path("/{idRdv: \\d+}") // fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
@@ -97,6 +108,7 @@ public class RdvWs {
 	// mm => 01 à 12
 	// dd => 01 à 31
 	// !!! le regex ne gere pas le 30 fevrier ! a completer dans la partie service / metiers
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/pardate/{listeRdvDateDuJour: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -121,7 +133,7 @@ public class RdvWs {
 
 	}
 	
-	
+	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/plagedate/{RdvPlageJourA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{RdvPlageJourB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -148,6 +160,8 @@ public class RdvWs {
 	// ne pas mettre l idRdv, ajouter a l' objet et les parametres RDV	
 	// POSTMAN
 	//		POST	BODY	raw		JSON
+	
+	@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")	// fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
@@ -177,6 +191,7 @@ public class RdvWs {
 	// Mettre l idRdv de l objet et les parametres a modifier rdv
 	// POSTMAN
 	//		PUT
+	@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod") // fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
@@ -208,6 +223,7 @@ public class RdvWs {
 	// Mettre l id du rdv
 	// POSTMAN
 	// 		DELETE	Authorisation	Body	Json	
+	@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN"})
 	@DELETE
     @Path("/del/{idRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -34,6 +34,7 @@ public class RolesWs {
 	@EJB
 	RolesService rolesService;
 	
+//	@SecuApp({RoleEnum.ADMINISTRATEUR})
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)

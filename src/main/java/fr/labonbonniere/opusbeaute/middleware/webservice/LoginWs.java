@@ -16,8 +16,8 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.LoginService;
 
 
-@Path("/login")
 @Stateless
+@Path("/login")
 public class LoginWs {
 	
 	static final Logger logger = LogManager.getLogger(LoginWs.class);
