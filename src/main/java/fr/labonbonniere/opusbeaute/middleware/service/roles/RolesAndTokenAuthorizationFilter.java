@@ -27,7 +27,7 @@ import io.jsonwebtoken.Jwts;
 
 @SecuApp
 @Provider
-@Priority(value = 1)
+//@Priority(value = 1)
 public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter {
 
 	// logger
@@ -49,7 +49,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
-	public void checkAnnotation(ContainerRequestContext requestContext)
+	private void checkAnnotation(ContainerRequestContext requestContext)
 			throws TokenInvalideException, TokenExpiredException {
 
 		Class<?> methodOnClass = resourceInfo.getResourceClass();
@@ -87,7 +87,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
-	public void performClassAuthorization(String[] defineUserRoleOnClass, ContainerRequestContext requestContext)
+	private void performClassAuthorization(String[] defineUserRoleOnClass, ContainerRequestContext requestContext)
 			throws Exception {
 
 		Method method = resourceInfo.getResourceMethod();
@@ -116,7 +116,6 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 
 			if (numbersOfRolesOnClass >= 0) {
 
-				// Check la validite du token
 				tokenIsValid(requestContext);
 				logger.info("RolesAuthorizationFilter log : Performing Authorisation on Class");
 
@@ -162,7 +161,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
-	public void performMethodAuthorization(String[] defineUserRoleOnMethod, ContainerRequestContext requestContext)
+	private void performMethodAuthorization(String[] defineUserRoleOnMethod, ContainerRequestContext requestContext)
 			throws Exception {
 
 		Integer numbersOfRolesOnMethod = defineUserRoleOnMethod.length;
@@ -180,12 +179,9 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 
 		if (numbersOfRolesOnMethod >= 0) {
-			logger.info("RolesAuthorizationFilter log : Performing Authorisation on Method");
-			// Check la validite du token
+			
+			logger.info("RolesAuthorizationFilter log : Performing Authorisation on Method");			
 			tokenIsValid(requestContext);
-			logger.info("RolesAuthorizationFilter log : ---------------------------------------");
-			logger.info("RolesAuthorizationFilter log : -------- Token valide     -------------");
-			logger.info("RolesAuthorizationFilter log : ---------------------------------------");
 			
 			for (Integer i = 0; i < numbersOfRolesOnMethod; i++) {
 
@@ -287,7 +283,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
-	public boolean tknExpirationDateChecker(Date expirationDateToken) throws TokenExpiredException {
+	private boolean tknExpirationDateChecker(Date expirationDateToken) throws TokenExpiredException {
 
 		System.currentTimeMillis();
 		boolean isExpired = true;

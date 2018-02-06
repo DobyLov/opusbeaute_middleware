@@ -45,11 +45,11 @@ fr\labonbonniere\opusbeaute\middleware\service\roles\RoleInexistantException.cla
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\Genre.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientExistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordCrypto.class
-fr\labonbonniere\opusbeaute\middleware\service\roles\RolesAuthorizationFilter.class
 fr\labonbonniere\opusbeaute\middleware\service\roles\RolesUtilisateurNullException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationExistanteException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\PraticienExistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\LoginService.class
+fr\labonbonniere\opusbeaute\middleware\service\roles\RolesAndTokenAuthorizationFilter.class
 fr\labonbonniere\opusbeaute\middleware\dao\RolesDao.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\NoRdvException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInexistanteException.class
@@ -114,7 +114,6 @@ fr\labonbonniere\opusbeaute\middleware\service\authentification\TestFiltreAlege.
 fr\labonbonniere\opusbeaute\middleware\dao\RdvDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\Praticien.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresselieurdv\AdresseLieuRdv.class
-fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenValidator.class
 fr\labonbonniere\opusbeaute\middleware\webservice\LoginWs.class
 fr\labonbonniere\opusbeaute\middleware\dao\ClientDao.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbNumZipcodeException.class
