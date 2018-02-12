@@ -24,7 +24,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInvalideException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.GenrePrestationNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.NbCharPrestationException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationService;
@@ -39,7 +39,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationServi
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class PrestationWs {
 
-	private static final Logger logger = LogManager.getLogger(PrestationWs.class);
+	private static final Logger logger = LogManager.getLogger(PrestationWs.class.getName());
 
 	@EJB
 	private PrestationService prestationservice;

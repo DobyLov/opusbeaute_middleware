@@ -17,6 +17,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseE
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresselieurdv.AdresseLieuRdv;
 
+/**
+ * Gestion de la persistance des Lieux de Rdv
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class AdresseLieuRdvDao {
@@ -26,6 +32,12 @@ public class AdresseLieuRdvDao {
 	private EntityManager em;
 	
 	
+	/**
+	 * Retourne la liste des AdresseLieuRdv
+	 * 
+	 * @return la liste des adresse des lieux de Rdv
+	 * @throws DaoException
+	 */
 	public List<AdresseLieuRdv> obtenirListeAdresseLieuRdv() throws DaoException {
 		
 		
@@ -48,6 +60,13 @@ public class AdresseLieuRdvDao {
 		
 	}
 	
+	/**
+	 * Retourne l adresse du lieu de Rdv persiste via l id correspondant
+	 * 
+	 * @param idAdresseLieuRdv id de l adresse du lieu a retourner
+	 * @return renvoi de l adresse du lieu de Rdv
+	 * @throws AdresseInexistanteException
+	 */
 	public AdresseLieuRdv obtenirAdresseLieuRdv(final Integer idAdresseLieuRdv) throws AdresseInexistanteException {
 		
 		logger.info("AdresseLieuRdv Dao log : Demande a la bdd l adresse id : " + idAdresseLieuRdv);
@@ -64,6 +83,12 @@ public class AdresseLieuRdvDao {
 
 	}
 	
+	/**
+	 * Persiste une Adresse du lieur de Rdv
+	 * 
+	 * @param adresseLieuRdv Objet Adresse lieur Rdv
+	 * @throws AdresseExistanteException
+	 */
 	public void ajouterUneAdresseLieuRdv (AdresseLieuRdv adresseLieuRdv)  throws AdresseExistanteException {
 		
 		try {
@@ -78,6 +103,12 @@ public class AdresseLieuRdvDao {
 		}
 	}
 	
+	/**
+	 * Modifie une AdresseLieurRdv persistee
+	 * 
+	 * @param adresseLieuRdv Objet adresseLieuRdv
+	 * @throws AdresseInexistanteException
+	 */
 	 public void modifieUneAdresseLieuRdv(AdresseLieuRdv adresseLieuRdv) throws AdresseInexistanteException {
 		 
 			logger.info("AdresseLieuRdv Dao log : Demande de modification de l AdresseLieuRdv id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " a la Bdd.");

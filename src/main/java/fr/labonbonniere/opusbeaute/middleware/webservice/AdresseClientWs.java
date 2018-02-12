@@ -22,7 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.AdresseClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
@@ -37,8 +37,9 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeExcept
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class AdresseClientWs {
-	private static final Logger logger = LogManager.getLogger(AdresseClientWs.class);
+	private Logger logger = LogManager.getLogger(AdresseClientWs.class.getName());
 
+//	 static final
 	@EJB
 	private AdresseClientService adresseservice;
 
@@ -92,7 +93,7 @@ public class AdresseClientWs {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUneadresse(AdresseClient adresse) throws AdresseExistanteException {
+	public Response creerUneAdresse(AdresseClient adresse) throws AdresseExistanteException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -131,7 +132,7 @@ public class AdresseClientWs {
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUneadresse(AdresseClient adresse) throws AdresseInexistanteException {
+	public Response modifieUneAdresse(AdresseClient adresse) throws AdresseInexistanteException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -175,7 +176,7 @@ public class AdresseClientWs {
 	@Path("/settonull/{idAdresse: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response sesToNullUneadresse(@PathParam("idAdresse") final Integer idAdresse) throws AdresseInexistanteException {
+	public Response sesToNullUneAdresse(@PathParam("idAdresse") final Integer idAdresse) throws AdresseInexistanteException {
 
 		Response.ResponseBuilder builder = null;
 		try {

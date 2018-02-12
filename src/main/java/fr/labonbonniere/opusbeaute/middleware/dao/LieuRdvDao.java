@@ -17,6 +17,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInexistantException;
 
+/**
+ * Gere la persistance des Lieux de Rdv
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class LieuRdvDao {
@@ -25,6 +31,12 @@ public class LieuRdvDao {
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
+	/**
+	 * Retourne la liste des Lieu de Rdv persiste
+	 * 
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<LieuRdv> obtenirListeLieuRdv() throws DaoException {
 
 		try {
@@ -45,6 +57,13 @@ public class LieuRdvDao {
 
 	}
 
+	/**
+	 * Retourne un lieu de rdv Persiste via son Id
+	 * 
+	 * @param idLieuRdv
+	 * @return
+	 * @throws LieuRdvInexistantException
+	 */
 	public LieuRdv obtenirLieuRdv(final Integer idLieuRdv) throws LieuRdvInexistantException {
 
 		logger.info("LieuRdvDao log : Demande a la bdd le LieuRdv id : " + idLieuRdv);
@@ -62,6 +81,12 @@ public class LieuRdvDao {
 
 	}
 
+	/**
+	 * Persiste un nouveau Lieu de Rdv
+	 * 
+	 * @param lieurdv
+	 * @throws LieuRdvExistantException
+	 */
 	public void ajouterUnLieuRdv(LieuRdv lieurdv) throws LieuRdvExistantException {
 
 		try {
@@ -76,6 +101,12 @@ public class LieuRdvDao {
 		}
 	}
 
+	/**
+	 * Modifie un lieu de rdv persiste
+	 * 
+	 * @param lieurdv
+	 * @throws LieuRdvInexistantException
+	 */
 	public void modifieUnLieuRdv(LieuRdv lieurdv) throws LieuRdvInexistantException {
 
 		logger.info("LieuRdvDao log : Demande de modification du LieuRdv id : " + lieurdv.getIdLieuRdv() + " a la Bdd.");
@@ -90,6 +121,12 @@ public class LieuRdvDao {
 		}
 	}
 
+	/**
+	 * Supprime un lieur de Rdv persiste
+	 * 
+	 * @param idLieuRdv
+	 * @throws LieuRdvInexistantException
+	 */
 	public void supprimeUnLieuRdv(final Integer idLieuRdv) throws LieuRdvInexistantException {
 
 		logger.info("LieuRdvDao log : Demande de suppression du LieuRdv id : " + idLieuRdv + " dans la Bdd.");

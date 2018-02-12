@@ -16,7 +16,7 @@ public class UnsuscribeMailReminderClientService {
 	@EJB
 	private ClientDao clientdao;
 
-	static final Logger logger = LogManager.getLogger(SendMailReminderClientService.class);
+	static final Logger logger = LogManager.getLogger(UnsuscribeMailReminderClientService.class);
 
 	public Boolean unscuscribeRdvMailReminderClient(String adresseMailClient) throws Exception {
 		

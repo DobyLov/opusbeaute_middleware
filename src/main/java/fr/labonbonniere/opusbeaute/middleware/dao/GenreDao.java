@@ -16,6 +16,12 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
 
+/**
+ * Gestion de la persistence du Genre
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class GenreDao {
@@ -34,6 +40,12 @@ public class GenreDao {
 		return nbGenreRowsinBdd;
 	}
 
+	/**
+	 * Retourne la liste des genres persistes
+	 * 
+	 * @return la liste des Genres
+	 * @throws DaoException
+	 */
 	public List<Genre> obtenirListeGenre() throws DaoException {
 
 		try {
@@ -54,6 +66,13 @@ public class GenreDao {
 
 	}
 
+	/**
+	 * Retourne un Genre depuis son Id
+	 * 
+	 * @param idGenre
+	 * @return le Genre correspondant a son Id
+	 * @throws GenreInexistantException
+	 */
 	public Genre obtenirGenre(final Integer idGenre) throws GenreInexistantException {
 
 		logger.info("GenreDao log : Demande a la bdd le Prestations id : " + idGenre);
@@ -71,6 +90,12 @@ public class GenreDao {
 
 	}
 
+	/**
+	 * Persiste un nouveau Genre
+	 * 
+	 * @param genre
+	 * @throws DaoException
+	 */
 	public void ajouterUnGenre(Genre genre) throws DaoException{
 
 		try {
@@ -85,6 +110,12 @@ public class GenreDao {
 		}
 	}
 
+	/**
+	 * Modifie un Genre deja persiste
+	 * 
+	 * @param genre
+	 * @throws GenreInexistantException
+	 */
 	public void modifieUnGenre(Genre genre) throws GenreInexistantException {
 
 		logger.info("GenreDao log : Demande de modification genre id : " + genre.getIdGenre() + " a la Bdd.");
@@ -99,6 +130,12 @@ public class GenreDao {
 		}
 	}
 
+	/**
+	 * Supprime un Genre persiste
+	 * 
+	 * @param idGenre
+	 * @throws GenreInexistantException
+	 */
 	public void supprimeUnGenre(final Integer idGenre) throws GenreInexistantException {
 
 		logger.info("GenreDao log : Demande de suppression du Genre id : " + idGenre + " dans la Bdd.");

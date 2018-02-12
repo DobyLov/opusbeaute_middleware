@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
 
@@ -34,7 +34,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class GenreWs {
-	private static final Logger logger = LogManager.getLogger(GenreWs.class);
+	private static final Logger logger = LogManager.getLogger(GenreWs.class.getName());
 
 	@EJB
 	private GenreService genreservice;

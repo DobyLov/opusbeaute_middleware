@@ -14,7 +14,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.PraticienDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
@@ -57,7 +57,7 @@ public class PraticienService {
 		}
 	}
 
-	public void ajoutUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public void ajoutUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("PraticienService log : Demande d ajout d un nouvel Praticien dans la Bdd.");
@@ -73,7 +73,7 @@ public class PraticienService {
 	}
 
 	public void modifierUnPraticien(Praticien praticien) throws PraticienInexistantException, 
-	EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("PraticienService log : Demande de modification du Praticien id : "
@@ -107,7 +107,7 @@ public class PraticienService {
 		}
 	}
 	
-	private Praticien validationformat(Praticien praticien) throws EmailFormatInvalid, NbCharNomException, 
+	private Praticien validationformat(Praticien praticien) throws EmailFormatInvalidException, NbCharNomException, 
 				NbCharPrenomException, NbCharTelException {
 		
 		// ok
@@ -217,7 +217,7 @@ public class PraticienService {
 				logger.info("PraticienService log : Praticien.AdresseMail format non valide depasse 50 caracteres.");
 				praticien.setSuscribedMailReminder("F");
 				logger.info("PraticienService log : SuscribedMailRemider force a FALSE");
-				throw new EmailFormatInvalid("PraticienService Validation Exception : Praticien.Mail non valide");
+				throw new EmailFormatInvalidException("PraticienService Validation Exception : Praticien.Mail non valide");
 
 			} else {
 				Boolean emailFormatvalidation = isValidEmailAddress(praticien.getAdresseMailPraticien());
@@ -226,7 +226,7 @@ public class PraticienService {
 					logger.info("PraticienService log : Praticien.AdresseMail Format non valide : " + emailFormatvalidation);
 					praticien.setSuscribedMailReminder("F");
 					logger.info("PraticienService log : SuscribedMailRemider force a FALSE");
-					throw new EmailFormatInvalid("PraticienService Validation Exception : Praticien.Mail non valide");
+					throw new EmailFormatInvalidException("PraticienService Validation Exception : Praticien.Mail non valide");
 
 				}
 			}

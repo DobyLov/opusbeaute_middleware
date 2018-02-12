@@ -65,7 +65,7 @@ public class ClientService {
 
 	public void ajoutClient(Client client)
 			throws DaoException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException,
-			NbCharPrenomException, NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalid,
+			NbCharPrenomException, NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalidException,
 			DaoException, GenreInvalideException, GenreClientNullException, SuscribeMailReminderException,
 			SuscribedNewsLetterException, SuscribedSmsReminderException, PhoneMobileNotStartWith0607Exception {
 
@@ -112,7 +112,7 @@ public class ClientService {
 	public void modifduClient(Client client)
 			throws ClientInexistantException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException,
 			NbCharPaysException, NbCharPrenomException, NbCharNomException, NbCharTsAniversaire, NbCharTelException,
-			EmailFormatInvalid, GenreInvalideException, DaoException, GenreClientNullException {
+			EmailFormatInvalidException, GenreInvalideException, DaoException, GenreClientNullException {
 
 		try {
 			logger.info("ClientService log : Demande de modification du Client id : " + client.getIdClient()
@@ -261,7 +261,7 @@ public class ClientService {
 	}
 
 	private Client clientValiderFormater(Client client) throws NbCharPrenomException, NbCharNomException,
-			NbCharTsAniversaire, NbCharTelException, EmailFormatInvalid {
+			NbCharTsAniversaire, NbCharTelException, EmailFormatInvalidException {
 
 		logger.info("ClientService log : Validation des elements de Client avant persistance.");
 
@@ -413,7 +413,7 @@ public class ClientService {
 				logger.info("ClientService log : SuscribedNewsLetter force a FALSE");
 				client.setSuscribedCommercials("F");
 				logger.info("ClientService log : SuscribedCommercials force a FALSE");
-				throw new EmailFormatInvalid("ClientService Validation Exception : Client.Mail non valide");
+				throw new EmailFormatInvalidException("ClientService Validation Exception : Client.Mail non valide");
 
 			} else {
 				Boolean emailFormatvalidation = isValidEmailAddress(client.getAdresseMailClient());
@@ -426,7 +426,7 @@ public class ClientService {
 					logger.info("ClientService log : SuscribedNewsLetter force a FALSE");
 					client.setSuscribedCommercials("F");
 					logger.info("ClientService log : SuscribedCommercials force a FALSE");
-					throw new EmailFormatInvalid("ClientService Validation Exception : Client.Mail non valide");
+					throw new EmailFormatInvalidException("ClientService Validation Exception : Client.Mail non valide");
 
 				}
 			}

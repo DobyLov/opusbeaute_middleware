@@ -19,9 +19,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.Roles;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RolesInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RoleInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesService;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesUtilisateurNullException;
@@ -36,7 +36,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesUtilisateurNull
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class RolesWs {
 
-	private static final Logger logger = LogManager.getLogger(RolesWs.class);
+	private static final Logger logger = LogManager.getLogger(RolesWs.class.getName());
 	
 	@EJB
 	RolesService rolesService;

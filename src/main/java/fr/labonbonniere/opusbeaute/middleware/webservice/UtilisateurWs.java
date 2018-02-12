@@ -20,11 +20,11 @@ import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
@@ -39,7 +39,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurSer
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class UtilisateurWs {
-	private static final Logger logger = LogManager.getLogger(UtilisateurWs.class);
+	private static final Logger logger = LogManager.getLogger(UtilisateurWs.class.getName());
 
 	@EJB
 	private UtilisateurService utilisateurservice;
@@ -95,7 +95,7 @@ public class UtilisateurWs {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalid,
+	public Response creerUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException,
 			NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		Response.ResponseBuilder builder = null;
@@ -118,7 +118,7 @@ public class UtilisateurWs {
 			logger.error("UtilisateurWs log : Verifiez Utilisateur.Nom.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
-		} catch (EmailFormatInvalid message) {
+		} catch (EmailFormatInvalidException message) {
 			logger.error("UtilisateurWs log : Verifiez Utilisateur.Email.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
@@ -136,7 +136,7 @@ public class UtilisateurWs {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifieUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException,
-			EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+			EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -162,7 +162,7 @@ public class UtilisateurWs {
 			logger.error("UtilisateurWs log : Verifiez Client.Nom.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
-		} catch (EmailFormatInvalid message) {
+		} catch (EmailFormatInvalidException message) {
 			logger.error("UtilisateurWs log : Verifiez Client.Email.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 

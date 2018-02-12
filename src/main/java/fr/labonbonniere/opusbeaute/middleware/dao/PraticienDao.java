@@ -17,6 +17,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
 
+/**
+ * Gestion de la Persitence des Praticien
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class PraticienDao {
@@ -26,6 +32,12 @@ public class PraticienDao {
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
+	/**
+	 * Retourne la liste des Praticiens Persistes
+	 * 
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<Praticien> obtenirListePraticien() throws DaoException {
 
 		try {
@@ -46,6 +58,13 @@ public class PraticienDao {
 
 	}
 
+	/**
+	 * Retourn le Praticien Persiste via son Id
+	 * 
+	 * @param idPraticien
+	 * @return
+	 * @throws PraticienInexistantException
+	 */
 	public Praticien obtenirPraticien(final Integer idPraticien) throws PraticienInexistantException {
 
 		logger.info("PraticienDao log : Demande a la bdd l Praticien id : " + idPraticien);
@@ -63,6 +82,12 @@ public class PraticienDao {
 
 	}
 
+	/**
+	 * Persiste un nouveau Praticien
+	 * 
+	 * @param praticien
+	 * @throws PraticienExistantException
+	 */
 	public void ajouterUnPraticien(Praticien praticien) throws PraticienExistantException {
 
 		try {
@@ -97,6 +122,12 @@ public class PraticienDao {
 		}
 	}
 
+	/**
+	 * Supprime un Praticien Persiste
+	 * 
+	 * @param idPraticien
+	 * @throws PraticienInexistantException
+	 */
 	public void supprimeUnPraticien(final Integer idPraticien) throws PraticienInexistantException {
 
 		logger.info("PraticienDao log : Demande de suppression du Client id : " + idPraticien + " dans la Bdd.");

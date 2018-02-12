@@ -21,7 +21,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RolesInexistantE
 @Transactional
 public class RolesDao {
 
-	static final Logger logger = LogManager.getLogger(Roles.class);
+	static final Logger logger = LogManager.getLogger(RolesDao.class);
 	
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;

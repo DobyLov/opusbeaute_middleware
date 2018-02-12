@@ -15,7 +15,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHandler;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
@@ -61,7 +61,7 @@ public class UtilisateurService {
 		}
 	}
 
-	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("UtilistaeurService log : Demande d ajout d un nouvel Utilisateur dans la Bdd.");
@@ -76,7 +76,7 @@ public class UtilisateurService {
 		}
 	}
 
-	public void modifierUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException, EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public void modifierUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("UtilistaeurService log : Demande de modification du Utilisateur id : "
@@ -110,7 +110,7 @@ public class UtilisateurService {
 		}
 	}
 	
-	private Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	private Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 		
 		// Password validation et encryption Bcrypt
 		logger.info("UtilisateurService log : Test Utilisateur");
@@ -243,7 +243,7 @@ public class UtilisateurService {
 				logger.info("UtilisateurService log : Utilisateur.AdresseMail format non valide depasse 50 caracteres.");
 				utilisateur.setSuscribedMailReminder("F");
 				logger.info("UtilisateurService log : SuscribedMailRemider force a FALSE");
-				throw new EmailFormatInvalid("UtilisateurService Validation Exception : Utilisateur.Mail non valide");
+				throw new EmailFormatInvalidException("UtilisateurService Validation Exception : Utilisateur.Mail non valide");
 
 			} else {
 				Boolean emailFormatvalidation = isValidEmailAddress(utilisateur.getAdresseMailUtilisateur());
@@ -252,7 +252,7 @@ public class UtilisateurService {
 					logger.info("UtilisateurService log : Utilisateur.AdresseMail Format non valide : " + emailFormatvalidation);
 					utilisateur.setSuscribedMailReminder("F");
 					logger.info("UtilisateurService log : SuscribedMailRemider force a FALSE");
-					throw new EmailFormatInvalid("UtilisateurService Validation Exception : Utilisateur.Mail non valide");
+					throw new EmailFormatInvalidException("UtilisateurService Validation Exception : Utilisateur.Mail non valide");
 
 				}
 			}

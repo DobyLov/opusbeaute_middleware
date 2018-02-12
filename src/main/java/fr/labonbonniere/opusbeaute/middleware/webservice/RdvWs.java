@@ -22,7 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.NoRdvException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDebutChevauchementException;
@@ -31,7 +31,13 @@ import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEnglobantException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvFinChevauchementException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
 
-
+/**
+ * REST Gestion des RDV's
+ * Liste des rdv, cherche un rdv, ajout, modifie, supprime 
+ * 
+ * @author fred
+ *
+ */
 @SecuApp
 @Stateless
 @Path("/rdv")
@@ -44,11 +50,17 @@ import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
 public class RdvWs {
 	
 	// logger
-	private static final Logger logger = LogManager.getLogger(RdvWs.class);
+	private static final Logger logger = LogManager.getLogger(RdvWs.class.getName());
 
 	@EJB
 	private RdvService rdvService;
 
+	/**
+	 * Renvoie la liste totale des RDV
+	 * 
+	 * @return Response Liste rdv
+	 * @throws DaoException
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")	
@@ -72,7 +84,13 @@ public class RdvWs {
 		return builder.build(); 
 	}
 	
-	
+	/**
+	 * Retrouve un Rdv par son Id
+	 * 
+	 * @param idRdv Integer du numero du Rdv
+	 * @return Response Le rdv correspondant a son numero
+	 * @throws RdvInexistantException 
+	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/$idRdv
 	@DefineUserRole({"ALLOWALL"})
 	@GET
@@ -100,7 +118,13 @@ public class RdvWs {
 
 	}
 
-	
+	/**
+	 * Retourne la liste des Rdv's du jour renseigne
+	 * 
+	 * @param listeRdvDateDuJour Retourne le/les Rdv(s) de la date renseignee 
+	 * @return Response Un ou plusieur rdv
+	 * @throws DaoException 
+	 */
 	// regex qui gere le format yyyy-mm-dd numeric separe par "-" 
 	// le regex va un petit peu plus loin :
 	// yyyy => 2010 a 2029
@@ -131,7 +155,14 @@ public class RdvWs {
 		return builder.build();
 
 	}
-	
+	/**
+	 * Retourne une liste de Rdv via une plage de jour
+	 * 
+	 * @param RdvPlageJourA Debut de la plage
+	 * @param RdvPlageJourB Fin de plage
+	 * @return Response Une liste de rdv 
+	 * @throws DaoException
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/plagedate/{RdvPlageJourA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{RdvPlageJourB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
@@ -154,12 +185,23 @@ public class RdvWs {
 		return builder.build();
 	}
 	
-	
-	//	http://localhost:8080/opusbeaute-0/obws/rdv/addrdv
+	/**
+	 * Ajoute un Rdv
+	 * 
+	 * @param Rdv a persister
+	 * @return Response Le Rdv persiste
+	 * @throws RdvExistantException
+	 * @throws DaoException
+	 * @throws RdvEgaliteChevauchementException
+	 * @throws NoRdvException
+	 * @throws RdvDebutChevauchementException
+	 * @throws RdvFinChevauchementException
+	 * @throws RdvEnglobantException
+	 */
+	//	http://localhost:8080/opusbeaute-0/obws/rdv/add
 	// ne pas mettre l idRdv, ajouter a l' objet et les parametres RDV	
 	// POSTMAN
-	//		POST	BODY	raw		JSON
-	
+	//		POST	BODY	raw		JSON	
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")	// fonctionne bien 11/07
@@ -185,8 +227,14 @@ public class RdvWs {
 		return builder.build();
 	}
 		
-	
-	//	http://localhost:8080/opusbeaute-0/obws/rdv/modifrdv
+	/**
+	 * Modifie le Rdv
+	 * 
+	 * @param rdv a modifier
+	 * @return Response le rdv modifie
+	 * @throws RdvInexistantException Si le Rdv n existe pas.
+	 */
+	//	http://localhost:8080/opusbeaute-0/obws/rdv/mod
 	// Mettre l idRdv de l objet et les parametres a modifier rdv
 	// POSTMAN
 	//		PUT
@@ -216,9 +264,14 @@ public class RdvWs {
 		
 	}
 	
-
-	
-	// http://localhost:8080/opusbeaute-0/obws/rdv/remove/$idRdv
+	/**
+	 * Efface un Rdv
+	 * 
+	 * @param idRdv Id du Rdv a effacer
+	 * @return Response OK
+	 * @throws RdvInexistantException Si le Le Rdv n existe pas dans la base de donnee
+	 */
+	// http://localhost:8080/opusbeaute-0/obws/rdv/del/$idRdv
 	// Mettre l id du rdv
 	// POSTMAN
 	// 		DELETE	Authorisation	Body	Json	

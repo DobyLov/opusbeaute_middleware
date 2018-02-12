@@ -20,6 +20,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationExistanteException;
 
+/**
+ * Gere la Persistance des Prestations
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class PrestationDao {
@@ -29,6 +35,12 @@ public class PrestationDao {
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
+	/**
+	 * Liste les Prestations Persistees
+	 * 
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<Prestation> obtenirListePrestations() throws DaoException {
 
 		try {
@@ -49,6 +61,13 @@ public class PrestationDao {
 
 	}
 
+	/**
+	 * Retourne un Prestation Persistee via son Id
+	 * 
+	 * @param idPrestation
+	 * @return
+	 * @throws PrestationInexistanteException
+	 */
 	public Prestation obtenirPrestation(final Integer idPrestation) throws PrestationInexistanteException {
 
 		logger.info("PrestationsDao log : Demande a la bdd le Prestations id : " + idPrestation);
@@ -67,6 +86,12 @@ public class PrestationDao {
 
 	}
 
+	/**
+	 * Retourne la liste des Prestations Masculines
+	 * 
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<Prestation> obtenirListPrestationsHomme() throws DaoException {
 
 		try {
@@ -84,6 +109,12 @@ public class PrestationDao {
 		}
 	}
 
+	/**
+	 * Retourne la liste des prestation feminines
+	 * 
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<Prestation> obtenirListPrestationsFemme() throws DaoException {
 
 		try {
@@ -101,6 +132,15 @@ public class PrestationDao {
 		}
 	}
 
+	/**
+	 * Retourne la liste des Prestation par 
+	 * genre selectionnes et par activite
+	 * 
+	 * @param genre
+	 * @param activite
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<Prestation> obtenirListPrestationsCriteresGenreActivite(String genre, String activite)
 			throws DaoException {
 
@@ -121,6 +161,16 @@ public class PrestationDao {
 		}
 	}
 
+	/**
+	 * Retourne la Liste de Prestations 
+	 * Par genre selectionne, par activite, par soin
+	 * 
+	 * @param genre
+	 * @param activite
+	 * @param soin
+	 * @return
+	 * @throws DaoException
+	 */
 	public List<Prestation> obtenirListPrestationsCriteresGenreActiviteSoins(String genre, String activite, String soin)
 			throws DaoException {
 
@@ -141,6 +191,7 @@ public class PrestationDao {
 		}
 	}
 
+	
 	public void ajouterUnePrestation(Prestation prestation) throws PrestationExistanteException {
 
 		try {

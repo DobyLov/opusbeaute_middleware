@@ -1,5 +1,11 @@
 package fr.labonbonniere.opusbeaute.middleware.dao;
 
+/**
+ * Gere la remontee d erreur de Dao
+ * 
+ * @author fred
+ *
+ */
 public class DaoException extends Exception {
 
 	private static final long serialVersionUID = 1L;

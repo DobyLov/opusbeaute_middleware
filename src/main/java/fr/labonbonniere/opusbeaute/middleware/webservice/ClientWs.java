@@ -23,13 +23,13 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseI
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.ClientService;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
@@ -50,7 +50,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullExcep
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class ClientWs {
 
-	private static final Logger logger = LogManager.getLogger(ClientWs.class);
+	private static final Logger logger = LogManager.getLogger(ClientWs.class.getName());
 
 	@EJB
 	private ClientService clientservice;
@@ -107,7 +107,7 @@ public class ClientWs {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnClient(Client client)
 			throws NbNumZipcodeException, NbNumRueException, NbCharRueVilleException, NbCharPrenomException,
-			NbCharNomException, NbCharTsAniversaire, NbCharPaysException, NbCharTelException, EmailFormatInvalid,
+			NbCharNomException, NbCharTsAniversaire, NbCharPaysException, NbCharTelException, EmailFormatInvalidException,
 			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException {
 
 		Response.ResponseBuilder builder = null;
@@ -118,7 +118,7 @@ public class ClientWs {
 			logger.info("ClientWs log : Nouveau Client ajoute, avec l id : " + client.getIdClient());
 			builder = Response.ok(client);
 
-		}  catch (EmailFormatInvalid message) {
+		}  catch (EmailFormatInvalidException message) {
 			logger.error("ClientWs log : Verifiez Client.Email.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
@@ -178,7 +178,7 @@ public class ClientWs {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public <clientservice> Response modifieUnClient(Client client)
 			throws ClientInexistantException, AdresseInexistanteException, NbNumRueException, NbCharPrenomException,
-			NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalid, NbCharRueVilleException,
+			NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalidException, NbCharRueVilleException,
 			NbNumZipcodeException, NbCharPaysException, GenreInvalideException, DaoException, GenreClientNullException {
 
 		Response.ResponseBuilder builder = null;
@@ -196,7 +196,7 @@ public class ClientWs {
 			logger.error("ClientWs log : Le num de rue dans l adresse depasee 3 caracteres.");
 			builder = Response.notModified();
 
-		} catch (EmailFormatInvalid message) {
+		} catch (EmailFormatInvalidException message) {
 			logger.error("ClientWs log : L email ne respecte pas le format xyz@xyz.xyz.");
 			builder = Response.notModified();
 

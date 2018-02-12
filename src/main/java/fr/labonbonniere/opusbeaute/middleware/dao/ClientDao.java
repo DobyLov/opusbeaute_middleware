@@ -16,6 +16,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseC
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 
+/**
+ * Gere la persistance des Clients
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class ClientDao {
@@ -25,6 +31,12 @@ public class ClientDao {
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
+	/**
+	 * Recupere la liste des lients
+	 * 
+	 * @return la liste des clients persistes
+	 * @throws DaoException
+	 */
 	public List<Client> obtenirListeClient() throws DaoException {
 
 		try {
@@ -42,6 +54,13 @@ public class ClientDao {
 
 	}
 
+	/**
+	 * Retourne le Client demande par son Id
+	 * 
+	 * @param idClient 
+	 * @return Retourne Entitee Client
+	 * @throws ClientInexistantException
+	 */
 	public Client obtenirClient(final Integer idClient) throws ClientInexistantException {
 
 		logger.info("ClientDAO log : Demande a la bdd le client id : " + idClient);
@@ -59,6 +78,12 @@ public class ClientDao {
 
 	}
 
+	/**
+	 * Persiste un nouveau Client
+	 * 
+	 * @param client Objet Client
+	 * @throws DaoException
+	 */
 	public void ajouterUnClient(Client client) throws DaoException {
 		
 		try {
@@ -71,6 +96,12 @@ public class ClientDao {
 		}
 	}
 
+	/**
+	 * Modifie un lcient persiste
+	 * 
+	 * @param client
+	 * @throws ClientInexistantException
+	 */
 	public void modifieUnClient(Client client) throws ClientInexistantException {
 
 		logger.info("ClientDao log : Demande de modification du Client id : " + client.getIdClient() + " a la Bdd.");
@@ -88,6 +119,12 @@ public class ClientDao {
 		}
 	}
 
+	/**
+	 * Supprime un client persite
+	 * 
+	 * @param idClient
+	 * @throws ClientInexistantException
+	 */
 	public void supprimeUnClient(final Integer idClient) throws ClientInexistantException {
 
 		logger.info("ClientDao log : Demande de suppression du Client id : " + idClient + " dans la Bdd.");
@@ -105,6 +142,13 @@ public class ClientDao {
 		}
 	}
 	
+	/**
+	 * Retrouve un Lcient par son adresse E-Mail
+	 * 
+	 * @param adresseMailClient
+	 * @return Entitee Client
+	 * @throws ClientInexistantException
+	 */
 	public Client retrouveUnClientViaEmail (String adresseMailClient) throws ClientInexistantException{
 		
 		try {

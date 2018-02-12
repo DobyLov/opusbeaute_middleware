@@ -23,8 +23,8 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseI
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalid;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
@@ -39,7 +39,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class PraticienWs {
-	private static final Logger logger = LogManager.getLogger(PraticienWs.class);
+	private static final Logger logger = LogManager.getLogger(PraticienWs.class.getName());
 
 	@EJB
 	private PraticienService praticienservice;
@@ -95,7 +95,7 @@ public class PraticienWs {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalid,
+	public Response creerUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalidException,
 			NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		Response.ResponseBuilder builder = null;
@@ -118,7 +118,7 @@ public class PraticienWs {
 			logger.error("PraticienWS log : Verifiez Client.Nom.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
-		} catch (EmailFormatInvalid message) {
+		} catch (EmailFormatInvalidException message) {
 			logger.error("PraticienWS log : Verifiez Client.Email.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
@@ -136,7 +136,7 @@ public class PraticienWs {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifieUnPraticien(Praticien praticien) throws PraticienInexistantException,
-			EmailFormatInvalid, NbCharNomException, NbCharPrenomException, NbCharTelException {
+			EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -162,7 +162,7 @@ public class PraticienWs {
 			logger.error("PraticienWs log : Verifiez Praticien.Nom.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
-		} catch (EmailFormatInvalid message) {
+		} catch (EmailFormatInvalidException message) {
 			logger.error("PraticienWs log : Verifiez Praticien.Email.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 

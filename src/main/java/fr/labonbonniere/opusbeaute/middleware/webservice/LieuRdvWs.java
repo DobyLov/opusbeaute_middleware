@@ -23,7 +23,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInvalideException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
@@ -39,7 +39,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.lieurdv.LieuRdvService;
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class LieuRdvWs {
-	private static final Logger logger = LogManager.getLogger(LieuRdvWs.class);
+	private static final Logger logger = LogManager.getLogger(LieuRdvWs.class.getName());
 
 	@EJB
 	private LieuRdvService lieurdvservice;

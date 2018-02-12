@@ -22,7 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseExistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresselieurdv.AdresseLieuRdv;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
@@ -38,7 +38,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresselieurdv.AdresseLieu
 //@DefineUserRole({"DENYALL"})
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class AdresseLieuRdvWs {
-	private static final Logger logger = LogManager.getLogger(AdresseLieuRdvWs.class);
+	private static final Logger logger = LogManager.getLogger(AdresseLieuRdvWs.class.getName());
 
 	@EJB
 	private AdresseLieuRdvService adresselieurdvservice;

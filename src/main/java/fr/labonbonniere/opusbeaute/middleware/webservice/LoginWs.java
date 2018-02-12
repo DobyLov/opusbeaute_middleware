@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.LoginService;
 
 
@@ -27,10 +27,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.authentification.LoginServ
 //@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class LoginWs {
 	
-	static final Logger logger = LogManager.getLogger(LoginWs.class);
+	static final Logger logger = LogManager.getLogger(LoginWs.class.getName());
 	
-//	@EJB
-//	UtilisateurService utilisateurservice;
 	
 	@EJB
 	LoginService loginservice;
@@ -42,9 +40,6 @@ public class LoginWs {
     public Response loginVerificationCredentiels(@FormParam("email") String email, 
     										@FormParam("pwd") String pwd) throws Exception {
     
-//    	public Response verificationCredentiels() throws Exception, UtilisateurInexistantException{
-//    	String email = "audrey@hotmail.com";
-//    	String pwd = "toto";
 
     	try {
     		

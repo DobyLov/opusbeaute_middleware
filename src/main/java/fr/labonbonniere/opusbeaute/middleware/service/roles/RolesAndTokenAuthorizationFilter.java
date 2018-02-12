@@ -16,7 +16,7 @@ import javax.ws.rs.ext.Provider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.Clee;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenExpiredException;
@@ -27,7 +27,7 @@ import io.jsonwebtoken.Jwts;
 
 @SecuApp
 @Provider
-//@Priority(value = 1)
+@Priority(value = 1)
 public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter {
 
 	// logger

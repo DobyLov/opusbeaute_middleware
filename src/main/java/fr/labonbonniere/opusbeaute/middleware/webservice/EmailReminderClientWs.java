@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.userRoles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPraticienService;
 
@@ -25,7 +25,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPrati
 @DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class EmailReminderClientWs {
 
-	private static final Logger logger = LogManager.getLogger(EmailReminderClientWs.class);
+	private static final Logger logger = LogManager.getLogger(EmailReminderClientWs.class.getName());
 	
 	@EJB
 	private SendMailReminderClientService sendmailreminderclient;
