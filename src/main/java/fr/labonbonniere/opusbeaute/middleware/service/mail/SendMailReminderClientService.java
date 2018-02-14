@@ -25,6 +25,13 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
+/**
+ * Gere l envoi d email de rappel de Rdv 
+ * au Client
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class SendMailReminderClientService {
 
@@ -44,6 +51,14 @@ public class SendMailReminderClientService {
 	private String clientEmail;
 	private String lieuRdv;
 
+	/**
+	 * Methode chargee d envoyer un email
+	 * a un ou des clients pour rappeler un ou des Rdvs
+	 * L envoie est automatise et plannifie a 20H	 
+	 * grace au service Timer annote "@SCHEDULE"
+	 * 
+	 * @throws DaoException Exception
+	 */
 	// Service Timer: Envoyer un mail de rappel au client.
 	// Freq: Tous les jours de la semaine à 20H00.
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
@@ -134,8 +149,15 @@ public class SendMailReminderClientService {
 
 		}
 
-	} // de methode scheduled
-
+	}
+	
+	/**
+	 * Formatage de la date de TimeStamp
+	 * En chaine String
+	 * 
+	 * @param rdvDateHeure Timestamp
+	 * @return String
+	 */
 	private String timestampToStringTime(Timestamp rdvDateHeure) {
 
 		// Formattage du timeStamp rdvHeure
@@ -158,6 +180,12 @@ public class SendMailReminderClientService {
 
 	}
 
+	/**
+	 * Recupere la date du jour et lui ajoute 1 jour
+	 * 
+	 * @return String
+	 * @throws DaoException Exception
+	 */
 	private String recuDateDuJourplusUnFormate() throws DaoException {
 
 		logger.info("MailRemiderSender log : Recuperation de la date J+1");
@@ -173,6 +201,14 @@ public class SendMailReminderClientService {
 		return rdvDateDuJourPlusUnFormate;
 	}
 
+	/**
+	 * Moteur d envoie d Email
+	 * Grace a Javax.mail
+	 * 
+	 * @param message String
+	 * @param destinataire String
+	 * @param customMailSubject String
+	 */
 	private void moteurEmail(String message, String destinataire, String customMailSubject) {
 
 		// Creation du mail
@@ -214,4 +250,4 @@ public class SendMailReminderClientService {
 		}
 	}
 
-} // fin de classe
+}

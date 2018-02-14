@@ -18,6 +18,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 
+/**
+ * Gere la persistance des Utilisateurs
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class UtilisateurDao {
@@ -27,6 +33,12 @@ public class UtilisateurDao {
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
 
+	/**
+	 * Recupere la liste des Utilisateurs persistes
+	 * 
+	 * @return Liste d objet Utilisteurs
+	 * @throws DaoException Exception
+	 */
 	public List<Utilisateur> obtenirListeUtilisateur() throws DaoException {
 
 		try {
@@ -46,6 +58,13 @@ public class UtilisateurDao {
 
 	}
 
+	/**
+	 * Recupere un Utilisateur persiste par son Id
+	 * 
+	 * @param idUtilisateur Integer
+	 * @return utilisateur Utilisateur
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	public Utilisateur obtenirUtilisateur(final Integer idUtilisateur) throws UtilisateurInexistantException {
 
 		logger.info("UtilisateurDao log : Demande a la bdd l utilisateur id : " + idUtilisateur);
@@ -63,6 +82,12 @@ public class UtilisateurDao {
 
 	}
 
+	/**
+	 * Persiste un nouvel utilisateur
+	 * 
+	 * @param utilisateur Utilisateur
+	 * @throws UtilisateurExistantException Exception
+	 */
 	public void ajouterUnutilisateur(Utilisateur utilisateur) throws UtilisateurExistantException {
 
 		try {
@@ -79,6 +104,12 @@ public class UtilisateurDao {
 		}
 	}
 
+	/**
+	 * Modifie un Utilisateur Persiste
+	 * 
+	 * @param utilisateur Utilisateur
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	public void modifieUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException {
 
 		logger.info("UtilisateurDao log : Demande de modification de l utilisateur id : "
@@ -97,6 +128,12 @@ public class UtilisateurDao {
 		}
 	}
 
+	/**
+	 * Supprime un Utilisateur Persiste
+	 * 
+	 * @param idUtilisateur Integer
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	public void supprimeUnUtilisateur(final Integer idUtilisateur) throws UtilisateurInexistantException {
 
 		logger.info("UtilisateurDao log : Demande de suppression du Client id : " + idUtilisateur + " dans la Bdd.");
@@ -113,33 +150,31 @@ public class UtilisateurDao {
 					+ " ne peut etre supprime de la Bdd.");
 		}
 	}
-	
+
+	/**
+	 * Retrouve un Utilisateur par son Email
+	 * 
+	 * 
+	 * @param email String
+	 * @return utilisateur Utilisateur
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	public Utilisateur utilisateurParEmail(final String email) throws UtilisateurInexistantException {
-		logger.info("UtilisateurDao log : Recherche utilisateur enregistre avec email : "
-				+ email + " a la Bdd.");
-		Utilisateur utilisateur = null;		
+		logger.info("UtilisateurDao log : Recherche utilisateur enregistre avec email : " + email + " a la Bdd.");
+		Utilisateur utilisateur = null;
 		try {
-			String requete =  "SELECT u FROM Utilisateur u"
-					+ " WHERE adresseMailUtilisateur = '" + email + "'";			
+			String requete = "SELECT u FROM Utilisateur u" + " WHERE adresseMailUtilisateur = '" + email + "'";
 			Query query = em.createQuery(requete);
 			utilisateur = (Utilisateur) query.getSingleResult();
-			logger.info("UtilisateurDao log : id " + utilisateur.getIdUtilisateur());			
-			
-//			if (Objects.isNull(utilisateur)) {
-//				logger.error("UtilisateurDao log : l utilisateur avec eMail: " + email + " demande est introuvable");
-//				throw new UtilisateurInexistantException(
-//						"UtilisateurDao Exception : L' eMail : " + email + " est introuvable dans la base");
-//			}
-//	
-//			logger.info("UtilisateurDao log : l utilisateur id : " + utilisateur.getIdUtilisateur() + " identifie via email : " + email + " trouve, envoie de lutilisateur au serviceUtilisateur");
-//		
+			logger.info("UtilisateurDao log : id " + utilisateur.getIdUtilisateur());
+
 		} catch (Exception message) {
-			throw new UtilisateurInexistantException("UtilisateurDao Exception : l utilisateur est introuvable");		
-			
-		} 
-		
+			throw new UtilisateurInexistantException("UtilisateurDao Exception : l utilisateur est introuvable");
+
+		}
+
 		return utilisateur;
-		
+
 	}
 
 }

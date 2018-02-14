@@ -19,7 +19,13 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleExce
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 
-
+/**
+ * Service AdresseLieuRdvservice
+ * Assure les regles Metier
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class AdresseLieuRdvService {
 	static final Logger logger = LogManager.getLogger(AdresseLieuRdvService.class);
@@ -27,6 +33,12 @@ public class AdresseLieuRdvService {
 	@EJB
 	private AdresseLieuRdvDao adresselieurdvdao;
 
+	/**
+	 * Retourne la liste des Rdv
+	 * 
+	 * @return List
+	 * @throws DaoException Exception
+	 */
 	public List<AdresseLieuRdv> recupereListeAdresseLieuRdv() throws DaoException {
 
 		try {
@@ -42,6 +54,13 @@ public class AdresseLieuRdvService {
 		}
 	}
 
+	/**
+	 * Retourne une AdresseLieurRdv
+	 * 
+	 * @param idAdresseLieuRdv Integer
+	 * @return AdresseLieuRdv
+	 * @throws AdresseInexistanteException Exception
+	 */
 	public AdresseLieuRdv recupererUneAdresseLieuRdv(final Integer idAdresseLieuRdv) throws AdresseInexistanteException {
 
 		try {
@@ -57,6 +76,16 @@ public class AdresseLieuRdvService {
 		}
 	}
 
+	/**
+	 * Ajoute une AdresseLieuRdv
+	 * 
+	 * @param adresseLieuRdv AdresseLieuRdv
+	 * @throws AdresseExistanteException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 */
 	public void ajoutAdresseLieuRdv(AdresseLieuRdv adresseLieuRdv) throws AdresseExistanteException, 
 	NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
 
@@ -73,6 +102,16 @@ public class AdresseLieuRdvService {
 		}
 	}
 
+	/**
+	 * Modifie une adresselieurrdv
+	 * 
+	 * @param adresseLieuRdv AdresseLieurRdv
+	 * @throws AdresseInexistanteException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 */
 	public void modifDeLAdresseLieuRdv(AdresseLieuRdv adresseLieuRdv) throws AdresseInexistanteException, 
 	NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
 
@@ -92,6 +131,12 @@ public class AdresseLieuRdvService {
 		}
 	}
 
+	/**
+	 * Efface les champs d un RdvAdresseLieuRdv
+	 * 
+	 * @param idAdresseLieuRdv Integer
+	 * @throws AdresseInexistanteException Exception
+	 */
 	public void setToNullDeLAdresseLieuRdv(Integer idAdresseLieuRdv) throws AdresseInexistanteException {
 
 		try {
@@ -117,6 +162,12 @@ public class AdresseLieuRdvService {
 		}
 	}
 
+	/**
+	 * Supprime une AdresseLieurRdv
+	 * 
+	 * @param idAdresseLieuRdv Integer
+	 * @throws AdresseInexistanteException Exception
+	 */
 	public void suppressionddUneAdresseLieuRdv(final Integer idAdresseLieuRdv) throws AdresseInexistanteException {
 
 		try {
@@ -131,6 +182,16 @@ public class AdresseLieuRdvService {
 		}
 	}
 	
+	/**
+	 * Valide les champs de l objet AdresseLieurRdv
+	 * 
+	 * @param adresseLieuRdv AdresseLieuRdv
+	 * @return AdresseLieuRdv
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 */
 	private AdresseLieuRdv adresseLieuRdvValiderFormater(AdresseLieuRdv adresseLieuRdv)
 			throws NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
 		
@@ -211,6 +272,14 @@ public class AdresseLieuRdvService {
 
 	}
 
+	/**
+	 * Verifie si la string a un espace au debut ainsi
+	 * que des caracteres speciaux
+	 * Si present, suppresion de ceux-ci
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
@@ -239,7 +308,14 @@ public class AdresseLieuRdvService {
 		return strWithoutSpaceAtBegin;
 	}
 	
-	
+	/**
+	 * Verifie si la String a un espace au debut ainsi
+	 * que des caracteres speciaux
+	 * Si present, suppresion de ceux-ci
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;

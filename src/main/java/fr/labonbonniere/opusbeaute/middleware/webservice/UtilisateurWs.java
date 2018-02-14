@@ -30,6 +30,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomExcepti
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
+/**
+ * WebService REST Utilisateur
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/utilisateur")
 //@DefineUserRole({"ANONYMOUS"})
@@ -44,6 +50,12 @@ public class UtilisateurWs {
 	@EJB
 	private UtilisateurService utilisateurservice;
 
+	/**
+	 * Retourne la liste des Utilisateurs
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -67,11 +79,18 @@ public class UtilisateurWs {
 		return builder.build();
 	}
 
+	/**
+	 * Retourne l Utilisateur via son Id
+	 * 
+	 * @param idUtilisateur Integer
+	 * @return Response
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idUtilisateur: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response theRdv(@PathParam("idUtilisateur") final Integer idUtilisateur)
+	public Response theUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur)
 			throws UtilisateurInexistantException {
 
 		Response.ResponseBuilder builder = null;
@@ -90,6 +109,17 @@ public class UtilisateurWs {
 		return builder.build();
 	}
 
+	/**
+	 * Creation d un Nouvel Utilisateur
+	 * 
+	 * @param utilisateur Utilisateur
+	 * @return Response
+	 * @throws UtilisateurExistantException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharTelException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
@@ -130,6 +160,17 @@ public class UtilisateurWs {
 		return builder.build();
 	}
 
+	/**
+	 * Modifie un Utilisateur
+	 * 
+	 * @param utilisateur Utilisteur
+	 * @return Response
+	 * @throws UtilisateurInexistantException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharTelException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
@@ -176,12 +217,19 @@ public class UtilisateurWs {
 
 	}
 
+	/**
+	 * Supprime un Utilisateur
+	 * 
+	 * @param idUtilisateur Integer
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idUtilisateur: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteTheUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur)
+	public Response supprimerUnUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur)
 			throws AdresseInexistanteException {
 
 		Response.ResponseBuilder builder = null;

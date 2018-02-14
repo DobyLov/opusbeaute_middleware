@@ -4,11 +4,11 @@ fr\labonbonniere\opusbeaute\middleware\service\adresselieurdv\AdresseLieuRdvServ
 fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\Rdv.class
-fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHandler.class
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharTelException.class
 fr\labonbonniere\opusbeaute\middleware\dao\DaoException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharPaysException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInvalideException.class
+fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenGenService.class
 fr\labonbonniere\opusbeaute\middleware\dao\GenreDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurExistantException.class
 fr\labonbonniere\opusbeaute\middleware\dao\AdresseClientDao.class
@@ -28,7 +28,6 @@ fr\labonbonniere\opusbeaute\middleware\webservice\EmailReminderClientWs.class
 fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderClientService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.class
 fr\labonbonniere\opusbeaute\middleware\webservice\LieuRdvWs.class
-fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenGen.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvEgaliteChevauchementException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PrestationWs.class
 fr\labonbonniere\opusbeaute\middleware\service\roles\RolesService.class
@@ -36,7 +35,6 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\client\ClientService.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\Clee.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInvalideException.class
-fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHasherOrVerify.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\PraticienInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\roles\RoleInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\Genre.class
@@ -52,12 +50,12 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\NoRdvException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInexistanteException.class
 fr\labonbonniere\opusbeaute\App.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInexistantException.class
+fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHandlerService.class
 fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.class
 fr\labonbonniere\opusbeaute\middleware\service\wadl\WadlFileReaderService.class
 fr\labonbonniere\opusbeaute\middleware\dao\LieuRdvDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\AdresseClientService.class
-fr\labonbonniere\opusbeaute\middleware\service\client\NbCharTsAniversaire.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvFinChevauchementException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PraticienWs.class
 fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.class
@@ -74,6 +72,7 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\roles\RolesInexistantExceptio
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\genre\GenreService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInvalideException.class
+fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHasherOrVerifyService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInexistanteException.class
 fr\labonbonniere\opusbeaute\middleware\dao\UtilisateurDao.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbNumRueException.class
@@ -100,6 +99,7 @@ fr\labonbonniere\opusbeaute\middleware\dao\AdresseLieuRdvDao.class
 fr\labonbonniere\opusbeaute\middleware\service\praticien\PraticienService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\Utilisateur.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInexistantException.class
+fr\labonbonniere\opusbeaute\middleware\service\client\NbCharTsAniversaireException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\roles\Roles.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenExpiredException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInvalideException.class

@@ -33,13 +33,19 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidE
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTsAniversaire;
+import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTsAniversaireException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.PhoneMobileNotStartWith0607Exception;
 import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribeMailReminderException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedNewsLetterException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedSmsReminderException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 
+/**
+ * Gere le WebService Rest Client
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/client")
 //@DefineUserRole({"ANONYMOUS"})
@@ -55,6 +61,12 @@ public class ClientWs {
 	@EJB
 	private ClientService clientservice;
 
+	/**
+	 * Retourne la Liste de Client
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -77,7 +89,13 @@ public class ClientWs {
 
 		return builder.build();
 	}
-
+	/**
+	 * Retourne un Client via son id
+	 * 
+	 * @param idClient Integer
+	 * @return Response
+	 * @throws ClientInexistantException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idClient: \\d+}")
@@ -99,7 +117,28 @@ public class ClientWs {
 
 		return builder.build();
 	}
-
+	/**
+	 * Ajoute un Client 
+	 *  
+	 * @param client Client
+	 * @return Response
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharTsAniversaireException Exception
+	 * @throws NbCharPaysException Exception
+	 * @throws NbCharTelException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws DaoException Exception
+	 * @throws GenreInvalideException Exception
+	 * @throws GenreClientNullException Exception
+	 * @throws PhoneMobileNotStartWith0607Exception Exception
+	 * @throws SuscribeMailReminderException Exception
+	 * @throws SuscribedNewsLetterException Exception
+	 * @throws SuscribedSmsReminderException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
@@ -107,7 +146,7 @@ public class ClientWs {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnClient(Client client)
 			throws NbNumZipcodeException, NbNumRueException, NbCharRueVilleException, NbCharPrenomException,
-			NbCharNomException, NbCharTsAniversaire, NbCharPaysException, NbCharTelException, EmailFormatInvalidException,
+			NbCharNomException, NbCharTsAniversaireException, NbCharPaysException, NbCharTelException, EmailFormatInvalidException,
 			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException {
 
 		Response.ResponseBuilder builder = null;
@@ -126,7 +165,7 @@ public class ClientWs {
 			logger.error("ClientWs log : Verifiez Client.Telephone.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
-		} catch (NbCharTsAniversaire message) {
+		} catch (NbCharTsAniversaireException message) {
 			logger.error("ClientWs log : Verifiez Client.DateAnniversaire.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 
@@ -170,15 +209,34 @@ public class ClientWs {
 
 		return builder.build();
 	}
-
+	/**
+	 * Modifie un Client
+	 * 
+	 * @param client Client
+	 * @return Response
+	 * @throws ClientInexistantException Exception
+	 * @throws AdresseInexistanteException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharTsAniversaireException Exception
+	 * @throws NbCharTelException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 * @throws GenreInvalideException Exception
+	 * @throws DaoException Exception
+	 * @throws GenreClientNullException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public <clientservice> Response modifieUnClient(Client client)
+	public Response modifieUnClient(Client client)
 			throws ClientInexistantException, AdresseInexistanteException, NbNumRueException, NbCharPrenomException,
-			NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalidException, NbCharRueVilleException,
+			NbCharNomException, NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException, NbCharRueVilleException,
 			NbNumZipcodeException, NbCharPaysException, GenreInvalideException, DaoException, GenreClientNullException {
 
 		Response.ResponseBuilder builder = null;
@@ -186,7 +244,7 @@ public class ClientWs {
 			logger.info("-----------------------------------------------------");
 			logger.info(
 					"ClientWs log : Demande de modification du Client id : " + client.getIdClient() + " dans la Bdd.");
-			clientservice.modifduClient(client);
+			clientservice.modifDuClient(client);
 			logger.info("ClientWs log : Client id : " + client.getIdClient() + " a bien ete modifie dans la Bdd.");
 			// String msg = "Client id : " + client.getIdClient() + " a bien ete
 			// modifie dans la Bdd.";
@@ -204,7 +262,7 @@ public class ClientWs {
 			logger.error("ClientWs log : Le Telephone du Client 10 caracteres.");
 			builder = Response.notModified();
 
-		} catch (NbCharTsAniversaire message) {
+		} catch (NbCharTsAniversaireException message) {
 			logger.error("ClientWs log : Le TimeStamp de la date Anniversaire du Client depasee 12 caracteres.");
 			builder = Response.notModified();
 
@@ -239,6 +297,13 @@ public class ClientWs {
 
 	}
 
+	/**
+	 * Supprime un Client
+	 * 
+	 * @param idClient Integer
+	 * @return Response
+	 * @throws ClientInexistantException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idClient: \\d+}")
@@ -250,7 +315,7 @@ public class ClientWs {
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("ClientWs log : Demande de suppression de le Client id : " + idClient + " dans la Bdd.");
-			clientservice.suppressionddUnClient(idClient);
+			clientservice.suppressionDUnClient(idClient);
 			logger.info("ClientWs log : Client id : " + idClient + " a bien ete modifie dans la Bdd.");
 			// String msg = "ClientWs log : Client id : " + idClient + " a ien
 			// ete supprime de la Bdd.";

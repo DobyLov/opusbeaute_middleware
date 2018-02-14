@@ -35,8 +35,8 @@ public class AdresseLieuRdvDao {
 	/**
 	 * Retourne la liste des AdresseLieuRdv
 	 * 
-	 * @return la liste des adresse des lieux de Rdv
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<AdresseLieuRdv> obtenirListeAdresseLieuRdv() throws DaoException {
 		
@@ -63,9 +63,9 @@ public class AdresseLieuRdvDao {
 	/**
 	 * Retourne l adresse du lieu de Rdv persiste via l id correspondant
 	 * 
-	 * @param idAdresseLieuRdv id de l adresse du lieu a retourner
-	 * @return renvoi de l adresse du lieu de Rdv
-	 * @throws AdresseInexistanteException
+	 * @param idAdresseLieuRdv Integer
+	 * @return adresseLieuRdv
+	 * @throws AdresseInexistanteException Exception
 	 */
 	public AdresseLieuRdv obtenirAdresseLieuRdv(final Integer idAdresseLieuRdv) throws AdresseInexistanteException {
 		
@@ -86,8 +86,8 @@ public class AdresseLieuRdvDao {
 	/**
 	 * Persiste une Adresse du lieur de Rdv
 	 * 
-	 * @param adresseLieuRdv Objet Adresse lieur Rdv
-	 * @throws AdresseExistanteException
+	 * @param adresseLieuRdv AdresseLieuRdv
+	 * @throws AdresseExistanteException Exception
 	 */
 	public void ajouterUneAdresseLieuRdv (AdresseLieuRdv adresseLieuRdv)  throws AdresseExistanteException {
 		
@@ -106,8 +106,8 @@ public class AdresseLieuRdvDao {
 	/**
 	 * Modifie une AdresseLieurRdv persistee
 	 * 
-	 * @param adresseLieuRdv Objet adresseLieuRdv
-	 * @throws AdresseInexistanteException
+	 * @param adresseLieuRdv AdresseLieuRdv
+	 * @throws AdresseInexistanteException Exception
 	 */
 	 public void modifieUneAdresseLieuRdv(AdresseLieuRdv adresseLieuRdv) throws AdresseInexistanteException {
 		 
@@ -124,6 +124,12 @@ public class AdresseLieuRdvDao {
 			}			
 	}
 	 
+	 /**
+	  * Supprime les champs d une AdresseLieuRdv
+	  * 
+	  * @param adresseLieuRdv AdresseLieurRdv
+	  * @throws AdresseInexistanteException Exception
+	  */
 	 public void reinitUneAdresseLieuRdv(AdresseLieuRdv adresseLieuRdv) throws AdresseInexistanteException {
 		 
 			logger.info("AdresseLieuRdv Dao log : Demande de reinitialisation de l AdresseLieuRdv id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " a la Bdd.");
@@ -140,6 +146,12 @@ public class AdresseLieuRdvDao {
 	}
 		
 	
+	 /**
+	  * Supprime une AdresseLieuRdv
+	  * 
+	  * @param idAdresseLieuRdv Integer
+	  * @throws AdresseInexistanteException Exception
+	  */
 	public void supprimeUneAdresseLieuRdv(final Integer idAdresseLieuRdv) throws AdresseInexistanteException {
 			
 			
@@ -154,8 +166,4 @@ public class AdresseLieuRdvDao {
 					throw new AdresseInexistanteException("AdresseLieuRdv Dao Exception : AdresseLieuRdv id : " + idAdresseLieuRdv + " ne peut etre supprimee de la Bdd.");
 				}
 		}	
-	
-	
-	
-
 }

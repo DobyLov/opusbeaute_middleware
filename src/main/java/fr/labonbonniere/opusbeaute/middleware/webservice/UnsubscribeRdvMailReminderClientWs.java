@@ -18,6 +18,13 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistan
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.UnsuscribeMailReminderClientService;
 
+/**
+ * WebService REST Desinscription au service
+ * de rappel de Rdv par Mail 
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/unsuscribe")
 @DefineUserRole({"ANONYMOUS"})
@@ -33,11 +40,20 @@ public class UnsubscribeRdvMailReminderClientWs {
 	@EJB
 	private UnsuscribeMailReminderClientService unsuscribemailrdvreminderclientservice;
 
+	/**
+	 * Desinscription au rappel de rdv par Email
+	 * 
+	 * @param adresseMailClient String
+	 * @param key String
+	 * @return Response
+	 * @throws ClientInexistantException Exception
+	 * @throws Exception Exception
+	 */
 	@GET
 	@Path("/rdvreminder/{adresseMailClient}/{key}")
 	// @Path("/rdvreminder")
 	@Produces(MediaType.TEXT_HTML)
-	public Response envoyerUnSmsRappelRdvClient(@PathParam("adresseMailClient") final String adresseMailClient,
+	public Response desinscriptionMailRappelRdvClient(@PathParam("adresseMailClient") final String adresseMailClient,
 			@PathParam("key") final String key) throws ClientInexistantException, Exception {
 
 		// String key = "M7AkuQu2hGHvzdYcDfxbPkcWaP9fe42G";

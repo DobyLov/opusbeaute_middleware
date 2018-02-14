@@ -29,14 +29,20 @@ import fr.labonbonniere.opusbeaute.middleware.service.prestation.GenrePrestation
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.NbCharPrestationException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationService;
 
+/**
+ * WebService REST Gere la ressource Prestation
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/prestation")
-//@DefineUserRole({"ANONYMOUS"})
-//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
-//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
-//@DefineUserRole({"ALLOWALL"})
-//@DefineUserRole({"DENYALL"})
-@DefineUserRole({"ROOT","ADMINISTRATEUR"})
+// @DefineUserRole({"ANONYMOUS"})
+// @DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+// @DefineUserRole({"PRATICIEN","STAGIAIRE"})
+// @DefineUserRole({"ALLOWALL"})
+// @DefineUserRole({"DENYALL"})
+@DefineUserRole({ "ROOT", "ADMINISTRATEUR" })
 public class PrestationWs {
 
 	private static final Logger logger = LogManager.getLogger(PrestationWs.class.getName());
@@ -44,11 +50,17 @@ public class PrestationWs {
 	@EJB
 	private PrestationService prestationservice;
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * recupere la liste des Prestations
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/listeprestations")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response laListe() throws DaoException {
+	public Response listeDesPrestations() throws DaoException {
 
 		Response.ResponseBuilder builder = null;
 
@@ -67,7 +79,14 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * Retourne une Prestation par son Id
+	 * 
+	 * @param idPrestation Integer
+	 * @return Reponse
+	 * @throws PrestationInexistanteException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/{idPrestation: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -90,7 +109,13 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * Retourne la Liste des Prestation Homme
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/listph")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -113,7 +138,13 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * Retourne la liste des Prestations Femme
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/listpf")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -136,7 +167,7 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"ALLOWALL"})
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/searchga/{genre},{activite}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -160,7 +191,17 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * Retourne la liste des Prestations Selon les criters Genre, Activite et
+	 * Soin
+	 * 
+	 * @param genre Genre
+	 * @param activite Activite
+	 * @param soin Soin
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("searchgas/{genre},{activite},{soin}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -184,7 +225,19 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+	/**
+	 * Creation d un nouvelle Prestation
+	 * 
+	 * @param prestation String
+	 * @return response
+	 * @throws PrestationExistanteException Exception
+	 * @throws NbCharPrestationException Exception
+	 * @throws PrestationInvalideException Exception
+	 * @throws GenreInvalideException Exception
+	 * @throws DaoException Exception
+	 * @throws GenrePrestationNullException Exception
+	 */
+	@DefineUserRole({ "PRATICIEN", "STAGIAIRE" })
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -220,7 +273,19 @@ public class PrestationWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+	/**
+	 * Modification d un Prestation
+	 * 
+	 * @param prestation String
+	 * @return Response
+	 * @throws PrestationInexistanteException Exception
+	 * @throws NbCharPrestationException Exception
+	 * @throws PrestationInvalideException Exception
+	 * @throws GenreInvalideException Exception
+	 * @throws DaoException Exception
+	 * @throws GenrePrestationNullException Exception
+	 */
+	@DefineUserRole({ "PRATICIEN", "STAGIAIRE" })
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -250,12 +315,19 @@ public class PrestationWs {
 
 	}
 
-	@DefineUserRole({"PRATICIEN"})
+	/**
+	 * Suppression d une Prestation
+	 * 
+	 * @param idPrestation Integer
+	 * @return Response
+	 * @throws PrestationInexistanteException Exception
+	 */
+	@DefineUserRole({ "PRATICIEN" })
 	@DELETE
 	@Path("/del/{idPrestation: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteThePrestation(@PathParam("idPrestation") final Integer idPrestation)
+	public Response supprimerUnePrestation(@PathParam("idPrestation") final Integer idPrestation)
 			throws PrestationInexistanteException {
 
 		Response.ResponseBuilder builder = null;
@@ -275,7 +347,5 @@ public class PrestationWs {
 		}
 
 		return builder.build();
-
 	}
-
 }

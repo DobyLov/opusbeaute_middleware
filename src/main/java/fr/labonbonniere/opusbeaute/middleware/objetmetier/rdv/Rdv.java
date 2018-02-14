@@ -22,7 +22,19 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdv;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
-
+/**
+ * Objet Metier Rdv
+ * 
+ * Lors de l intervention de L ORM Hibernate / JPA, 
+ * l instance devient une entite
+ * 
+ * "@Overide" des Methodes
+ * 
+ *          toString Equals HashCode
+ * 
+ * @author fred
+ *
+ */
 @XmlRootElement
 @Entity
 @Table(name = "T_RDV")

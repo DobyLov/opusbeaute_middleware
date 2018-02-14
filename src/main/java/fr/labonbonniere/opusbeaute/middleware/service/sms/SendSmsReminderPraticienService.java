@@ -24,6 +24,12 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
+/**
+ * Envoie un sms au Praticien
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class SendSmsReminderPraticienService {
 	
@@ -40,6 +46,12 @@ public class SendSmsReminderPraticienService {
 	@EJB
 	private RdvDao rdvdao;
 	
+	/**
+	 * Envoie un Sms au Praticien
+	 * chaque joursà 20H00
+	 * 
+	 * @throws Exception Exception
+	 */
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
 	public void sendSmsPraticiensScheduled() throws Exception {
 	
@@ -205,6 +217,13 @@ public class SendSmsReminderPraticienService {
 
 	}
 	
+	/**
+	 * Verifie si il y a un ou plusieurs Praticien
+	 * 
+	 * @param listIdPratt ArrayList
+	 * @param nbIdPrattFiltreeUnique Integer
+	 * @return boolean
+	 */
 	private Boolean numberOfidPrattMoreThanOnceDetector(ArrayList<Integer> listIdPratt, Integer nbIdPrattFiltreeUnique) {
 		logger.info("Occurrences checker : Reception de la liste listIdPratt " + listIdPratt.toString());
 		logger.info("Occurrences checker : Taille de la liste listIdPratt " + listIdPratt.size());
@@ -237,7 +256,12 @@ public class SendSmsReminderPraticienService {
 		return idPrattMoreThanOnce;
 	}
 
-	
+	/**
+	 * Recupere la date du jour et ajout 1 jour
+	 * 
+	 * @return String
+	 * @throws DaoException Exception
+	 */
 	private String recuDateDuJourplusUnFormate() throws DaoException {
 	
 		logger.info("MailRemiderSender log : Recuperation de la date J+1");
@@ -256,6 +280,13 @@ public class SendSmsReminderPraticienService {
 		return rdvDateDuJourPlusUnFormate;
 	}
 
+	/**
+	 * Envoi un SMS au Praticien 
+	 * 
+	 * @param messSms String
+	 * @param praticienTelMobile String
+	 * @throws Exception Exception
+	 */
 	private void sendSmsPraticiens(String messSms, String praticienTelMobile) throws Exception {
 		
 		String buildUrl = "http://" + adresseIp + "/RaspiSMS/smsAPI/?email=" + raspiSmsLogin + "&password="

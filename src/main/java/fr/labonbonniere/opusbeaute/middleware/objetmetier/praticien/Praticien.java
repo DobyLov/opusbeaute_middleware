@@ -15,6 +15,19 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * Objet Metier Praticien
+ * 
+ * Lors de l intervention de L ORM Hibernate / JPA, 
+ * l instance devient une entite
+ * 
+ * "@Override" des Methodes
+ * 
+ *          toString Equals HashCode
+ * 
+ * @author fred
+ *
+ */
 @XmlRootElement
 @Entity
 @Table(name = "T_PRATICIEN")

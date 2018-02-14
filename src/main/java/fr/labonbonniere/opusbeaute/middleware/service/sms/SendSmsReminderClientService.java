@@ -21,6 +21,13 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
+/**
+ * Gere l envoi de Sms de rappel de Rdv 
+ * au Client
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class SendSmsReminderClientService {
 
@@ -34,7 +41,12 @@ public class SendSmsReminderClientService {
 	@EJB
 	private RdvDao rdvdao;
 
-	
+	/**
+	 * Envoie un Sms automatiquemen
+	 * chaques jours a 20H00
+	 * 
+	 * @throws Exception Exception
+	 */
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
 	public void sendSmsClientScheduled() throws Exception {
 

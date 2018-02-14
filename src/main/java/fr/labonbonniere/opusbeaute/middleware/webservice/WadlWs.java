@@ -15,6 +15,16 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.wadl.WadlFileReaderService;
 
+/**
+ * Gere la Production du WADL (Web Application Document Language)
+ * Pour qu une application tiers puisse recuperer
+ * la liste des Ressources Web REST 
+ * du middleware OpusBeaute
+ * 
+ * @author fred
+ *
+ */
+
 @Stateless
 @Path("/")
 @DefineUserRole({"ANONYMOUS"})
@@ -30,6 +40,11 @@ public class WadlWs {
 	@EJB
 	WadlFileReaderService wadlFileReaderService;
 	
+	/**
+	 * Retourne le fichier WADL au format XML.
+	 * 
+	 * @return Response
+	 */
 	@GET
 	@Path("/wadl")
 	@Produces(MediaType.APPLICATION_XML)

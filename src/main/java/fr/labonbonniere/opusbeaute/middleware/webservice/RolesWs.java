@@ -26,6 +26,13 @@ import fr.labonbonniere.opusbeaute.middleware.service.roles.RoleInexistantExcept
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesService;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesUtilisateurNullException;
 
+/**
+ * WebService REST Roles
+ * Gere les ressources Roles
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/roles")
 //@DefineUserRole({"ANONYMOUS"})
@@ -41,6 +48,12 @@ public class RolesWs {
 	@EJB
 	RolesService rolesService;
 	
+	/**
+	 * Retourne la liste des Roles
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -64,11 +77,18 @@ public class RolesWs {
 		return builder.build();
 	}
 
+	/**
+	 * Retourne la liste des Roles
+	 * 
+	 * @param idRole Integer
+	 * @return Response
+	 * @throws RolesInexistantException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idRole: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response theGenre(@PathParam("idRole") final Integer idRole) throws RolesInexistantException {
+	public Response theRole(@PathParam("idRole") final Integer idRole) throws RolesInexistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -86,6 +106,14 @@ public class RolesWs {
 		return builder.build();
 	}
 
+	/**
+	 * Creation d un nouveau Role
+	 * 
+	 * @param role Role
+	 * @return Response
+	 * @throws DaoException Exception
+	 * @throws RolesUtilisateurNullException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
@@ -113,6 +141,15 @@ public class RolesWs {
 		return builder.build();
 	}
 
+	/**
+	 * Modifie un Role
+	 * 
+	 * @param role Role
+	 * @return Response
+	 * @throws RoleInexistantException Exception
+	 * @throws RolesUtilisateurNullException Exception
+	 * @throws RolesInexistantException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
@@ -142,13 +179,21 @@ public class RolesWs {
 		return builder.build();
 
 	}
-
+	
+	/**
+	 * Suppression d un Role
+	 * 
+	 * @param idRole Integer
+	 * @return Response
+	 * @throws RolesInexistantException Exception
+	 * @throws RoleInexistantException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idRole: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteTheRole(@PathParam("idRole") final Integer idRole) throws RolesInexistantException, RoleInexistantException {
+	public Response supprimerUnRole(@PathParam("idRole") final Integer idRole) throws RolesInexistantException, RoleInexistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -167,5 +212,4 @@ public class RolesWs {
 		return builder.build();
 
 	}
-	
 }

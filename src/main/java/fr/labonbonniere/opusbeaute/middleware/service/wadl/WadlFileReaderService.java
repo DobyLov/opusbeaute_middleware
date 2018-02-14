@@ -12,6 +12,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * transmet le fichier Wadl
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @XmlRootElement
 public class WadlFileReaderService { 
@@ -19,7 +25,11 @@ public class WadlFileReaderService {
 	private static final Logger logger = LogManager.getLogger(WadlFileReaderService.class.getName());
 
     
-	    
+	/**
+	 * Recupere le Fichier Wadl 
+	 *    
+	 * @return String Fichier Web Application Document Language
+	 */
     public String WadlFileReader() { 
         
 //    	Path pathfile = Paths.get("../src/main/doc/application.wadl");

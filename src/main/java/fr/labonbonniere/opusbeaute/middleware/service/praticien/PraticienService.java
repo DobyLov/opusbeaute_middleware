@@ -19,13 +19,25 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 
+/**
+ * Gestion de l objet Praticien
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class PraticienService {
 	static final Logger logger = LogManager.getLogger(PraticienService.class);
 
 	@EJB
 	private PraticienDao praticiendao;
-
+	
+	/**
+	 * Recupre la liste des Praticien
+	 * 
+	 * @return une liste d objet
+	 * @throws DaoException Si pb bdd
+	 */
 	public List<Praticien> recupereListePraticien() throws DaoException {
 
 		try {
@@ -41,6 +53,13 @@ public class PraticienService {
 		}
 	}
 
+	/**
+	 * Recuperer un Praticien par sonId
+	 * 
+	 * @param idPraticien Integer
+	 * @return Objet Praticien
+	 * @throws PraticienInexistantException	Si pas de Praticien 
+	 */
 	public Praticien recupererUnPraticien(final Integer idPraticien) throws PraticienInexistantException {
 
 		try {
@@ -57,11 +76,21 @@ public class PraticienService {
 		}
 	}
 
+	/**
+	 * Ajoute un nouveau Praticien
+	 * 
+	 * @param praticien	objet Praticien
+	 * @throws PraticienExistantException	Si Praticien Inexistant
+	 * @throws EmailFormatInvalidException	Si le Format n est pas valide
+	 * @throws NbCharNomException	Si le nombre de catractere du nom ne correspond pas
+	 * @throws NbCharPrenomException	si le nombre de caractere du prenom ne correspond pas
+	 * @throws NbCharTelException	Si le nombre de charactere du numero de tel ne correspond pas
+	 */
 	public void ajoutUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("PraticienService log : Demande d ajout d un nouvel Praticien dans la Bdd.");
-			validationformat(praticien);
+			validationFormat(praticien);
 			praticiendao.ajouterUnPraticien(praticien);
 			logger.info("PraticienService log : Nouvelle Praticien ajoutee, avec l id : " + praticien.getIdPraticien());
 
@@ -72,13 +101,23 @@ public class PraticienService {
 		}
 	}
 
+	/**
+	 * Mofifie un praticien deja persiste
+	 * 
+	 * @param praticien Objet Praticien
+	 * @throws PraticienInexistantException	Si Praticien inexistant
+	 * @throws EmailFormatInvalidException	Si la String Email ne correspond pas
+	 * @throws NbCharNomException	Si le nombre de caracteres ne correspond pas
+	 * @throws NbCharPrenomException	Si le nombre de carateres de la stirng prenom ne correspond pas
+	 * @throws NbCharTelException	Si le nombre de carateres du numero de tel ne correspond pas
+	 */
 	public void modifierUnPraticien(Praticien praticien) throws PraticienInexistantException, 
 	EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("PraticienService log : Demande de modification du Praticien id : "
 					+ praticien.getIdPraticien() + " dans la Bdd.");
-			validationformat(praticien);			
+			validationFormat(praticien);			
 			praticiendao.modifieUnPraticien(praticien);
 			logger.info("PraticienService log : Praticien id : " + praticien.getIdPraticien()
 					+ " a ete modifie dans la Bdd.");
@@ -91,6 +130,12 @@ public class PraticienService {
 		}
 	}
 
+	/**
+	 * Supprime un Praticien deja persiste
+	 * 
+	 * @param idPraticien Integer
+	 * @throws PraticienInexistantException	Si Praticien inexistant
+	 */
 	public void suppressionDUnPraticien(final Integer idPraticien) throws PraticienInexistantException {
 
 		try {
@@ -107,7 +152,18 @@ public class PraticienService {
 		}
 	}
 	
-	private Praticien validationformat(Praticien praticien) throws EmailFormatInvalidException, NbCharNomException, 
+	/**
+	 * Formate et valide les 
+	 * champs de l objet praticien a persister
+	 * 
+	 * @param praticien Objet Praticien
+	 * @return Validation des String Praticien
+	 * @throws EmailFormatInvalidException Si le format De l email est invalide
+	 * @throws NbCharNomException	Si le nombre de caractere est invalide
+	 * @throws NbCharPrenomException	Si le nombre de caracteres pour le prenom estr invalide
+	 * @throws NbCharTelException	Si le nombre de caracteres du numero de telelephone est invalide
+	 */
+	private Praticien validationFormat(Praticien praticien) throws EmailFormatInvalidException, NbCharNomException, 
 				NbCharPrenomException, NbCharTelException {
 		
 		// ok
@@ -242,6 +298,12 @@ public class PraticienService {
 
 	}
 
+	/**
+	 * Valide le format de l adresse email
+	 * 
+	 * @param emailFormatvalidation String Email
+	 * @return Boolean
+	 */
 	public boolean isValidEmailAddress(String emailFormatvalidation) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
@@ -250,6 +312,13 @@ public class PraticienService {
 		return m.matches();
 	}
 
+	/**
+	 * Verifie si il y a un espace au debut de la chaine
+	 * et detecte et supprime les caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return	String Sans espace et sans caractere speciaux
+	 */
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
@@ -278,7 +347,13 @@ public class PraticienService {
 		return strWithoutSpaceAtBegin;
 	}
 	
-	
+	/**
+	 * Verifie si il y a un espace au debut de la chaine
+	 * et detecte et supprime les caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;
@@ -305,6 +380,13 @@ public class PraticienService {
 		return strWithoutSpaceAtBegin;
 	}
 
+	/**
+	 * Verifie si il y a un espace au debut de la chaine
+	 * et detecte et supprime les caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	public String checkSpaceAtStrBeginAndCharacSpecMail(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;

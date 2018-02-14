@@ -10,6 +10,13 @@ import fr.labonbonniere.opusbeaute.middleware.dao.ClientDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
 
+/**
+ * Est charge de desinscrire un client
+ * du rappel automatique de Rdv
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class UnsuscribeMailReminderClientService {
 
@@ -18,6 +25,13 @@ public class UnsuscribeMailReminderClientService {
 
 	static final Logger logger = LogManager.getLogger(UnsuscribeMailReminderClientService.class);
 
+	/**
+	 * Desinscrit le Client au service mailreminder
+	 * 
+	 * @param adresseMailClient String
+	 * @return boolean
+	 * @throws Exception Exception
+	 */
 	public Boolean unscuscribeRdvMailReminderClient(String adresseMailClient) throws Exception {
 		
 		logger.info("UnsuscribeRdvEmail log : Recerche d un client par son mail");

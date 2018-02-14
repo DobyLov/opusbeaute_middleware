@@ -35,7 +35,7 @@ public class AdresseClientDao {
 	 * Retourne la liste des Adresse Client
 	 * 
 	 * @return La liste des adresses Client
-	 * @throws DaoException
+	 * @throws DaoException Exception
 	 */
 	public List<AdresseClient> obtenirListeAdresse() throws DaoException {
 
@@ -60,9 +60,9 @@ public class AdresseClientDao {
 	/**
 	 * Retourne l adresse d un Client via son Id
 	 * 
-	 * @param idAdresse Id de l AdresseClient
-	 * @return L AdresseClient correspondant a l Id
-	 * @throws AdresseInexistanteException
+	 * @param idAdresse Integer
+	 * @return AdresseClient
+	 * @throws AdresseInexistanteException Exception
 	 */
 	public AdresseClient obtenirAdresse(final Integer idAdresse) throws AdresseInexistanteException {
 
@@ -84,8 +84,8 @@ public class AdresseClientDao {
 	/**
 	 * Persiste une nouvelle Adresseclient
 	 * 
-	 * @param adresse objet adresse
-	 * @throws AdresseExistanteException
+	 * @param adresse AdresseClient
+	 * @throws AdresseExistanteException Exception
 	 */
 	public void ajouterUneAdresse(AdresseClient adresse) throws AdresseExistanteException {
 
@@ -105,8 +105,8 @@ public class AdresseClientDao {
 	/**
 	 * Modifie l AdresseClient Persistee
 	 * 
-	 * @param adresse AdresseClient modifiee
-	 * @throws AdresseInexistanteException
+	 * @param adresse AdresseClient
+	 * @throws AdresseInexistanteException Exception
 	 */
 	public void modifieUneAdresse(AdresseClient adresse) throws AdresseInexistanteException {
 
@@ -127,8 +127,8 @@ public class AdresseClientDao {
 	/**
 	 * Remise a Zero d une AdresseClient
 	 * 
-	 * @param adresse avec les champs Null
-	 * @throws AdresseInexistanteException
+	 * @param adresse AdresseClient
+	 * @throws AdresseInexistanteException Exception
 	 */
 	public void reinitUneAdresse(AdresseClient adresse) throws AdresseInexistanteException {
 
@@ -149,8 +149,8 @@ public class AdresseClientDao {
 	/**
 	 * Sumpression d une AdresseClient persistee
 	 * 
-	 * @param idAdresse
-	 * @throws AdresseInexistanteException
+	 * @param idAdresse Integer
+	 * @throws AdresseInexistanteException Exception
 	 */
 	public void supprimeUneAdresse(final Integer idAdresse) throws AdresseInexistanteException {
 

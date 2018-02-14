@@ -43,8 +43,8 @@ public class GenreDao {
 	/**
 	 * Retourne la liste des genres persistes
 	 * 
-	 * @return la liste des Genres
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Genre> obtenirListeGenre() throws DaoException {
 
@@ -69,9 +69,9 @@ public class GenreDao {
 	/**
 	 * Retourne un Genre depuis son Id
 	 * 
-	 * @param idGenre
-	 * @return le Genre correspondant a son Id
-	 * @throws GenreInexistantException
+	 * @param idGenre Integer
+	 * @return Genre
+	 * @throws GenreInexistantException Exception
 	 */
 	public Genre obtenirGenre(final Integer idGenre) throws GenreInexistantException {
 
@@ -93,8 +93,8 @@ public class GenreDao {
 	/**
 	 * Persiste un nouveau Genre
 	 * 
-	 * @param genre
-	 * @throws DaoException
+	 * @param genre Genre
+	 * @throws DaoException Exception
 	 */
 	public void ajouterUnGenre(Genre genre) throws DaoException{
 
@@ -113,8 +113,8 @@ public class GenreDao {
 	/**
 	 * Modifie un Genre deja persiste
 	 * 
-	 * @param genre
-	 * @throws GenreInexistantException
+	 * @param genre Genre
+	 * @throws GenreInexistantException Exception
 	 */
 	public void modifieUnGenre(Genre genre) throws GenreInexistantException {
 
@@ -133,8 +133,8 @@ public class GenreDao {
 	/**
 	 * Supprime un Genre persiste
 	 * 
-	 * @param idGenre
-	 * @throws GenreInexistantException
+	 * @param idGenre Integer
+	 * @throws GenreInexistantException Exception
 	 */
 	public void supprimeUnGenre(final Integer idGenre) throws GenreInexistantException {
 
@@ -151,5 +151,4 @@ public class GenreDao {
 					"GenreDao Exception : Ce Genre id : " + idGenre + " ne peut etre supprime de la Bdd.");
 		}
 	}
-
 }

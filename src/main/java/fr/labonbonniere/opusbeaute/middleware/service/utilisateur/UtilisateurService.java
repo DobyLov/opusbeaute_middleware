@@ -14,12 +14,18 @@ import fr.labonbonniere.opusbeaute.middleware.dao.UtilisateurDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHandler;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHandlerService;
 import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 
+/**
+ * Gere les objets Utilisateurs
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class UtilisateurService {
 	static final Logger logger = LogManager.getLogger(UtilisateurService.class);
@@ -28,8 +34,14 @@ public class UtilisateurService {
 	private UtilisateurDao utilisateurdao;
 	
 	@EJB
-	private PasswordHandler passwordHandler;
+	private PasswordHandlerService passwordHandler;
 
+	/**
+	 * Recupere une Liste d Utilisateur
+	 * 
+	 * @return List
+	 * @throws DaoException Si pb Bdd
+	 */
 	public List<Utilisateur> recupereListeUtilisateur() throws DaoException {
 
 		try {
@@ -45,6 +57,13 @@ public class UtilisateurService {
 		}
 	}
 
+	/**
+	 * Recupere un Utilisateur via son Id
+	 * 
+	 * @param idUtilisateur Integer
+	 * @return Utilisateur
+	 * @throws UtilisateurInexistantException Si Utilisiteur inexistant
+	 */
 	public Utilisateur recupererUnUtilisateur(final Integer idUtilisateur) throws UtilisateurInexistantException {
 
 		try {
@@ -61,6 +80,16 @@ public class UtilisateurService {
 		}
 	}
 
+	/**
+	 * Ajoute unnouvel Utilisateur
+	 * 
+	 * @param utilisateur Utilisateur
+	 * @throws UtilisateurExistantException	Si Utilisateur inexistant
+	 * @throws EmailFormatInvalidException si Format Email ne correspond pas
+	 * @throws NbCharNomException Si le nombre de caracteres ne correspond pas
+	 * @throws NbCharPrenomException Si le nombre de caracteres du prenom ne correspond pas
+	 * @throws NbCharTelException si le nombre de caracteres du numero de telephone ne correspond pas
+	 */
 	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
@@ -76,6 +105,16 @@ public class UtilisateurService {
 		}
 	}
 
+	/**
+	 * modifie un Utilisateur
+	 * 
+	 * @param utilisateur Utilisateur
+	 * @throws UtilisateurInexistantException si utilisateur inexistant
+	 * @throws EmailFormatInvalidException Si Le format Email ne correspond pas
+	 * @throws NbCharNomException Si le nombre de caractere du Nom ne correspond pas
+	 * @throws NbCharPrenomException Si le nombre de caractere du Prenom ne correspond pas
+	 * @throws NbCharTelException Si le nombre de caractere ne correspond pas
+	 */
 	public void modifierUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
@@ -94,6 +133,12 @@ public class UtilisateurService {
 		}
 	}
 
+	/**
+	 * Supprime un Utilisateur
+	 * 
+	 * @param idUtilisateur Integer
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	public void suppressionDUnUtilisateur(final Integer idUtilisateur) throws UtilisateurInexistantException {
 
 		try {
@@ -110,6 +155,16 @@ public class UtilisateurService {
 		}
 	}
 	
+	/**
+	 * Valide les champs d un Utilisateur
+	 * 
+	 * @param utilisateur Utilisateur
+	 * @return	Utilisateur
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharTelException Exception
+	 */
 	private Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 		
 		// Password validation et encryption Bcrypt
@@ -268,6 +323,12 @@ public class UtilisateurService {
 
 	}
 
+	/**
+	 * Valide le format de l adresse Email
+	 * 
+	 * @param emailFormatvalidation String
+	 * @return	boolean
+	 */
 	public boolean isValidEmailAddress(String emailFormatvalidation) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
@@ -276,6 +337,14 @@ public class UtilisateurService {
 		return m.matches();
 	}
 
+	/**
+	 * Verifie si le champs ne commence pas par un espace
+	 * et si possede des caracteres speciaux
+	 * Si oui suppression de ceux ci
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
@@ -304,6 +373,13 @@ public class UtilisateurService {
 		return strWithoutSpaceAtBegin;
 	}
 
+	/**
+	 * Verifie si la String commence par un espace
+	 * Verifie si la string comporte des caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;
@@ -330,7 +406,13 @@ public class UtilisateurService {
 		return strWithoutSpaceAtBegin;
 	}
 
-
+	/**
+	 * Verifie si la String commence par un espace
+	 * Verifie si la string comporte des caracteres speciaux 
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	public String checkSpaceAtStrBeginAndCharacSpecMail(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;
@@ -357,6 +439,13 @@ public class UtilisateurService {
 		return strWithoutSpaceAtBegin;
 	}
 	
+	/**
+	 * Retrouve un utilisateur par son email
+	 * 
+	 * @param email String
+	 * @return Utilisateur
+	 * @throws UtilisateurInexistantException Exception
+	 */
 	public Utilisateur recupererUnUtilisateurViaeMail(final String email) throws UtilisateurInexistantException {
 
 		try {

@@ -38,8 +38,8 @@ public class PrestationDao {
 	/**
 	 * Liste les Prestations Persistees
 	 * 
-	 * @return
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Prestation> obtenirListePrestations() throws DaoException {
 
@@ -64,9 +64,9 @@ public class PrestationDao {
 	/**
 	 * Retourne un Prestation Persistee via son Id
 	 * 
-	 * @param idPrestation
-	 * @return
-	 * @throws PrestationInexistanteException
+	 * @param idPrestation Integer
+	 * @return prestation Prestation
+	 * @throws PrestationInexistanteException Exception
 	 */
 	public Prestation obtenirPrestation(final Integer idPrestation) throws PrestationInexistanteException {
 
@@ -89,8 +89,8 @@ public class PrestationDao {
 	/**
 	 * Retourne la liste des Prestations Masculines
 	 * 
-	 * @return
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Prestation> obtenirListPrestationsHomme() throws DaoException {
 
@@ -112,8 +112,8 @@ public class PrestationDao {
 	/**
 	 * Retourne la liste des prestation feminines
 	 * 
-	 * @return
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Prestation> obtenirListPrestationsFemme() throws DaoException {
 
@@ -133,13 +133,12 @@ public class PrestationDao {
 	}
 
 	/**
-	 * Retourne la liste des Prestation par 
-	 * genre selectionnes et par activite
+	 * Retourne la liste des Prestation par genre selectionnes et par activite
 	 * 
-	 * @param genre
-	 * @param activite
-	 * @return
-	 * @throws DaoException
+	 * @param genre Genre
+	 * @param activite Activite
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Prestation> obtenirListPrestationsCriteresGenreActivite(String genre, String activite)
 			throws DaoException {
@@ -162,14 +161,14 @@ public class PrestationDao {
 	}
 
 	/**
-	 * Retourne la Liste de Prestations 
-	 * Par genre selectionne, par activite, par soin
+	 * Retourne la Liste de Prestations Par genre selectionne, par activite, par
+	 * soin
 	 * 
-	 * @param genre
-	 * @param activite
-	 * @param soin
-	 * @return
-	 * @throws DaoException
+	 * @param genre Genre
+	 * @param activite Activite
+	 * @param soin Soin
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Prestation> obtenirListPrestationsCriteresGenreActiviteSoins(String genre, String activite, String soin)
 			throws DaoException {
@@ -191,7 +190,12 @@ public class PrestationDao {
 		}
 	}
 
-	
+	/**
+	 * Persiste une nouvelle prestation
+	 * 
+	 * @param prestation Prestation
+	 * @throws PrestationExistanteException Exception
+	 */
 	public void ajouterUnePrestation(Prestation prestation) throws PrestationExistanteException {
 
 		try {
@@ -207,6 +211,12 @@ public class PrestationDao {
 		}
 	}
 
+	/**
+	 * Modifier une prestation persistee
+	 * 
+	 * @param prestation Prestation
+	 * @throws PrestationInexistanteException Exception
+	 */
 	public void modifieUnePrestation(Prestation prestation) throws PrestationInexistanteException {
 
 		logger.info("PrestationsDao log : Demande de modification de la prestation id : " + prestation.getIdPrestation()
@@ -225,6 +235,12 @@ public class PrestationDao {
 		}
 	}
 
+	/**
+	 * Supprime un e Prestation Persistee
+	 * 
+	 * @param idPrestation Integer
+	 * @throws PrestationInexistanteException Exception
+	 */
 	public void supprimeUnePrestation(final Integer idPrestation) throws PrestationInexistanteException {
 
 		logger.info("PrestationsDao log : Demande de suppression de la Prestation id : " + idPrestation + " a la Bdd.");
@@ -240,5 +256,4 @@ public class PrestationDao {
 					"PrestationsDao Exception : Prestation id : " + idPrestation + " ne peut etre supprime de la Bdd.");
 		}
 	}
-
 }

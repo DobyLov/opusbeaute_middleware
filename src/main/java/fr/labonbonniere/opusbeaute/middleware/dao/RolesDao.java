@@ -16,25 +16,42 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.Roles;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RolesInexistantException;
 
-
+/**
+ * Gere la persistance des Roles Utilisateurs
+ * 
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Transactional
 public class RolesDao {
 
 	static final Logger logger = LogManager.getLogger(RolesDao.class);
-	
+
 	@PersistenceContext(unitName = "dobyPUtest")
 	private EntityManager em;
-	
+
+	/**
+	 * Reourne le nombre de Roles persistes
+	 * 
+	 * @return long
+	 * @throws DaoException Exception
+	 */
 	public long CountRoles() throws DaoException {
 		logger.info("RolesDao log : Compte le nombre de Role dans la table Role");
 		String requete = "SELECT COUNT(G) FROM Roles g";
-//		String requete = "SELECT COUNT(*) FROM T_CLIENT";
 		Query query = em.createQuery(requete);
 		long nbRolesRowsinBdd = (long) query.getSingleResult();
 		return nbRolesRowsinBdd;
 	}
 
+	/**
+	 * Retourne la liste des RolesUtilisateur
+	 * 
+	 * @return List
+	 * @throws DaoException Exception
+	 */
 	public List<Roles> obtenirListeRoles() throws DaoException {
 
 		try {
@@ -55,6 +72,13 @@ public class RolesDao {
 
 	}
 
+	/**
+	 * Recupere un Role par son Id
+	 * 
+	 * @param idRole Integer
+	 * @return roles Roles
+	 * @throws RolesInexistantException Exception
+	 */
 	public Roles obtenirRole(final Integer idRole) throws RolesInexistantException {
 
 		logger.info("RolesDao log : Demande a la bdd le Prestations id : " + idRole);
@@ -72,7 +96,13 @@ public class RolesDao {
 
 	}
 
-	public void ajouterUnRoles(Roles role) throws DaoException{
+	/**
+	 * Persiste un nouveau Role
+	 * 
+	 * @param role Roles
+	 * @throws DaoException Exception
+	 */
+	public void ajouterUnRoles(Roles role) throws DaoException {
 
 		try {
 			logger.info("RolesDao log : Demande d ajout d un nouveau Role dans la Bdd.");
@@ -86,6 +116,12 @@ public class RolesDao {
 		}
 	}
 
+	/**
+	 * Modifie un role persiste
+	 * 
+	 * @param role Roles
+	 * @throws RolesInexistantException Exception
+	 */
 	public void modifieUnRoles(Roles role) throws RolesInexistantException {
 
 		logger.info("RolesDao log : Demande de modification role id : " + role.getIdRoles() + " a la Bdd.");
@@ -100,6 +136,12 @@ public class RolesDao {
 		}
 	}
 
+	/**
+	 * Supprime un role Persiste
+	 * 
+	 * @param idRoles Integer
+	 * @throws RolesInexistantException Exception
+	 */
 	public void supprimeUnRoles(final Integer idRoles) throws RolesInexistantException {
 
 		logger.info("RolesDao log : Demande de suppression du Role id : " + idRoles + " dans la Bdd.");
@@ -115,7 +157,4 @@ public class RolesDao {
 					"RolesDao Exception : Ce Role id : " + idRoles + " ne peut etre supprime de la Bdd.");
 		}
 	}
-	
-	
-	
 }

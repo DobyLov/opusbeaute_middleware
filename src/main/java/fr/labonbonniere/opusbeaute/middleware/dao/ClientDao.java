@@ -34,8 +34,8 @@ public class ClientDao {
 	/**
 	 * Recupere la liste des lients
 	 * 
-	 * @return la liste des clients persistes
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Client> obtenirListeClient() throws DaoException {
 
@@ -57,9 +57,9 @@ public class ClientDao {
 	/**
 	 * Retourne le Client demande par son Id
 	 * 
-	 * @param idClient 
-	 * @return Retourne Entitee Client
-	 * @throws ClientInexistantException
+	 * @param idClient Integer 
+	 * @return Client
+	 * @throws ClientInexistantException Exception
 	 */
 	public Client obtenirClient(final Integer idClient) throws ClientInexistantException {
 
@@ -81,8 +81,8 @@ public class ClientDao {
 	/**
 	 * Persiste un nouveau Client
 	 * 
-	 * @param client Objet Client
-	 * @throws DaoException
+	 * @param client Client
+	 * @throws DaoException Exception
 	 */
 	public void ajouterUnClient(Client client) throws DaoException {
 		
@@ -99,8 +99,8 @@ public class ClientDao {
 	/**
 	 * Modifie un lcient persiste
 	 * 
-	 * @param client
-	 * @throws ClientInexistantException
+	 * @param client Cleint
+	 * @throws ClientInexistantException Exception
 	 */
 	public void modifieUnClient(Client client) throws ClientInexistantException {
 
@@ -122,8 +122,8 @@ public class ClientDao {
 	/**
 	 * Supprime un client persite
 	 * 
-	 * @param idClient
-	 * @throws ClientInexistantException
+	 * @param idClient Integer
+	 * @throws ClientInexistantException Exception
 	 */
 	public void supprimeUnClient(final Integer idClient) throws ClientInexistantException {
 
@@ -145,9 +145,9 @@ public class ClientDao {
 	/**
 	 * Retrouve un Lcient par son adresse E-Mail
 	 * 
-	 * @param adresseMailClient
-	 * @return Entitee Client
-	 * @throws ClientInexistantException
+	 * @param adresseMailClient String
+	 * @return cleint Client
+	 * @throws ClientInexistantException Exception
 	 */
 	public Client retrouveUnClientViaEmail (String adresseMailClient) throws ClientInexistantException{
 		
@@ -167,7 +167,6 @@ public class ClientDao {
 			throw new ClientInexistantException("ClientDao Exception : L adresse mail : " 
 			+ adresseMailClient + " ne retourne pas de client ou mail non renseigne.");
 		}
-		
 		
 	}
 

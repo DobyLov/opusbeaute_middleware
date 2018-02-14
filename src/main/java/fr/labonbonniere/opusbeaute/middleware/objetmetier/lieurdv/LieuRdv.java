@@ -20,6 +20,19 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresselieurdv.AdresseLieuRdv;
 
+/**
+ * Objet Metier LieuRdv
+ * 
+ * Lors de l intervention de L ORM Hibernate / JPA, 
+ * l instance devient une entite
+ * 
+ * "@Overide" des Methodes
+ * 
+ *          toString Equals HashCode
+ * 
+ * @author fred
+ *
+ */
 @XmlRootElement
 @Entity
 @Table(name = "T_LIEURDV")

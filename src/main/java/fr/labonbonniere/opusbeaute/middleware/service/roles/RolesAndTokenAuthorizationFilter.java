@@ -25,6 +25,16 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
+/**
+ * Filtre l acces aux methode
+ * par verification de la validite 
+ * du token fourni par l utilisateur
+ * puis L acces est valide selon le Role 
+ * defini dans le Token 
+ * 
+ * @author fred
+ *
+ */
 @SecuApp
 @Provider
 @Priority(value = 1)
@@ -36,6 +46,11 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 	@Context
 	private ResourceInfo resourceInfo;
 
+	/**
+	 * Methode qui declanche 
+	 * le filtrage de la requete http 
+	 * 
+	 */
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 
@@ -49,6 +64,15 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
+	/**
+	 * Scan des Annotations @DefineUserRole
+	 * Positionnees sur les Classes et methodes
+	 * du WebService a l origine de l appel de la ressource
+	 * 
+	 * @param requestContext RequestContext
+	 * @throws TokenInvalideException Exception
+	 * @throws TokenExpiredException Exception
+	 */
 	private void checkAnnotation(ContainerRequestContext requestContext)
 			throws TokenInvalideException, TokenExpiredException {
 
@@ -87,6 +111,16 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
+	/**
+	 * Verifie si presence sur la Classe
+	 * de l annotation @DefineUserRole
+	 * 
+	 * et execute ou non  la requete 
+	 * 
+	 * @param defineUserRoleOnClass String[]
+	 * @param requestContext RequeestContext
+	 * @throws Exception Exception
+	 */
 	private void performClassAuthorization(String[] defineUserRoleOnClass, ContainerRequestContext requestContext)
 			throws Exception {
 
@@ -161,6 +195,16 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
+	/**
+	 * Verifie si presence sur la Methode
+	 * de l annotation @DefineUserRole
+	 * 
+	 * et execute ou non  la requete
+	 * 
+	 * @param defineUserRoleOnMethod String[]
+	 * @param requestContext RequestContext
+	 * @throws Exception Exception
+	 */
 	private void performMethodAuthorization(String[] defineUserRoleOnMethod, ContainerRequestContext requestContext)
 			throws Exception {
 
@@ -214,11 +258,24 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		refuseRequest(requestContext);
 	}
 
+	/**
+	 * Revoie un message Http
+	 * d acces non autorise
+	 * 
+	 * @param requestContext RequestContext
+	 */
 	private void refuseRequest(ContainerRequestContext requestContext) {
 		logger.error("RolesAuthorisationFilter log : Acces refuse !!!!");
 		requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
 	}
 
+	/**
+	 * Recupere le Role utilisateur 
+	 * dans le Token JWT
+	 * 
+	 * @param requestContext RequestContext
+	 * @return String
+	 */
 	private String gettingUserroleInToken(ContainerRequestContext requestContext) {
 
 		logger.info("RolesAuthorizationFilter log : Filtrage du Token :");
@@ -241,6 +298,14 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		return userRole;
 	}
 
+	/**
+	 * Retourne si la Token est Valide
+	 * 
+	 * @param requestContext Requestcontext
+	 * @return bollean
+	 * @throws TokenExpiredException Exception
+	 * @throws TokenInvalideException Exception
+	 */
 	private boolean tokenIsValid(ContainerRequestContext requestContext)
 			throws TokenExpiredException, TokenInvalideException {
 
@@ -283,6 +348,13 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		}
 	}
 
+	/**
+	 * Verifie si le Token est expire
+	 * 
+	 * @param expirationDateToken Date
+	 * @return boolean
+	 * @throws TokenExpiredException Exception
+	 */
 	private boolean tknExpirationDateChecker(Date expirationDateToken) throws TokenExpiredException {
 
 		System.currentTimeMillis();

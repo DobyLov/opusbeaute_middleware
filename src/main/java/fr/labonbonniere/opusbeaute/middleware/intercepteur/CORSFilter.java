@@ -7,9 +7,20 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * filtrage des entetes requette HTTP
+ * et permet le CROSS Domaine
+ * 
+ * @author fred
+ *
+ */
 @Provider
 public class CORSFilter implements ContainerResponseFilter {
 
+	/**
+	 * Surcharge la methode filter de ContainerRequestContext
+	 * 
+	 */
 	@Override
 	public void filter(final ContainerRequestContext requete, final ContainerResponseContext reponse)
 			throws IOException {

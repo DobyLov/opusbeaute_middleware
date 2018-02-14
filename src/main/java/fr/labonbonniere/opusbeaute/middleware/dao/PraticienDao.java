@@ -35,8 +35,8 @@ public class PraticienDao {
 	/**
 	 * Retourne la liste des Praticiens Persistes
 	 * 
-	 * @return
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<Praticien> obtenirListePraticien() throws DaoException {
 
@@ -61,9 +61,9 @@ public class PraticienDao {
 	/**
 	 * Retourn le Praticien Persiste via son Id
 	 * 
-	 * @param idPraticien
-	 * @return
-	 * @throws PraticienInexistantException
+	 * @param idPraticien Integer
+	 * @return particien Praticien
+	 * @throws PraticienInexistantException Exception
 	 */
 	public Praticien obtenirPraticien(final Integer idPraticien) throws PraticienInexistantException {
 
@@ -85,8 +85,8 @@ public class PraticienDao {
 	/**
 	 * Persiste un nouveau Praticien
 	 * 
-	 * @param praticien
-	 * @throws PraticienExistantException
+	 * @param praticien Praticien
+	 * @throws PraticienExistantException Exception
 	 */
 	public void ajouterUnPraticien(Praticien praticien) throws PraticienExistantException {
 
@@ -104,6 +104,12 @@ public class PraticienDao {
 		}
 	}
 
+	/**
+	 * Modifie un praticien
+	 * 
+	 * @param praticien Praticien
+	 * @throws PraticienInexistantException Exception
+	 */
 	public void modifieUnPraticien(Praticien praticien) throws PraticienInexistantException {
 
 		logger.info("PraticienDao log : Demande de modification de l praticien id : "
@@ -125,8 +131,8 @@ public class PraticienDao {
 	/**
 	 * Supprime un Praticien Persiste
 	 * 
-	 * @param idPraticien
-	 * @throws PraticienInexistantException
+	 * @param idPraticien Integer
+	 * @throws PraticienInexistantException Exception
 	 */
 	public void supprimeUnPraticien(final Integer idPraticien) throws PraticienInexistantException {
 
@@ -144,5 +150,4 @@ public class PraticienDao {
 					+ " ne peut etre supprime de la Bdd.");
 		}
 	}
-
 }

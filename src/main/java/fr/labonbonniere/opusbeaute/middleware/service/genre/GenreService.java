@@ -13,6 +13,12 @@ import fr.labonbonniere.opusbeaute.middleware.dao.GenreDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
 
+/**
+ * Gere le Genre
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class GenreService {
 	static final Logger logger = LogManager.getLogger(GenreService.class);
@@ -20,6 +26,12 @@ public class GenreService {
 	@EJB
 	private GenreDao genredao;
 
+	/**
+	 * Recupere une liste d objet Genre
+	 * 
+	 * @return list
+	 * @throws DaoException Exception
+	 */
 	public List<Genre> recupereListeGenre() throws DaoException {
 
 		try {
@@ -35,6 +47,13 @@ public class GenreService {
 		}
 	}
 
+	/**
+	 * Recuepre un genre par soin Id
+	 * 
+	 * @param idGenre Integer
+	 * @return Genre
+	 * @throws GenreInexistantException Exception
+	 */
 	public Genre recupererUnGenre(final Integer idGenre) throws GenreInexistantException {
 
 		try {
@@ -49,6 +68,13 @@ public class GenreService {
 		}
 	}
 
+	/**
+	 * Ajoute un Genre a persister
+	 * 
+	 * @param genre Genre
+	 * @throws DaoException Exception
+	 * @throws GenreClientNullException Exception
+	 */
 	public void ajoutGenre(Genre genre) throws DaoException, GenreClientNullException {
 
 		try {
@@ -64,6 +90,13 @@ public class GenreService {
 		
 	}
 
+	/**
+	 * Modifie un genre deja persiste 
+	 * 
+	 * @param genre Genre
+	 * @throws GenreInexistantException Exception
+	 * @throws GenreClientNullException Exception
+	 */
 	public void modifDeLGenre(Genre genre) throws GenreInexistantException, GenreClientNullException {
 
 		try {
@@ -81,6 +114,12 @@ public class GenreService {
 		}
 	}
 
+	/**
+	 * supprime un genre deja persiste
+	 * 
+	 * @param idGenre Integer
+	 * @throws GenreInexistantException Exception
+	 */
 	public void suppressionddUnGenre(final Integer idGenre) throws GenreInexistantException {
 
 		try {
@@ -95,6 +134,13 @@ public class GenreService {
 		}
 	}
 	
+	/**
+	 * Valide les Champs de l objet Genre
+	 * 
+	 * @param genre Genre
+	 * @return Genre
+	 * @throws GenreClientNullException Exception
+	 */
 	private Genre validationFormat (Genre genre) throws GenreClientNullException {
 				
 		if (genre.getGenreHum() != null && !genre.getGenreHum().isEmpty()) {
@@ -116,7 +162,14 @@ public class GenreService {
 		return genre;
 	}
 	
-	
+	/**
+	 * Verifie si il y a un espaceen debut de champs
+	 * et verifie siu il y a des caracteres speciaux
+	 * si oui suppression de ceux ci
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {

@@ -15,7 +15,13 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.sms.SendSmsReminderClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.sms.SendSmsReminderPraticienService;
 
-
+/**
+ * WebService REST SMS
+ * Gere l envoi de SMS de rappel de Rdv au Client
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/sms")
 //@DefineUserRole({"ANONYMOUS"})
@@ -34,6 +40,12 @@ public class SmsReminderWs {
 	@EJB
 	private SendSmsReminderPraticienService sendsmsreminderpraticienservice;
 	
+	/**
+	 * Envoie un Sms de rappel de Rdv au Client
+	 * 
+	 * @return Response
+	 * @throws Exception Exception
+	 */
 	@GET
 	@Path("/sendclients")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +70,12 @@ public class SmsReminderWs {
 		return builder.build();
 	}
 
+	/**
+	 * Envoi un Sms de rappel de Rdv au Praticien
+	 * 
+	 * @return Response
+	 * @throws Exception Exception
+	 */
 	@GET
 	@Path("/sendpraticiens")
 	@Produces(MediaType.APPLICATION_JSON)

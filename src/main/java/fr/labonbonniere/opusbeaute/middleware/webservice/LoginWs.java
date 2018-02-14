@@ -16,7 +16,13 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.LoginService;
 
-
+/**
+ * WebService REST LoginWs
+ * Gere l acces a la ressource Login
+ *	
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/login")
 @DefineUserRole({"ANONYMOUS"})
@@ -34,6 +40,15 @@ public class LoginWs {
 	LoginService loginservice;
 	
 
+	/**
+	 * Verifie les credentiels fournipar l utilisateur 
+	 * pour acceder aux ressource 
+	 * 
+	 * @param email String
+	 * @param pwd String
+	 * @return Response
+	 * @throws Exception Exception
+	 */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -70,11 +85,6 @@ public class LoginWs {
             
         }      
     }
-	
-    
-    
-	
-
 }
 
 

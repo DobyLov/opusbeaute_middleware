@@ -14,7 +14,19 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
+/**
+ * Objet Metier AdresseClient
+ * 
+ * Lors de l intervention de L ORM Hibernate / JPA, 
+ * l instance devient une entite
+ * 
+ * "@Overide" des Methodes
+ * 
+ *          toString Equals HashCode
+ * 
+ * @author fred
+ *
+ */
 @XmlRootElement
 @Entity
 @Table(name = "T_ADRESSECLIENT")
@@ -41,16 +53,14 @@ public class AdresseClient implements Serializable {
 		this.zipCode = zipCode;
 		this.ville = ville;
 		this.pays = pays;
-		
 
 	}
 
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@GeneratedValue
-	@SequenceGenerator(name="seq",sequenceName="ADRESSECLIENT_SEQ",
-	initialValue = 2, allocationSize = 2000)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @GeneratedValue
+	@SequenceGenerator(name = "seq", sequenceName = "ADRESSECLIENT_SEQ", initialValue = 2, allocationSize = 2000)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "CLIENT_IDADRESSE", unique = true, nullable = false)
 	public Integer getIdAdresse() {
 		return idAdresse;
@@ -147,6 +157,5 @@ public class AdresseClient implements Serializable {
 				.append(this.numero, autre.numero).append(this.rue, autre.rue).append(this.ville, autre.ville)
 				.append(this.zipCode, autre.zipCode).append(this.pays, autre.pays).build();
 	}
-	
 
 }

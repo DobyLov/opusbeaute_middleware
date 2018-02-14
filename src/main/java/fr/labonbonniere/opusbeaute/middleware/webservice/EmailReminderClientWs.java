@@ -15,6 +15,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPraticienService;
 
+/**
+ * Gere l envoi d email de rappel au Client
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/email")
 //@DefineUserRole({"ANONYMOUS"})
@@ -33,6 +39,12 @@ public class EmailReminderClientWs {
 	@EJB
 	private SendMailReminderPraticienService sendmailreminderpraticien;
 	
+	/**
+	 * e
+	 * Envoi d un Email
+	 * 
+	 * @return Response
+	 */
 	@GET
 	@Path("/sendclients")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -56,6 +68,11 @@ public class EmailReminderClientWs {
 		return builder.build();
 	}
 	
+	/**
+	 * Envoi un email au Praticien
+	 * 
+	 * @return  response
+	 */
 	@GET
 	@Path("/sendpraticiens")
 	@Produces(MediaType.APPLICATION_JSON)

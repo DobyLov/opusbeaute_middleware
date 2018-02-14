@@ -30,6 +30,13 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomExcepti
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService;
 
+/**
+ * WebService REST
+ * Gere l acces a la ressource Praticien
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/praticien")
 //@DefineUserRole({"ANONYMOUS"})
@@ -44,6 +51,12 @@ public class PraticienWs {
 	@EJB
 	private PraticienService praticienservice;
 
+	/**
+	 * Retourne la Liste de Praticien
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -67,6 +80,13 @@ public class PraticienWs {
 		return builder.build();
 	}
 
+	/**
+	 * Retourne un Praticien par son Id 
+	 * 
+	 * @param idPraticien Integer
+	 * @return Response
+	 * @throws PraticienInexistantException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idPraticien: \\d+}")
@@ -90,6 +110,17 @@ public class PraticienWs {
 		return builder.build();
 	}
 
+	/**
+	 * Creation d un nouveau Praticien
+	 * 
+	 * @param praticien Praticien
+	 * @return Response
+	 * @throws PraticienExistantException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharTelException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
@@ -129,7 +160,17 @@ public class PraticienWs {
 		}
 		return builder.build();
 	}
-
+	/**
+	 * Modifie un Praticien
+	 * 
+	 * @param praticien Praticien
+	 * @return Repsonse
+	 * @throws PraticienInexistantException Response
+	 * @throws EmailFormatInvalidException Response
+	 * @throws NbCharNomException Response
+	 * @throws NbCharPrenomException Response
+	 * @throws NbCharTelException Response
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
@@ -175,13 +216,19 @@ public class PraticienWs {
 		return builder.build();
 
 	}
-
+	/**
+	 * Supprime un Praticien
+	 * 
+	 * @param idPraticien Integer
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idPraticien: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteThePraticien(@PathParam("idPraticien") final Integer idPraticien)
+	public Response supprimeUnPraticien(@PathParam("idPraticien") final Integer idPraticien)
 			throws AdresseInexistanteException {
 
 		Response.ResponseBuilder builder = null;
@@ -202,6 +249,5 @@ public class PraticienWs {
 		}
 
 		return builder.build();
-
 	}
 }

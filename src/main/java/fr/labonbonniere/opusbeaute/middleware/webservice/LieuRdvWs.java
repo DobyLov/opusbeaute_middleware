@@ -30,21 +30,33 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.lieurdv.LieuRdvService;
 
+/**
+ * Gere le WebService REST pour acceder a la ressource LieuRdvService
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/lieurdv")
-//@DefineUserRole({"ANONYMOUS"})
-//@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
-//@DefineUserRole({"PRATICIEN","STAGIAIRE"})
-//@DefineUserRole({"ALLOWALL"})
-//@DefineUserRole({"DENYALL"})
-@DefineUserRole({"ROOT","ADMINISTRATEUR"})
+// @DefineUserRole({"ANONYMOUS"})
+// @DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
+// @DefineUserRole({"PRATICIEN","STAGIAIRE"})
+// @DefineUserRole({"ALLOWALL"})
+// @DefineUserRole({"DENYALL"})
+@DefineUserRole({ "ROOT", "ADMINISTRATEUR" })
 public class LieuRdvWs {
 	private static final Logger logger = LogManager.getLogger(LieuRdvWs.class.getName());
 
 	@EJB
 	private LieuRdvService lieurdvservice;
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * Retourne la Liste de LieuRdv
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -67,7 +79,14 @@ public class LieuRdvWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"ALLOWALL"})
+	/**
+	 * Retourne un Rdv par son Id
+	 * 
+	 * @param idLieuRdv Intger
+	 * @return Response
+	 * @throws LieuRdvInexistantException Exception
+	 */
+	@DefineUserRole({ "ALLOWALL" })
 	@GET
 	@Path("/{idLieuRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -89,12 +108,25 @@ public class LieuRdvWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+	/**
+	 * Creation d un LieuRdv
+	 * 
+	 * @param lieurdv LieuRdv
+	 * @return Response
+	 * @throws LieuRdvExistantException Exception
+	 * @throws LieuRdvInvalideException Exception
+	 * @throws NbCharPaysException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 */
+	@DefineUserRole({ "PRATICIEN", "STAGIAIRE" })
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnLieuRdv(LieuRdv lieurdv) throws LieuRdvExistantException, LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
+	public Response creerUnLieuRdv(LieuRdv lieurdv) throws LieuRdvExistantException, LieuRdvInvalideException,
+			NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -107,7 +139,7 @@ public class LieuRdvWs {
 		} catch (LieuRdvExistantException message) {
 			logger.error("LieuRdvWs log : Impossible de creer ceLieuRdv dans la Bdd.");
 			throw new LieuRdvExistantException("LieuRdvWs Exception : Impossible de creer ce LieuRdv dans la Bdd.");
-			
+
 		} catch (LieuRdvInvalideException message) {
 			logger.error("LieuRdvWs log : Verifiez LieuRdv.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
@@ -116,12 +148,25 @@ public class LieuRdvWs {
 		return builder.build();
 	}
 
-	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+	/**
+	 * Modifie un LieuRdv
+	 * 
+	 * @param lieurdv LieurRdv
+	 * @return Response
+	 * @throws LieuRdvInexistantException Exception
+	 * @throws LieuRdvInvalideException Exception
+	 * @throws NbCharPaysException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 */
+	@DefineUserRole({ "PRATICIEN", "STAGIAIRE" })
 	@PUT
 	@Path("/mod")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnLieuRdv(LieuRdv lieurdv) throws LieuRdvInexistantException, LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
+	public Response modifieUnLieuRdv(LieuRdv lieurdv) throws LieuRdvInexistantException, LieuRdvInvalideException,
+			NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -147,12 +192,19 @@ public class LieuRdvWs {
 
 	}
 
-	@DefineUserRole({"PRATICIEN"})
+	/**
+	 * Supprime un LieuRdv
+	 * 
+	 * @param idLieuRdv Integer
+	 * @return Response
+	 * @throws LieuRdvInexistantException Exception
+	 */
+	@DefineUserRole({ "PRATICIEN" })
 	@DELETE
 	@Path("/del/{idLieuRdv: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteTheAdresse(@PathParam("idLieuRdv") final Integer idLieuRdv)
+	public Response supprimeUnLieurRdv(@PathParam("idLieuRdv") final Integer idLieuRdv)
 			throws LieuRdvInexistantException {
 
 		Response.ResponseBuilder builder = null;
@@ -161,7 +213,8 @@ public class LieuRdvWs {
 			logger.info("LieuRdvWs log : Demande de suppression du LieuRdv id : " + idLieuRdv + " dans la Bdd.");
 			lieurdvservice.suppressionddUnLieuRdv(idLieuRdv);
 			logger.info("LieuRdvWs log : LieuRdv id : " + idLieuRdv + " a bien ete modifie dans la Bdd.");
-//			String msg = "LieuRdv id : " + idLieuRdv + " a ien ete supprimee de la Bdd.";
+			// String msg = "LieuRdv id : " + idLieuRdv + " a ien ete supprimee
+			// de la Bdd.";
 			builder = Response.ok();
 
 		} catch (LieuRdvInexistantException message) {

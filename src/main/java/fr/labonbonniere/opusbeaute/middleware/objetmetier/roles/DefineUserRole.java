@@ -8,7 +8,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import javax.ws.rs.NameBinding;
-
+/**
+ * Interface des Roles
+ * Liaison avec RoleEnum
+ * 
+ * @author fred
+ *
+ */
 @NameBinding
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })

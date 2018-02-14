@@ -11,6 +11,14 @@ import javax.ws.rs.NameBinding;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RoleEnum;
 
+
+/**
+ * interface pour Lister les Roles enumeres
+ * dans la Classe Enum (Rolesenum)
+ * 
+ * @author fred
+ *
+ */
 @NameBinding
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })

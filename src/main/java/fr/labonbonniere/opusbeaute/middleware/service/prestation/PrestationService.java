@@ -18,6 +18,12 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInvalideException;
 
+/**
+ * Gere les regles metier sur les objets prestation
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class PrestationService {
 
@@ -28,6 +34,12 @@ public class PrestationService {
 	@EJB
 	private GenreDao genredao;
 	
+	/**
+	 * retourne une liste de Prestation
+	 * 
+	 * @return Liste
+	 * @throws DaoException Si probleme avec la Bdd
+	 */
 	public List<Prestation> recupereListePrestation() throws DaoException {
 
 		try {
@@ -43,6 +55,13 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Recupere une Prestation par son Id
+	 * 
+	 * @param idPrestation Integer
+	 * @return Objet Prestation
+	 * @throws PrestationInexistanteException Si Prestation non trouvee
+	 */
 	public Prestation recupererUnePrestation(final Integer idPrestation) throws PrestationInexistanteException {
 
 		try {
@@ -60,6 +79,12 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Recupere la liste des prestation homme
+	 * 
+	 * @return Liste Prestation
+	 * @throws DaoException Si probleme avec la Bdd
+	 */
 	public List<Prestation> recupereListePrestationHomme() throws DaoException {
 
 		try {
@@ -75,6 +100,12 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Recupere la liste des prestations Femme
+	 * 
+	 * @return Liste 
+	 * @throws DaoException si probleme avec la Bdd
+	 */
 	public List<Prestation> recupereListePrestationFemme() throws DaoException {
 
 		try {
@@ -90,6 +121,15 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Recupere la liste des prestation selon les criteres
+	 * Genre et activite
+	 * 
+	 * @param genre String
+	 * @param activite String
+	 * @return Liste
+	 * @throws DaoException Si pb avec la bdd
+	 */
 	public List<Prestation> recupereListePrestationCriteresGenreActivite(String genre, String activite)
 			throws DaoException {
 
@@ -107,6 +147,16 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Recupere les Prestation selon les criteres
+	 * Genre, Activite et Soin 
+	 * 
+	 * @param genre String
+	 * @param activite String
+	 * @param soin String
+	 * @return Liste
+	 * @throws DaoException Si pb avec la Bdd
+	 */
 	public List<Prestation> recupereListePrestationCriteresGenreActiviteSoins(String genre, String activite,
 			String soin) throws DaoException {
 
@@ -124,6 +174,17 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Ajouter une Nouvelle Prestation
+	 * 
+	 * @param prestation Objet Prestation
+	 * @throws PrestationExistanteException Si Prestation existe
+	 * @throws NbCharPrestationException Si le nombre de caracteres ne correspond pas
+	 * @throws PrestationInvalideException Si la Prestation n est pas valide
+	 * @throws GenreInvalideException Si le Genre n est pas valide
+	 * @throws DaoException Si pb de Bdd
+	 * @throws GenrePrestationNullException Si le Genre n existe pas ou null
+	 */
 	public void ajoutPrestation(Prestation prestation)
 			throws PrestationExistanteException, NbCharPrestationException, PrestationInvalideException, GenreInvalideException, DaoException, GenrePrestationNullException {
 
@@ -140,6 +201,17 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Modifie une Prestation
+	 * 
+	 * @param prestation Objet Prestation
+	 * @throws PrestationInexistanteException Si la Prestation n existe pas
+	 * @throws NbCharPrestationException Si le nombre de caracteres ne correspond pas
+	 * @throws PrestationInvalideException	Si la Prestation ne st pas valide
+	 * @throws GenreInvalideException	Si le genre n est pas valide
+	 * @throws DaoException Si proble de bdd
+	 * @throws GenrePrestationNullException Si le Genre n existe pas
+	 */
 	public void modifierUnePrestation(Prestation prestation)
 			throws PrestationInexistanteException, NbCharPrestationException, PrestationInvalideException, GenreInvalideException, DaoException, GenrePrestationNullException {
 
@@ -159,6 +231,12 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Supprime une Prestation
+	 * 
+	 * @param idPrestation Integer
+	 * @throws PrestationInexistanteException Si la Prestation n existe pas
+	 */
 	public void suppressionUnePrestation(final Integer idPrestation) throws PrestationInexistanteException {
 
 		try {
@@ -175,6 +253,17 @@ public class PrestationService {
 		}
 	}
 
+	/**
+	 * Valide les champs d une prestation
+	 * 
+	 * @param prestation Objet prestation
+	 * @return Objet Prestation modifie
+	 * @throws NbCharPrestationException Si le nombre de caractere ne correspond pas
+	 * @throws PrestationInvalideException Si la Prestation n est pas Valide
+	 * @throws GenreInvalideException Si le Genre n est pas valide
+	 * @throws DaoException	Si pb de Bdd
+	 * @throws GenrePrestationNullException Si le Genre n existe pas 
+	 */
 	private Prestation validationFormat(Prestation prestation)
 			throws NbCharPrestationException, PrestationInvalideException, GenreInvalideException, 
 			DaoException, GenrePrestationNullException {
@@ -326,7 +415,14 @@ public class PrestationService {
 		return prestation;
 	}
 	
-	
+	/**
+	 * Verifie si le Genre est superieur a 1
+	 * 
+	 * @param prestation Objet Prestation
+	 * @throws GenreInvalideException Si non Valide
+	 * @throws DaoException Si pb bdd
+	 * @throws GenrePrestationNullException Si pas Genre
+	 */
 	public void checkNbEntreeGenre(Prestation prestation)
 			throws GenreInvalideException, DaoException, GenrePrestationNullException {
 
@@ -351,6 +447,14 @@ public class PrestationService {
 		}
 	}
 	
+	/**
+	 * Verifie si il y a un espace au debut des champs 
+	 * et la presence de caracteres speciaux
+	 * Si presence les suppriment
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec Valide la String
+	 * @return String validee ou modifiee
+	 */
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {

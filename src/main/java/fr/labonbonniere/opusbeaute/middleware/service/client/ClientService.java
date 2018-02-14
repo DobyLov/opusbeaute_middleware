@@ -23,6 +23,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 
+/**
+ * Gestion des regles Metier ClientService
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class ClientService {
 	static final Logger logger = LogManager.getLogger(ClientService.class);
@@ -34,6 +40,12 @@ public class ClientService {
 	@EJB
 	private GenreDao genredao;
 
+	/**
+	 * Retourne la liste des Objets client persistes
+	 * 
+	 * @return List
+	 * @throws DaoException Exception
+	 */
 	public List<Client> recupereListeClient() throws DaoException {
 
 		try {
@@ -49,6 +61,13 @@ public class ClientService {
 		}
 	}
 
+	/**
+	 * Recupere un Client par son Id 
+	 * 
+	 * @param idClient Integer
+	 * @return Client
+	 * @throws ClientInexistantException Exception
+	 */
 	public Client recupererUnClient(final Integer idClient) throws ClientInexistantException {
 
 		try {
@@ -63,9 +82,31 @@ public class ClientService {
 		}
 	}
 
+	/**
+	 * Ajoute un nouvel objet Client et AdresseClient
+	 * 
+	 * @param client Cleint
+	 * @throws DaoException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharTsAniversaireException Exception
+	 * @throws NbCharTelException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws DaoException Exception
+	 * @throws GenreInvalideException Exception
+	 * @throws GenreClientNullException Exception
+	 * @throws SuscribeMailReminderException Exception
+	 * @throws SuscribedNewsLetterException Exception
+	 * @throws SuscribedSmsReminderException Exception
+	 * @throws PhoneMobileNotStartWith0607Exception Exception
+	 */
 	public void ajoutClient(Client client)
 			throws DaoException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException,
-			NbCharPrenomException, NbCharNomException, NbCharTsAniversaire, NbCharTelException, EmailFormatInvalidException,
+			NbCharPrenomException, NbCharNomException, NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException,
 			DaoException, GenreInvalideException, GenreClientNullException, SuscribeMailReminderException,
 			SuscribedNewsLetterException, SuscribedSmsReminderException, PhoneMobileNotStartWith0607Exception {
 
@@ -109,9 +150,27 @@ public class ClientService {
 
 	}
 
-	public void modifduClient(Client client)
+	/**
+	 * Modifie un Objet Client et AdresseClient existant 
+	 * 
+	 * @param client Cleint
+	 * @throws ClientInexistantException Exception
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharTsAniversaireException Exception
+	 * @throws NbCharTelException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 * @throws GenreInvalideException Exception
+	 * @throws DaoException Exception
+	 * @throws GenreClientNullException Exception
+	 */
+	public void modifDuClient(Client client)
 			throws ClientInexistantException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException,
-			NbCharPaysException, NbCharPrenomException, NbCharNomException, NbCharTsAniversaire, NbCharTelException,
+			NbCharPaysException, NbCharPrenomException, NbCharNomException, NbCharTsAniversaireException, NbCharTelException,
 			EmailFormatInvalidException, GenreInvalideException, DaoException, GenreClientNullException {
 
 		try {
@@ -153,7 +212,14 @@ public class ClientService {
 		}
 	}
 
-	public void suppressionddUnClient(final Integer idClient) throws ClientInexistantException {
+	/**
+	 * Suppression d un objet Client et de son AdresseClient
+	 * 
+	 * 
+	 * @param idClient Integer
+	 * @throws ClientInexistantException Exception
+	 */
+	public void suppressionDUnClient(final Integer idClient) throws ClientInexistantException {
 
 		try {
 			logger.info("ClientService log : Demande de suppression du Client id : " + idClient + " dans la Bdd.");
@@ -166,7 +232,17 @@ public class ClientService {
 					"ClientService Exception : Client id : " + idClient + " ne peut etre supprime dans la Bdd.");
 		}
 	}
-
+	
+	/**
+	 * Validation des champs de l objet AdresseClient
+	 * 
+	 * @param client Client
+	 * @return Client
+	 * @throws NbNumRueException Exception
+	 * @throws NbCharRueVilleException Exception
+	 * @throws NbNumZipcodeException Exception
+	 * @throws NbCharPaysException Exception
+	 */
 	private Client adresseValiderFormater(Client client)
 			throws NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
 
@@ -248,6 +324,12 @@ public class ClientService {
 
 	}
 
+	/**
+	 * Supprime les champs d un objet Adresse
+	 * 
+	 * @param client Client
+	 * @return Client
+	 */
 	private Client adresseSetToNull(Client client) {
 		logger.info("ClientService log : Attribution d une adresse nulle a l objet Client.");
 		AdresseClient setToNullAdresse = new AdresseClient();
@@ -260,8 +342,19 @@ public class ClientService {
 		return client;
 	}
 
+	/**
+	 * Validation de champs d un Client
+	 * 
+	 * @param client Client
+	 * @return Client
+	 * @throws NbCharPrenomException Exception
+	 * @throws NbCharNomException Exception
+	 * @throws NbCharTsAniversaireException Exception
+	 * @throws NbCharTelException Exception
+	 * @throws EmailFormatInvalidException Exception
+	 */
 	private Client clientValiderFormater(Client client) throws NbCharPrenomException, NbCharNomException,
-			NbCharTsAniversaire, NbCharTelException, EmailFormatInvalidException {
+			NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException {
 
 		logger.info("ClientService log : Validation des elements de Client avant persistance.");
 
@@ -321,7 +414,7 @@ public class ClientService {
 				logger.error(
 						"ClientService log : Client.DateAnniversaire depase 21 caracteres du format yyyy-MM-dd HH:MM:SS.m");
 				client.setDateAnniversaireClient(null);
-				throw new NbCharTsAniversaire(
+				throw new NbCharTsAniversaireException(
 						"ClientService Validation Exception : Client.DateAnniversaire probleme de Timestamp.");
 			}
 
@@ -446,6 +539,12 @@ public class ClientService {
 
 	}
 
+	/**
+	 * Validation du champs AdresseMail
+	 * 
+	 * @param emailFormatvalidation String
+	 * @return boolean
+	 */
 	public boolean isValidEmailAddress(String emailFormatvalidation) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
@@ -454,6 +553,14 @@ public class ClientService {
 		return m.matches();
 	}
 
+	/**
+	 * Verifie que la bdd possede bien des Genres
+	 * 
+	 * @param client Client
+	 * @throws GenreInvalideException Exception
+	 * @throws DaoException Exception
+	 * @throws GenreClientNullException Exception
+	 */
 	public void checkNbEntreeGenre(Client client)
 			throws GenreInvalideException, DaoException, GenreClientNullException {
 
@@ -483,6 +590,16 @@ public class ClientService {
 
 	}
 	
+	/**
+	 * Verifie si le champs possede un espace au debut
+	 * ou des caracteres speciaux
+	 * Si oui les suppression de ceux-ci
+	 * 
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
+	
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
@@ -511,7 +628,13 @@ public class ClientService {
 		return strWithoutSpaceAtBegin;
 	}
 	
-	
+	/**
+	 * suppression de l espace au debut
+	 * ou de caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @return String
+	 */
 	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;
@@ -565,9 +688,31 @@ public class ClientService {
 		return strWithoutSpaceAtBegin;
 	}
 
-	
+	/**
+	 * Verifie si le Client est abonne aux
+	 * 
+	 * Publicites
+	 * Rappels de Rdv par Email
+	 * News letter
+	 * Rappels de Rdv par Sms
+	 * 
+	 * @param client Cleint
+	 */
 	public void checkPreRequisSouscriptions(Client client) {
-		
+		/* 
+		 * 
+		 * (Si la SOUSCRIPTION AUX RAPPELS n est pas NULLE et non VIDE)
+		 * 	Alors {
+		 * 		(Si la SOUSCRIPTION AUX RAPPELS est egalle a "T" ou "t")
+		 * 			Alors {
+		 * 				(Si l ADRESSE EMAIL n est pas NULLE et non VIDE)
+		 * 					Alors {
+		 * 						mettre a "T" la SOUSCRIPTION AUX RAPPELS PAR EMAIL}
+		 * 				} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR EMAIL}
+		 * 		} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS}
+		 *	Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS}
+		 *				
+		 */
 		// COMMERCIALS
 		if (client.getSuscribedCommercials() != null && !client.getSuscribedCommercials().isEmpty()) {
 			if (client.getSuscribedCommercials().equalsIgnoreCase("T")) {
@@ -583,6 +728,19 @@ public class ClientService {
 			client.setSuscribedCommercials("F");
 		}
 		
+		/*
+		 * (Si la SOUSCRIPTION AUX RAPPELS PAR MAIL n est pas NULLE et non VIDE)
+		 * 	Alors {
+		 * 		(Si la SOUSCRIPTION AUX RAPPELS PAR MAIL est egalle a "T" ou "t")
+		 * 			Alors {
+		 * 				(Si la SOUSCRIPTION l adresse MAIL n est pas NULLE et non VIDE)
+		 * 					Alors {
+		 * 						mettre a "T" la SOUSCRIPTION AUX RAPPELS PAR MAIL}
+		 * 				} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR MAIL}
+		 * 		} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR MAIL}
+		 *	Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR MAIL}
+		 *			
+		 */
 		// MAIL Reminder
 		if (client.getSuscribedMailReminder() != null && !client.getSuscribedMailReminder().isEmpty()) {
 			if (client.getSuscribedMailReminder().equalsIgnoreCase("T")) {
@@ -598,6 +756,19 @@ public class ClientService {
 			client.setSuscribedMailReminder("F");
 		}
 		
+		/* 
+		 * (Si la SOUSCRIPTION A LA NEWSLETTER n est pas NULLE et non VIDE)
+		 * 	Alors {
+		 * 		(Si la SOUSCRIPTION AUX RAPPELS PAR MAIL est egalle a "T" ou "t")
+		 * 			Alors {
+		 * 				(Si l ADRESSE EMAIL n est pas NULLE et non VIDE)
+		 * 					Alors {
+		 * 						mettre a "T" la SOUSCRIPTION AUX RAPPELS PAR EMAIL}
+		 * 				} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR EMAIL}
+		 * 		} Sinon {mettre a "F" la SOUSCRIPTION A LA NEWSLETTER}
+		 *	Sinon {mettre a "F" la SOUSCRIPTION A LA NEWSLETTER}
+		 *				
+		 */
 		// MAIL NewsLetter
 		if (client.getSuscribedNewsLetter() != null && !client.getSuscribedNewsLetter().isEmpty()) {
 			if (client.getSuscribedMailReminder().equalsIgnoreCase("T")) {
@@ -613,6 +784,19 @@ public class ClientService {
 			client.setSuscribedNewsLetter("F");
 		}
 		
+		/*
+		 * (Si la SOUSCRIPTION AUX RAPPELS PAR SMS n est pas NULLE et non VIDE)
+		 * 	Alors {
+		 * 		(Si la SOUSCRIPTION AUX RAPPELS PAR SMS est egalle a "T" ou "t")
+		 * 			Alors {
+		 * 				(Si le NUMERO DE PORTABLE n est pas NUL et non VIDE)
+		 * 					Alors {
+		 * 						mettre a "T" la SOUSCRIPTION AUX RAPPELS PAR SMS}
+		 * 				} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR SMS}
+		 * 		} Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR SMS}
+		 *	Sinon {mettre a "F" la SOUSCRIPTION AUX RAPPELS PAR SMS}
+		 *				
+		 */
 		// SMSReminder
 		if (client.getSuscribedSmsReminder() != null && !client.getSuscribedSmsReminder().isEmpty()) {
 			if (client.getSuscribedSmsReminder().equalsIgnoreCase("T")) {

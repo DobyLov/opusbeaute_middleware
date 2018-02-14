@@ -25,6 +25,14 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
 
+/**
+ * Gere L acces au WebService 
+ * a la ressource Genre
+ * 
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/genre")
 //@DefineUserRole({"ANONYMOUS"})
@@ -39,6 +47,12 @@ public class GenreWs {
 	@EJB
 	private GenreService genreservice;
 
+	/**
+	 * Retourne la Liste des Genre
+	 * 
+	 * @return Response 
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -62,11 +76,18 @@ public class GenreWs {
 		return builder.build();
 	}
 
+	/**
+	 * Retourne un Genre par son Id
+	 * 
+	 * @param idGenre Integer
+	 * @return Response
+	 * @throws GenreInexistantException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idGenre: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response theGenre(@PathParam("idGenre") final Integer idGenre) throws GenreInexistantException {
+	public Response recupereUnGenre(@PathParam("idGenre") final Integer idGenre) throws GenreInexistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -84,12 +105,20 @@ public class GenreWs {
 		return builder.build();
 	}
 
+	/**
+	 * Creation d un nouveau Genre 
+	 * 
+	 * @param genre Genre
+	 * @return Response
+	 * @throws DaoException Exception
+	 * @throws GenreClientNullException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response creerUnClient(Genre genre) throws DaoException, GenreClientNullException {
+	public Response creerUnGenre(Genre genre) throws DaoException, GenreClientNullException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -111,6 +140,14 @@ public class GenreWs {
 		return builder.build();
 	}
 
+	/**
+	 * Modifie un Genre
+	 * 
+	 * @param genre Genre
+	 * @return Response
+	 * @throws GenreInexistantException Exception
+	 * @throws GenreClientNullException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
@@ -141,12 +178,19 @@ public class GenreWs {
 
 	}
 
+	/**
+	 * Supprime un Genre
+	 * 
+	 * @param idGenre Integer
+	 * @return Response
+	 * @throws GenreInexistantException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idGenre: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteTheClient(@PathParam("idGenre") final Integer idGenre) throws GenreInexistantException {
+	public Response supprimeUnGenre(@PathParam("idGenre") final Integer idGenre) throws GenreInexistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {

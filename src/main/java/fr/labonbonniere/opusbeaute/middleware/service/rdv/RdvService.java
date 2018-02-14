@@ -21,6 +21,12 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
 
+/**
+ * Gere les Regles metier des Rdv
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class RdvService {
 	static final Logger logger = LogManager.getLogger(RdvService.class);
@@ -28,6 +34,12 @@ public class RdvService {
 	@EJB
 	private RdvDao rdvdao;
 
+	/**
+	 * Recupere la liste des Rdv
+	 * 
+	 * @return List Liste de Rdv
+	 * @throws DaoException Si pb Bdd
+	 */
 	public List<Rdv> recupereListeRdv() throws DaoException {
 
 		try {
@@ -42,7 +54,14 @@ public class RdvService {
 			throw new DaoException("RdvService Exception : Probleme de la bdd.");
 		}
 	}
-
+	
+	/**
+	 * Recupere un Rdv par son Id
+	 * 
+	 * @param idRdv Integer
+	 * @return Rdv rdv
+	 * @throws RdvInexistantException Si n existe pas
+	 */
 	public Rdv recupererUnRdv(final Integer idRdv) throws RdvInexistantException {
 
 		try {
@@ -57,6 +76,14 @@ public class RdvService {
 		}
 	}
 
+	/**
+	 * Recupere un liste de Rdv par Date
+	 * entre 00H00 et 23H59
+	 * 
+	 * @param listeRdvDateDuJour String
+	 * @return List
+	 * @throws DaoException si pb Bdd
+	 */
 	public List<Rdv> recupereListeRdvParDate(final String listeRdvDateDuJour) throws DaoException {
 
 		try {
@@ -71,6 +98,17 @@ public class RdvService {
 		}
 	}
 
+	/**
+	 * Recupere une liste de Rdv par 
+	 * plage de dates de rdv
+	 * JourA 00h00
+	 * JourB 23H59
+	 * 
+	 * @param RdvPlageJourA String
+	 * @param RdvPlageJourB	String
+	 * @return List
+	 * @throws DaoException Si pb bdd
+	 */
 	public List<Rdv> recupereListeRdvViaPlageDate(String RdvPlageJourA, String RdvPlageJourB) throws DaoException {
 
 		try {
@@ -85,6 +123,19 @@ public class RdvService {
 		}
 	}
 
+	/**
+	 * Ajoute un nouveau Rdv
+	 * 
+	 * 
+	 * @param rdv Rdv 
+	 * @throws RdvExistantException Si Rdv deja Existant
+	 * @throws DaoException	Si pb Bdd
+	 * @throws RdvEgaliteChevauchementException Si chevauchement de Rdv
+	 * @throws NoRdvException Si pas de rdv
+	 * @throws RdvDebutChevauchementException Si Chevauchement au debut
+	 * @throws RdvFinChevauchementException	Si chevauchement a la fin de Rdv
+	 * @throws RdvEnglobantException probleme de Rdv engloabant
+	 */
 	public void ajoutRdv(Rdv rdv) throws RdvExistantException, DaoException, RdvEgaliteChevauchementException,
 			NoRdvException, RdvDebutChevauchementException, RdvFinChevauchementException, RdvEnglobantException {
 //		rdvdao.ajouterUnRdv(rdv);
@@ -199,6 +250,12 @@ public class RdvService {
 		}
 	}
 
+	/**
+	 * Modifie un Rdv
+	 * 
+	 * @param rdv Rdv
+	 * @throws RdvInexistantException Si Rdv inexistant
+	 */
 	public void modifduRdv(Rdv rdv) throws RdvInexistantException {
 
 		try {
@@ -213,6 +270,12 @@ public class RdvService {
 		}
 	}
 
+	/**
+	 * Supprime un Rdv
+	 * 
+	 * @param idRdv Integer
+	 * @throws RdvInexistantException Si Rdv inexistant
+	 */
 	public void suppressiondunrdv(final Integer idRdv) throws RdvInexistantException {
 
 		try {
@@ -227,6 +290,14 @@ public class RdvService {
 		}
 	}
 
+	/**
+	 * Charge de verifier le chevauchement de rdv
+	 * 
+	 * @param incremRdvDateDebut long
+	 * @param rdvBddDateDebut long
+	 * @param rdvBddDateFin long
+	 * @return boolean
+	 */
 	public static boolean testInterval(long incremRdvDateDebut, long rdvBddDateDebut, long rdvBddDateFin) {
 
 		if (rdvBddDateDebut < incremRdvDateDebut && incremRdvDateDebut < rdvBddDateFin)

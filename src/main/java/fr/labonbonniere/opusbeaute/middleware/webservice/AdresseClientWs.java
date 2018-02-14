@@ -28,7 +28,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysExceptio
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
-
+/**
+ * WebService REST AdresseClient
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/adresse")
 //@DefineUserRole({"ANONYMOUS"})
@@ -43,6 +48,12 @@ public class AdresseClientWs {
 	@EJB
 	private AdresseClientService adresseservice;
 
+	/**
+	 * Retourne la Liste des adresseClient
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -66,6 +77,13 @@ public class AdresseClientWs {
 		return builder.build();
 	}
 
+	/**
+	 * Retourne un AdresseClient depuis son Id 
+	 * 
+	 * @param idAdresse Integer
+	 * @return Response AdresseClient
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idAdresse: \\d+}")
@@ -88,6 +106,13 @@ public class AdresseClientWs {
 		return builder.build();
 	}
 
+	/**
+	 * Creation d une AdresseClient
+	 * 
+	 * @param adresse AdresseClient
+	 * @return Response
+	 * @throws AdresseExistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
@@ -127,6 +152,13 @@ public class AdresseClientWs {
 		
 		return builder.build();
 	}
+	/**
+	 * Modifie une AdresseClient
+	 * 
+	 * @param adresse AdresseClient
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
@@ -171,6 +203,13 @@ public class AdresseClientWs {
 
 	}
 
+	/**
+	 * Modifie une AdresseClient
+	 * 
+	 * @param idAdresse Integer
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@PUT
 	@Path("/settonull/{idAdresse: \\d+}")
@@ -196,9 +235,15 @@ public class AdresseClientWs {
 		}
 
 		return builder.build();
-
 	}
 	
+	/**
+	 * Supprime une AdresseClient
+	 * 
+	 * @param idAdresse Integer
+	 * @return Response 
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idAdresse: \\d+}")

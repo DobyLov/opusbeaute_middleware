@@ -29,6 +29,13 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
 
+/**
+ * Gere L envoi de Mail de rappel de Rdv 
+ * au Praticien
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class SendMailReminderPraticienService {
 
@@ -44,6 +51,15 @@ public class SendMailReminderPraticienService {
 	private String lieuRdv;
 	private String introSingPlur;
 	
+	/**
+	 * Methode chargee d envoyer un email
+	 * a un ou des praticiens pour rappeler un ou des Rdvs
+	 * L envoie est automatise et plannifie a 20H	 
+	 * grace au service Timer annote "@SCHEDULE"
+	 * 
+	 * @return ArrayList
+	 * @throws DaoException Exception
+	 */	
 	// Service Timer: Envoyer un mail de rappel au client.
 	// Freq: Tous les jours de la semaine à 20H00.
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
@@ -194,7 +210,12 @@ public class SendMailReminderPraticienService {
 
 	}
 
-
+	/**
+	 * Recupere la date du jour et ajoute 1 jour
+	 * 
+	 * @return String
+	 * @throws DaoException Exception
+	 */
 	private String recuDateDuJourplusUnFormate() throws DaoException {
 
 		logger.info("MailRemiderSender log : Recuperation de la date J+1");
@@ -223,7 +244,14 @@ public class SendMailReminderPraticienService {
 		return rdvDateDuJourPlusUnFormate;
 	}
 
-	
+	/**
+	 * Retourne si il y a plus d un Praticien
+	 * dans la liste des rdv plannifies a J+1
+	 * 
+	 * @param listIdPratt ArrayList
+	 * @param nbIdPrattFiltreeUnique Integer
+	 * @return Boolean
+	 */
 	private Boolean numberOfidPrattMoreThanOnceDetector(ArrayList<Integer> listIdPratt, Integer nbIdPrattFiltreeUnique) {
 		logger.info("Occurrences checker : Reception de la liste listIdPratt " + listIdPratt.toString());
 		logger.info("Occurrences checker : Taille de la liste listIdPratt " + listIdPratt.size());
@@ -256,7 +284,13 @@ public class SendMailReminderPraticienService {
 		return idPrattMoreThanOnce;
 	}
 	
-	
+	/**
+	 * Moteur d envoi d Email
+	 * 
+	 * @param message String
+	 * @param destinataire String
+	 * @param customMailSubject String
+	 */
 	private void moteurEmail(String message, String destinataire, String customMailSubject) {
 
 		// Creation du mail

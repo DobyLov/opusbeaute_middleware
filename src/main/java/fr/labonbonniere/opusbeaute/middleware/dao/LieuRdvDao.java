@@ -34,8 +34,8 @@ public class LieuRdvDao {
 	/**
 	 * Retourne la liste des Lieu de Rdv persiste
 	 * 
-	 * @return
-	 * @throws DaoException
+	 * @return List
+	 * @throws DaoException Exception
 	 */
 	public List<LieuRdv> obtenirListeLieuRdv() throws DaoException {
 
@@ -60,9 +60,9 @@ public class LieuRdvDao {
 	/**
 	 * Retourne un lieu de rdv Persiste via son Id
 	 * 
-	 * @param idLieuRdv
-	 * @return
-	 * @throws LieuRdvInexistantException
+	 * @param idLieuRdv Integer
+	 * @return LieuRdv
+	 * @throws LieuRdvInexistantException Exception
 	 */
 	public LieuRdv obtenirLieuRdv(final Integer idLieuRdv) throws LieuRdvInexistantException {
 
@@ -84,8 +84,8 @@ public class LieuRdvDao {
 	/**
 	 * Persiste un nouveau Lieu de Rdv
 	 * 
-	 * @param lieurdv
-	 * @throws LieuRdvExistantException
+	 * @param lieurdv Integer
+	 * @throws LieuRdvExistantException Exception
 	 */
 	public void ajouterUnLieuRdv(LieuRdv lieurdv) throws LieuRdvExistantException {
 
@@ -104,8 +104,8 @@ public class LieuRdvDao {
 	/**
 	 * Modifie un lieu de rdv persiste
 	 * 
-	 * @param lieurdv
-	 * @throws LieuRdvInexistantException
+	 * @param lieurdv LieuRdv
+	 * @throws LieuRdvInexistantException Exception
 	 */
 	public void modifieUnLieuRdv(LieuRdv lieurdv) throws LieuRdvInexistantException {
 
@@ -124,8 +124,8 @@ public class LieuRdvDao {
 	/**
 	 * Supprime un lieur de Rdv persiste
 	 * 
-	 * @param idLieuRdv
-	 * @throws LieuRdvInexistantException
+	 * @param idLieuRdv Integer
+	 * @throws LieuRdvInexistantException Exception
 	 */
 	public void supprimeUnLieuRdv(final Integer idLieuRdv) throws LieuRdvInexistantException {
 
@@ -142,5 +142,4 @@ public class LieuRdvDao {
 					"LieuRdvDao Exception : Ce LieuRdv id : " + idLieuRdv + " ne peut etre supprime de la Bdd.");
 		}
 	}
-
 }

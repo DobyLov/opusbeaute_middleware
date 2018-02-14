@@ -22,13 +22,25 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleExce
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 
+/**
+ * Gere les objets LieuRdv 
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class LieuRdvService {
 	static final Logger logger = LogManager.getLogger(LieuRdvService.class);
 
 	@EJB
 	private LieuRdvDao lieurdvdao;
-
+	
+	/**
+	 * Recupere la liste d objet LieuRdv
+	 * 
+	 * @return lalistelieurdv
+	 * @throws DaoException ExceptionDAO
+	 */
 	public List<LieuRdv> recupereListeLieuRdv() throws DaoException {
 
 		try {
@@ -44,6 +56,13 @@ public class LieuRdvService {
 		}
 	}
 
+	/**
+	 * Recupere un LieuRdv par son Id
+	 * 
+	 * @param idLieuRdv Integer
+	 * @return LieuRdv
+	 * @throws LieuRdvInexistantException Si n existe pas 
+	 */
 	public LieuRdv recupererUnLieuRdv(final Integer idLieuRdv) throws LieuRdvInexistantException {
 
 		try {
@@ -58,6 +77,17 @@ public class LieuRdvService {
 		}
 	}
 
+	/**
+	 * ajoute un nouveau LieuRdv a persister
+	 * 
+	 * @param lieuRdv Objet LieuRdv
+	 * @throws LieuRdvExistantException Si n existe pas
+	 * @throws LieuRdvInvalideException Si non valide
+	 * @throws NbCharPaysException Si le nombre de caractere ne correspond pas
+	 * @throws NbNumRueException Les numeros de rue ne correspond pas
+	 * @throws NbCharRueVilleException Si le nombre de caracteres du champs ville ne correspond pas
+	 * @throws NbNumZipcodeException Si le nombre de numero du code postale ne correspond pas
+	 */
 	public void ajoutLieuRdv(LieuRdv lieuRdv) throws LieuRdvExistantException, LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 
 		try {
@@ -72,6 +102,17 @@ public class LieuRdvService {
 		}
 	}
 
+	/**
+	 * Modifie un LieuRdv persiste
+	 * 
+	 * @param lieuRdv Integer
+	 * @throws LieuRdvInexistantException Si n existe pas
+	 * @throws LieuRdvInvalideException Si n est pas valide
+	 * @throws NbCharPaysException Si le nombre de caracetres ne correspond pas
+	 * @throws NbNumRueException Si le nombre du numero de rue ne corresppond pas
+	 * @throws NbCharRueVilleException Si le nombre de caracteres ne correspond pas
+	 * @throws NbNumZipcodeException Si le Zip code ne correspond pas
+	 */
 	public void modifDuLieuRdv(LieuRdv lieuRdv) throws LieuRdvInexistantException, LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 
 		try {
@@ -90,6 +131,12 @@ public class LieuRdvService {
 		
 	}
 
+	/**
+	 * Supprime un lieuRdv
+	 * 
+	 * @param idLieuRdv Integer
+	 * @throws LieuRdvInexistantException si n existe pas
+	 */
 	public void suppressionddUnLieuRdv(final Integer idLieuRdv) throws LieuRdvInexistantException {
 
 		try {
@@ -104,6 +151,17 @@ public class LieuRdvService {
 		}
 	}
 	
+	/**
+	 * Valide les champs de l objet LieuRdv
+	 * 
+	 * @param lieuRdv Integer
+	 * @return l objet lieuRdv formate
+	 * @throws LieuRdvInvalideException si n est pas valide
+	 * @throws NbCharPaysException Si le nombre de caracterse ne corresponde pas
+	 * @throws NbNumRueException Si le nombre du numero de rue ne correspond pas
+	 * @throws NbCharRueVilleException Si le nombre de caracteres de la rue ne correspond pas
+	 * @throws NbNumZipcodeException  si le nombre du numero du code postale ne correspond pas
+	 */
 	private LieuRdv validationFormatageLieuRdv(LieuRdv lieuRdv) throws LieuRdvInvalideException, NbCharPaysException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException {
 //		AdresseLieuRdv adresseFormatee = new AdresseLieuRdv();
 		AdresseLieuRdv adresseLieuRdvFormatee = new AdresseLieuRdv();
@@ -202,6 +260,13 @@ public class LieuRdvService {
 		return lieuRdv;
 	}
 
+	/**
+	 * Verifie si la chaine du champs commence par un espace
+	 * et detecte la presence de caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec Verifie si la String possede un espace au debut et de caracteres speciaux
+	 * @return la String modifiee
+	 */
 	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
 	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
@@ -229,6 +294,14 @@ public class LieuRdvService {
 		
 		return strWithoutSpaceAtBegin;
 	}
+	
+	/**
+	 * Verifie si la chaine du champs commence par un espace
+	 * et detecte la presence de caracteres speciaux
+	 * 
+	 * @param checkSpaceAtBeginAndCharacSpec Verifie si la String possede un espace au debut et de caracteres speciaux
+	 * @return la String modifiee
+	 */
 	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;

@@ -32,7 +32,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvFinChevauchementExc
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
 
 /**
- * REST Gestion des RDV's
+ * WebService REST Gestion des RDV's
  * Liste des rdv, cherche un rdv, ajout, modifie, supprime 
  * 
  * @author fred
@@ -58,8 +58,8 @@ public class RdvWs {
 	/**
 	 * Renvoie la liste totale des RDV
 	 * 
-	 * @return Response Liste rdv
-	 * @throws DaoException
+	 * @return Response List
+	 * @throws DaoException Exception
 	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
@@ -87,9 +87,9 @@ public class RdvWs {
 	/**
 	 * Retrouve un Rdv par son Id
 	 * 
-	 * @param idRdv Integer du numero du Rdv
-	 * @return Response Le rdv correspondant a son numero
-	 * @throws RdvInexistantException 
+	 * @param idRdv Integer
+	 * @return Response
+	 * @throws RdvInexistantException Exception
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/$idRdv
 	@DefineUserRole({"ALLOWALL"})
@@ -121,9 +121,9 @@ public class RdvWs {
 	/**
 	 * Retourne la liste des Rdv's du jour renseigne
 	 * 
-	 * @param listeRdvDateDuJour Retourne le/les Rdv(s) de la date renseignee 
-	 * @return Response Un ou plusieur rdv
-	 * @throws DaoException 
+	 * @param listeRdvDateDuJour String
+	 * @return Response
+	 * @throws DaoException Exception
 	 */
 	// regex qui gere le format yyyy-mm-dd numeric separe par "-" 
 	// le regex va un petit peu plus loin :
@@ -158,10 +158,10 @@ public class RdvWs {
 	/**
 	 * Retourne une liste de Rdv via une plage de jour
 	 * 
-	 * @param RdvPlageJourA Debut de la plage
-	 * @param RdvPlageJourB Fin de plage
-	 * @return Response Une liste de rdv 
-	 * @throws DaoException
+	 * @param RdvPlageJourA String
+	 * @param RdvPlageJourB String
+	 * @return Response 
+	 * @throws DaoException Exception
 	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
@@ -188,15 +188,15 @@ public class RdvWs {
 	/**
 	 * Ajoute un Rdv
 	 * 
-	 * @param Rdv a persister
-	 * @return Response Le Rdv persiste
-	 * @throws RdvExistantException
-	 * @throws DaoException
-	 * @throws RdvEgaliteChevauchementException
-	 * @throws NoRdvException
-	 * @throws RdvDebutChevauchementException
-	 * @throws RdvFinChevauchementException
-	 * @throws RdvEnglobantException
+	 * @param rdv Rdv
+	 * @return Response
+	 * @throws RdvExistantException Exception
+	 * @throws DaoException Exception
+	 * @throws RdvEgaliteChevauchementException Exception
+	 * @throws NoRdvException Exception
+	 * @throws RdvDebutChevauchementException Exception
+	 * @throws RdvFinChevauchementException Exception
+	 * @throws RdvEnglobantException Exception
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/add
 	// ne pas mettre l idRdv, ajouter a l' objet et les parametres RDV	
@@ -230,9 +230,9 @@ public class RdvWs {
 	/**
 	 * Modifie le Rdv
 	 * 
-	 * @param rdv a modifier
-	 * @return Response le rdv modifie
-	 * @throws RdvInexistantException Si le Rdv n existe pas.
+	 * @param rdv Rdv
+	 * @return Response
+	 * @throws RdvInexistantException Exception
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/mod
 	// Mettre l idRdv de l objet et les parametres a modifier rdv
@@ -267,9 +267,9 @@ public class RdvWs {
 	/**
 	 * Efface un Rdv
 	 * 
-	 * @param idRdv Id du Rdv a effacer
-	 * @return Response OK
-	 * @throws RdvInexistantException Si le Le Rdv n existe pas dans la base de donnee
+	 * @param idRdv Inetger
+	 * @return Response
+	 * @throws RdvInexistantException Exception
 	 */
 	// http://localhost:8080/opusbeaute-0/obws/rdv/del/$idRdv
 	// Mettre l id du rdv
@@ -300,12 +300,5 @@ public class RdvWs {
 		
 		return builder.build();
 		
-		}
-		
+		}		
 }
-
-
-
-	
-
-

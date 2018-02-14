@@ -29,6 +29,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresselieurdv.AdresseLieuRdvService;
 
+/**
+ * WebService REST AdresseLieurRdv
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 @Path("/adresselieurdv")
 //@DefineUserRole({"ANONYMOUS"})
@@ -43,6 +49,12 @@ public class AdresseLieuRdvWs {
 	@EJB
 	private AdresseLieuRdvService adresselieurdvservice;
 
+	/**
+	 * Retourne la Liste d AdresseLieuRdv
+	 * 
+	 * @return Response
+	 * @throws DaoException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/list")
@@ -66,6 +78,14 @@ public class AdresseLieuRdvWs {
 		return builder.build();
 	}
 
+	/**
+	 * Retourne une AdresseLieuRdv
+	 * via son Id
+	 * 
+	 * @param idAdresseLieuRdv Integer
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
 	@Path("/{idAdresseLieuRdv: \\d+}")
@@ -88,6 +108,13 @@ public class AdresseLieuRdvWs {
 		return builder.build();
 	}
 
+	/**
+	 * Creation d une nouvelle AdresseLieuRdv
+	 * 
+	 * @param adresseLieuRdv AdresseLieuRdv
+	 * @return Response
+	 * @throws AdresseExistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
 	@Path("/add")
@@ -127,7 +154,14 @@ public class AdresseLieuRdvWs {
 		
 		return builder.build();
 	}
-
+	
+	/**
+	 * Modifie une AdresseLieurRdv 
+	 * 
+	 * @param adresseLieuRdv AdresseLieuRdv
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/mod")
@@ -172,6 +206,13 @@ public class AdresseLieuRdvWs {
 
 	}
 
+	/**
+	 * Defini a null les champs de lobjet AdresseLieuRdv
+	 * 
+	 * @param idAdresseLieuRdv Integer
+	 * @return Response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@PUT
 	@Path("/settonull/{idAdresse: \\d+}")
@@ -200,6 +241,13 @@ public class AdresseLieuRdvWs {
 
 	}
 	
+	/**
+	 * Supprime une AdresseLieuRdv
+	 * 
+	 * @param idAdresseLieuRdv Integer
+	 * @return response
+	 * @throws AdresseInexistanteException Exception
+	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idAdresse: \\d+}")
