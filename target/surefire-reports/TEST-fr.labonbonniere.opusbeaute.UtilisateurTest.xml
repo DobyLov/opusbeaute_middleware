@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.841" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.898" tests="1" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="E:\Dev\Java\JDK\jre\bin"/>
@@ -63,11 +63,17 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="fr.labonbonniere.opusbeaute.UtilisateurTest" classname="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.841">
-    <error message="Could not invoke deployment method: public static org.jboss.shrinkwrap.api.Archive fr.labonbonniere.opusbeaute.UtilisateurTest.createDeployment()" type="java.lang.RuntimeException">java.lang.RuntimeException: Could not invoke deployment method: public static org.jboss.shrinkwrap.api.Archive fr.labonbonniere.opusbeaute.UtilisateurTest.createDeployment()
-	at fr.labonbonniere.opusbeaute.UtilisateurTest.createDeployment(UtilisateurTest.java:79)
+  <testcase name="fr.labonbonniere.opusbeaute.UtilisateurTest" classname="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.898">
+    <error message="DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.&#10;Please include at least 1 Deployable Container on your Classpath." type="org.jboss.arquillian.container.test.impl.client.deployment.ValidationException">org.jboss.arquillian.container.test.impl.client.deployment.ValidationException: 
+DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.
+Please include at least 1 Deployable Container on your Classpath.
 </error>
     <system-out><![CDATA[Package : 
+Package : fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs
+Utilisateurtest log : jarchive : UtilisateurTest.war: 8 assets
 ]]></system-out>
+    <system-err><![CDATA[févr. 19, 2018 10:17:19 PM org.jboss.arquillian.container.test.impl.client.deployment.AbstractDeploymentScenarioGenerator logWarningIfArchiveHasUnexpectedFileExtension
+AVERTISSEMENT: Deployment archive of type JavaArchiveImpl has been given an unexpected file extension. Archive name: UtilisateurTest.war, deployment name: _DEFAULT_. It might not be wrong, but the container will rely on the given file extension, the archive type is only a description of a certain structure.
+]]></system-err>
   </testcase>
 </testsuite>

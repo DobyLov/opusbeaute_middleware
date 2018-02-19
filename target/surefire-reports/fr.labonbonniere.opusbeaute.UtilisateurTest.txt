@@ -1,8 +1,9 @@
 -------------------------------------------------------------------------------
 Test set: fr.labonbonniere.opusbeaute.UtilisateurTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.841 sec <<< FAILURE! - in fr.labonbonniere.opusbeaute.UtilisateurTest
-fr.labonbonniere.opusbeaute.UtilisateurTest  Time elapsed: 0.841 sec  <<< ERROR!
-java.lang.RuntimeException: Could not invoke deployment method: public static org.jboss.shrinkwrap.api.Archive fr.labonbonniere.opusbeaute.UtilisateurTest.createDeployment()
-	at fr.labonbonniere.opusbeaute.UtilisateurTest.createDeployment(UtilisateurTest.java:79)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.898 sec <<< FAILURE! - in fr.labonbonniere.opusbeaute.UtilisateurTest
+fr.labonbonniere.opusbeaute.UtilisateurTest  Time elapsed: 0.898 sec  <<< ERROR!
+org.jboss.arquillian.container.test.impl.client.deployment.ValidationException: 
+DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.
+Please include at least 1 Deployable Container on your Classpath.
 

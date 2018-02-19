@@ -18,6 +18,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ArchivePaths;
+import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -66,18 +68,19 @@ public class UtilisateurTest {
 	 */
     @Deployment
 //    public static WebArchive createDeployment() {
-  public static Archive<?> createDeployment() {
-    	
+//  public static Archive<?> createDeployment() {
+  public static JavaArchive createDeployment() {
+    	 
     	logger.info("Package : ");
-//    	logger.info("Package : " + Utilisateur.class.getPackage().getName().trim());
-    	WebArchive jarchive = ShrinkWrap
-				        		.create(WebArchive.class, "UtilisateurTest.war")
-//				        		.addPackage(UtilisateurTest.class.getPackage())
-				        		.addClass(Utilisateur.class)
-				        		.addClass(UtilisateurDao.class)
-				        		.addClass(UtilisateurService.class)
-				        		.addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-				        		.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+    	logger.info("Package : " + Utilisateur.class.getPackage().getName().trim());
+    	JavaArchive jarchive = ShrinkWrap
+				        		.create(JavaArchive.class, "UtilisateurTest.war")
+				        		.addPackage(Utilisateur.class.getPackage())
+				        		.addClasses(Utilisateur.class, UtilisateurDao.class, UtilisateurService.class)
+				        		.addAsResource("META-INF/persistence.xml", "test-persistence.xml")
+				        		.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+    							// Enable CDI
+//       							.addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
     	
     	logger.info("Utilisateurtest log : jarchive : " + jarchive);
         
