@@ -32,7 +32,7 @@ public class RdvDao {
 
 	static final Logger logger = LogManager.getLogger(RdvDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

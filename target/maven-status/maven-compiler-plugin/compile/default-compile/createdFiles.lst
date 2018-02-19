@@ -48,7 +48,6 @@ fr\labonbonniere\opusbeaute\middleware\service\roles\RolesAndTokenAuthorizationF
 fr\labonbonniere\opusbeaute\middleware\dao\RolesDao.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\NoRdvException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInexistanteException.class
-fr\labonbonniere\opusbeaute\App.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHandlerService.class
 fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.class
@@ -66,6 +65,7 @@ fr\labonbonniere\opusbeaute\middleware\webservice\UtilisateurWs.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\SecuApp.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService.class
 fr\labonbonniere\opusbeaute\middleware\service\client\EmailFormatInvalidException.class
+fr\labonbonniere\opusbeaute\AppClassTest.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseExistanteException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\AdresseLieuRdvWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\roles\RolesInexistantException.class

@@ -182,8 +182,8 @@ public class Utilisateur implements Serializable {
 				.append("motdePasse", this.motDePasse)
 				.append("roles", this.roles)
 				.append("isLogged", this.isLogged)
-				.append("isLogged", this.isLogged)
 				.append("suscribedSmsReminder",this.suscribedSmsReminder)
+				.append("suscribedMailReminder",this.suscribedMailReminder)
 				.build();
 
 	}

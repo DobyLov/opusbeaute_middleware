@@ -32,7 +32,7 @@ public class PrestationDao {
 
 	static final Logger logger = LogManager.getLogger(PrestationDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

@@ -28,7 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv.LieuRdvInexist
 public class LieuRdvDao {
 	static final Logger logger = LogManager.getLogger(LieuRdvDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

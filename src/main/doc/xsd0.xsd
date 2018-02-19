@@ -21,27 +21,6 @@
 
   <xs:element name="utilisateur" type="utilisateur"/>
 
-  <xs:complexType name="prestation">
-    <xs:sequence>
-      <xs:element name="activite" type="xs:string" minOccurs="0"/>
-      <xs:element name="description" type="xs:string" minOccurs="0"/>
-      <xs:element name="dureeSeance" type="xs:int" minOccurs="0"/>
-      <xs:element name="forfait" type="xs:string" minOccurs="0"/>
-      <xs:element ref="genre" minOccurs="0"/>
-      <xs:element name="idPrestation" type="xs:int" minOccurs="0"/>
-      <xs:element name="nbSeance" type="xs:int" minOccurs="0"/>
-      <xs:element name="prix" type="xs:float"/>
-      <xs:element name="soin" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="genre">
-    <xs:sequence>
-      <xs:element name="genreHum" type="xs:string" minOccurs="0"/>
-      <xs:element name="idGenre" type="xs:int" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="utilisateur">
     <xs:sequence>
       <xs:element name="adresseMailUtilisateur" type="xs:string" minOccurs="0"/>
@@ -76,14 +55,24 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="adresseClient">
+  <xs:complexType name="prestation">
     <xs:sequence>
-      <xs:element name="idAdresse" type="xs:int" minOccurs="0"/>
-      <xs:element name="numero" type="xs:string" minOccurs="0"/>
-      <xs:element name="pays" type="xs:string" minOccurs="0"/>
-      <xs:element name="rue" type="xs:string" minOccurs="0"/>
-      <xs:element name="ville" type="xs:string" minOccurs="0"/>
-      <xs:element name="zipCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="activite" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="dureeSeance" type="xs:int" minOccurs="0"/>
+      <xs:element name="forfait" type="xs:string" minOccurs="0"/>
+      <xs:element ref="genre" minOccurs="0"/>
+      <xs:element name="idPrestation" type="xs:int" minOccurs="0"/>
+      <xs:element name="nbSeance" type="xs:int" minOccurs="0"/>
+      <xs:element name="prix" type="xs:float"/>
+      <xs:element name="soin" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="genre">
+    <xs:sequence>
+      <xs:element name="genreHum" type="xs:string" minOccurs="0"/>
+      <xs:element name="idGenre" type="xs:int" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -106,20 +95,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="rdv">
-    <xs:sequence>
-      <xs:element ref="client" minOccurs="0"/>
-      <xs:element name="dateDeSaisie" type="timestamp" minOccurs="0"/>
-      <xs:element name="dateHeureDebut" type="timestamp" minOccurs="0"/>
-      <xs:element name="dateHeureFin" type="timestamp" minOccurs="0"/>
-      <xs:element name="idRdv" type="xs:int" minOccurs="0"/>
-      <xs:element ref="lieuRdv" minOccurs="0"/>
-      <xs:element ref="praticien" minOccurs="0"/>
-      <xs:element ref="prestation" minOccurs="0"/>
-      <xs:element ref="utilisateur" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="client">
     <xs:sequence>
       <xs:element name="adresse" type="adresseClient" minOccurs="0"/>
@@ -138,9 +113,34 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="adresseClient">
+    <xs:sequence>
+      <xs:element name="idAdresse" type="xs:int" minOccurs="0"/>
+      <xs:element name="numero" type="xs:string" minOccurs="0"/>
+      <xs:element name="pays" type="xs:string" minOccurs="0"/>
+      <xs:element name="rue" type="xs:string" minOccurs="0"/>
+      <xs:element name="ville" type="xs:string" minOccurs="0"/>
+      <xs:element name="zipCode" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="timestamp">
     <xs:sequence>
       <xs:element name="nanos" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rdv">
+    <xs:sequence>
+      <xs:element ref="client" minOccurs="0"/>
+      <xs:element name="dateDeSaisie" type="timestamp" minOccurs="0"/>
+      <xs:element name="dateHeureDebut" type="timestamp" minOccurs="0"/>
+      <xs:element name="dateHeureFin" type="timestamp" minOccurs="0"/>
+      <xs:element name="idRdv" type="xs:int" minOccurs="0"/>
+      <xs:element ref="lieuRdv" minOccurs="0"/>
+      <xs:element ref="praticien" minOccurs="0"/>
+      <xs:element ref="prestation" minOccurs="0"/>
+      <xs:element ref="utilisateur" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

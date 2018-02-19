@@ -29,7 +29,7 @@ public class RolesDao {
 
 	static final Logger logger = LogManager.getLogger(RolesDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

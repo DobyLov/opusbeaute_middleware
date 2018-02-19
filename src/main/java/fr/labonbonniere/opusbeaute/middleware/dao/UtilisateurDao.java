@@ -28,9 +28,9 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 @Transactional
 public class UtilisateurDao {
 
-	static final Logger logger = LogManager.getLogger(UtilisateurDao.class);
+	static final Logger logger = LogManager.getLogger(UtilisateurDao.class.getSimpleName());
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

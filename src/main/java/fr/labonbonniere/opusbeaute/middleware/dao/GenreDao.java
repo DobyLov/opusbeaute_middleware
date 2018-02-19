@@ -28,7 +28,7 @@ public class GenreDao {
 
 	static final Logger logger = LogManager.getLogger(GenreDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 	
 	public long CountGenre() throws DaoException {

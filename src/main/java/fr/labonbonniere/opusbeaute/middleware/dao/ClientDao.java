@@ -28,7 +28,7 @@ public class ClientDao {
 
 	static final Logger logger = LogManager.getLogger(ClientDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

@@ -29,7 +29,7 @@ public class PraticienDao {
 
 	static final Logger logger = LogManager.getLogger(PraticienDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

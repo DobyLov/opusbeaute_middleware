@@ -28,7 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseI
 public class AdresseClientDao {
 	static final Logger logger = LogManager.getLogger(AdresseClientDao.class);
 
-	@PersistenceContext(unitName = "dobyPUtest")
+	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 
 	/**

@@ -5,7 +5,7 @@
 		http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
 
-	<persistence-unit name="dobyPUtest" transaction-type="JTA">
+	<persistence-unit name="opusBeautePU" transaction-type="JTA">
 		<!-- persistence-unit name="dobyPU" transaction-type="RESOURCE_LOCAL"> -->
 
 		<!-- Le choix de l'outil JPA à utiliser -->
@@ -13,21 +13,41 @@
 
 		<!-- JNDI, l'identifiant qu'utilise l'application pour demander sa DataSource 
 			au serveur -->
-		<jta-data-source>java:/testDS</jta-data-source>
-<!-- 		<class>import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao</class> -->
+		<jta-data-source>java:/opusBeauteDS</jta-data-source>
+		<!-- <class>import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao</class> -->
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			
 			<!-- Chanrgement du fichier d import pour peupler la bdd -->
 <!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_GENRE.sql"/>	  -->			
 <!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_PRESTATION.sql"/>	  -->			
 <!--		<property name="hibernate.hbm2ddl.import_files" value="loaddata_LieuAdresseLieurRDV.sql"/>  -->	
+			<property name="hibernate.hbm2ddl.import_files" value="loaddata_OpusBeaute.sql"/>
+		</properties>
+	</persistence-unit>
+	
+	
+	<!-- ***************************************************************************** -->
+	<!-- Gestion de la persistance pour les Tests Unitaires                            -->
+	<!-- ***************************************************************************** -->
+	<persistence-unit name="opusBeautePUTest" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:/opusBeauteDSTest</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.hbm2ddl.import_files" value="loaddata_GENRE.sql"/>	 			
+			<property name="hibernate.hbm2ddl.import_files" value="loaddata_PRESTATION.sql"/>	 			
+			<property name="hibernate.hbm2ddl.import_files" value="loaddata_LieuAdresseLieurRDV.sql"/> 	
 			<property name="hibernate.hbm2ddl.import_files" value="loaddata_OpusBeaute.sql"/>
 		</properties>
 	</persistence-unit>
