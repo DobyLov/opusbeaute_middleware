@@ -165,7 +165,7 @@ public class UtilisateurService {
 	 * @throws NbCharPrenomException Exception
 	 * @throws NbCharTelException Exception
 	 */
-	private Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 		
 		// Password validation et encryption Bcrypt
 		logger.info("UtilisateurService log : Test Utilisateur");

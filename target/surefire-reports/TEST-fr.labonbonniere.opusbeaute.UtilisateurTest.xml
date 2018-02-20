@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.898" tests="1" errors="1" skipped="0" failures="0">
+<testsuite name="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.321" tests="1" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="Test" value="CheckSpaceTest"/>
     <property name="sun.boot.library.path" value="E:\Dev\Java\JDK\jre\bin"/>
     <property name="java.vm.version" value="25.121-b13"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
@@ -15,7 +16,6 @@
     <property name="user.country" value="FR"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value=""/>
-    <property name="test" value="*"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="E:\Dev\Projets\opusbeaute"/>
     <property name="java.runtime.version" value="1.8.0_121-b13"/>
@@ -44,7 +44,7 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="E:\Dev\Java\JDK\jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=* test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -DTest=CheckSpaceTest test"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="fr"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -63,17 +63,63 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="fr.labonbonniere.opusbeaute.UtilisateurTest" classname="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.898">
-    <error message="DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.&#10;Please include at least 1 Deployable Container on your Classpath." type="org.jboss.arquillian.container.test.impl.client.deployment.ValidationException">org.jboss.arquillian.container.test.impl.client.deployment.ValidationException: 
-DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.
+  <testcase name="fr.labonbonniere.opusbeaute.UtilisateurTest" classname="fr.labonbonniere.opusbeaute.UtilisateurTest" time="0.321">
+    <error message="DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.&#10;Please include at least 1 Deployable Container on your Classpath." type="org.jboss.arquillian.container.test.impl.client.deployment.ValidationException">org.jboss.arquillian.container.test.impl.client.deployment.ValidationException: DeploymentScenario contains a target (_DEFAULT_) not matching any defined Container in the registry.
 Please include at least 1 Deployable Container on your Classpath.
+	at org.jboss.arquillian.container.test.impl.client.deployment.DeploymentGenerator.throwNoContainerFound(DeploymentGenerator.java:244)
+	at org.jboss.arquillian.container.test.impl.client.deployment.DeploymentGenerator.throwTargetNotFoundValidationException(DeploymentGenerator.java:238)
+	at org.jboss.arquillian.container.test.impl.client.deployment.DeploymentGenerator.validate(DeploymentGenerator.java:101)
+	at org.jboss.arquillian.container.test.impl.client.deployment.DeploymentGenerator.generateDeployment(DeploymentGenerator.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.jboss.arquillian.core.impl.ObserverImpl.invoke(ObserverImpl.java:86)
+	at org.jboss.arquillian.core.impl.EventContextImpl.invokeObservers(EventContextImpl.java:103)
+	at org.jboss.arquillian.core.impl.EventContextImpl.proceed(EventContextImpl.java:90)
+	at org.jboss.arquillian.core.impl.ManagerImpl.fire(ManagerImpl.java:133)
+	at org.jboss.arquillian.core.impl.ManagerImpl.fire(ManagerImpl.java:105)
+	at org.jboss.arquillian.core.impl.EventImpl.fire(EventImpl.java:62)
+	at org.jboss.arquillian.container.test.impl.client.ContainerEventController.execute(ContainerEventController.java:95)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.jboss.arquillian.core.impl.ObserverImpl.invoke(ObserverImpl.java:86)
+	at org.jboss.arquillian.core.impl.EventContextImpl.invokeObservers(EventContextImpl.java:103)
+	at org.jboss.arquillian.core.impl.EventContextImpl.proceed(EventContextImpl.java:90)
+	at org.jboss.arquillian.test.impl.TestContextHandler.createClassContext(TestContextHandler.java:83)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.jboss.arquillian.core.impl.ObserverImpl.invoke(ObserverImpl.java:86)
+	at org.jboss.arquillian.core.impl.EventContextImpl.proceed(EventContextImpl.java:95)
+	at org.jboss.arquillian.test.impl.TestContextHandler.createSuiteContext(TestContextHandler.java:69)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.jboss.arquillian.core.impl.ObserverImpl.invoke(ObserverImpl.java:86)
+	at org.jboss.arquillian.core.impl.EventContextImpl.proceed(EventContextImpl.java:95)
+	at org.jboss.arquillian.core.impl.ManagerImpl.fire(ManagerImpl.java:133)
+	at org.jboss.arquillian.core.impl.ManagerImpl.fire(ManagerImpl.java:105)
+	at org.jboss.arquillian.test.impl.EventTestRunnerAdaptor.beforeClass(EventTestRunnerAdaptor.java:89)
+	at org.jboss.arquillian.junit.Arquillian$2.evaluate(Arquillian.java:163)
+	at org.jboss.arquillian.junit.Arquillian.multiExecute(Arquillian.java:350)
+	at org.jboss.arquillian.junit.Arquillian.access$200(Arquillian.java:54)
+	at org.jboss.arquillian.junit.Arquillian$3.evaluate(Arquillian.java:177)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.jboss.arquillian.junit.Arquillian.run(Arquillian.java:115)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
 </error>
-    <system-out><![CDATA[Package : 
-Package : fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs
-Utilisateurtest log : jarchive : UtilisateurTest.war: 8 assets
+    <system-out><![CDATA[Package : fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs
+Utilisateurtest log : jarchive : UtilisateurTest.war: 18 assets
 ]]></system-out>
-    <system-err><![CDATA[févr. 19, 2018 10:17:19 PM org.jboss.arquillian.container.test.impl.client.deployment.AbstractDeploymentScenarioGenerator logWarningIfArchiveHasUnexpectedFileExtension
-AVERTISSEMENT: Deployment archive of type JavaArchiveImpl has been given an unexpected file extension. Archive name: UtilisateurTest.war, deployment name: _DEFAULT_. It might not be wrong, but the container will rely on the given file extension, the archive type is only a description of a certain structure.
-]]></system-err>
   </testcase>
 </testsuite>
