@@ -13,10 +13,10 @@ public class CheckNbCharGenreUTest {
 	@Test
 	public void CheckNbCharGenreHommeUTest() {
 		
-		logger.info("CheckNbCharGenreUTest log : Test si la String depasse 5 caracteres");
+//		logger.info("CheckNbCharGenreUTest log : Test si la String depasse 5 caracteres");
 		String genre = "Homme";
 		boolean moreThanFiveChar;
-		logger.info("CheckNbCharGenreUTest log : Compte le nb de char de la String : " + genre);
+//		logger.info("CheckNbCharGenreUTest log : Compte le nb de char de la String : " + genre);
 		Integer nbCharStringGenre = genre.length();
 		if (nbCharStringGenre > 5) {
 			moreThanFiveChar = true;
@@ -30,10 +30,10 @@ public class CheckNbCharGenreUTest {
 	@Test
 	public void CheckNbCharGenreFemmeUTest() {
 		
-		logger.info("CheckNbCharGenreUTest log : Test si la String depasse 5 caracteres");
+//		logger.info("CheckNbCharGenreUTest log : Test si la String depasse 5 caracteres");
 		String genre = "Femme";
 		boolean moreThanFiveChar;
-		logger.info("CheckNbCharGenreUTest log : Compte le nb de char de la String : " + genre);
+//		logger.info("CheckNbCharGenreUTest log : Compte le nb de char de la String : " + genre);
 		Integer nbCharStringGenre = genre.length();
 		if (nbCharStringGenre > 5) {
 			moreThanFiveChar = true;
@@ -47,10 +47,10 @@ public class CheckNbCharGenreUTest {
 	@Test
 	public void CheckNbCharGenreWrongNumberFemmeUTest() {
 		
-		logger.info("CheckNbCharGenreUTest log : Test si la String depasse 5 caracteres");
+//		logger.info("CheckNbCharGenreUTest log : Test si la String depasse 5 caracteres");
 		String genre = "Femmmee";
 		boolean moreThanFiveChar;
-		logger.info("CheckNbCharGenreUTest log : Compte le nb de char de la String : " + genre);
+//		logger.info("CheckNbCharGenreUTest log : Compte le nb de char de la String : " + genre);
 		Integer nbCharStringGenre = genre.length();
 		if (nbCharStringGenre > 5) {
 			moreThanFiveChar = true;

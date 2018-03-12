@@ -52,6 +52,7 @@ public class SendSmsReminderPraticienService {
 	 * 
 	 * @throws Exception Exception
 	 */
+//	@Schedule(dayOfWeek = "*", hour = "8-21", minute = "30")
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
 	public void sendSmsPraticiensScheduled() throws Exception {
 	

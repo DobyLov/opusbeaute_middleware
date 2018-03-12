@@ -219,6 +219,9 @@
 			<plugin>
     			<artifactId>maven-surefire-plugin</artifactId>
     			<version>2.17</version>
+    			<configuration>
+          			<skipTests>true</skipTests>
+        		</configuration>
 			</plugin>
 			<!-- A desacctiver pour utiliser Arquillian -->
 <!-- 			<plugin>
@@ -311,11 +314,7 @@
 		                </wadlGeneratorDescription>
 		            </wadlGenerators>
 		        </configuration>
-		    </plugin>	
-		    
-
-        
-		    		
+		    </plugin>		    		
 		</plugins>
 	</build>
 	<version>0</version>

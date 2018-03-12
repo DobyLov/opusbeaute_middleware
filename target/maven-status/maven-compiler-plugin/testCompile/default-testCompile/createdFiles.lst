@@ -1,1 +1,6 @@
-fr\labonbonniere\opusbeaute\AppTest.class
+fr\labonbonniere\opusbeaute\UtilisateurValidateurITest.class
+fr\labonbonniere\opusbeaute\CheckNbCharGenreUTest.class
+fr\labonbonniere\opusbeaute\SupprimeLesCaracteresSpeciauxUTest.class
+fr\labonbonniere\opusbeaute\UtilisateurITest.class
+fr\labonbonniere\opusbeaute\CheckSpaceUTest.class
+fr\labonbonniere\opusbeaute\ValidAdresseMailFormatUTest.class

@@ -38,12 +38,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurSer
  */
 @Stateless
 @Path("/utilisateur")
-//@DefineUserRole({"ANONYMOUS"})
+@DefineUserRole({"ANONYMOUS"})
 //@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
 //@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 //@DefineUserRole({"ALLOWALL"})
 //@DefineUserRole({"DENYALL"})
-@DefineUserRole({"ROOT","ADMINISTRATEUR"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class UtilisateurWs {
 	private static final Logger logger = LogManager.getLogger(UtilisateurWs.class.getName());
 

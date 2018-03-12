@@ -61,6 +61,7 @@ public class SendMailReminderClientService {
 	 */
 	// Service Timer: Envoyer un mail de rappel au client.
 	// Freq: Tous les jours de la semaine à 20H00.
+//	@Schedule(dayOfWeek = "*", hour = "8-21", minute = "30")
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
 	public void envoyerEmailRappelRdvClientScheduled() throws DaoException {
 
@@ -225,6 +226,7 @@ public class SendMailReminderClientService {
 		propvls.put("mail.smtp.auth", "true");
 		propvls.put("mail.smtp.starttls.enable", "true");
 		propvls.put("mail.smtp.host", "smtp.gmail.com");
+		propvls.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		propvls.put("mail.smtp.port", "587");
 		Session sessionobj = Session.getInstance(propvls, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {

@@ -15,14 +15,13 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.junit.Arquillian;
-
-import org.jboss.shrinkwrap.api.ArchivePaths;
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.UtilisateurDao;
@@ -56,7 +55,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurSer
  */
 @Stateless
 @Transactional
-//@RunWith(Arquillian.class)
+@RunWith(Arquillian.class)
 public class UtilisateurITest {
 	
 	static final Logger logger = LogManager.getLogger(UtilisateurITest.class.getSimpleName());
@@ -83,32 +82,27 @@ public class UtilisateurITest {
 	 * 
 	 * @return ShrinkWrap
 	 */
-//    @Deployment
-    public static WebArchive createDeployment() {
+    @Deployment
+    public static Archive<?> createDeployment() {
     	 
     	logger.info("Package : " + Utilisateur.class.getPackage().getName().trim());
-    	WebArchive jarchive = ShrinkWrap
-				        		.create(WebArchive.class, "UtilisateurTest.war")
-				        		.addPackage(Utilisateur.class.getPackage())
-				        		.addPackage(UtilisateurDao.class.getPackage())
-				        		.addPackage(UtilisateurService.class.getPackage())
-				        		.addClasses(Utilisateur.class, UtilisateurDao.class, UtilisateurService.class)
-				        		.addAsResource("META-INF/persistence.xml", "test-persistence.xml")
-//				        		.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    							// Enable CDI
-				        		.addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
-    	
-    	logger.info("Utilisateurtest log : jarchive : " + jarchive.toString().trim());
-        
-        return jarchive;
+    	return ShrinkWrap.create(WebArchive.class, "UtilisateurUTest.war")
+				        .addPackage(Utilisateur.class.getPackage())
+				        .addPackage(UtilisateurDao.class.getPackage())
+				        .addPackage(UtilisateurService.class.getPackage())
+				        .addClasses(Utilisateur.class, UtilisateurDao.class, UtilisateurService.class)
+				        .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+				        .addAsResource("test-persistence.xml", "META-INF/persistence.xml");
+//    					.addAsManifestResource("web.xml", "WEB-INF/web.xml");
         
 	}
+    
 	
     /**
      * Creation d un entite Utilisateur
      */
 	
-//	@Test
+	@Test
 	public void valideNouvelUtilisateurTest() throws UtilisateurExistantException, 
 					EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 		logger.info("UtilisateurTest log : Creation entite:");
@@ -128,7 +122,7 @@ public class UtilisateurITest {
 		// assert avant Formatage
 		assertNotNull("L utilisateur ne peut etre null", nouvelUtilisateurTest.getIdUtilisateur());
 		assertEquals("Le format du Prenom ne correspond pas a ce que l on attend !", "FredTesT", 
-				nouvelUtilisateurTest.getNomUtilisateur());
+				nouvelUtilisateurTest.getPrenomUtilisateur());
 		assertEquals("Le format du Nom ne correspond pas a ce que l on attend !", "BEAUDEAUTest", 
 				nouvelUtilisateurTest.getNomUtilisateur());
 		assertEquals("Le format du Nom ne correspond pas a ce que l on attend !", "Test@tesT.cOm", 
@@ -144,19 +138,19 @@ public class UtilisateurITest {
 		Utilisateur nouvUtilFormat = utilisateurService.validationformat(nouvelUtilisateurTest);
 		
 		// assert apres formatage
-		assertNotNull("L utilisateur ne peut etre null", nouvelUtilisateurTest.getIdUtilisateur());
+		assertNotNull("L utilisateur ne peut etre null", nouvUtilFormat.getIdUtilisateur());
 		assertEquals("Le format du Prenom ne correspond pas a ce que l on attend !", "Fredtest", 
-				nouvelUtilisateurTest.getNomUtilisateur());
+				nouvUtilFormat.getPrenomUtilisateur());
 		assertEquals("Le format du Nom ne correspond pas a ce que l on attend !", "BEAUDEAUTEST", 
-				nouvelUtilisateurTest.getNomUtilisateur());
+				nouvUtilFormat.getNomUtilisateur());
 		assertEquals("Le format du Nom ne correspond pas a ce que l on attend !", "test@test.com", 
-				nouvelUtilisateurTest.getAdresseMailUtilisateur());
+				nouvUtilFormat.getAdresseMailUtilisateur());
 		assertEquals("La souscription au mailReminder ne correspond pas a ce que l on attend !", "T", 
-				nouvelUtilisateurTest.getSuscribedMailReminder());
+				nouvUtilFormat.getSuscribedMailReminder());
 		assertEquals("La souscription au smsReminder ne correspond pas a ce que l on attend !", "T", 
-				nouvelUtilisateurTest.getSuscribedSmsReminder());
+				nouvUtilFormat.getSuscribedSmsReminder());
 		assertEquals("Le numero de telephone Portable ne correspond pas a ce que l on attend !", "0620790050", 
-				nouvelUtilisateurTest.getTeleMobileUtilisateur());
+				nouvUtilFormat.getTeleMobileUtilisateur());
 			
 		
 		logger.info("UtilisateurTest log : Validation des donnees a ete realisee comme prevue");
