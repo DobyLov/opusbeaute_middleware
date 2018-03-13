@@ -11,8 +11,9 @@ public class RandomStringGeneratorService {
 
         String alphabet= "01234aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ56789";
         String stringRandom = "";
+        Integer pwdMinsize = 7;
         Random random = new Random();
-        int randomLen = 1+random.nextInt(15);
+        int randomLen = pwdMinsize+random.nextInt(15);
         for (int i = 0; i < randomLen; i++) {
             char c = alphabet.charAt(random.nextInt(62));
             stringRandom+=c;
