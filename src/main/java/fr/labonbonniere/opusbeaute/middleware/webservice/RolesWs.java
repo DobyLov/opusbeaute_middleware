@@ -22,6 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.Roles;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.RolesInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RoleInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesService;
 import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesUtilisateurNullException;
@@ -33,6 +34,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.roles.RolesUtilisateurNull
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/roles")
 //@DefineUserRole({"ANONYMOUS"})

@@ -1,5 +1,8 @@
 package fr.labonbonniere.opusbeaute.middleware.webservice;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -19,7 +22,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.authentification.LoginServ
 /**
  * WebService REST LoginWs
  * Gere l acces a la ressource Login
- *	
+ *	afin d authentifier l utilisateur
+ * 	pour qacceder al application
  * @author fred
  *
  */
@@ -46,7 +50,7 @@ public class LoginWs {
 	 * 
 	 * @param email String
 	 * @param pwd String
-	 * @return Response
+	 * @return Response 200 (ok) ou 401 (unauthorized)
 	 * @throws Exception Exception
 	 */
     @POST
@@ -57,6 +61,19 @@ public class LoginWs {
     
 
     	try {
+    		
+    		// verifie le format de l em mail avant de consulter le service
+    		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+    		Pattern pattern = Pattern.compile(regex);
+    		Matcher matcher = pattern.matcher(email);
+
+    		Boolean matches = matcher.matches();
+    		
+    		
+    		if (matches != true) {
+    			logger.error("LoginWs Exception : log : Le format email n est pas correcte :(");
+    			throw new Exception();				
+    		}
     		
             if (email.isEmpty() || email == null) {
             	logger.info("LoginWs Exception : L email est vide ou null ");

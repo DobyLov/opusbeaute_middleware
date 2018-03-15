@@ -28,6 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysExceptio
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.client.ClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
@@ -46,6 +47,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullExcep
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/client")
 //@DefineUserRole({"ANONYMOUS"})

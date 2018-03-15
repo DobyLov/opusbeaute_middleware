@@ -25,6 +25,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.Prestation
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations.PrestationInvalideException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.GenrePrestationNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.NbCharPrestationException;
 import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationService;
@@ -35,14 +36,15 @@ import fr.labonbonniere.opusbeaute.middleware.service.prestation.PrestationServi
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/prestation")
 // @DefineUserRole({"ANONYMOUS"})
 // @DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
 // @DefineUserRole({"PRATICIEN","STAGIAIRE"})
-// @DefineUserRole({"ALLOWALL"})
+ @DefineUserRole({"ALLOWALL"})
 // @DefineUserRole({"DENYALL"})
-@DefineUserRole({ "ROOT", "ADMINISTRATEUR" })
+//@DefineUserRole({ "ROOT", "ADMINISTRATEUR" })
 public class PrestationWs {
 
 	private static final Logger logger = LogManager.getLogger(PrestationWs.class.getName());

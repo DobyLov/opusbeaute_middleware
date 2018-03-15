@@ -28,6 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleExce
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresselieurdv.AdresseLieuRdvService;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 
 /**
  * WebService REST AdresseLieurRdv
@@ -35,6 +36,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresselieurdv.AdresseLieu
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/adresselieurdv")
 //@DefineUserRole({"ANONYMOUS"})

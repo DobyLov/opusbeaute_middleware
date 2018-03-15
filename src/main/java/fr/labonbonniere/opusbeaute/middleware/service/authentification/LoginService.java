@@ -11,7 +11,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
 /**
- * Gestion du Login Verifie les credentiel de l utilisateur Genere un Token
+ * Gestion du Login Verifie les credentiels de l utilisateur Genere un Token
  * 
  * @author fred
  *
@@ -28,7 +28,7 @@ public class LoginService {
 	TokenGenService tokengen;
 
 	@EJB
-	PasswordHandlerService passwordHandler;
+	PasswordHandlerService passwordHandlerService;
 
 	/**
 	 * Genere un Token Utilisateur
@@ -107,28 +107,28 @@ public class LoginService {
 		boolean credentialsMatch = false;
 		logger.info("LoginService log : Verification du mot de passe :");
 
-		boolean pwdAndHashMatch = false;
+		
 		try {
 			// check si le mot de passe match
 			// logger.info("LoginService log : Le mot de passe saisi par l
 			// utilisateur : " + pwd);
 			logger.info("LoginService log : Le mot de passe Hash dans la BDD : " + utilisateurReconnu.getMotDePasse());
 
-			pwdAndHashMatch = passwordHandler.ashVerifier(pwd, utilisateurReconnu.getMotDePasse());
-			utilisateurReconnu.setMotDePasse(pwd);
-			utilisateurService.modifierUnUtilisateur(utilisateurReconnu);
-
-			logger.info("LoginService log : Nouveau Hash persiste.");
-
-			if (pwdAndHashMatch == false) {
-				logger.error("LoginService log : Le mot de passe ne correspond pas");
-				throw new UtilisateurInexistantException();
-
-			} else {
-
+			boolean pwdAndHashMatch = passwordHandlerService.ashVerifier(pwd, utilisateurReconnu.getMotDePasse());
+			
+			if ( pwdAndHashMatch == true ) {
+				
+				utilisateurReconnu.setMotDePasse(pwd);
+				utilisateurService.modifierUnUtilisateur(utilisateurReconnu);
 				logger.info("LoginService log : Mot de passe ok");
 				credentialsMatch = true;
-			}
+				logger.info("LoginService log : Nouveau Hash persiste.");
+			
+			} else {
+				logger.error("LoginService log : Le mot de passe ne correspond pas");
+				throw new UtilisateurInexistantException();
+				
+			}				
 
 		} catch (Exception e) {
 			logger.error("LoginService Exception : Le password ne match pas");

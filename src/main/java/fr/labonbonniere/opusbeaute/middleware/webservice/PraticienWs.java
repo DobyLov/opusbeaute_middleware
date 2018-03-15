@@ -24,6 +24,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
@@ -37,14 +38,15 @@ import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/praticien")
 //@DefineUserRole({"ANONYMOUS"})
 //@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
 //@DefineUserRole({"PRATICIEN","STAGIAIRE"})
-//@DefineUserRole({"ALLOWALL"})
+@DefineUserRole({"ALLOWALL"})
 //@DefineUserRole({"DENYALL"})
-@DefineUserRole({"ROOT","ADMINISTRATEUR"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class PraticienWs {
 	private static final Logger logger = LogManager.getLogger(PraticienWs.class.getName());
 

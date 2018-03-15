@@ -96,7 +96,8 @@ public class PrestationDao {
 
 		try {
 			logger.info("PrestationsDao log : Demande la liste des Prestations par homme.");
-			String requete = "SELECT P FROM Prestation P" + " WHERE PRESTATION_GENRE = 'homme' ";
+//			String requete = "SELECT P FROM Prestation P" + "WHERE P.genreHum = 'HOMME') ";
+			String requete = "SELECT p FROM Prestation p WHERE p.genre.genreHum = 'HOMME'";
 
 			TypedQuery<Prestation> query = em.createQuery(requete, Prestation.class);
 			List<Prestation> prestationH = query.getResultList();
@@ -119,8 +120,9 @@ public class PrestationDao {
 
 		try {
 			logger.info("PrestationsDao log : Demande la liste des Prestations par genre femme.");
-			String requete = "SELECT P FROM Prestation P" + " WHERE PRESTATION_GENRE = 'femme' ";
-
+//			String requete = "SELECT P FROM Prestation P" + " WHERE PRESTATION_IDGENRE_FK = 'femme' ";
+			String requete = "SELECT p FROM Prestation p WHERE p.genre.genreHum = 'FEMME'";
+			
 			TypedQuery<Prestation> query = em.createQuery(requete, Prestation.class);
 			List<Prestation> prestationF = query.getResultList();
 			logger.info("PrestationsDao log : Transmission de la Liste des Prestations femme.");
@@ -145,13 +147,16 @@ public class PrestationDao {
 
 		try {
 			logger.info("PrestationsDao log : Demande la liste des Prestations selon les criteres GenreActivieSoin.");
-			String requete = "SELECT P FROM Prestation P" + " WHERE PRESTATION_GENRE = '" + genre + "'"
-					+ " AND PRESTATION_ACTIVITE = '" + activite + "'";
+			logger.info("PrestationsDao log : " + genre + " " + activite);
 
-			TypedQuery<Prestation> query = em.createQuery(requete, Prestation.class);
+			String requete = "SELECT p FROM Prestation p WHERE p.activite = :activiteAChercher and p.genre.genreHum = :genreAChercher";
+			
+			TypedQuery<Prestation> query = em.createQuery(requete, Prestation.class)
+					.setParameter("activiteAChercher",activite)
+					.setParameter("genreAChercher", genre);
 			List<Prestation> prestationGA = query.getResultList();
 			logger.info(
-					"PrestationsDao log : Transmission de la Liste des Prestations selon les criteres GenreActivieSoin.");
+					"PrestationsDao log : Transmission de la Liste des Prestations selon les criteres GenreActivite.");
 			return prestationGA;
 
 		} catch (Exception message) {
@@ -175,11 +180,15 @@ public class PrestationDao {
 
 		try {
 			logger.info("PrestationsDao log : Demande la liste des Prestations selon les criteres GenreActivieSoin.");
-			String requete = "SELECT P FROM Prestation P" + " WHERE PRESTATION_GENRE = '" + genre + "'"
-					+ " AND PRESTATION_ACTIVITE = '" + activite + "'" + " AND PRESTATION_SOIN like '" + soin + "%"
-					+ "'";
+//			String requete = "SELECT P FROM Prestation P" + " WHERE PRESTATION_GENRE = '" + genre + "'"
+//					+ " AND PRESTATION_ACTIVITE = '" + activite + "'" + " AND PRESTATION_SOIN like '" + soin + "%"
+//					+ "'";
+			String requete = "SELECT p FROM Prestation p WHERE p.activite = :activiteAChercher and p.genre.genreHum = :genreAChercher and p.soin = :soinAChercher";
 
-			TypedQuery<Prestation> query = em.createQuery(requete, Prestation.class);
+			TypedQuery<Prestation> query = em.createQuery(requete, Prestation.class)
+					.setParameter("activiteAChercher",activite)
+					.setParameter("genreAChercher", genre)
+					.setParameter("soinAChercher", soin);
 			List<Prestation> prestationGAS = query.getResultList();
 			logger.info("PrestationsDao log : Transmission de la Liste des Prestations les criteres GenreActivieSoin");
 			return prestationGAS;

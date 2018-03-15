@@ -22,6 +22,7 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
 
@@ -33,6 +34,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreService;
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/genre")
 //@DefineUserRole({"ANONYMOUS"})

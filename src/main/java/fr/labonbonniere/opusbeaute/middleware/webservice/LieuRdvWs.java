@@ -28,6 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysExceptio
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.lieurdv.LieuRdvService;
 
 /**
@@ -36,6 +37,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.lieurdv.LieuRdvService;
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/lieurdv")
 // @DefineUserRole({"ANONYMOUS"})

@@ -1,5 +1,6 @@
 fr\labonbonniere\opusbeaute\middleware\objetmetier\roles\RoleEnum.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdv.class
+fr\labonbonniere\opusbeaute\middleware\webservice\ChangePwdWs.class
 fr\labonbonniere\opusbeaute\middleware\service\adresselieurdv\AdresseLieuRdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenInvalideException.class
@@ -95,6 +96,7 @@ fr\labonbonniere\opusbeaute\middleware\webservice\UnsubscribeRdvMailReminderClie
 fr\labonbonniere\opusbeaute\middleware\service\mail\MailEngine$1.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\UnsuscribeMailReminderClientService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\SmsReminderWs.class
+fr\labonbonniere\opusbeaute\middleware\service\authentification\ChangePwdService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\Prestation.class
 fr\labonbonniere\opusbeaute\middleware\webservice\RdvWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseClient.class

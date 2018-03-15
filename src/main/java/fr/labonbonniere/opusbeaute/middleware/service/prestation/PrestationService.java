@@ -132,6 +132,8 @@ public class PrestationService {
 	 */
 	public List<Prestation> recupereListePrestationCriteresGenreActivite(String genre, String activite)
 			throws DaoException {
+			genre = genre.toUpperCase();
+			activite = activite.toLowerCase();
 
 		try {
 			logger.info("PrestationService log : Demande au Dao la liste des Prestations par genre et activite");
@@ -159,6 +161,9 @@ public class PrestationService {
 	 */
 	public List<Prestation> recupereListePrestationCriteresGenreActiviteSoins(String genre, String activite,
 			String soin) throws DaoException {
+		genre = genre.toUpperCase();
+		activite = activite.toLowerCase();
+		soin = soin.toLowerCase();
 
 		try {
 			logger.info("PrestationService log : Demande au Dao la liste des Prestations par genre,activite et soin");
@@ -280,7 +285,7 @@ public class PrestationService {
 				
 				String checkSpaceAtStrBeginAndCharacSpec = prestation.getActivite();
 				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
-				String activiteStringyfy = WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec);
+				String activiteStringyfy = StringWithoutSpaceAndCharspec.toLowerCase();
 				prestation.setActivite(activiteStringyfy);
 			}
 		} else {
@@ -298,8 +303,8 @@ public class PrestationService {
 				logger.info("PrestationService log : Prestation.Action est valide");
 				String checkSpaceAtStrBeginAndCharacSpec = prestation.getSoin();
 				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
-				String soinStringyfy = WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec);
-				prestation.setActivite(soinStringyfy);
+				String soinStringyfy = StringWithoutSpaceAndCharspec.toLowerCase();
+				prestation.setSoin(soinStringyfy);
 			}
 		} else {
 			logger.error("PrestationService log : Prestation.Soin est vide ou null :/");
@@ -469,14 +474,14 @@ public class PrestationService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^é^è^a-zA-Z^-]", "").replaceAll("[é]", "e").replaceAll("[è]", "e");		
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^é^è^a-zA-Z^-]", "").replaceAll("[é]", "e").replaceAll("[è]", "e");;
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		

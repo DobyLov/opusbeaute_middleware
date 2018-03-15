@@ -28,12 +28,14 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysExceptio
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 /**
  * WebService REST AdresseClient
  * 
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/adresse")
 //@DefineUserRole({"ANONYMOUS"})
