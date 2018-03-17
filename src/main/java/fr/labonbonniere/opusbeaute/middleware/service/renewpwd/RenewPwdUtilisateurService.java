@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHasherOrVerifyService;
 import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
@@ -16,6 +17,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailRenewPwdUtilisateurService;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
+/**
+ * renouvelle le mot d epasse  par une string aleatoire
+ * 
+ * @author fred
+ *
+ */
 @Stateless
 public class RenewPwdUtilisateurService {
 
@@ -28,10 +35,20 @@ public class RenewPwdUtilisateurService {
 	private RandomStringGeneratorService randomstringgeneratorservice;
 	
 	@EJB
+	private PasswordHasherOrVerifyService passwordhasher;
+	
+	@EJB
 	private SendMailRenewPwdUtilisateurService sendmailrenewpwdutilisateurservice;
 	
 	
-	
+	/**
+	 * 
+	 * 
+	 * @param adresseMailUtilisateur String
+	 * @return boolean
+	 * @throws UtilisateurInexistantException Exception
+	 * @throws DaoException Exception
+	 */
 	public boolean changePwd (String adresseMailUtilisateur) throws UtilisateurInexistantException, DaoException {
 		boolean pwdRenwed = false;
 		
@@ -42,9 +59,12 @@ public class RenewPwdUtilisateurService {
 			// Recupere un string aleatoire
 			String nouveauPwd = randomstringgeneratorservice.randomStringGenerator();
 			logger.info("RenewPwdUtilisateurService log : Mdp temporaire " + nouveauPwd);
+			// Hash du nouveau pwd
 			
-			// Affecte la string aleatoire au pwd de l utilisateur
-			chercheUtilisateurParMail.setMotDePasse(nouveauPwd);
+			String pwdRenewHash = passwordhasher.hash(nouveauPwd); 
+			
+			// Affecte le nouveau mot de passe Hashe a l utilisateur
+			chercheUtilisateurParMail.setMotDePasse(pwdRenewHash);
 			// Sauvegarde l objet utilisateur avec le nouveau pwd
 			utilisateurservice.modifierUnUtilisateur(chercheUtilisateurParMail);
 			// Envoie un email a l utilisateur pour lui remettre son pwd.
