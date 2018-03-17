@@ -63,7 +63,10 @@ public class ChangePwdService {
 			logger.info("ChangePwdService log : String newPwdB : " + newPwdB);
 			Utilisateur userRecupere = utilisateurservice.recupererUnUtilisateurViaeMail(email);
 			// Verification que le mot de passe BDD match avec le mot de passe actuel
-			verifieBddPwdOldPwd(oldPwd, userRecupere);			
+						
+			if (verifieBddPwdOldPwd(oldPwd, userRecupere) == false) {
+				throw new Exception("ChangePwdService Exception : le Mot de passe fourni ne correspond pas avec celui de la Bdd");
+			}
 			// remplace l ancien mot de passe par le nouveau
 			userRecupere.setMotDePasse(newPwdA);
 			// Persistance d entite avec le nouveau mot de passe 
@@ -72,6 +75,10 @@ public class ChangePwdService {
 			
 		} catch (UtilisateurInexistantException message) {
 			logger.info("ChangePwdService Exception : La procedure de changement de mot de passe n a pas fonctionnee");
+			throw new Exception ("");
+			
+		} catch (Exception message) {
+			throw new Exception("ChangePwdService Exception : probleme de mot de passse.");
 		}
 		
 		return false;
@@ -87,13 +94,13 @@ public class ChangePwdService {
 	 * @throws Exception Exception
 	 */
 	private boolean verifieBddPwdOldPwd(String oldPwd, Utilisateur userRecupere ) throws Exception {
-		
+		boolean pwdBddMatchWithOldPwd = false;
 		
 		logger.info("ChangePwdService log : Verification que les mot de passe BDD et actuel match");	
-		boolean pwdBddMatchWithOldPwd = passwordhandlerorverifyservice.verifyHash(oldPwd, userRecupere.getMotDePasse());
-		logger.info("ChangePwdService log : valdu boolean si les pwd match : " + pwdBddMatchWithOldPwd);
+		pwdBddMatchWithOldPwd = passwordhandlerorverifyservice.verifyHash(oldPwd, userRecupere.getMotDePasse());
+		logger.info("ChangePwdService log : valdu booboolean si les pwd match : " + pwdBddMatchWithOldPwd);
 		
-		if ( pwdBddMatchWithOldPwd = true) {
+		if ( pwdBddMatchWithOldPwd == true) {
 			logger.info("ChangePwdService log : Les mots de passe Bdd et oldPwd correspondent");			
 			 
 		} else {
@@ -135,8 +142,9 @@ public class ChangePwdService {
 	 * @param newPwdA String
 	 * @param userRecupere Utilisateur
 	 * @return Boolean
+	 * @throws Exception 
 	 */
-	private boolean saveNewPwd(String newPwdA, Utilisateur userRecupere) {
+	private boolean saveNewPwd(String newPwdA, Utilisateur userRecupere) throws Exception {
 		boolean pwdHasBeenUpdated = false;
 		logger.info("ChangePwdService log : Persistance du noouveau mot de passe"); 
 		try {
@@ -145,9 +153,12 @@ public class ChangePwdService {
 			
 		} catch (Exception message) {
 			logger.info("ChangePwdService log : Le mot de passe n a pas ete persiste");
+			throw new Exception("hangePwdService Exception : Les nouveau mots de passe ne match pas");
 		}
 		
 		return pwdHasBeenUpdated;
 	}
+	
+
 
 }

@@ -173,8 +173,8 @@ public class UtilisateurService {
 			logger.info("UtilisateurService log : Utilisateur.MotDePasse n est pas null.");
 			if (utilisateur.getMotDePasse().length() < 1) {
 				logger.error("UtilisateurService log : Utilisateur.MotDePasse est inferieur a 7 caracteres");
-				utilisateur.setPrenomUtilisateur(null);
-				throw new NbCharPrenomException(
+				utilisateur.setMotDePasse(null);
+				throw new EmailFormatInvalidException(
 						"UtilisateurService Validation Exception : Utilisateur.MotDePasse est null ou depasse 30 caracteres");
 			} else {
 				logger.info("UtilisateurService log : Utilisateur.MotdePasse vas etre encrypte.");
