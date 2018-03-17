@@ -436,7 +436,7 @@ public class UtilisateurService {
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
-		return strWithoutSpaceAtBegin;
+		return strWithoutSpaceAtBegin.toLowerCase();
 	}
 	
 	/**
@@ -452,7 +452,7 @@ public class UtilisateurService {
 			
 			logger.info("UtilisateurService log : Demande a la bdd le Utilisateur email : " + email);
 			
-			Utilisateur utilisateur = utilisateurdao.utilisateurParEmail(email);
+			Utilisateur utilisateur = utilisateurdao.utilisateurParEmail(email.toLowerCase());
 			logger.info("UtilisateurService log : Utilisateur email : " + utilisateur.getAdresseMailUtilisateur()
 					+ " trouve, envoie de l objet Utilisateur");
 			

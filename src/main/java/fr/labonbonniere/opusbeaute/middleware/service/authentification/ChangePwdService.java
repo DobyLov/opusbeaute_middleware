@@ -63,7 +63,7 @@ public class ChangePwdService {
 			logger.info("ChangePwdService log : String newPwdB : " + newPwdB);
 			Utilisateur userRecupere = utilisateurservice.recupererUnUtilisateurViaeMail(email);
 			// Verification que le mot de passe BDD match avec le mot de passe actuel
-			verifieBddPwdOldPwd(oldPwd, userRecupere);
+			verifieBddPwdOldPwd(oldPwd, userRecupere);			
 			// remplace l ancien mot de passe par le nouveau
 			userRecupere.setMotDePasse(newPwdA);
 			// Persistance d entite avec le nouveau mot de passe 
