@@ -58,13 +58,9 @@ public class RenewPwdUtilisateurService {
 			Utilisateur chercheUtilisateurParMail = utilisateurservice.recupererUnUtilisateurViaeMail(adresseMailUtilisateur);
 			// Recupere un string aleatoire
 			String nouveauPwd = randomstringgeneratorservice.randomStringGenerator();
-			logger.info("RenewPwdUtilisateurService log : Mdp temporaire " + nouveauPwd);
-			// Hash du nouveau pwd
-			
-			String pwdRenewHash = passwordhasher.hash(nouveauPwd); 
-			
+			logger.info("RenewPwdUtilisateurService log : Mdp temporaire " + nouveauPwd);			
 			// Affecte le nouveau mot de passe Hashe a l utilisateur
-			chercheUtilisateurParMail.setMotDePasse(pwdRenewHash);
+			chercheUtilisateurParMail.setMotDePasse(nouveauPwd);
 			// Sauvegarde l objet utilisateur avec le nouveau pwd
 			utilisateurservice.modifierUnUtilisateur(chercheUtilisateurParMail);
 			// Envoie un email a l utilisateur pour lui remettre son pwd.
