@@ -30,7 +30,7 @@ public class PasswordHasherOrVerifyService {
 	 */
 	private Integer randomRetention(){
 		
-		Integer randRetentionRound = RandomUtils.nextInt(12, 16);
+		Integer randRetentionRound = RandomUtils.nextInt(11, 12);
 		int logRounds = randRetentionRound;
 		
 		return logRounds;	
