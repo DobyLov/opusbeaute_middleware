@@ -97,10 +97,15 @@ public class UtilisateurITest {
         
 	}
     
-	
-    /**
-     * Creation d un entite Utilisateur
-     */
+/**
+ * Creation d un entite Utilisateur
+ * 
+ * @throws UtilisateurExistantException Exception
+ * @throws EmailFormatInvalidException Exception
+ * @throws NbCharNomException Exception
+ * @throws NbCharPrenomException Exception
+ * @throws NbCharTelException Exception
+ */
 	
 	@Test
 	public void valideNouvelUtilisateurTest() throws UtilisateurExistantException, 
@@ -159,10 +164,11 @@ public class UtilisateurITest {
 	}
 	
 	
-	/**
-	 * Persistance de l entite cree
-	 * @param nouvelUtilisateurTest
-	 */
+/**
+ * Persistance de l entite cree 
+ * 
+ * @param nouvUtilFormat Utilisateur
+ */
 //	@Test
 	public void persisteUtilisateurTest(Utilisateur nouvUtilFormat) {
 		
@@ -191,11 +197,11 @@ public class UtilisateurITest {
 		
 	}
 	
-	/**
-	 * Retrouve l entite qui a etee persistee
-	 * @throws UtilisateurInexistantException 
-	 * 
-	 */
+/**
+ * Retrouve l entite qui a etee persistee
+ * 
+ * @throws UtilisateurInexistantException Exception
+ */
 //	@Test
 	public void retrouveUtilisateurTestParMail() throws UtilisateurInexistantException {
 		

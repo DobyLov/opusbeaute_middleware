@@ -142,7 +142,7 @@ public class ChangePwdService {
 	 * @param newPwdA String
 	 * @param userRecupere Utilisateur
 	 * @return Boolean
-	 * @throws Exception 
+	 * @throws Exception Exception
 	 */
 	private boolean saveNewPwd(String newPwdA, Utilisateur userRecupere) throws Exception {
 		boolean pwdHasBeenUpdated = false;
