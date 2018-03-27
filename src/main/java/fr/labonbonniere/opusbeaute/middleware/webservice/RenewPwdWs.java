@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -51,7 +51,7 @@ public class RenewPwdWs {
 	 * @throws DaoException Exception
 	 * 
 	 */
-	@GET
+	@POST
 	@Path("/{adresseMailUtilisateur}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response renewPwdUtilisateur(@PathParam("adresseMailUtilisateur") final String adresseMailUtilisateur ) 
