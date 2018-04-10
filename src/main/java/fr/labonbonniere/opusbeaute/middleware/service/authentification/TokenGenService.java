@@ -46,7 +46,7 @@ public class TokenGenService {
 
 		// Definition du temps de validite du token
 		long ttlMillis = ((60 * 1000) * 60) * 3; // 1minute = 60 000 milisecondes :}
-//		long ttlMillis = ((60 * 1000) * 1); reduction à 1 min pour les tests
+//		long ttlMillis = ((60 * 1000) * 1); //reduction à 1 min pour les tests
 		logger.info("TokenGen log : Validite du token : " + ttlMillis);
 
 		// definition de la date du jour

@@ -1,5 +1,10 @@
 package fr.labonbonniere.opusbeaute.middleware.service.authentification;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -67,6 +72,9 @@ public class ChangePwdService {
 			if (verifieBddPwdOldPwd(oldPwd, userRecupere) == false) {
 				throw new Exception("ChangePwdService Exception : le Mot de passe fourni ne correspond pas avec celui de la Bdd");
 			}
+			
+			// Definit l expiraiton du mot de passe a JJ ZoneParis plus 30J			
+			userRecupere.setPwdExpirationDateTime(definirExpirationPwd());
 			// remplace l ancien mot de passe par le nouveau
 			userRecupere.setMotDePasse(newPwdA);
 			// Persistance d entite avec le nouveau mot de passe 
@@ -157,6 +165,20 @@ public class ChangePwdService {
 		}
 		
 		return pwdHasBeenUpdated;
+	}
+	
+	/**
+	 * Definit la date du jourJ avec la zone Europe/Paris
+	 * et ajoute 90 Jours
+	 * 
+	 * @return Timestamp
+	 */
+	private Timestamp definirExpirationPwd () {
+		
+		Timestamp tsZDTP90J = Timestamp.from(ZonedDateTime.of(LocalDateTime.now(), 
+				ZoneId.of("Europe/Paris")).plusDays(90).toInstant());
+		
+		return tsZDTP90J;
 	}
 	
 

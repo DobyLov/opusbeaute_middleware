@@ -1,6 +1,8 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,14 +50,16 @@ public class Utilisateur implements Serializable {
 	private String isLogged;
 	private String suscribedSmsReminder;
 	private String suscribedMailReminder;
-
+	private Timestamp pwdExpirationDateTime;
+	
 	public Utilisateur() {
 		super();
 	}
 
 	public Utilisateur(Integer idUtilisateur, String nomUtilisateur, String prenomUtilisateur,
 			String teleMobileUtilisateur, String adresseMailUtilisateur, String motDePasse,
-			Roles roles, String isLogged, String suscribedSmsReminder, String suscribedMailReminder) {
+			Roles roles, String isLogged, String suscribedSmsReminder, String suscribedMailReminder,
+			Timestamp pwdExpirationDateTime) {
 
 		this.idUtilisateur = idUtilisateur;
 		this.nomUtilisateur = nomUtilisateur;
@@ -67,13 +71,14 @@ public class Utilisateur implements Serializable {
 		this.isLogged = isLogged;
 		this.suscribedSmsReminder = suscribedSmsReminder;
 		this.suscribedMailReminder = suscribedMailReminder;
+		this.pwdExpirationDateTime = pwdExpirationDateTime;
 
 	}
 
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="UTILISATEUR_SEQ",
-	initialValue = 2, allocationSize = 5)
+	initialValue = 3, allocationSize = 5)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "UTILISATEUR_IDUTILISATEUR", nullable = false, length = 4)
 	public Integer getIdUtilisateur() {
@@ -167,6 +172,15 @@ public class Utilisateur implements Serializable {
 		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
+	@Column(name = "UTILISATEUR_PWDEXPIRATIONDATETIME", nullable = true, length = 13)
+	public Timestamp getPwdExpirationDateTime() {
+		return pwdExpirationDateTime;
+	}
+
+	public void setPwdExpirationDateTime(Timestamp pwdExpirationDateTime) {
+		this.pwdExpirationDateTime = pwdExpirationDateTime;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -184,6 +198,7 @@ public class Utilisateur implements Serializable {
 				.append("isLogged", this.isLogged)
 				.append("suscribedSmsReminder",this.suscribedSmsReminder)
 				.append("suscribedMailReminder",this.suscribedMailReminder)
+				.append("pwdExpirationDateTime",this.pwdExpirationDateTime)
 				.build();
 
 	}
@@ -202,6 +217,7 @@ public class Utilisateur implements Serializable {
 		result = prime * result + ((teleMobileUtilisateur == null) ? 0 : teleMobileUtilisateur.hashCode());		
 		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
 		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
+		result = prime * result + ((pwdExpirationDateTime == null) ? 0 : pwdExpirationDateTime.hashCode());
 		
 		return result;
 	}
@@ -230,7 +246,7 @@ public class Utilisateur implements Serializable {
 				.append(this.isLogged, autre.isLogged)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)
-				
+				.append(this.pwdExpirationDateTime, autre.pwdExpirationDateTime)				
 				.build();
 
 	}

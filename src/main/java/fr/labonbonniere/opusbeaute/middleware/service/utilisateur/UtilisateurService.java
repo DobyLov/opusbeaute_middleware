@@ -1,5 +1,9 @@
 package fr.labonbonniere.opusbeaute.middleware.service.utilisateur;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -14,11 +18,13 @@ import fr.labonbonniere.opusbeaute.middleware.dao.UtilisateurDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.GeneratePwdNewUtilisateurService;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHandlerService;
 import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+
 
 /**
  * Gere les objets Utilisateurs
@@ -35,6 +41,9 @@ public class UtilisateurService {
 	
 	@EJB
 	private PasswordHandlerService passwordHandler;
+	
+	@EJB
+	private GeneratePwdNewUtilisateurService generatepwdnewutilisateurservice;
 
 	/**
 	 * Recupere une Liste d Utilisateur
@@ -89,13 +98,18 @@ public class UtilisateurService {
 	 * @throws NbCharNomException Si le nombre de caracteres ne correspond pas
 	 * @throws NbCharPrenomException Si le nombre de caracteres du prenom ne correspond pas
 	 * @throws NbCharTelException si le nombre de caracteres du numero de telephone ne correspond pas
+	 * @throws DaoException si il y a un probleme avec la bdd
+	 * @throws UtilisateurInexistantException 
 	 */
-	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException, UtilisateurInexistantException, DaoException {
 
 		try {
 			logger.info("UtilisateurService log : Demande d ajout d un nouvel Utilisateur dans la Bdd.");
 			validationformat(utilisateur);
+//			setInitialPwdExpirationDateTime(utilisateur);
 			utilisateurdao.ajouterUnutilisateur(utilisateur);
+			//envoyer un mail ave cles credentiels temporaires.
+			envoyerUnMessageAvecCredetielsAuNouvelUtilisateur(utilisateur);
 			logger.info("UtilisateurService log : Nouvelle Utilisateur ajoutee, avec l id : " + utilisateur.getIdUtilisateur());
 
 		} catch (UtilisateurExistantException message) {
@@ -156,6 +170,37 @@ public class UtilisateurService {
 	}
 	
 	/**
+	 *	Calcul la date du jour J en fonction de la Zone Europe/Paris
+	 *	et ajoute 90 Jours
+	 *
+	 * @param utilisateur
+	 * @return utilisateur
+	 */
+	public Utilisateur setInitialPwdExpirationDateTime(Utilisateur utilisateur) {
+		
+		// definition de la date du jourJ selon la zone de Paris et ajoute 90Jrs		
+		Timestamp tsZDTP90J = Timestamp.from(ZonedDateTime.of(LocalDateTime.now(), 
+							ZoneId.of("Europe/Paris")).plusMinutes(60).toInstant());
+		
+		utilisateur.setPwdExpirationDateTime(tsZDTP90J);
+		
+		return utilisateur;
+	}
+	
+	/**
+	 * Genere un mot de passe aleatoire
+	 * Envoyer un mail avec un mot de passe temporaire
+	 * 
+	 * @param nouvelUtilisateur
+	 * @throws UtilisateurInexistantException
+	 * @throws DaoException
+	 */
+	public void envoyerUnMessageAvecCredetielsAuNouvelUtilisateur(Utilisateur nouvelUtilisateur) throws UtilisateurInexistantException, DaoException {
+		
+		generatepwdnewutilisateurservice.genereatePwd(nouvelUtilisateur.getAdresseMailUtilisateur());
+	}
+	
+	/**
 	 * Valide les champs d un Utilisateur
 	 * 
 	 * @param utilisateur Utilisateur
@@ -173,7 +218,8 @@ public class UtilisateurService {
 			logger.info("UtilisateurService log : Utilisateur.MotDePasse n est pas null.");
 			if (utilisateur.getMotDePasse().length() < 1) {
 				logger.error("UtilisateurService log : Utilisateur.MotDePasse est inferieur a 7 caracteres");
-				utilisateur.setMotDePasse(null);
+				logger.error("UtilisateurService log : Utilisateur.MotDePasse est rempli de force");
+				utilisateur.setMotDePasse("ilfautdescaracteres");
 				throw new EmailFormatInvalidException(
 						"UtilisateurService Validation Exception : Utilisateur.MotDePasse est null ou depasse 30 caracteres");
 			} else {
@@ -185,8 +231,9 @@ public class UtilisateurService {
 
 		} else {
 			logger.error("UtilisateurService log : Utilisateur.MotDePasse est null.");
-			utilisateur.setMotDePasse(null);
-			throw new NbCharNomException("Utilisateur Service Validation Exception : Client.MotDePass est Null");
+			logger.error("UtilisateurService log : Utilisateur.MotDePasse est rempli de force");
+			utilisateur.setMotDePasse("ilfautdescaracteres");
+//			throw new NbCharNomException("Utilisateur Service Validation Exception : Client.MotDePass est Null");
 		}
 		
 		

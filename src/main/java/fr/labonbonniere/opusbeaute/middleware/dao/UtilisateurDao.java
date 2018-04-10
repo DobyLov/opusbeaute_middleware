@@ -176,5 +176,29 @@ public class UtilisateurDao {
 		return utilisateur;
 
 	}
+	
+	/**
+	 * recupere le nombre total d utilisateurs
+	 * 
+	 * @return Iteger compteurUtilisateur
+	 * @throws Exception
+	 */
+	public Integer nombreUtilisateurs() throws DaoException {
+		
+		try {
+			String requete = "SELECT count(u) FROM Utilisateur u";
+
+			logger.info("UtilisateurDao log : Requete : " + requete);
+			Query query = em.createQuery(requete);
+			Integer compteurUtilisateur = query.getFirstResult();
+			
+			return compteurUtilisateur;
+			
+		} catch (Exception message) {
+			throw new DaoException ("UtilisateurDao Exception : Il y a eu probleme lors de la recuperation du nombre d utilisateurs");
+		}
+		
+		
+	}
 
 }

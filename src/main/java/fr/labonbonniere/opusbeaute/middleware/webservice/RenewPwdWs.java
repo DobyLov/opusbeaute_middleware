@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.renewpwd.RenewPwdUtilisateurService;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.RenewPwdUtilisateurService;
 
 /**
  * WebService Rest changement d emot de passe
@@ -73,7 +73,7 @@ public class RenewPwdWs {
 		
 		if (matches != true) {
 			logger.info("RenewPwdUtilisateurWs log : Le format email n est pas correcte :(");
-			builder = Response.status(400);					
+			builder = Response.status(403);					
 		}
 		
 
@@ -82,20 +82,20 @@ public class RenewPwdWs {
 			pwdchanged = renewpwdutilisateurservice.changePwd(adresseMailUtilisateur);
 			
 		} catch (UtilisateurInexistantException message) {
-			builder = Response.notModified();
+			builder = Response.status(403);
 			//throw new UtilisateurInexistantException("RenewPwdUtilisateurWs log : La procedure n a pas fonctionnee.");
 			}
 		
 		
 		if (pwdchanged != false) {
 			logger.info("RenewPwdUtilisateurWs log : Format adresse valide " + adresseMailUtilisateur);
-			builder = Response.ok();
+			builder = Response.status(200);
 		}
 		
 		if (pwdchanged != true) {
 			logger.info("RenewPwdUtilisateurWs log : Echec de la procedure d envoi de mot de passe par Email "
 					+ adresseMailUtilisateur);
-			builder = Response.notModified();
+			builder = Response.status(403);
 
 		}
 

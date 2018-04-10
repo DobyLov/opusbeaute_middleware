@@ -1,8 +1,7 @@
 package fr.labonbonniere.opusbeaute.middleware.service.mail;
 
-
-import java.time.LocalDate;
-
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -18,20 +17,25 @@ public class SendMailRenewPwdUtilisateurService {
 	@EJB
 	MailEngine mailengine;
 	
-	LocalDate dateTimeDuJour = LocalDate.now();		
+	public String idZone = "UTC+2";
+	
+	public void envoyerEmailRenewPwd(String email,String prenom, String nouveauPwd, ZonedDateTime zTimeNow, ZonedDateTime timePlus10  ) {
 
-	public void envoyerEmailRenewPwd(String email, String nouveauPwd) {
-
-
-		LocalDate dateTimeDuJour = LocalDate.now();
-		String customSubject = "Opus-Beauté_Mot de passe temporaire.";
+		DateTimeFormatter dateForm = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+		DateTimeFormatter timeForm = DateTimeFormatter.ofPattern("HH:mm");
+		
+		String customSubject = "Opus-Beauté: Mot de passe temporaire.";
 
 		String customMessageDynamic = "<br><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
-						+ "Bonjour  ,</span></p>"
+						+ "Bonjour " + prenom + ",</span></p>"
 						+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-						+ "Vous avez demand&eacute; un nouveau mot de passe temporaire le " + dateTimeDuJour.toString() + ".</span></p>"
-						+ "<br><p>Voici votre mot de passe : " + nouveauPwd + "</p>"
-						+ "<br><p>Faites un copier / coller du mot de passe dans la fen&ecirc;tre d'authentification d'OpusBeaut&eacute;.</p>"
+						+ "Vous avez demand&eacute; un nouveau mot de passe temporaire le " + dateForm.format(zTimeNow) + " &agrave; " + timeForm.format(zTimeNow) + ".</span></p>"
+						+ "<p>Voici votre mot de passe : " + nouveauPwd
+						+ "<p>Pour des raison de s&eacute;curit&eacute; il est pr&eacute;f&eacute;rable<br>"
+						+ "de le changer rapidement.</p>"
+						+ "<p>Il sera valide jusqu'&agrave; <b>" + timeForm.format(timePlus10) + "</b> pass&eacute; ce d&eacute;lai, <br>"
+						+ "il faudra recommen&ccedil;er la proc&eacute;dure.</p>"
+						+ "<p>Faites un copier / coller du mot de passe dans la fen&ecirc;tre d'authentification d'OpusBeaut&eacute;.</p>"
 						+ "<br><p>Pour plus de s&eacute;curit&eacute;, changez rapidement ce mot de passe temporaire par un personnel.</p>"
 						+ "<p style=\"font-size: 14.4px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 						+ "Cordialement,</span></p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"

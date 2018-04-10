@@ -121,6 +121,8 @@ public class UtilisateurWs {
 	 * @throws NbCharNomException Exception
 	 * @throws NbCharPrenomException Exception
 	 * @throws NbCharTelException Exception
+	 * @throws DaoException 
+	 * @throws UtilisateurInexistantException 
 	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
@@ -128,7 +130,7 @@ public class UtilisateurWs {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException,
-			NbCharNomException, NbCharPrenomException, NbCharTelException {
+			NbCharNomException, NbCharPrenomException, NbCharTelException, UtilisateurInexistantException, DaoException {
 
 		Response.ResponseBuilder builder = null;
 		try {

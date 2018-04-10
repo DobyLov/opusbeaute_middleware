@@ -54,7 +54,8 @@ public class LoginWs {
 	 * @throws Exception Exception
 	 */
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response loginVerificationCredentiels(@FormParam("email") String email, 
     										@FormParam("pwd") String pwd) throws Exception {
