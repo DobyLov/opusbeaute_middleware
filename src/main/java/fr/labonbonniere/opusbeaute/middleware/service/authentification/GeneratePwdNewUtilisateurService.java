@@ -17,10 +17,10 @@ import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHasherOrVerifyService;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailGeneratePwdNewUtilisateurService;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 

@@ -11,6 +11,7 @@ fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharPaysException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenGenService.class
 fr\labonbonniere\opusbeaute\middleware\dao\GenreDao.class
+fr\labonbonniere\opusbeaute\middleware\webservice\CheckMailNotUsedPraticienWS.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurExistantException.class
 fr\labonbonniere\opusbeaute\middleware\dao\AdresseClientDao.class
 fr\labonbonniere\opusbeaute\middleware\service\client\SuscribedSmsReminderException.class
@@ -33,7 +34,10 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvEgaliteChevauchementExcept
 fr\labonbonniere\opusbeaute\middleware\webservice\PrestationWs.class
 fr\labonbonniere\opusbeaute\middleware\service\roles\RolesService.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvService.class
+fr\labonbonniere\opusbeaute\middleware\service\mail\MailNotFoundException.class
 fr\labonbonniere\opusbeaute\middleware\service\client\ClientService.class
+fr\labonbonniere\opusbeaute\middleware\service\client\MailNonTrouveClientException.class
+fr\labonbonniere\opusbeaute\middleware\webservice\CheckMailNotUsedClientWS.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\Clee.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\MailEngine.class
@@ -71,15 +75,16 @@ fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.class
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharNomException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreExistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\client\SuscribeMailReminderException.class
+fr\labonbonniere\opusbeaute\middleware\service\mail\EmailFormatInvalidException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\UtilisateurWs.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\SecuApp.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService.class
-fr\labonbonniere\opusbeaute\middleware\service\client\EmailFormatInvalidException.class
 fr\labonbonniere\opusbeaute\AppClassTest.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseExistanteException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\AdresseLieuRdvWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\roles\RolesInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurInvalideException.class
+fr\labonbonniere\opusbeaute\middleware\service\utilisateur\MailNonTrouveUtilisateurException.class
 fr\labonbonniere\opusbeaute\middleware\service\genre\GenreService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHasherOrVerifyService.class
@@ -103,6 +108,7 @@ fr\labonbonniere\opusbeaute\middleware\webservice\UnsubscribeRdvMailReminderClie
 fr\labonbonniere\opusbeaute\middleware\service\mail\MailEngine$1.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\UnsuscribeMailReminderClientService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\SmsReminderWs.class
+fr\labonbonniere\opusbeaute\middleware\service\praticien\MailNonTrouvePraticienException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\ChangePwdService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\Prestation.class
 fr\labonbonniere\opusbeaute\middleware\webservice\RdvWs.class
@@ -126,6 +132,7 @@ fr\labonbonniere\opusbeaute\middleware\service\adresse\NbCharRueVilleException.c
 fr\labonbonniere\opusbeaute\middleware\dao\RdvDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\Praticien.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresselieurdv\AdresseLieuRdv.class
+fr\labonbonniere\opusbeaute\middleware\webservice\CheckMailNotUsedUtilisateurWS.class
 fr\labonbonniere\opusbeaute\middleware\webservice\LoginWs.class
 fr\labonbonniere\opusbeaute\middleware\dao\ClientDao.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\NbNumZipcodeException.class

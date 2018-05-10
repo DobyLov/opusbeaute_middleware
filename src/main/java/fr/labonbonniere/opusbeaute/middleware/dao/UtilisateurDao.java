@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 /**
  * Gere la persistance des Utilisateurs
@@ -175,6 +176,36 @@ public class UtilisateurDao {
 
 		return utilisateur;
 
+	}
+	
+	/**
+	 * Cherche si le mail fourni existe dans la table Utilisateur
+	 * 
+	 * @param email String
+	 * @return Boolean 
+	 * @throws DaoException Exception
+	 * @throws MailNotFoundException Exception
+	 */
+	public boolean checkMailExistInDB(String email) throws MailNotFoundException {
+		
+		Utilisateur utilisateur = new Utilisateur();
+		try {
+			logger.info("UtilisateurDao log : si l adresseEmail fourni existe dans la bdd.");
+			String requeteCli = "SELECT u FROM Utilisateur u" 
+					+ " WHERE adresseMailUtilisateur = '" + email + "'";
+			
+			TypedQuery<Utilisateur> query = em.createQuery(requeteCli, Utilisateur.class);
+			utilisateur = query.getSingleResult();
+			logger.info("UtilisateurDao log :  AdresseEmail trouvee dans la bdd : " 
+						 + utilisateur.getAdresseMailUtilisateur());
+			return true;
+			
+		} catch (Exception message) {			
+			logger.info("UtilisateurDao Exception :  AdresseEmail non trouvee dans la bdd : " 
+					 + utilisateur.getAdresseMailUtilisateur());			
+			return false;
+		}
+	
 	}
 	
 	/**

@@ -20,10 +20,11 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.GeneratePwdNewUtilisateurService;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.PasswordHandlerService;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 
 /**
@@ -90,7 +91,7 @@ public class UtilisateurService {
 	}
 
 	/**
-	 * Ajoute unnouvel Utilisateur
+	 * Ajoute un nouvel Utilisateur
 	 * 
 	 * @param utilisateur Utilisateur
 	 * @throws UtilisateurExistantException	Si Utilisateur inexistant
@@ -510,6 +511,34 @@ public class UtilisateurService {
 			throw new UtilisateurInexistantException(
 					"UtilisateurService Exception : Pas d utilisateur est trouve dans la base avec l email : " + email);
 		}
+	}
+	
+	public boolean verifieSiAdresseMailFournieExisteDansUtilisateur(String email) throws MailNotFoundException {
+		
+		try {
+			
+			logger.info("UtilisateurService log : Demande si le mail " + email + " existe dans la table Utilisateur");
+			if (utilisateurdao.checkMailExistInDB(email.toLowerCase())) {
+				logger.info("UtilisateurService log : Le mail " + email + " existe dans la table Utilisateur");
+			
+				return true;
+			} else {		
+				logger.info("UtilisateurService log : Le mail " + email + " n existe pas dans la table Utilisateur");
+
+				return false;
+			}
+			
+		} catch (MailNotFoundException message) {
+			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
+			return false;
+//		} catch (DaoException message) {
+//			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
+//			return false;
+		} catch (Exception message) {
+			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
+			return false;
+		}
+		
 	}
 	
 }

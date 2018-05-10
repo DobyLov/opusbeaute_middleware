@@ -1,4 +1,4 @@
-package fr.labonbonniere.opusbeaute.middleware.service.client;
+package fr.labonbonniere.opusbeaute.middleware.service.mail;
 
 public class EmailFormatInvalidException extends Exception {
 	private static final long serialVersionUID = 1L;

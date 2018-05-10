@@ -25,10 +25,10 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisate
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
 /**
@@ -110,7 +110,8 @@ public class UtilisateurWs {
 
 		return builder.build();
 	}
-
+	
+	
 	/**
 	 * Creation d un Nouvel Utilisateur
 	 * 

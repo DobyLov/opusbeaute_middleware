@@ -14,10 +14,11 @@ import fr.labonbonniere.opusbeaute.middleware.dao.PraticienDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 /**
  * Gestion de l objet Praticien
@@ -74,6 +75,64 @@ public class PraticienService {
 			throw new PraticienInexistantException(
 					"PraticienService Exception : l' Id est introuvable dans la base");
 		}
+	}
+	
+	/**
+	 * Recuperer un Praticien par sonEmail
+	 * 
+	 * @param email String
+	 * @return praticien Praticien
+	 * @throws PraticienInexistantException	Si pas de Praticien 
+	 */
+	public Praticien recupererUnPraticienParEmail(final String email) throws PraticienInexistantException {
+
+		try {
+			logger.info("PraticienService log : Demande a la bdd le Praticien par email : " + email);
+			Praticien praticien = praticiendao.praticienParEmail(email);
+			logger.info("PraticienService log : Praticien email : " + praticien.getAdresseMailPraticien()
+					+ " trouve, envoie de l objet Praticien a PraticiensWS");
+			return praticien;
+
+		} catch (PraticienInexistantException message) {
+			logger.error("PraticienService log : Le Praticien demande est introuvable");
+			throw new PraticienInexistantException(
+					"PraticienService Exception : l' email est introuvable dans la base");
+		}
+	}
+	
+	/**
+	 * Cherche si le mail fourni existe dans la table Praticien
+	 * 
+	 * @param email String
+	 * @return Boolean
+	 * @throws DaoException Exception
+	 * @throws MailNotFoundException Exception
+	 */
+	public boolean verifieSiAdresseMailFournieExisteDansPraticien(String email) throws DaoException, MailNotFoundException {
+		
+		try {
+			
+			logger.info("PraticienService log : Demande si le mail " + email + " existe dans la table Praticien");
+			if (praticiendao.checkMailExistInDB(email.toLowerCase())) {			
+			logger.info("PraticienService log : Le mail " + email + " existe dans la table Praticien");
+			
+ 			return true; 			
+			} else {
+				logger.info("PraticienService log : Le mail " + email + " n existe pas dans la table Praticien");
+				return false;
+			}
+			
+		} catch (MailNotFoundException message) {
+			logger.info("PraticienService log : Lee mail " + email + " n existe pas dans la table Praticien");
+			return false;
+		} catch (Exception message) {
+			logger.info("PraticienService log : Lee mail " + email + " n existe pas dans la table Praticien");
+			return false;
+//		} catch (DaoException message) {
+//			logger.info("PraticienService log : Lee mail " + email + " n existe pas dans la table Praticien");
+//			return false;
+		}
+		
 	}
 
 	/**

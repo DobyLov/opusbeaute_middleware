@@ -30,7 +30,6 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.client.ClientService;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
@@ -40,6 +39,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribeMailReminde
 import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedNewsLetterException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedSmsReminderException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 
 /**
  * Gere le WebService Rest Client

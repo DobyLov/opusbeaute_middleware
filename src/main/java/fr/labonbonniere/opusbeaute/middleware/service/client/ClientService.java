@@ -22,6 +22,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleExce
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
 import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 /**
  * Gestion des regles Metier ClientService
@@ -232,6 +234,68 @@ public class ClientService {
 					"ClientService Exception : Client id : " + idClient + " ne peut etre supprime dans la Bdd.");
 		}
 	}
+	
+	/**
+	 * Recuperer un Client par sonEmail
+	 * 
+	 * @param email String
+	 * @return client Client
+	 * @throws ClientInexistantException	Si pas de Praticien 
+	 */
+	public Client recupererUnClientParEmail(final String email) throws ClientInexistantException {
+
+		try {
+			logger.info("ClientService log : Demande a la bdd le Client par email : " + email);
+			Client client = clientdao.retrouveUnClientViaEmail(email);
+			logger.info("ClientService log : Client email : " + client.getAdresseMailClient()
+					+ " trouve, envoie de l objet Client a ClientWS");
+			return client;
+
+		} catch (ClientInexistantException message) {
+			logger.error("ClientService log : Le Client demande est introuvable");
+			throw new ClientInexistantException(
+					"ClientService Exception : l' email est introuvable dans la base");
+		}
+	}
+	
+	/**
+	 * Cherche si le mail fourni existe dans la table Client
+	 * 
+	 * @param email String
+	 * @return Boolean
+	 * @throws DaoException Exception
+	 * @throws MailNotFoundException Exception
+	 */
+	public boolean verifieSiAdresseMailFournieExisteDansClient(String email) throws MailNotFoundException {	
+		
+		
+		try {
+			logger.info("ClientService log : Demande si le mail " + email + " existe dans la table client");
+			
+//			clientdao.checkMailExistInDB(email.toLowerCase());
+			if ( clientdao.checkMailExistInDB(email.toLowerCase()) == true) {
+			logger.info("ClientService log : Le mail " + email + " existe dans la table client");
+ 			
+			return true; 			
+			} else {				
+				logger.info("ClientService log : Le mail " + email + " n existe pas dans la table client");
+				return false;
+				
+			}
+			
+		} catch (MailNotFoundException message) {
+			logger.info("ClientService log : Lee mail " + email + " n existe pas dans la table client");
+			return false;
+//		} catch (DaoException message) {
+//			logger.info("ClientService log : Lee mail " + email + " n existe pas dans la table client");
+//			return false;
+		} catch (Exception message) {
+			logger.info("ClientService log : Lee mail " + email + " n existe pas dans la table client");
+			return false;
+		}
+		
+	}
+	
 	
 	/**
 	 * Validation des champs de l objet AdresseClient

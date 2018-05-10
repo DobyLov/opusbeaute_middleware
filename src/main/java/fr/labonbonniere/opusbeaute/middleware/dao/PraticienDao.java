@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 /**
  * Gestion de la Persitence des Praticien
@@ -150,4 +152,67 @@ public class PraticienDao {
 					+ " ne peut etre supprime de la Bdd.");
 		}
 	}
+	
+	/**
+	 * Retrouve un Praticien par son Email
+	 * 
+	 * 
+	 * @param email String
+	 * @return praticien Praticien
+	 * @throws  
+	 * @throws PraticienInexistantException Exception
+	 */
+	public Praticien praticienParEmail(final String email) throws PraticienInexistantException {
+		logger.info("praticienDao log : Recherche praticien enregistre avec email : " + email + " a la Bdd.");
+		Praticien praticien = null;
+		
+		try {
+			String requete = "SELECT p FROM Praticien p" + " WHERE adresseMailPraticien = '" + email + "'";
+			Query query = em.createQuery(requete);
+			praticien = (Praticien) query.getSingleResult();
+			logger.info("PraticienDao log : id " + praticien.getAdresseMailPraticien());
+
+		} catch (Exception message) {
+			throw new PraticienInexistantException("UtilisateurDao Exception : l utilisateur est introuvable");
+
+		}
+
+		return praticien;
+
+	}
+	
+	/**
+	 * Cherche si le mail fourni existe dans la table Praticien
+	 * 
+	 * @param email String
+	 * @return Boolean
+	 * @throws DaoException Exception
+	 * @throws MailNotFoundException Exception
+	 */
+	public boolean checkMailExistInDB(String email) throws DaoException, MailNotFoundException {
+		
+		Praticien praticien = new Praticien();
+		try {
+			logger.info("PraticienDao log : si l adresseEmail fourni existe dans la bdd.");
+			String requeteCli = "SELECT p FROM Praticien p" 
+					+ " WHERE adresseMailPraticien = '" + email + "'";
+			
+			TypedQuery<Praticien> query = em.createQuery(requeteCli, Praticien.class);
+			praticien = query.getSingleResult(); 
+			
+			logger.info("PraticienDao log :  AdresseEmail trouvee dans la bdd : " 
+						 + praticien.getAdresseMailPraticien());
+			return true;
+				
+			
+		} catch (Exception message) {
+			
+			logger.info("PraticienDao Exception :  AdresseEmail " + email + " non trouvee dans la bdd : ");
+			
+			return false;
+		}
+	
+	}
+
+	
 }

@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseClient;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.Client;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 /**
  * Gere la persistance des Clients
@@ -149,12 +150,12 @@ public class ClientDao {
 	 * @return cleint Client
 	 * @throws ClientInexistantException Exception
 	 */
-	public Client retrouveUnClientViaEmail (String adresseMailClient) throws ClientInexistantException{
+	public Client retrouveUnClientViaEmail(String email) throws ClientInexistantException{
 		
 		try {
 			logger.info("ClientDao log : Recherche de Client Via une adresseEmail.");
 			String requeteCli = "SELECT c FROM Client c" 
-								+ " WHERE adresseMailClient = '" + adresseMailClient + "'";
+								+ " WHERE adresseMailClient = '" + email + "'";
 			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
 			Client client = query.getSingleResult();
 			logger.info("ClientDao log :  Envoi au serce le Client trouve : " 
@@ -165,9 +166,38 @@ public class ClientDao {
 		} catch (Exception message) {
 			logger.error("ClientDao Exception : AdresseMail non trouvee dans la bdd.");
 			throw new ClientInexistantException("ClientDao Exception : L adresse mail : " 
-			+ adresseMailClient + " ne retourne pas de client ou mail non renseigne.");
+			+ email + " ne retourne pas de client ou mail non renseigne.");
 		}
 		
+	}
+	
+	/**
+	 * Cherche si le mail fourni existe dans la table Client
+	 * 
+	 * @param email String
+	 * @return Boolean
+	 * @throws DaoException Exception
+	 * @throws MailNotFoundException Exception
+	 */
+	public boolean checkMailExistInDB(String email) throws MailNotFoundException {
+		
+		try {
+		Client client = new Client();
+		logger.info("ClientDao log : si l adresseEmail fourni existe dans la bdd.");
+		String requeteCli = "SELECT c FROM Client c" 
+				+ " WHERE adresseMailClient = '" + email + "'";
+		
+		TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
+		client = query.getSingleResult();
+		logger.info("ClientDao log :  AdresseEmail trouvee dans la bdd : " 
+					 + client.getAdresseMailClient());
+		return true;
+		
+		} catch (Exception message) {
+			logger.info("ClientDao log :  AdresseEmail " + email + " non trouvee dans la bdd : ");
+			return false;
+		}
+	
 	}
 
 }

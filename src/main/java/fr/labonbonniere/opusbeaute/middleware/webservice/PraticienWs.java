@@ -25,10 +25,10 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExi
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
-import fr.labonbonniere.opusbeaute.middleware.service.client.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService;
 
 /**
