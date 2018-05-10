@@ -263,7 +263,6 @@ public class ClientService {
 	 * 
 	 * @param email String
 	 * @return Boolean
-	 * @throws DaoException Exception
 	 * @throws MailNotFoundException Exception
 	 */
 	public boolean verifieSiAdresseMailFournieExisteDansClient(String email) throws MailNotFoundException {	

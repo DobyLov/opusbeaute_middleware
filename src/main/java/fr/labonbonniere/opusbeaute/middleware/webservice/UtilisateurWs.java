@@ -122,8 +122,8 @@ public class UtilisateurWs {
 	 * @throws NbCharNomException Exception
 	 * @throws NbCharPrenomException Exception
 	 * @throws NbCharTelException Exception
-	 * @throws DaoException 
-	 * @throws UtilisateurInexistantException 
+	 * @throws DaoException Exception
+	 * @throws UtilisateurInexistantException Exception
 	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST

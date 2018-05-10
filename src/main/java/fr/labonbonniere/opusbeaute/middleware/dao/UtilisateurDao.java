@@ -183,7 +183,6 @@ public class UtilisateurDao {
 	 * 
 	 * @param email String
 	 * @return Boolean 
-	 * @throws DaoException Exception
 	 * @throws MailNotFoundException Exception
 	 */
 	public boolean checkMailExistInDB(String email) throws MailNotFoundException {
@@ -211,8 +210,8 @@ public class UtilisateurDao {
 	/**
 	 * recupere le nombre total d utilisateurs
 	 * 
-	 * @return Iteger compteurUtilisateur
-	 * @throws Exception
+	 * @return compteurUtilisateur Integer
+	 * @throws DaoException Exception
 	 */
 	public Integer nombreUtilisateurs() throws DaoException {
 		

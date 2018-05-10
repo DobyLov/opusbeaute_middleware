@@ -146,8 +146,8 @@ public class ClientDao {
 	/**
 	 * Retrouve un Lcient par son adresse E-Mail
 	 * 
-	 * @param adresseMailClient String
-	 * @return cleint Client
+	 * @param email String
+	 * @return client Client
 	 * @throws ClientInexistantException Exception
 	 */
 	public Client retrouveUnClientViaEmail(String email) throws ClientInexistantException{
@@ -176,7 +176,6 @@ public class ClientDao {
 	 * 
 	 * @param email String
 	 * @return Boolean
-	 * @throws DaoException Exception
 	 * @throws MailNotFoundException Exception
 	 */
 	public boolean checkMailExistInDB(String email) throws MailNotFoundException {

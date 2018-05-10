@@ -192,7 +192,7 @@ public class LoginService {
 	/**
 	 * Verifie si la date du mot de passe ne depasse pas JJ
 	 * 
-	 * @param Utilisateur utilisateur 
+	 * @param utilisateur Utilisateur 
 	 * @return boolean
 	 */
 	private boolean isPwdValidityExpired(Utilisateur utilisateur) {

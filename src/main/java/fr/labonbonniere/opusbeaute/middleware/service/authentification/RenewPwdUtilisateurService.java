@@ -97,7 +97,7 @@ public class RenewPwdUtilisateurService {
 	/**
 	 * Definie l heure actuelle avec la gestion de la Tz
 	 * 
-	 * @return
+	 * @return zdtnow ZoneDateTime
 	 */
 	private ZonedDateTime defineZTimeNow() {
 		
@@ -111,8 +111,8 @@ public class RenewPwdUtilisateurService {
 	/**
 	 * Definit l heure actuelle avec tz et ajoute 10 minutes
 	 * 
-	 * @param zdtNow
-	 * @return ZonedDateTime
+	 * @param zdtNow ZonedDateTime
+	 * @return zdTimeNowPlus10Mins ZonedDateTime
 	 */
 	private ZonedDateTime zTimeNowPlusTenMins(ZonedDateTime zdtNow) {
 		
@@ -126,7 +126,8 @@ public class RenewPwdUtilisateurService {
 	/**
 	 * Define Timestamp from Now plus ten mins
 	 * 
-	 * @return Timestamp
+	 * @param zdtNowPlusTen ZonedDateTime
+	 * @return tsNowPlus10 Timestamp
 	 */
 	private Timestamp defineTempPwdExpirationToTenMins(ZonedDateTime zdtNowPlusTen) {
 	

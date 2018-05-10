@@ -159,7 +159,6 @@ public class PraticienDao {
 	 * 
 	 * @param email String
 	 * @return praticien Praticien
-	 * @throws  
 	 * @throws PraticienInexistantException Exception
 	 */
 	public Praticien praticienParEmail(final String email) throws PraticienInexistantException {

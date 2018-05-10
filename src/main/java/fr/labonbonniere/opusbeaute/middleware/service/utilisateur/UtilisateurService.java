@@ -100,7 +100,7 @@ public class UtilisateurService {
 	 * @throws NbCharPrenomException Si le nombre de caracteres du prenom ne correspond pas
 	 * @throws NbCharTelException si le nombre de caracteres du numero de telephone ne correspond pas
 	 * @throws DaoException si il y a un probleme avec la bdd
-	 * @throws UtilisateurInexistantException 
+	 * @throws UtilisateurInexistantException Exception
 	 */
 	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException, UtilisateurInexistantException, DaoException {
 
@@ -174,8 +174,8 @@ public class UtilisateurService {
 	 *	Calcul la date du jour J en fonction de la Zone Europe/Paris
 	 *	et ajoute 90 Jours
 	 *
-	 * @param utilisateur
-	 * @return utilisateur
+	 * @param utilisateur Utilisateur
+	 * @return utilisateur Utilisateur
 	 */
 	public Utilisateur setInitialPwdExpirationDateTime(Utilisateur utilisateur) {
 		
@@ -192,9 +192,9 @@ public class UtilisateurService {
 	 * Genere un mot de passe aleatoire
 	 * Envoyer un mail avec un mot de passe temporaire
 	 * 
-	 * @param nouvelUtilisateur
-	 * @throws UtilisateurInexistantException
-	 * @throws DaoException
+	 * @param nouvelUtilisateur Utilisateur
+	 * @throws UtilisateurInexistantException Exception
+	 * @throws DaoException Exception 
 	 */
 	public void envoyerUnMessageAvecCredetielsAuNouvelUtilisateur(Utilisateur nouvelUtilisateur) throws UtilisateurInexistantException, DaoException {
 		

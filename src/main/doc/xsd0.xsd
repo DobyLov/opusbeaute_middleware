@@ -21,21 +21,10 @@
 
   <xs:element name="utilisateur" type="utilisateur"/>
 
-  <xs:complexType name="adresseClient">
+  <xs:complexType name="genre">
     <xs:sequence>
-      <xs:element name="idAdresse" type="xs:int" minOccurs="0"/>
-      <xs:element name="numero" type="xs:string" minOccurs="0"/>
-      <xs:element name="pays" type="xs:string" minOccurs="0"/>
-      <xs:element name="rue" type="xs:string" minOccurs="0"/>
-      <xs:element name="ville" type="xs:string" minOccurs="0"/>
-      <xs:element name="zipCode" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="roles">
-    <xs:sequence>
-      <xs:element name="idRoles" type="xs:int" minOccurs="0"/>
-      <xs:element name="roles" type="xs:string" minOccurs="0"/>
+      <xs:element name="genreHum" type="xs:string" minOccurs="0"/>
+      <xs:element name="idGenre" type="xs:int" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -50,11 +39,17 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="lieuRdv">
+  <xs:complexType name="rdv">
     <xs:sequence>
-      <xs:element ref="adresseLieuRdv" minOccurs="0"/>
-      <xs:element name="idLieuRdv" type="xs:int" minOccurs="0"/>
-      <xs:element name="lieuRdv" type="xs:string" minOccurs="0"/>
+      <xs:element ref="client" minOccurs="0"/>
+      <xs:element name="dateDeSaisie" type="timestamp" minOccurs="0"/>
+      <xs:element name="dateHeureDebut" type="timestamp" minOccurs="0"/>
+      <xs:element name="dateHeureFin" type="timestamp" minOccurs="0"/>
+      <xs:element name="idRdv" type="xs:int" minOccurs="0"/>
+      <xs:element ref="lieuRdv" minOccurs="0"/>
+      <xs:element ref="praticien" minOccurs="0"/>
+      <xs:element ref="prestation" minOccurs="0"/>
+      <xs:element ref="utilisateur" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -76,30 +71,28 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="adresseClient">
+    <xs:sequence>
+      <xs:element name="idAdresse" type="xs:int" minOccurs="0"/>
+      <xs:element name="numero" type="xs:string" minOccurs="0"/>
+      <xs:element name="pays" type="xs:string" minOccurs="0"/>
+      <xs:element name="rue" type="xs:string" minOccurs="0"/>
+      <xs:element name="ville" type="xs:string" minOccurs="0"/>
+      <xs:element name="zipCode" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="timestamp">
     <xs:sequence>
       <xs:element name="nanos" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="genre">
+  <xs:complexType name="lieuRdv">
     <xs:sequence>
-      <xs:element name="genreHum" type="xs:string" minOccurs="0"/>
-      <xs:element name="idGenre" type="xs:int" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="rdv">
-    <xs:sequence>
-      <xs:element ref="client" minOccurs="0"/>
-      <xs:element name="dateDeSaisie" type="timestamp" minOccurs="0"/>
-      <xs:element name="dateHeureDebut" type="timestamp" minOccurs="0"/>
-      <xs:element name="dateHeureFin" type="timestamp" minOccurs="0"/>
-      <xs:element name="idRdv" type="xs:int" minOccurs="0"/>
-      <xs:element ref="lieuRdv" minOccurs="0"/>
-      <xs:element ref="praticien" minOccurs="0"/>
-      <xs:element ref="prestation" minOccurs="0"/>
-      <xs:element ref="utilisateur" minOccurs="0"/>
+      <xs:element ref="adresseLieuRdv" minOccurs="0"/>
+      <xs:element name="idLieuRdv" type="xs:int" minOccurs="0"/>
+      <xs:element name="lieuRdv" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -137,10 +130,18 @@
       <xs:element name="motDePasse" type="xs:string" minOccurs="0"/>
       <xs:element name="nomUtilisateur" type="xs:string" minOccurs="0"/>
       <xs:element name="prenomUtilisateur" type="xs:string" minOccurs="0"/>
+      <xs:element name="pwdExpirationDateTime" type="timestamp" minOccurs="0"/>
       <xs:element ref="roles" minOccurs="0"/>
       <xs:element name="suscribedMailReminder" type="xs:string" minOccurs="0"/>
       <xs:element name="suscribedSmsReminder" type="xs:string" minOccurs="0"/>
       <xs:element name="teleMobileUtilisateur" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="roles">
+    <xs:sequence>
+      <xs:element name="idRoles" type="xs:int" minOccurs="0"/>
+      <xs:element name="roles" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

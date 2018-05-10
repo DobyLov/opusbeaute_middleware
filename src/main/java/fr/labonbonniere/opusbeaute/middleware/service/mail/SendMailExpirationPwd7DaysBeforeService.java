@@ -50,7 +50,7 @@ public class SendMailExpirationPwd7DaysBeforeService {
 	/**
 	 * Envoyer un Mail si le Pwd expire dans 7 jours
 	 * 
-	 * @throws Exception
+	 * @throws Exception Exception
 	 */
 	// tous les jours a 19H50
 	@Schedule(dayOfWeek = "*", hour = "19", minute = "30")
@@ -87,8 +87,8 @@ public class SendMailExpirationPwd7DaysBeforeService {
 	/**
 	 * Recupere la liste des utilisateurs
 	 * 
-	 * @return List
-	 * @throws Exception
+	 * @return List Utilisateur
+	 * @throws Exception Exception
 	 */
 	private List<Utilisateur> recupereListeUtilisateurs() throws Exception {
 			
@@ -122,8 +122,8 @@ public class SendMailExpirationPwd7DaysBeforeService {
 	/**
 	 * Conversion de TS vers Date
 	 * 
-	 * @param dateTsPwdExpiration
-	 * @return
+	 * @param dateTsPwdExpiration Timestamp
+	 * @return datePwdExp Date
 	 */
 	private Date convertTimestampToDate(Timestamp dateTsPwdExpiration) {
 		logger.info("SendMailExpirationPwd7DaysBeforeService log : dateTs : " + dateTsPwdExpiration);
@@ -137,8 +137,8 @@ public class SendMailExpirationPwd7DaysBeforeService {
 	 * Detecte si la Date du Pwd est null
 	 * Si oui defini la date du jour.
 	 * 
-	 * @param userPwdToCheck
-	 * @return
+	 * @param userPwdToCheck Utilisateur
+	 * @return setTsToNow Timestamp
 	 */
 	private Timestamp checkIfPwdExpirationDateIsNull(Utilisateur userPwdToCheck) {
 		
@@ -158,7 +158,7 @@ public class SendMailExpirationPwd7DaysBeforeService {
 	 * Verifie si la date d expiration
 	 * correspond a la date plus 7 jours
 	 * 
-	 * @param dateJJMinusXdays Date
+	 * @param dateJJPlusXdays Date
 	 * @param datePwdExp Date
 	 * @return Boolean
 	 */
@@ -180,8 +180,8 @@ public class SendMailExpirationPwd7DaysBeforeService {
 	/**
 	 * Defini le message(corps) pour le mail
 	 * 
-	 * @param prenom
-	 * @return
+	 * @param prenom String
+	 * @return msg String
 	 */
 	private String mailMessage(String prenom) {
 		

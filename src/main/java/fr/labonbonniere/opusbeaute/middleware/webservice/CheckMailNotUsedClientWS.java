@@ -17,10 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.ClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
@@ -55,12 +52,8 @@ public class CheckMailNotUsedClientWS {
 	 * 
 	 * @param email String
 	 * @return Response 
-	 * @throws ClientInexistantException 
-	 * @throws PraticienInexistantException 
-	 * @throws UtilisateurInexistantException 
-	 * @throws MailNotFoundException 
-	 * @throws DaoException 
-	 * @throws Exception Exception
+	 * @throws MailNotFoundException Exception
+	 * @throws DaoException Exception
 	 */
     @GET
     @Path("/{email}")
