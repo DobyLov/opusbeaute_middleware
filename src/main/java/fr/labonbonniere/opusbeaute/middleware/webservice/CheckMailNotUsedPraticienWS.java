@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService;
@@ -29,6 +30,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService
  * @author fred
  *
  */
+@SecuApp
 @Stateless
 @Path("/testmailpraticien")
 //@DefineUserRole({"ANONYMOUS"})
