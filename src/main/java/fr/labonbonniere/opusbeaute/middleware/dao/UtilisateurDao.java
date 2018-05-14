@@ -182,27 +182,32 @@ public class UtilisateurDao {
 	 * Cherche si le mail fourni existe dans la table Utilisateur
 	 * 
 	 * @param email String
-	 * @return Boolean 
+	 * @return nombreUtilisateurAvecCetEmail Integer 
 	 * @throws MailNotFoundException Exception
 	 */
-	public boolean checkMailExistInDB(String email) throws MailNotFoundException {
+	public Integer checkMailExistInDB(String email) throws MailNotFoundException {
 		
-		Utilisateur utilisateur = new Utilisateur();
+
 		try {
 			logger.info("UtilisateurDao log : si l adresseEmail fourni existe dans la bdd.");
-			String requeteCli = "SELECT u FROM Utilisateur u" 
+			String requete = "SELECT u FROM Utilisateur u" 
 					+ " WHERE adresseMailUtilisateur = '" + email + "'";
 			
-			TypedQuery<Utilisateur> query = em.createQuery(requeteCli, Utilisateur.class);
-			utilisateur = query.getSingleResult();
-			logger.info("UtilisateurDao log :  AdresseEmail trouvee dans la bdd : " 
-						 + utilisateur.getAdresseMailUtilisateur());
-			return true;
+			TypedQuery<Utilisateur> query = em.createQuery(requete, Utilisateur.class);
+			List<Utilisateur> ListeU = query.getResultList();
+			Integer nombreUtilisateurAvecCetEmail = ListeU.size();
+			
+			logger.info("UtilisateurDao log :  AdresseEmail " + email + " trouvee " 
+			+ nombreUtilisateurAvecCetEmail + " dans la bdd ");
+			
+			return nombreUtilisateurAvecCetEmail;
 			
 		} catch (Exception message) {			
-			logger.info("UtilisateurDao Exception :  AdresseEmail non trouvee dans la bdd : " 
-					 + utilisateur.getAdresseMailUtilisateur());			
-			return false;
+			logger.info("UtilisateurDao log :  AdresseEmail " + email 
+					+ " non trouvee dans la bdd ");	
+			throw new MailNotFoundException("UtilisateurDao log :  AdresseEmail " + email 
+					+ " non trouvee dans la bdd ");
+			
 		}
 	
 	}

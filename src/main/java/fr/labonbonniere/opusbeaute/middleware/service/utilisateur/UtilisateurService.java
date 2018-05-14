@@ -513,12 +513,19 @@ public class UtilisateurService {
 		}
 	}
 	
+	/**
+	 * Cherche si le mail fourni existe dans la table Utilisateur
+	 * 
+	 * @param email String
+	 * @return boolean
+	 * @throws MailNotFoundException Exception
+	 */
 	public boolean verifieSiAdresseMailFournieExisteDansUtilisateur(String email) throws MailNotFoundException {
 		
 		try {
 			
 			logger.info("UtilisateurService log : Demande si le mail " + email + " existe dans la table Utilisateur");
-			if (utilisateurdao.checkMailExistInDB(email.toLowerCase())) {
+			if (utilisateurdao.checkMailExistInDB(email.toLowerCase()) >=1) {
 				logger.info("UtilisateurService log : Le mail " + email + " existe dans la table Utilisateur");
 			
 				return true;
@@ -531,9 +538,7 @@ public class UtilisateurService {
 		} catch (MailNotFoundException message) {
 			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
 			return false;
-//		} catch (DaoException message) {
-//			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
-//			return false;
+			
 		} catch (Exception message) {
 			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
 			return false;

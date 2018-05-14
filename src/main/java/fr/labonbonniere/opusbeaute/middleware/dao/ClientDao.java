@@ -175,26 +175,28 @@ public class ClientDao {
 	 * Cherche si le mail fourni existe dans la table Client
 	 * 
 	 * @param email String
-	 * @return Boolean
+	 * @return nombreClientAvecCetEmail Integer
 	 * @throws MailNotFoundException Exception
 	 */
-	public boolean checkMailExistInDB(String email) throws MailNotFoundException {
+	public Integer checkMailExistInDB(String email) throws MailNotFoundException {
 		
 		try {
-		Client client = new Client();
+			
 		logger.info("ClientDao log : si l adresseEmail fourni existe dans la bdd.");
 		String requeteCli = "SELECT c FROM Client c" 
 				+ " WHERE adresseMailClient = '" + email + "'";
 		
 		TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
-		client = query.getSingleResult();
-		logger.info("ClientDao log :  AdresseEmail trouvee dans la bdd : " 
-					 + client.getAdresseMailClient());
-		return true;
+		List<Client> listeC = query.getResultList();
+		Integer nombreClientAvecCetEmail = listeC.size();
+		
+		logger.info("ClientDao log :  AdresseEmail " + email + " trouvee " + nombreClientAvecCetEmail + " fois dans la bdd");
+		
+		return nombreClientAvecCetEmail;
 		
 		} catch (Exception message) {
-			logger.info("ClientDao log :  AdresseEmail " + email + " non trouvee dans la bdd : ");
-			return false;
+			logger.info("ClientDao Exception :  AdresseEmail " + email + " non trouvee dans la bdd");
+			throw new MailNotFoundException("ClientDao Exception :  AdresseEmail " + email + " non trouvee dans la bdd : ");
 		}
 	
 	}

@@ -117,10 +117,10 @@ public class CheckMailNotUsedClientWS {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             
         } catch (MailNotFoundException message) {
-        	logger.info("CheckMailNotUsedClientWS log : l email fourni " + email + " n est pas present danc la Table Client");
+        	logger.info("CheckMailNotUsedClientWS log : l email fourni " + email + " n est pas present dans la Table Client");
         	return Response.ok("false").build();
         } catch (Exception message) {
-        	logger.info("CheckMailNotUsedClientWS log : l email fourni " + email + " n est pas present danc la Table Client");
+        	logger.info("CheckMailNotUsedClientWS log : l email fourni " + email + " n est pas present dans la Table Client");
         	return Response.ok("false").build();
         }
     	

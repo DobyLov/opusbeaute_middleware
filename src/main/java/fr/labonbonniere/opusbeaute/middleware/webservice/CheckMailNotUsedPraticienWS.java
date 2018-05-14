@@ -104,7 +104,7 @@ public class CheckMailNotUsedPraticienWS {
             } else {
             	
             	logger.info("CheckMailNotUsedPraticienWS log : Le mail " + email 
-            			+ " n est pas trouve dans les tables : Praticien ");
+            			+ " n est pas trouve dans la table : Praticien ");
             	builder = Response.ok("false");
             	return builder.build();
     		}

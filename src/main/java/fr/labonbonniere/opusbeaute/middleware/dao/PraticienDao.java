@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.Praticien;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien.PraticienInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
 /**
  * Gestion de la Persitence des Praticien
@@ -184,31 +183,30 @@ public class PraticienDao {
 	 * Cherche si le mail fourni existe dans la table Praticien
 	 * 
 	 * @param email String
-	 * @return Boolean
+	 * @return nombrePraticienAvecCetEmail Integer
 	 * @throws DaoException Exception
-	 * @throws MailNotFoundException Exception
 	 */
-	public boolean checkMailExistInDB(String email) throws DaoException, MailNotFoundException {
+	public Integer checkMailExistInDB(String email) throws DaoException {
 		
-		Praticien praticien = new Praticien();
+
 		try {
-			logger.info("PraticienDao log : si l adresseEmail fourni existe dans la bdd.");
-			String requeteCli = "SELECT p FROM Praticien p" 
+			
+			logger.info("PraticienDao log : Cherche si " + email  + " existe dans la table Praticien.");
+			String requete = "SELECT p FROM Praticien p" 
 					+ " WHERE adresseMailPraticien = '" + email + "'";
 			
-			TypedQuery<Praticien> query = em.createQuery(requeteCli, Praticien.class);
-			praticien = query.getSingleResult(); 
+			TypedQuery<Praticien> query = em.createQuery(requete, Praticien.class);
+			List<Praticien> listeP = query.getResultList();
+			Integer nombrePraticienAvecCetEmail = listeP.size();
 			
-			logger.info("PraticienDao log :  AdresseEmail trouvee dans la bdd : " 
-						 + praticien.getAdresseMailPraticien());
-			return true;
+			logger.info("PraticienDao log :  AdresseEmail " + email + " trouvee " + nombrePraticienAvecCetEmail + " fois dans la bdd.");
+
+			return nombrePraticienAvecCetEmail;
 				
-			
-		} catch (Exception message) {
-			
+		} catch (Exception message) {			
 			logger.info("PraticienDao Exception :  AdresseEmail " + email + " non trouvee dans la bdd : ");
+			throw new DaoException("PraticienDao Exception :  AdresseEmail " + email + " non trouvee dans la bdd : "); 
 			
-			return false;
 		}
 	
 	}

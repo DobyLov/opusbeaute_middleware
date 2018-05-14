@@ -113,16 +113,17 @@ public class PraticienService {
 		try {
 			
 			logger.info("PraticienService log : Demande si le mail " + email + " existe dans la table Praticien");
-			if (praticiendao.checkMailExistInDB(email.toLowerCase())) {			
+			if (praticiendao.checkMailExistInDB(email.toLowerCase()) >= 1) {			
 			logger.info("PraticienService log : Le mail " + email + " existe dans la table Praticien");
 			
- 			return true; 			
+ 			return true; 
+ 			
 			} else {
 				logger.info("PraticienService log : Le mail " + email + " n existe pas dans la table Praticien");
 				return false;
 			}
 			
-		} catch (MailNotFoundException message) {
+		} catch (DaoException message) {
 			logger.info("PraticienService log : Lee mail " + email + " n existe pas dans la table Praticien");
 			return false;
 		} catch (Exception message) {

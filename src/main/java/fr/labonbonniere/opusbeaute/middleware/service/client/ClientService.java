@@ -272,10 +272,11 @@ public class ClientService {
 			logger.info("ClientService log : Demande si le mail " + email + " existe dans la table client");
 			
 //			clientdao.checkMailExistInDB(email.toLowerCase());
-			if ( clientdao.checkMailExistInDB(email.toLowerCase()) == true) {
+			if ( clientdao.checkMailExistInDB(email.toLowerCase()) >=1) {
 			logger.info("ClientService log : Le mail " + email + " existe dans la table client");
  			
-			return true; 			
+			return true; 
+			
 			} else {				
 				logger.info("ClientService log : Le mail " + email + " n existe pas dans la table client");
 				return false;

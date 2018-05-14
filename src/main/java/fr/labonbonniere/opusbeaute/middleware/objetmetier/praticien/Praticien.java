@@ -64,7 +64,7 @@ public class Praticien implements Serializable {
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="PRATICIEN_SEQ",
 	initialValue = 1, allocationSize = 10)
-@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "PRATICIEN_IDPRATICIEN", nullable = false, length = 4)
 	public Integer getIdPraticien() {
 		return idPraticien;
@@ -83,7 +83,8 @@ public class Praticien implements Serializable {
 		this.nomPraticien = nomPraticien;
 	}
 
-	@Column(name = "UTILISATEUR_PRENOM", nullable = false, length = 30)
+//	@Column(name = "UTILISATEUR_PRENOM", nullable = false, length = 30)
+	@Column(name = "PRATICIEN_PRENOM", nullable = false, length = 30)
 	public String getPrenomPraticien() {
 		return prenomPraticien;
 	}
@@ -92,7 +93,8 @@ public class Praticien implements Serializable {
 		this.prenomPraticien = prenomPraticien;
 	}
 
-	@Column(name = "UTILISATEUR_TELMOBILE", nullable = true, length = 10)
+//	@Column(name = "UTILISATEUR_TELMOBILE", nullable = true, length = 10)
+	@Column(name = "PRATICIEN_TELMOBILE", nullable = true, length = 10)
 	public String getTeleMobilePraticien() {
 		return teleMobilePraticien;
 	}
@@ -101,7 +103,8 @@ public class Praticien implements Serializable {
 		this.teleMobilePraticien = teleMobilePraticien;
 	}
 
-	@Column(name = "UTILISATEUR_MAIL", nullable = true, length = 30)
+//	@Column(name = "UTILISATEUR_MAIL", nullable = true, length = 40)
+	@Column(name = "PRATICIEN_MAIL", nullable = true, length = 40)
 	public String getAdresseMailPraticien() {
 		return adresseMailPraticien;
 	}
@@ -110,7 +113,8 @@ public class Praticien implements Serializable {
 		this.adresseMailPraticien = adresseMailPraticien;
 	}
 
-	@Column(name = "UTILISATEUR_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
+//	@Column(name = "UTILISATEUR_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
+	@Column(name = "PRATICIEN_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
 	public String getSuscribedSmsReminder() {
 		return suscribedSmsReminder;
 	}
@@ -119,7 +123,8 @@ public class Praticien implements Serializable {
 		this.suscribedSmsReminder = suscribedSmsReminder;
 	}
 
-	@Column(name = "UTILISATEUR_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
+//	@Column(name = "UTILISATEUR_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
+	@Column(name = "PRATICIEN_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
 	public String getSuscribedMailReminder() {
 		return suscribedMailReminder;
 	}
@@ -134,8 +139,10 @@ public class Praticien implements Serializable {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("idPraticien", this.idPraticien)
-				.append("nomPraticien", this.nomPraticien).append("prenomPraticien", this.prenomPraticien)
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				.append("idPraticien", this.idPraticien)
+				.append("nomPraticien", this.nomPraticien)
+				.append("prenomPraticien", this.prenomPraticien)
 				.append("teleMobilePraticien", this.teleMobilePraticien)
 				.append("adresseMailPraticien", this.adresseMailPraticien)
 				.append("suscribedSmsReminder", this.suscribedSmsReminder).build();
@@ -176,7 +183,6 @@ public class Praticien implements Serializable {
 				.append(this.adresseMailPraticien, autre.adresseMailPraticien)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)
-
 				.build();
 
 	}
