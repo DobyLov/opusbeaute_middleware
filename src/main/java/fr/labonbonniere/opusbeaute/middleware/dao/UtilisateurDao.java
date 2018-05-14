@@ -198,7 +198,7 @@ public class UtilisateurDao {
 			Integer nombreUtilisateurAvecCetEmail = ListeU.size();
 			
 			logger.info("UtilisateurDao log :  AdresseEmail " + email + " trouvee " 
-			+ nombreUtilisateurAvecCetEmail + " dans la bdd ");
+			+ nombreUtilisateurAvecCetEmail + " fois dans la bdd ");
 			
 			return nombreUtilisateurAvecCetEmail;
 			
