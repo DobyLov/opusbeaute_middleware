@@ -56,6 +56,76 @@ public class RdvService {
 	}
 	
 	/**
+	 * recupere la liste de Rdv par Client
+	 * 
+	 * @param idClient Integer
+	 * @return List
+	 * @throws DaoException Exception
+	 */
+	public List<Rdv> recupereListRdvParClient(final Integer idClient) throws DaoException {
+		
+		try {
+			logger.info("RdvService log : Demande au Dao la liste des Rdv's par client");
+			List<Rdv> laListeRdvParClient = rdvdao.obtenirListeRdvParClient(idClient);
+			logger.info("RdvService - Liste des Rdv's recuperee");
+			return laListeRdvParClient;
+			
+		} catch (DaoException message) {
+			logger.error("RdvService log : Probleme de la bdd.");
+			throw new DaoException("RdvService Exception : Probleme de la bdd.");
+		}
+	}
+	
+	/**
+	 * Recupere la liste de Rdv par date
+	 * et par praticien
+	 * 
+	 * @param dateJJ String
+	 * @param idPraticien Integer
+	 * @return List
+	 * @throws DaoException Exception
+	 */
+	public List<Rdv> recupereLaListeRdvParDateJJPraticien(final String dateJJ, final Integer idPraticien) throws DaoException {
+		
+		try {
+			logger.info("RdvService log : Demande au Dao la liste des Rdv's par praticien et par date");
+			List<Rdv> laListeRdvParDatePraticien = rdvdao.obtenirListeRdvDuJJParPraticien(dateJJ, idPraticien);
+			logger.info("RdvService - Liste des Rdv's recuperee");
+			return laListeRdvParDatePraticien;
+			
+		} catch (DaoException message) {
+			logger.error("RdvService log : Probleme de la bdd.");
+			throw new DaoException("RdvService Exception : Probleme de la bdd.");
+		}	
+		
+	}
+	
+	/**
+	 * recupere la liste de Rdv via plage de date
+	 * et par praticien
+	 * 
+	 * @param dateA String
+	 * @param dateB String
+	 * @param idPraticien Integer
+	 * @return List 
+	 * @throws DaoException Exception
+	 */
+	public List<Rdv> recupereLaListeRdvParPlageDatePraticien(final String dateA, final String dateB, final Integer idPraticien) throws DaoException {
+		
+		try {
+			logger.info("RdvService log : Demande au Dao la liste des Rdv's par praticien et par plage de date");
+			List<Rdv> laListeRdvParplageDeDatePraticien = rdvdao.obtenirListeRdvParPlageDeDateParPraticien(dateA, dateB, idPraticien);
+			logger.info("RdvService - Liste des Rdv's recuperee");
+			return laListeRdvParplageDeDatePraticien;
+			
+		} catch (DaoException message) {
+			logger.error("RdvService log : Probleme de la bdd.");
+			throw new DaoException("RdvService Exception : Probleme de la bdd.");
+		}	
+		
+	}
+	
+	/**
 	 * Recupere un Rdv par son Id
 	 * 
 	 * @param idRdv Integer

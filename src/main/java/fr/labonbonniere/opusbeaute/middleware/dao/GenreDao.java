@@ -51,8 +51,7 @@ public class GenreDao {
 		try {
 			logger.info("GenreDao log : Demande a la bdd la liste des Genres");
 			String requete = "SELECT G FROM Genre G" + " ORDER BY idGenre asc";
-			;
-
+			
 			TypedQuery<Genre> query = em.createQuery(requete, Genre.class);
 			List<Genre> listeGenre = query.getResultList();
 

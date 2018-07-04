@@ -111,6 +111,36 @@ public class UtilisateurWs {
 		return builder.build();
 	}
 	
+	/**
+	 * recherche un Utilisateur par Email
+	 * 
+	 * @param email String
+	 * @return utilisateurRetrouve Utilisateur
+	 * @throws UtilisateurInexistantException Exception
+	 */
+	@DefineUserRole({"ALLOWALL"})
+	@GET
+	@Path("/finduserbymail/{email}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response theUtilisateurByMail(@PathParam("email") final String email)
+			throws UtilisateurInexistantException {
+
+		Response.ResponseBuilder builder = null;
+		try {
+			logger.info("-----------------------------------------------------");
+			logger.info("UtilisateurWs log - Rechercher un Utilisateur via email : " + email);
+			Utilisateur utilisateurRetrouve = utilisateurservice.recupererUnUtilisateurViaeMail(email);
+			logger.info("UtilisateurWs log - Utilisateur demande " + utilisateurRetrouve.getAdresseMailUtilisateur() + " trouve");
+			builder = Response.ok(utilisateurRetrouve);
+
+		} catch (UtilisateurInexistantException message) {
+			logger.error("UtilisateurWs log - l Utilisateur via : " + email + " demande est introuvable");
+			builder = Response.status(Response.Status.NOT_FOUND);
+		}
+
+		return builder.build();
+	}
+	
 	
 	/**
 	 * Creation d un Nouvel Utilisateur

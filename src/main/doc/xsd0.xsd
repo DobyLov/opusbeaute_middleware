@@ -28,17 +28,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="adresseLieuRdv">
-    <xs:sequence>
-      <xs:element name="idAdresseLieuRdv" type="xs:int" minOccurs="0"/>
-      <xs:element name="numero" type="xs:string" minOccurs="0"/>
-      <xs:element name="pays" type="xs:string" minOccurs="0"/>
-      <xs:element name="rue" type="xs:string" minOccurs="0"/>
-      <xs:element name="ville" type="xs:string" minOccurs="0"/>
-      <xs:element name="zipCode" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="rdv">
     <xs:sequence>
       <xs:element ref="client" minOccurs="0"/>
@@ -93,6 +82,17 @@
       <xs:element ref="adresseLieuRdv" minOccurs="0"/>
       <xs:element name="idLieuRdv" type="xs:int" minOccurs="0"/>
       <xs:element name="lieuRdv" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="adresseLieuRdv">
+    <xs:sequence>
+      <xs:element name="idAdresseLieuRdv" type="xs:int" minOccurs="0"/>
+      <xs:element name="numero" type="xs:string" minOccurs="0"/>
+      <xs:element name="pays" type="xs:string" minOccurs="0"/>
+      <xs:element name="rue" type="xs:string" minOccurs="0"/>
+      <xs:element name="ville" type="xs:string" minOccurs="0"/>
+      <xs:element name="zipCode" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
