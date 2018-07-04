@@ -27,7 +27,6 @@ fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientServic
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\dao\PrestationDao.class
 fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderPraticienService.class
-fr\labonbonniere\opusbeaute\middleware\webservice\EmailReminderClientWs.class
 fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderClientService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\ClientWs.class
 fr\labonbonniere\opusbeaute\middleware\webservice\LieuRdvWs.class
@@ -110,6 +109,7 @@ fr\labonbonniere\opusbeaute\middleware\service\utilisateur\UtilisateurService.cl
 fr\labonbonniere\opusbeaute\middleware\webservice\UnsubscribeRdvMailReminderClientWs.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\MailEngine$1.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\UnsuscribeMailReminderClientService.class
+fr\labonbonniere\opusbeaute\middleware\webservice\EmailReminderWs.class
 fr\labonbonniere\opusbeaute\middleware\webservice\SmsReminderWs.class
 fr\labonbonniere\opusbeaute\middleware\service\praticien\MailNonTrouvePraticienException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\ChangePwdService.class
