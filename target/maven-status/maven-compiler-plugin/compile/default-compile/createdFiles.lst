@@ -22,6 +22,7 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurInexi
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharPrenomException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\rdv\RdvExistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\prestation\NbCharPrestationException.class
+fr\labonbonniere\opusbeaute\middleware\service\rgpd\EmptyListException.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailReminderClientService$1.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\dao\PrestationDao.class
@@ -71,9 +72,11 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvFinChevauchementException.
 fr\labonbonniere\opusbeaute\middleware\webservice\PraticienWs.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\RenewPwdUtilisateurService.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailRenewPwdUtilisateurService.class
+fr\labonbonniere\opusbeaute\middleware\service\rgpd\TokenGenClientForRgpgAction.class
 fr\labonbonniere\opusbeaute\middleware\intercepteur\CORSFilter.class
 fr\labonbonniere\opusbeaute\middleware\service\client\NbCharNomException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreExistantException.class
+fr\labonbonniere\opusbeaute\middleware\service\rgpd\SendMailClientRgpdService.class
 fr\labonbonniere\opusbeaute\middleware\service\client\SuscribeMailReminderException.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\EmailFormatInvalidException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\UtilisateurWs.class

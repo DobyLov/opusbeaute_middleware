@@ -28,20 +28,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="rdv">
-    <xs:sequence>
-      <xs:element ref="client" minOccurs="0"/>
-      <xs:element name="dateDeSaisie" type="timestamp" minOccurs="0"/>
-      <xs:element name="dateHeureDebut" type="timestamp" minOccurs="0"/>
-      <xs:element name="dateHeureFin" type="timestamp" minOccurs="0"/>
-      <xs:element name="idRdv" type="xs:int" minOccurs="0"/>
-      <xs:element ref="lieuRdv" minOccurs="0"/>
-      <xs:element ref="praticien" minOccurs="0"/>
-      <xs:element ref="prestation" minOccurs="0"/>
-      <xs:element ref="utilisateur" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="client">
     <xs:sequence>
       <xs:element name="adresse" type="adresseClient" minOccurs="0"/>
@@ -51,6 +37,8 @@
       <xs:element name="idClient" type="xs:int" minOccurs="0"/>
       <xs:element name="nomClient" type="xs:string" minOccurs="0"/>
       <xs:element name="prenomClient" type="xs:string" minOccurs="0"/>
+      <xs:element name="rgpdDateClientvalidation" type="timestamp" minOccurs="0"/>
+      <xs:element name="rgpdInfoClientValidation" type="xs:string" minOccurs="0"/>
       <xs:element name="suscribedCommercials" type="xs:string" minOccurs="0"/>
       <xs:element name="suscribedMailReminder" type="xs:string" minOccurs="0"/>
       <xs:element name="suscribedNewsLetter" type="xs:string" minOccurs="0"/>
@@ -74,6 +62,43 @@
   <xs:complexType name="timestamp">
     <xs:sequence>
       <xs:element name="nanos" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="utilisateur">
+    <xs:sequence>
+      <xs:element name="adresseMailUtilisateur" type="xs:string" minOccurs="0"/>
+      <xs:element name="idUtilisateur" type="xs:int" minOccurs="0"/>
+      <xs:element name="isLogged" type="xs:string" minOccurs="0"/>
+      <xs:element name="motDePasse" type="xs:string" minOccurs="0"/>
+      <xs:element name="nomUtilisateur" type="xs:string" minOccurs="0"/>
+      <xs:element name="prenomUtilisateur" type="xs:string" minOccurs="0"/>
+      <xs:element name="pwdExpirationDateTime" type="timestamp" minOccurs="0"/>
+      <xs:element ref="roles" minOccurs="0"/>
+      <xs:element name="suscribedMailReminder" type="xs:string" minOccurs="0"/>
+      <xs:element name="suscribedSmsReminder" type="xs:string" minOccurs="0"/>
+      <xs:element name="teleMobileUtilisateur" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="roles">
+    <xs:sequence>
+      <xs:element name="idRoles" type="xs:int" minOccurs="0"/>
+      <xs:element name="roles" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rdv">
+    <xs:sequence>
+      <xs:element ref="client" minOccurs="0"/>
+      <xs:element name="dateDeSaisie" type="timestamp" minOccurs="0"/>
+      <xs:element name="dateHeureDebut" type="timestamp" minOccurs="0"/>
+      <xs:element name="dateHeureFin" type="timestamp" minOccurs="0"/>
+      <xs:element name="idRdv" type="xs:int" minOccurs="0"/>
+      <xs:element ref="lieuRdv" minOccurs="0"/>
+      <xs:element ref="praticien" minOccurs="0"/>
+      <xs:element ref="prestation" minOccurs="0"/>
+      <xs:element ref="utilisateur" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -119,29 +144,6 @@
       <xs:element name="nbSeance" type="xs:int" minOccurs="0"/>
       <xs:element name="prix" type="xs:float"/>
       <xs:element name="soin" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="utilisateur">
-    <xs:sequence>
-      <xs:element name="adresseMailUtilisateur" type="xs:string" minOccurs="0"/>
-      <xs:element name="idUtilisateur" type="xs:int" minOccurs="0"/>
-      <xs:element name="isLogged" type="xs:string" minOccurs="0"/>
-      <xs:element name="motDePasse" type="xs:string" minOccurs="0"/>
-      <xs:element name="nomUtilisateur" type="xs:string" minOccurs="0"/>
-      <xs:element name="prenomUtilisateur" type="xs:string" minOccurs="0"/>
-      <xs:element name="pwdExpirationDateTime" type="timestamp" minOccurs="0"/>
-      <xs:element ref="roles" minOccurs="0"/>
-      <xs:element name="suscribedMailReminder" type="xs:string" minOccurs="0"/>
-      <xs:element name="suscribedSmsReminder" type="xs:string" minOccurs="0"/>
-      <xs:element name="teleMobileUtilisateur" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="roles">
-    <xs:sequence>
-      <xs:element name="idRoles" type="xs:int" minOccurs="0"/>
-      <xs:element name="roles" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

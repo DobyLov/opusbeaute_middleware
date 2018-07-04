@@ -14,9 +14,11 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPraticienService;
+import fr.labonbonniere.opusbeaute.middleware.service.rgpd.SendMailClientRgpdService;
 
 /**
- * Gere l envoi d email de rappel au Client
+ * Gere l envoi d email de rappel 
+ * au Client et Praticien
  * 
  * @author fred
  *
@@ -39,9 +41,12 @@ public class EmailReminderClientWs {
 	@EJB
 	private SendMailReminderPraticienService sendmailreminderpraticien;
 	
+	@EJB
+	private SendMailClientRgpdService sendmailclientrgpdservice;
+	
 	/**
-	 * e
-	 * Envoi d un Email
+	 * Envoi d un Email rappel de Rdv
+	 * aux Clients
 	 * 
 	 * @return Response
 	 */
@@ -69,7 +74,8 @@ public class EmailReminderClientWs {
 	}
 	
 	/**
-	 * Envoi un email au Praticien
+	 * Envoi un email de Rappel de Rdv
+	 * aux Praticiens
 	 * 
 	 * @return  response
 	 */
@@ -90,6 +96,35 @@ public class EmailReminderClientWs {
 		} catch(Exception message) {
 			
 			logger.error("EmailReminderClientWs Exception : Echec de la procedure d Envoi Email praticien via TriggerWS.");
+			builder = Response.status(Response.Status.BAD_REQUEST);
+		
+		}
+		return builder.build();
+	}
+	
+	/**
+	 * envoie d email avec une URL
+	 * pour acceder au formulaire RGPD
+	 * 
+	 * @return Response
+	 */
+	@GET
+	@Path("/sendclientsrgpd")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response envoyerEMailClientFormValidation() {
+		
+		Response.ResponseBuilder builder = null;
+		logger.info("EmailReminderClientWs log : Debut de la Procedure Envoi Email Client RGPD Formulaire via TriggerWS");
+		
+		try {
+			
+			sendmailclientrgpdservice.rgpdClientFormValidationResponse();
+			logger.info("EmailReminderClientWs log : Fin de procedure d Envoi Email Client RGPD Formulaire via TriggerWS terminee.");
+			builder = Response.ok();
+			
+		} catch(Exception message) {
+			
+			logger.error("EmailReminderClientWs Exception : Echec de la procedure d Envoi Email Client RGPD via TriggerWS.");
 			builder = Response.status(Response.Status.BAD_REQUEST);
 		
 		}

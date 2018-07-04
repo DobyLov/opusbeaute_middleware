@@ -1,5 +1,9 @@
 package fr.labonbonniere.opusbeaute.middleware.service.client;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -598,6 +602,32 @@ public class ClientService {
 			logger.info("ClientService log : SuscribedCommercials force a False");
 			client.setAdresseMailClient(null);
 		}
+		
+		
+		if (client.getRgpdDateClientvalidation() != null) {
+			
+			if (client.getRgpdInfoClientValidation() != null && !client.getRgpdInfoClientValidation().isEmpty()) {
+				
+				if (client.getRgpdInfoClientValidation().contains("f")) {
+					client.setRgpdInfoClientValidation("F");
+					
+				} else if (client.getRgpdInfoClientValidation().contains("t")) {
+					client.setRgpdInfoClientValidation("T");
+		
+				}
+				
+			} else {
+				client.setRgpdInfoClientValidation("F");
+			}
+			
+		} else {
+			
+			Timestamp tsjj = Timestamp.from(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Europe/Paris")).toInstant());
+			client.setRgpdDateClientvalidation(tsjj);
+
+		}
+		
+
 
 		return client;
 

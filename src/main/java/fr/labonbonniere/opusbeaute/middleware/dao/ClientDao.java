@@ -54,6 +54,24 @@ public class ClientDao {
 		}
 
 	}
+	
+	public List<Client> obtenirListeClientRgpdValidation(String rgpdValidationStatus) throws DaoException {
+		
+		try {
+			logger.info("ClientDao log : Demande a la bdd la liste des Clients RpdgValidation a f");
+			String requeteCli = "SELECT c FROM Client c" 
+								+ " WHERE CLIENT_RGPDINFOCLIENTVALIDATION = " + rgpdValidationStatus
+								+ " ORDER BY idClient asc";
+			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
+			List<Client> listeClient = query.getResultList();
+			logger.info("ClientDao log :  Envoi de la liste de Clients");
+			return listeClient;
+
+		} catch (Exception e) {
+			logger.error("ClientDao Exception : Probleme de la bdd.");
+			throw new DaoException(e);
+		}
+	}
 
 	/**
 	 * Retourne le Client demande par son Id

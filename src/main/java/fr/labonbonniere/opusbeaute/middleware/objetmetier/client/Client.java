@@ -57,6 +57,8 @@ public class Client implements Serializable {
 	private String suscribedNewsLetter;
 	private String suscribedMailReminder;
 	private String suscribedSmsReminder;
+	private String rgpdInfoClientValidation; // boolean T=true / f=false 
+	private Timestamp rgpdDateClientvalidation;
 
 	public Client() {
 		super();
@@ -65,7 +67,8 @@ public class Client implements Serializable {
 	public Client(Integer idClient, String nomClient, String prenomClient, String telephoneClient,
 			String telMobileClient, Genre genreClient, AdresseClient adresse, String adresseMailClient,
 			Timestamp dateAnniversaireClient, String suscribedNewsLetter, String suscribedMailReminder,
-			String suscribedSmsRemider, String suscribedCommercials) {
+			String suscribedSmsRemider, String suscribedCommercials, String rgpdInfoClientValidation, 
+			Timestamp rgpdDateClientvalidation) {
 
 		super();
 		this.idClient = idClient;
@@ -81,6 +84,8 @@ public class Client implements Serializable {
 		this.suscribedMailReminder = suscribedMailReminder;
 		this.suscribedSmsReminder = suscribedSmsRemider;
 		this.suscribedCommercials = suscribedCommercials;
+		this.rgpdInfoClientValidation = rgpdInfoClientValidation;
+		this.rgpdDateClientvalidation = rgpdDateClientvalidation; 
 
 	}
 
@@ -209,6 +214,24 @@ public class Client implements Serializable {
 	public void setSuscribedCommercials(String suscribedCommercials) {
 		this.suscribedCommercials = suscribedCommercials;
 	}
+	
+	@Column(name = "CLIENT_RGPDINFOCLIENTVALIDATION", nullable = false, length = 1)
+	public String getRgpdInfoClientValidation() {
+		return rgpdInfoClientValidation;
+	}
+
+	public void setRgpdInfoClientValidation(String rgpdInfoClientValidation) {
+		this.rgpdInfoClientValidation = rgpdInfoClientValidation;
+	}
+
+	@Column(name = "CLIENT_RGPDDATECLIENTVALIDATION", nullable = true)
+	public Timestamp getRgpdDateClientvalidation() {
+		return rgpdDateClientvalidation;
+	}
+
+	public void setRgpdDateClientvalidation(Timestamp rgpdDateClientvalidation) {
+		this.rgpdDateClientvalidation = rgpdDateClientvalidation;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -225,7 +248,9 @@ public class Client implements Serializable {
 				.append("suscribedNewsLetter", this.suscribedNewsLetter)
 				.append("suscribedMailReminder", this.suscribedMailReminder)
 				.append("suscribedSmsReminder", this.suscribedSmsReminder)
-				.append("suscribedCommercials", this.suscribedCommercials).build();
+				.append("suscribedCommercials", this.suscribedCommercials)
+				.append("rgpdInfoClientValidation", this.rgpdInfoClientValidation)
+				.append("rgpdDateClientvalidation", this.rgpdDateClientvalidation).build();
 
 	}
 
@@ -246,6 +271,8 @@ public class Client implements Serializable {
 		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
 		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
 		result = prime * result + ((suscribedCommercials == null) ? 0 : suscribedCommercials.hashCode());
+		result = prime * result + ((rgpdInfoClientValidation == null) ? 0 : rgpdInfoClientValidation.hashCode());
+		result = prime * result + ((rgpdDateClientvalidation == null) ? 0 : rgpdDateClientvalidation.hashCode());
 		return result;
 	}
 
@@ -270,13 +297,11 @@ public class Client implements Serializable {
 				.append(this.suscribedNewsLetter, autre.suscribedNewsLetter)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)
-				.append(this.suscribedCommercials, autre.suscribedCommercials).build();
+				.append(this.suscribedCommercials, autre.suscribedCommercials)
+				.append(this.rgpdInfoClientValidation, autre.rgpdInfoClientValidation)
+				.append(this.rgpdDateClientvalidation, autre.rgpdDateClientvalidation)
+				.build();
 
 	}
 
-	// @PreUpdate
-	// @PrePersist
-	// public void avantPersist() {
-	// adresse.setIdAdresse(this.getIdClient());
-	// }
 }
