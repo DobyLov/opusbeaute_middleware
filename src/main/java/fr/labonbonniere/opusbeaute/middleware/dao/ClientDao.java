@@ -60,7 +60,7 @@ public class ClientDao {
 		try {
 			logger.info("ClientDao log : Demande a la bdd la liste des Clients RpdgValidation a f");
 			String requeteCli = "SELECT c FROM Client c" 
-								+ " WHERE CLIENT_RGPDINFOCLIENTVALIDATION = " + rgpdValidationStatus
+								+ " WHERE rgpdInfoClientValidation = '" + rgpdValidationStatus + "'"
 								+ " ORDER BY idClient asc";
 			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
 			List<Client> listeClient = query.getResultList();

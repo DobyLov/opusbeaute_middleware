@@ -7,21 +7,30 @@
         href="xsd0.xsd"><doc/></include></grammars><resources
             base="http://localhost:8080/opusbeaute-0/obws/"><resource
                 path="/utilisateur"><resource
+                    path="/{idUtilisateur: \d+}"><param
+                    name="idUtilisateur" style="template" type="xs:int"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
+                    id="theUtilisateur"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/list"><method id="laListeUtilisateur"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
                     path="/finduserbymail/{email}"><param name="email"
                     style="template" type="xs:string"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
                     id="theUtilisateurByMail"
                             name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/mod"><method id="modifieUnUtilisateur"
-                            name="PUT"><request><ns2:representation
+                    path="/add"><method id="creerUnUtilisateur"
+                            name="POST"><request><ns2:representation
                             element="utilisateur"
                             mediaType="application/json"
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/add"><method id="creerUnUtilisateur"
-                            name="POST"><request><ns2:representation
+                    path="/mod"><method id="modifieUnUtilisateur"
+                            name="PUT"><request><ns2:representation
                             element="utilisateur"
                             mediaType="application/json"
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
@@ -32,15 +41,6 @@
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
                     id="supprimerUnUtilisateur"
                             name="DELETE"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/list"><method id="laListeUtilisateur"
-                            name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/{idUtilisateur: \d+}"><param
-                    name="idUtilisateur" style="template" type="xs:int"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="theUtilisateur"
-                            name="GET"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
                 path="/"><resource path="/wadl"><method id="produceWadl"
                             name="GET"><response><representation
@@ -55,11 +55,12 @@
                     id="desinscriptionMailRappelRdvClient"
                             name="GET"><response><representation
             mediaType="text/html"/></response></method></resource></resource><resource
-                path="/roles"><resource path="/del/{idRole: \d+}"><param
-                    name="idRole" style="template" type="xs:int"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="supprimerUnRole"
-                            name="DELETE"><response><representation
+                path="/roles"><resource path="/add"><method
+                    id="creerUnRole"
+                            name="POST"><request><ns2:representation
+                            element="roles" mediaType="application/json"
+                            xmlns:ns2="http://wadl.dev.java.net/2009/02"
+                            xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/mod"><method id="modifieUnRole"
                             name="PUT"><request><ns2:representation
@@ -67,11 +68,11 @@
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/add"><method id="creerUnRole"
-                            name="POST"><request><ns2:representation
-                            element="roles" mediaType="application/json"
-                            xmlns:ns2="http://wadl.dev.java.net/2009/02"
-                            xmlns=""/></request><response><representation
+                    path="/del/{idRole: \d+}"><param name="idRole"
+                    style="template" type="xs:int"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
+                    id="supprimerUnRole"
+                            name="DELETE"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/list"><method id="laListeDesRoles"
                             name="GET"><response><representation
@@ -87,8 +88,13 @@
                     id="verifyMailIsNotUsed"
                             name="GET"><response><representation
             mediaType="text/plain"/></response></method></resource></resource><resource
-                path="/praticien"><resource path="/list"><method
-                    id="laListePraticien"
+                path="/praticien"><resource
+                    path="/{idPraticien: \d+}"><param name="idPraticien"
+                    style="template" type="xs:int"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
+                    id="theRdv" name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/list"><method id="laListePraticien"
                             name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/add"><method id="creerUnPraticien"
@@ -97,11 +103,6 @@
                             mediaType="application/json"
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/{idPraticien: \d+}"><param name="idPraticien"
-                    style="template" type="xs:int"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="theRdv" name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/mod"><method id="modifieUnPraticien"
                             name="PUT"><request><ns2:representation
@@ -129,15 +130,16 @@
                     id="renouvellementPwd"
                             name="POST"><response><representation
             mediaType="*/*"/></response></method></resource></resource><resource
-                path="/email"><resource path="/sendpraticiens"><method
+                path="/email"><resource path="/sendclients"><method
+                    id="envoyerEMailClients"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/sendpraticiens"><method
                     id="envoyerEMailPraticiens"
                             name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/sendclientsrgpd"><method
                     id="envoyerEMailClientFormValidation"
-                            name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/sendclients"><method id="envoyerEMailClients"
                             name="GET"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
                 path="/prestation"><resource
@@ -153,15 +155,14 @@
                     path="/listph"><method id="laListePrestationHomme"
                             name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/listpf"><method id="laListePrestationFemme"
-                            name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/searchga/{genre},{activite}"><param
+                    path="searchgas/{genre},{activite},{soin}"><param
                     name="activite" style="template" type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
+                    name="soin" style="template" type="xs:string"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
                     name="genre" style="template" type="xs:string"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="laListePrestationCriteresGA"
+                    id="laListePrestationCriteresGAS"
                             name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/add"><method id="creerUnePrestation"
@@ -184,14 +185,15 @@
                     id="supprimerUnePrestation"
                             name="DELETE"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="searchgas/{genre},{activite},{soin}"><param
+                    path="/searchga/{genre},{activite}"><param
                     name="activite" style="template" type="xs:string"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
-                    name="soin" style="template" type="xs:string"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
                     name="genre" style="template" type="xs:string"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="laListePrestationCriteresGAS"
+                    id="laListePrestationCriteresGA"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/listpf"><method id="laListePrestationFemme"
                             name="GET"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
                 path="/testmailutilisateur"><resource
@@ -209,9 +211,6 @@
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/list"><method id="laListe"
-                            name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
                     path="/del/{idAdresse: \d+}"><param name="idAdresse"
                     style="template" type="xs:int"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
@@ -222,6 +221,9 @@
                     style="template" type="xs:int"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
                     id="theRdv" name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/list"><method id="laListe"
+                            name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/mod"><method id="modifieUneAdresse"
                             name="PUT"><request><ns2:representation
@@ -243,12 +245,12 @@
                     id="verifyMailIsNotUsed"
                             name="GET"><response><representation
             mediaType="text/plain"/></response></method></resource></resource><resource
-                path="/sms"><resource path="/sendpraticiens"><method
-                    id="envoyerUnSmsRappelRdvPraticiens"
+                path="/sms"><resource path="/sendclients"><method
+                    id="envoyerUnSmsRappelRdvClient"
                             name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/sendclients"><method
-                    id="envoyerUnSmsRappelRdvClient"
+                    path="/sendpraticiens"><method
+                    id="envoyerUnSmsRappelRdvPraticiens"
                             name="GET"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
                 path="/renewpwd/"><resource
@@ -259,15 +261,22 @@
                     id="renewPwdUtilisateur"
                             name="POST"><response><representation
             mediaType="text/html"/></response></method></resource></resource><resource
-                path="/adresselieurdv"><resource
+                path="/adresselieurdv"><resource path="/list"><method
+                    id="laListeLieuRdv"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
                     path="/{idAdresseLieuRdv: \d+}"><param
                     name="idAdresseLieuRdv" style="template"
                     type="xs:int"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
                     id="theRdv" name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/list"><method id="laListeLieuRdv"
-                            name="GET"><response><representation
+                    path="/del/{idAdresse: \d+}"><param
+                    name="idAdresseLieuRdv" style="template"
+                    type="xs:int"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
+                    id="deleteTheAdresseLieuRdv"
+                            name="DELETE"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/add"><method id="creerUneadresseLieuRdv"
                             name="POST"><request><ns2:representation
@@ -283,13 +292,6 @@
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/del/{idAdresse: \d+}"><param
-                    name="idAdresseLieuRdv" style="template"
-                    type="xs:int"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="deleteTheAdresseLieuRdv"
-                            name="DELETE"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
                     path="/settonull/{idAdresse: \d+}"><param
                     name="idAdresseLieuRdv" style="template"
                     type="xs:int"
@@ -297,14 +299,14 @@
                     id="sesToNullUneadresseLieuRdv"
                             name="PUT"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
-                path="/lieurdv"><resource
+                path="/lieurdv"><resource path="/list"><method
+                    id="laListeLieuRdv"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
                     path="/{idLieuRdv: \d+}"><param name="idLieuRdv"
                     style="template" type="xs:int"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
                     id="theRdv" name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/list"><method id="laListeLieuRdv"
-                            name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/add"><method id="creerUnLieuRdv"
                             name="POST"><request><ns2:representation
@@ -338,9 +340,9 @@
                             name="pwd" style="query" type="xs:string"
                         xmlns:xs="http://www.w3.org/2001/XMLSchema"/></representation></request><response><representation
             mediaType="text/plain"/></response></method></resource><resource
-                path="/genre"><resource path="/mod"><method
-                    id="modifieUnGenre"
-                            name="PUT"><request><ns2:representation
+                path="/genre"><resource path="/add"><method
+                    id="creerUnGenre"
+                            name="POST"><request><ns2:representation
                             element="genre" mediaType="application/json"
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
@@ -357,21 +359,33 @@
                     id="supprimeUnGenre"
                             name="DELETE"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/add"><method id="creerUnGenre"
-                            name="POST"><request><ns2:representation
+                    path="/list"><method id="laListeGenre"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/mod"><method id="modifieUnGenre"
+                            name="PUT"><request><ns2:representation
                             element="genre" mediaType="application/json"
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/list"><method id="laListeGenre"
-                            name="GET"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
-                path="/rdv"><resource path="/mod"><method
-                    id="modifieUnRdv"
-                            name="PUT"><request><ns2:representation
-                            element="rdv" mediaType="application/json"
-                            xmlns:ns2="http://wadl.dev.java.net/2009/02"
-                            xmlns=""/></request><response><representation
+                path="/rdv"><resource
+                    path="/{dateA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{dateB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: //d+}"><param
+                    name="idPraticien" style="template" type="xs:int"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
+                    name="dateB" style="template" type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
+                    name="dateA" style="template" type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
+                    id="laListeRdvParplageDateParPraticien"
+                            name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/{idRdv: \d+}"><param name="idRdv"
+                    style="template" type="xs:int"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
+                    id="theRdv" name="GET"><response><representation
+                mediaType="application/json"/></response></method></resource><resource
+                    path="/list"><method id="laListe"
+                            name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/add"><method id="creerUnRdv"
                             name="POST"><request><ns2:representation
@@ -385,23 +399,11 @@
                     id="deleteTheRdv"
                             name="DELETE"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/list"><method id="laListe"
-                            name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/{idRdv: \d+}"><param name="idRdv"
-                    style="template" type="xs:int"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="theRdv" name="GET"><response><representation
-                mediaType="application/json"/></response></method></resource><resource
-                    path="/{dateA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{dateB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: //d+}"><param
-                    name="idPraticien" style="template" type="xs:int"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
-                    name="dateB" style="template" type="xs:string"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><param
-                    name="dateA" style="template" type="xs:string"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="laListeRdvParplageDateParPraticien"
-                            name="GET"><response><representation
+                    path="/mod"><method id="modifieUnRdv"
+                            name="PUT"><request><ns2:representation
+                            element="rdv" mediaType="application/json"
+                            xmlns:ns2="http://wadl.dev.java.net/2009/02"
+                            xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/pardate/{listeRdvDateDuJour: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}"><param
                     name="listeRdvDateDuJour" style="template"
@@ -434,12 +436,10 @@
                     id="laListeRdvParDateJJParPraticien"
                             name="GET"><response><representation
             mediaType="application/json"/></response></method></resource></resource><resource
-                path="/client"><resource
-                    path="/del/{idClient: \d+}"><param name="idClient"
-                    style="template" type="xs:int"
+                path="/client"><resource path="/{idClient: \d+}"><param
+                    name="idClient" style="template" type="xs:int"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="deleteTheClient"
-                            name="DELETE"><response><representation
+                    id="theClient" name="GET"><response><representation
                 mediaType="application/json"/></response></method></resource><resource
                     path="/mod"><method id="modifieUnClient"
                             name="PUT"><request><ns2:representation
@@ -458,7 +458,8 @@
                             xmlns:ns2="http://wadl.dev.java.net/2009/02"
                             xmlns=""/></request><response><representation
                 mediaType="application/json"/></response></method></resource><resource
-                    path="/{idClient: \d+}"><param name="idClient"
+                    path="/del/{idClient: \d+}"><param name="idClient"
                     style="template" type="xs:int"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/><method
-                    id="theClient" name="GET"><response><representation mediaType="application/json"/></response></method></resource></resource></resources></application>
+                    id="deleteTheClient"
+                            name="DELETE"><response><representation mediaType="application/json"/></response></method></resource></resource></resources></application>
