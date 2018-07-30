@@ -59,6 +59,7 @@ public class Client implements Serializable {
 	private String suscribedSmsReminder;
 	private String rgpdInfoClientValidation; // boolean T=true / f=false 
 	private Timestamp rgpdDateClientvalidation;
+	private String rgpdClientCanModifyRgpdSettings; // boolean T=true / f=false 
 
 	public Client() {
 		super();
@@ -68,7 +69,7 @@ public class Client implements Serializable {
 			String telMobileClient, Genre genreClient, AdresseClient adresse, String adresseMailClient,
 			Timestamp dateAnniversaireClient, String suscribedNewsLetter, String suscribedMailReminder,
 			String suscribedSmsRemider, String suscribedCommercials, String rgpdInfoClientValidation, 
-			Timestamp rgpdDateClientvalidation) {
+			Timestamp rgpdDateClientvalidation, String rgpdClientCanModifyRgpdSettings) {
 
 		super();
 		this.idClient = idClient;
@@ -85,7 +86,8 @@ public class Client implements Serializable {
 		this.suscribedSmsReminder = suscribedSmsRemider;
 		this.suscribedCommercials = suscribedCommercials;
 		this.rgpdInfoClientValidation = rgpdInfoClientValidation;
-		this.rgpdDateClientvalidation = rgpdDateClientvalidation; 
+		this.rgpdDateClientvalidation = rgpdDateClientvalidation;
+		this.rgpdClientCanModifyRgpdSettings = rgpdClientCanModifyRgpdSettings;
 
 	}
 
@@ -233,6 +235,15 @@ public class Client implements Serializable {
 		this.rgpdDateClientvalidation = rgpdDateClientvalidation;
 	}
 
+	@Column(name = "CLIENT_RGPDCLIENTCANMODIFYRGPDSETTINGS", nullable = true, length = 1)
+	public String getRgpdClientCanModifyRgpdSettings() {
+		return rgpdClientCanModifyRgpdSettings;
+	}
+
+	public void setRgpdClientCanModifyRgpdSettings(String rgpdClientCanModifyRgpdSettings) {
+		this.rgpdClientCanModifyRgpdSettings = rgpdClientCanModifyRgpdSettings;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -250,8 +261,10 @@ public class Client implements Serializable {
 				.append("suscribedSmsReminder", this.suscribedSmsReminder)
 				.append("suscribedCommercials", this.suscribedCommercials)
 				.append("rgpdInfoClientValidation", this.rgpdInfoClientValidation)
-				.append("rgpdDateClientvalidation", this.rgpdDateClientvalidation).build();
-
+				.append("rgpdDateClientvalidation", this.rgpdDateClientvalidation)
+				.append("rgpdClientCanModifyRgpdSettings", this.rgpdClientCanModifyRgpdSettings)				
+				.build();
+		
 	}
 
 	@Override
@@ -271,8 +284,9 @@ public class Client implements Serializable {
 		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
 		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
 		result = prime * result + ((suscribedCommercials == null) ? 0 : suscribedCommercials.hashCode());
-		result = prime * result + ((rgpdInfoClientValidation == null) ? 0 : rgpdInfoClientValidation.hashCode());
+		result = prime * result + ((rgpdInfoClientValidation == null) ? 0 : rgpdInfoClientValidation.hashCode());		
 		result = prime * result + ((rgpdDateClientvalidation == null) ? 0 : rgpdDateClientvalidation.hashCode());
+		result = prime * result + ((rgpdClientCanModifyRgpdSettings == null) ? 0 : rgpdClientCanModifyRgpdSettings.hashCode());		
 		return result;
 	}
 
@@ -300,6 +314,7 @@ public class Client implements Serializable {
 				.append(this.suscribedCommercials, autre.suscribedCommercials)
 				.append(this.rgpdInfoClientValidation, autre.rgpdInfoClientValidation)
 				.append(this.rgpdDateClientvalidation, autre.rgpdDateClientvalidation)
+				.append(this.rgpdClientCanModifyRgpdSettings, autre.rgpdClientCanModifyRgpdSettings)				
 				.build();
 
 	}

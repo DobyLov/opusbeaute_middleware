@@ -39,7 +39,9 @@ public class Roles implements Serializable {
 		super();
 	}
 	
-	public Roles (Integer idRoles, String roles) {		
+	public Roles (Integer idRoles, String roles) {	
+		
+		super();
 		this.idRoles = idRoles;
 		this.roles = roles;
 	}

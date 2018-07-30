@@ -9,6 +9,7 @@ fr.labonbonniere.opusbeaute.middleware.objetmetier.lieurdv
 fr.labonbonniere.opusbeaute.middleware.objetmetier.praticien
 fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations
 fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv
+fr.labonbonniere.opusbeaute.middleware.objetmetier.rgpd
 fr.labonbonniere.opusbeaute.middleware.objetmetier.roles
 fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs
 fr.labonbonniere.opusbeaute.middleware.service.adresse

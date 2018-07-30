@@ -627,6 +627,16 @@ public class ClientService {
 
 		}
 		
+		if (client.getRgpdClientCanModifyRgpdSettings() != null) {
+			if (client.getRgpdClientCanModifyRgpdSettings().contains("f")) {
+				client.setRgpdClientCanModifyRgpdSettings("F");
+			} else if (client.getRgpdClientCanModifyRgpdSettings().contains("t")) {
+				client.setRgpdClientCanModifyRgpdSettings("T");
+			}
+		} else {
+			client.setRgpdClientCanModifyRgpdSettings("F");
+		}
+		
 
 
 		return client;

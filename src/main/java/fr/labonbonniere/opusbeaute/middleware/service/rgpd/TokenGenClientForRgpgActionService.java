@@ -16,9 +16,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Stateless
-public class TokenGenClientForRgpgAction {
+public class TokenGenClientForRgpgActionService {
 	
-	static final Logger logger = LogManager.getLogger(TokenGenClientForRgpgAction.class.getSimpleName());
+	static final Logger logger = LogManager.getLogger(TokenGenClientForRgpgActionService.class.getSimpleName());
 
 
 	public String tokenGenForclientRgpdAction(Client client) throws UnsupportedEncodingException {
@@ -30,7 +30,7 @@ public class TokenGenClientForRgpgAction {
 
 		// Definition du temps de validite du token
 //		long ttlMillis = ((60 * 1000) * 60) * 3; // 1minute = 60 000 milisecondes 
-		long ttlMillis = ((60 * 1000) * 20); //reduction à 1 min pour les tests
+		long ttlMillis = ((60 * 1000) * 20); // 20 min
 		logger.info("TokenGenClientForRgpgAction log : Validite du token : " + ttlMillis);
 
 		// definition de la date du jour
@@ -55,6 +55,7 @@ public class TokenGenClientForRgpgAction {
 				.claim("idClient", client.getIdClient())
 				.claim("prenom", client.getPrenomClient())
 				.claim("email", client.getAdresseMailClient())
+				.claim("role", "RGPDCLIENT")
 				.setIssuedAt(now)
 				.setExpiration(exp)
 				.signWith(signatureAlgorithm, apiKeySecretBytes);

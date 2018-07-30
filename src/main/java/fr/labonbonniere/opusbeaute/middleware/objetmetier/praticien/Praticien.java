@@ -49,7 +49,7 @@ public class Praticien implements Serializable {
 
 	public Praticien(Integer idPraticien, String nomPraticien, String prenomPraticien, String teleMobilePraticien,
 			String adresseMailPraticien, String suscribedSmsReminder, String suscribedMailReminder) {
-
+		super();
 		this.idPraticien = idPraticien;
 		this.nomPraticien = nomPraticien;
 		this.prenomPraticien = prenomPraticien;

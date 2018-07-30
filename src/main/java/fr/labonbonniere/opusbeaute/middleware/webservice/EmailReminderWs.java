@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderClientService;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.SendMailReminderPraticienService;
-import fr.labonbonniere.opusbeaute.middleware.service.rgpd.SendMailClientRgpdService;
+import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdService;
 
 /**
  * Gere l envoi d email de rappel 
@@ -42,7 +42,7 @@ public class EmailReminderWs {
 	private SendMailReminderPraticienService sendmailreminderpraticien;
 	
 	@EJB
-	private SendMailClientRgpdService sendmailclientrgpdservice;
+	private RgpdService rgpdservice;
 	
 	/**
 	 * Envoi d un Email rappel de Rdv
@@ -118,7 +118,7 @@ public class EmailReminderWs {
 		
 		try {
 			
-			sendmailclientrgpdservice.rgpdClientFormValidationResponse();
+			rgpdservice.rgpdClientFormValidationResponse();
 			logger.info("EmailReminderClientWs log : Fin de procedure d Envoi Email Client RGPD Formulaire via TriggerWS terminee.");
 			builder = Response.ok();
 			

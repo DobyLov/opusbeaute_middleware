@@ -61,6 +61,7 @@ public class Utilisateur implements Serializable {
 			Roles roles, String isLogged, String suscribedSmsReminder, String suscribedMailReminder,
 			Timestamp pwdExpirationDateTime) {
 
+		super();
 		this.idUtilisateur = idUtilisateur;
 		this.nomUtilisateur = nomUtilisateur;
 		this.prenomUtilisateur = prenomUtilisateur;

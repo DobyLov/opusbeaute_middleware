@@ -41,7 +41,7 @@ public class Genre implements Serializable {
 	}
 
 	public Genre(Integer idGenre, String genreHum) {
-
+		super();
 		this.idGenre = idGenre;
 		this.genreHum = genreHum;
 

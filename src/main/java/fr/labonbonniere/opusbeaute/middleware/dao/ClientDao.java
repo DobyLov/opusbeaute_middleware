@@ -168,7 +168,7 @@ public class ClientDao {
 	 * @return client Client
 	 * @throws ClientInexistantException Exception
 	 */
-	public Client retrouveUnClientViaEmail(String email) throws ClientInexistantException{
+	public Client retrouveUnClientViaEmail(String email) throws ClientInexistantException {
 		
 		try {
 			logger.info("ClientDao log : Recherche de Client Via une adresseEmail.");

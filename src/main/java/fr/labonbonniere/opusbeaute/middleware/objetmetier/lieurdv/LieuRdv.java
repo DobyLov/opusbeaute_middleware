@@ -50,7 +50,7 @@ public class LieuRdv implements Serializable {
 	}
 
 	public LieuRdv(Integer idLieuRdv, String lieurRdv, AdresseLieuRdv adresseLieuRdv) {
-
+		super();
 		this.idLieuRdv = idLieuRdv;
 		this.lieuRdv = lieurRdv;
 		this.adresseLieuRdv = adresseLieuRdv;
