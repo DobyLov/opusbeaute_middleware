@@ -30,7 +30,7 @@ public class LoginService {
 	UtilisateurService utilisateurService;
 
 	@EJB
-	TokenGenService tokengen;
+	TokenService tokengen;
 
 	@EJB
 	PasswordHandlerService passwordHandlerService;

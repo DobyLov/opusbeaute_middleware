@@ -70,7 +70,7 @@ public class RgpdWs {
 	 * @param rgpdIdClient Integer
 	 * @param rgpdPrenomClient String
 	 * @param rgpdEmailClient String
-	 * @return response
+	 * @return response Response
 	 * @throws Exception Exception
 	 */
 	@SecuApp
@@ -81,7 +81,7 @@ public class RgpdWs {
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response askForANewRgpdClientToken(@QueryParam("rgpdIdClient") final Integer rgpdIdClient,
 										@QueryParam("rgpdPrenomClient") String rgpdPrenomClient,
-										@QueryParam("rgpdEmailClient") final String rgpdEmailClient) throws Exception, ClientInexistantException {
+										@QueryParam("rgpdEmailClient") final String rgpdEmailClient) throws Exception {
 		
 		logger.info("RgpdWs log : Demande une nouvelle URL avec token pour modif Rgpd settings.");
 		Response.ResponseBuilder builder = null;
@@ -89,6 +89,7 @@ public class RgpdWs {
 		String decode = URLDecoder.decode(rgpdPrenomClient, "UTF-8");
 		logger.info("Rgpd log : String codee : " + rgpdPrenomClient);
 		logger.info("Rgpd log : String decodee : " + decode);
+		
 		
 		if (this.checkIfIntgerIsNotMoreBiggerThan4Digit(rgpdIdClient) == true) {
 			
@@ -136,7 +137,7 @@ public class RgpdWs {
 	 * Recupere les informations rgpd
 	 * 	
 	 * @param rgpdEmailClient String
-	 * @return Rgpd
+	 * @return rgpd Rgpd
 	 * @throws RgpdException Exception
 	 * @throws Exception Exception
 	 */

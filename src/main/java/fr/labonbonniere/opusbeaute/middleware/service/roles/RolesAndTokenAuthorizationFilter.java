@@ -2,9 +2,9 @@ package fr.labonbonniere.opusbeaute.middleware.service.roles;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Date;
 
 import javax.annotation.Priority;
+import javax.ejb.EJB;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -15,15 +15,15 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.server.ContainerException;
 
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
-import fr.labonbonniere.opusbeaute.middleware.service.authentification.Clee;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenExpiredException;
-import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenInvalideException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenRoleInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenService;
+import fr.labonbonniere.opusbeaute.middleware.service.authentification.TokenSignatureInvalidException;
 
 /**
  * Filtre l acces aux methode
@@ -45,6 +45,9 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 
 	@Context
 	private ResourceInfo resourceInfo;
+	
+	@EJB
+	private TokenService tokenservice;
 
 	/**
 	 * Methode qui declanche 
@@ -57,7 +60,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 		logger.info("RolesAuthorizationFilter log : Check des Roles Utilisateur sur la classe et Methode");
 		try {
 			checkAnnotation(requestContext);
-		} catch (TokenInvalideException e) {
+		} catch (TokenInvalidException e) {
 			logger.info("RolesAuthorizationFilter Exception : Probleme de token");
 		} catch (TokenExpiredException e) {
 			logger.info("RolesAuthorizationFilter Exception : Token Expire");
@@ -70,11 +73,11 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 	 * du WebService a l origine de l appel de la ressource
 	 * 
 	 * @param requestContext RequestContext
-	 * @throws TokenInvalideException Exception
+	 * @throws TokenInvalidException Exception
 	 * @throws TokenExpiredException Exception
 	 */
 	private void checkAnnotation(ContainerRequestContext requestContext)
-			throws TokenInvalideException, TokenExpiredException {
+			throws TokenInvalidException, TokenExpiredException {
 
 		Class<?> methodOnClass = resourceInfo.getResourceClass();
 		Method method = resourceInfo.getResourceMethod();
@@ -167,7 +170,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 
 				}
 
-				String userRole = gettingUserroleInToken(requestContext);
+				String userRole = gettingUserRoleInToken(requestContext);
 				for (Integer k = 0; k < numbersOfRolesOnClass; k++) {
 
 					if (defineUserRoleOnClass[k].trim().matches(userRole)) {
@@ -241,7 +244,7 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 
 			}
 			logger.info("RolesAuthorizationFilter log : dernier boucle4");
-			String userRole = gettingUserroleInToken(requestContext);
+			String userRole = gettingUserRoleInToken(requestContext);
 			for (Integer j = 0; j < numbersOfRolesOnMethod; j++) {
 				if (defineUserRoleOnMethod[j].trim().matches(userRole)) {
 					logger.info("RolesAuthorizationFilter log : Role sur Methode detecte : " + defineUserRoleOnMethod[j]);
@@ -267,113 +270,85 @@ public class RolesAndTokenAuthorizationFilter implements ContainerRequestFilter 
 	private void refuseRequest(ContainerRequestContext requestContext) {
 		logger.error("RolesAuthorisationFilter log : Acces refuse !!!!");
 		requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+		
 	}
 
 	/**
 	 * Recupere le Role utilisateur 
 	 * dans le Token JWT
 	 * 
-	 * @param requestContext RequestContext
+	 * @param reqCtx ContainerRequestContext
 	 * @return String
+	 * @throws RoleInexistantException Exception
+	 * @throws TokenInvalidException Exception
 	 */
-	private String gettingUserroleInToken(ContainerRequestContext requestContext) {
-
-		logger.info("RolesAuthorizationFilter log : Filtrage du Token :");
-
+	private String gettingUserRoleInToken(ContainerRequestContext reqCtx) throws RoleInexistantException, TokenInvalidException {
+		
+		String token = this.reqCtxTokenextractor(reqCtx);
+		String userRoleExtracted = tokenservice.roleExtractorFromToken(token);
+		logger.info("RolesAuthorizationFilter log : Recuperation Token userRole : " + userRoleExtracted);
+		return userRoleExtracted;
+		
+	}
+	
+	/**
+	 * Extrait le Token du Header de la requete
+	 * @param reqCtx ContainerRequestContext
+	 * @return String
+	 * @throws ContainerException Exception
+	 */
+	private String reqCtxTokenextractor(ContainerRequestContext reqCtx) throws ContainerException {
+		logger.info("RolesAuthorizationFilter log : Extraction du Token dans le Header de la requete :");
 		final String AUTHENTICATION_SCHEME = "Bearer";
-		String sClee = new Clee().getCleeDuToken();
 
-		String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-		String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
-		Jws<Claims> parsToken = Jwts.parser().setSigningKey(sClee).parseClaimsJws(token);
-		String userRole = (String) parsToken.getBody().get("role");
-
-		if (userRole.isEmpty()) {
-			logger.info("RolesAuthorizationFilter log : Probleme de Token userRole non defini :( .");
-			refuseRequest(requestContext);
-		} else {
-			logger.info("RolesAuthorizationFilter log : Recuperation Token userRole : " + userRole);
+		try {
+			logger.info("RolesAuthorizationFilter log : verification du Header");
+			if (reqCtx.getHeaders().isEmpty() ) {
+				logger.error("RolesAuthorizationFilter log : Header isEmpty:");
+				throw new ContainerException("RolesAuthorizationFilter Exception : le container a un Header vide");
+			}
+			
+			String authorizationHeader = reqCtx.getHeaderString(HttpHeaders.AUTHORIZATION);
+			logger.info("RolesAuthorizationFilter log : Header.Authorization : " + authorizationHeader);
+			
+			String tokenExtracted = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();			
+			logger.info("RolesAuthorizationFilter log : Token Extrait : " + tokenExtracted);
+			
+			return tokenExtracted;
+			
+		} catch (ContainerException message) {
+			throw new ContainerException("RolesAuthorizationFilter Exception : le container a un Header HS");
 		}
-
-		return userRole;
+		
 	}
 
 	/**
 	 * Retourne si la Token est Valide
 	 * 
 	 * @param requestContext Requestcontext
-	 * @return bollean
+	 * @return Boolean
 	 * @throws TokenExpiredException Exception
-	 * @throws TokenInvalideException Exception
+	 * @throws TokenInvalidException Exception
+	 * @throws TokenRoleInvalidException Exception
+	 * @throws TokenSignatureInvalidException Exception
+	 * @throws ContainerException Exception
 	 */
-	private boolean tokenIsValid(ContainerRequestContext requestContext)
-			throws TokenExpiredException, TokenInvalideException {
+	private boolean tokenIsValid(ContainerRequestContext requestContext) throws TokenExpiredException, TokenInvalidException, ContainerException, TokenSignatureInvalidException, TokenRoleInvalidException {
 
-		String sClee = new Clee().getCleeDuToken();
-		final String AUTHENTICATION_SCHEME = "Bearer";
-
-		logger.info("RolesAuthorizationFilter log : Validation du Token :");
+		logger.info("RolesAuthorizationFilter log : Procedure de Validation du Token :");
+		
 		try {
-
-			String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-			String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
-			Jws<Claims> parsToken = Jwts.parser().setSigningKey(sClee).parseClaimsJws(token);
-			logger.info("RolesAuthorizationFilter log : Etape 1/2 Signature Token Valide");
-
-			Date expirationDateToken = parsToken.getBody().getExpiration();
-			boolean tknDateIsValid = tknExpirationDateChecker(expirationDateToken);
 			
-			String userRole = gettingUserroleInToken(requestContext);
-
-			if (!tknDateIsValid == false) {
-
-				logger.error("RolesAuthorizationFilter log : Token InValide :(" + tknDateIsValid);
-				refuseRequest(requestContext);
-				throw new TokenInvalideException("RolesAuthorizationFilter Exception :Token Invalide :( ");
+			if (!tokenservice.checkTokenValidity(this.reqCtxTokenextractor(requestContext))) {
+				this.refuseRequest(requestContext);
 			}
 			
-			if (userRole.isEmpty()) {
-				logger.error("RolesAuthorizationFilter log : Token InValide L userRole n est pas defini ." + tknDateIsValid);
-				refuseRequest(requestContext);
-				throw new TokenInvalideException("RolesAuthorizationFilter Exception :Token InValide L userRole n est pas defini :( ");
-			}
-
-			logger.info("RolesAuthorizationFilter log : Etape 2/2 Date Token Valide");
 			return true;
-
-		} catch (Exception e) {
-			logger.error("RolesAuthorizationFilter log : Token InValide :(");
-			refuseRequest(requestContext);
-			throw new TokenInvalideException("RolesAuthorizationFilter Exception : Token Invalide :( ");
+			
+		} catch (TokenInvalidException message) {
+			logger.error("RolesAuthorizationFilter log : Token InValide :(");			
+			throw new TokenInvalidException("RolesAuthorizationFilter Exception : Token Invalide :( ");
 		}
-	}
-
-	/**
-	 * Verifie si le Token est expire
-	 * 
-	 * @param expirationDateToken Date
-	 * @return boolean
-	 * @throws TokenExpiredException Exception
-	 */
-	private boolean tknExpirationDateChecker(Date expirationDateToken) throws TokenExpiredException {
-
-		System.currentTimeMillis();
-		boolean isExpired = true;
-		Date now = new Date();
-		logger.info("RolesAuthorizationFilter log : ExpirationToken DateNowToInstant : " + now);
-		logger.info("RolesAuthorizationFilter log : ExpirationToken DateExpirationToInstant : " + expirationDateToken);
-		if (now.toInstant().isAfter(expirationDateToken.toInstant())) {
-			logger.error("RolesAuthorizationFilter log : La date de validite du token a expiree");
-			isExpired = true;
-			throw new TokenExpiredException(
-					"RolesAuthorizationFilter Exception :  La date de validite du token a expiree");
-
-		} else {
-			logger.info("RolesAuthorizationFilter log : La date de validite du token est ok");
-			isExpired = false;
-		}
-
-		return isExpired;
 
 	}
 
