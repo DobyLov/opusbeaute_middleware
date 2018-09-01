@@ -16,10 +16,10 @@ public class Rgpd {
 	private String rgpdCliPrenom;
 	private String rgpdCliEmail;
 	private String rgpdCliToken;
-	private String rgpdSubsComm;
-	private String rgpdSubsNLetter;
-	private String rgpdSubsMailRem;
-	private String rgpdSubsSmsRem;
+	private String rgpdSubsComm; // boolean T=true / f=false 
+	private String rgpdSubsNLetter; // boolean T=true / f=false 
+	private String rgpdSubsMailRem; // boolean T=true / f=false 
+	private String rgpdSubsSmsRem;	// boolean T=true / f=false 
 	private String rgpdInfoCliVal; // boolean T=true / f=false 
 	private Timestamp rgpdDateCliVal;
 	private String rgpdCliCanModifyRgpdSettings; // boolean T=true / f=false 

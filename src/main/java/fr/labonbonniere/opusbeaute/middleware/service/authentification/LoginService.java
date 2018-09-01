@@ -30,7 +30,7 @@ public class LoginService {
 	UtilisateurService utilisateurService;
 
 	@EJB
-	TokenService tokengen;
+	TokenService tokenservice;
 
 	@EJB
 	PasswordHandlerService passwordHandlerService;
@@ -179,7 +179,7 @@ public class LoginService {
 			// The issued token must be associated to a user
 			// Return the issued token
 			logger.error("LoginService log : Tentive de creation du JWT");
-			token = tokengen.CreationDuJWT(idUtilisateur, prenomUtilisateur, emailUtilisateur, roleUtilisateur);
+			token = tokenservice.CreationDuJWT(idUtilisateur, prenomUtilisateur, emailUtilisateur, roleUtilisateur);
 			// logger.info("LoginService log : Token genere =>" +
 			// token.toString());
 

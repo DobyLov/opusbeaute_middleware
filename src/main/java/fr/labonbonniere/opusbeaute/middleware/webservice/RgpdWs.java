@@ -10,7 +10,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -141,16 +140,16 @@ public class RgpdWs {
 	 * @throws RgpdException Exception
 	 * @throws Exception Exception
 	 */
-	@SecuApp
-	@DefineUserRole({"RGPD"})
+//	@SecuApp
+//	@DefineUserRole({"RGPDCLIENT"})
 	@GET	
-	@Path("/{rgpdEmailClient}")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response getRgpdClientSettings(@PathParam("rgpdEmailClient") final String rgpdEmailClient) throws RgpdException, Exception {
+	public Response getRgpdClientSettings(@QueryParam("rgpdEmailClient") final String rgpdEmailClient) throws RgpdException, Exception {
 //		check email format
 //		Retourne Rgdpsetting objet
-		
+		logger.info("RgpdWs log : Demande le Rgpd settings de lutilisateur");
 		Response.ResponseBuilder builder = null;
 		
 		if (!this.checkIfMailFormatIsCorrect(rgpdEmailClient)){
@@ -162,12 +161,12 @@ public class RgpdWs {
 		try {
 			
 			Rgpd rgpd = rgpdservice.getRgpdClientSettings(rgpdEmailClient);
+			logger.info("RgpdWs log : Les reglages Rgpd du client sont recuperes");
 			builder = Response.ok(rgpd);
 			
-		} catch (RgpdException message) {
-			builder = Response.status(400);
+		} catch (RgpdException message) {			
 			logger.error("RgpdWs Exception : il y a un probleme avec le format de l email du client");
-			
+			builder = Response.status(400);
 		}
 		
 		return builder.build();
@@ -195,23 +194,29 @@ public class RgpdWs {
 	 * @throws RgpdException Exception
 	 */
 	@SecuApp
-	@DefineUserRole({"RGPD"})
+	@DefineUserRole({"RGPDCLIENT"})
 	@PUT
-	@Path("/mod")
+	@Path("/updatesettings/")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateRgpdClientSettings(Rgpd rgpd) throws ClientInexistantException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, 
 				NbCharPaysException, NbCharPrenomException, NbCharNomException, NbCharTsAniversaireException, 
 				NbCharTelException, EmailFormatInvalidException, GenreInvalideException, DaoException, GenreClientNullException, 
 				RgpdException {
-		
+		logger.info("RgpdWs log : Modifications des Reglages Rgpd");
+		logger.info("RgpdWs log : Modifications des Reglages Rgpd" 
+				+ rgpd.toString().trim());
 		Response.ResponseBuilder builder = null;
 		
 		try {
 			
-			rgpdservice.setRgpdClientsettings(rgpd);
-			builder = Response.ok();
+			rgpdservice.setRgpdClientSettings(rgpd);
+			logger.info("RgpdWs log : Le nouveaux reglege sont sauvegardes");
+			builder = Response.ok(rgpd);
 		} catch (RgpdException message) {
+			logger.error("RgpdWs log : il y a eu un probleme lors de la sauvegrade des Rgpd Settings");
 			builder = Response.serverError();
-			throw new RgpdException("RgpdWs Exception : ");
+			throw new RgpdException("RgpdWs Exception : Probleme de modifications des RGPD settings");
 		}
 		
 		return builder.build();

@@ -260,7 +260,7 @@ public class RgpdService {
 	 * @throws URISyntaxException Exception
 	 */
 	public void rgpdClientAskForANewValidToken(Integer rgpdIdClient, String rgpdEmailClient, String rgpdPrenomClient) throws ClientInexistantException, RgpdException, UnsupportedEncodingException, MalformedURLException, URISyntaxException {
-		
+		logger.info("RgpdService log : Demande d un nouveau lien Rgpd pour le Clien");
 		try {
 			
 			// recupere le client par son email
@@ -295,7 +295,7 @@ public class RgpdService {
 	 * @throws ClientInexistantException Exception
 	 */
 	public Rgpd getRgpdClientSettings(String rgpdEmailClient) throws RgpdException, ClientInexistantException {
-
+		logger.info("RgpdService log : Recuperation des Reglages Rgpd du Client");
 		try {
 			
 			Client client = clientservice.recupererUnClientParEmail(rgpdEmailClient);
@@ -312,6 +312,7 @@ public class RgpdService {
 	 * Defini les parametres Rgpd du client
 	 * 
 	 * @param rgpd Rgpd
+	 * @return rgpd Rgpd
 	 * @throws ClientInexistantException Exception
 	 * @throws NbNumRueException Exception
 	 * @throws NbCharRueVilleException Exception
@@ -327,19 +328,22 @@ public class RgpdService {
 	 * @throws GenreClientNullException Exception
 	 * @throws RgpdException Exception
 	 */
-	public void setRgpdClientsettings(Rgpd rgpd) throws ClientInexistantException, NbNumRueException, 
+	public Rgpd setRgpdClientSettings(Rgpd rgpd) throws ClientInexistantException, NbNumRueException, 
 	NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException, NbCharPrenomException, 
 	NbCharNomException, NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException, 
 	GenreInvalideException, DaoException, GenreClientNullException, RgpdException {
 		
+		logger.info("RgpdService log : modification de reglages Rgpd du client");
 		try {
 			
 			Client client = clientservice.recupererUnClientParEmail(rgpd.getRgpdCliEmail());
 			client = this.rgpdObjectToClientBddSettings(client, rgpd);
 			clientservice.modifDuClient(client);
-			
+			logger.info("RgpdService log : modification des reglage Rgpd Ok");
+			return rgpd;
 		} catch (ClientInexistantException message) {
-			throw new RgpdException("RgpdService Exception :");
+			logger.error("RgpdService log : Les reglages Rgpd du client n ont pas etes persistes");
+			throw new RgpdException("RgpdService Exception : Les reglages Rgpd du client n ont pas etes persistes");
 		}
  	}
 	
@@ -352,7 +356,7 @@ public class RgpdService {
 	 * @return Client
 	 */
 	private Client rgpdObjectToClientBddSettings(Client client, Rgpd rgpd) {
-		
+		logger.info("RgpdService log : map Rgpd RgpdClient to Client");
 		client.setRgpdClientCanModifyRgpdSettings(rgpd.getRgpdCliCanModifyRgpdSettings());
 		client.setRgpdDateClientvalidation(tsjj);
 		client.setRgpdInfoClientValidation("T");
@@ -375,6 +379,7 @@ public class RgpdService {
 	 */
 	private Rgpd clientBddRgpdSettingToRgpdObject(Client client) throws RgpdException {
 		// genere une nouvelle instance de Rgpd
+		logger.info("RgpdService log : map RgpdClient to rgpdobject");
 		Rgpd rgpd = new Rgpd();
 		
 		// Map les informations entre le client et l objet insancie
@@ -443,7 +448,7 @@ public class RgpdService {
 	 * @throws UnsupportedEncodingException Exception
 	 */
 	private String getFreshToken(Client client) throws UnsupportedEncodingException {
-
+		logger.info("RgpdService log : Recuperation d un token pour le lien Rgpd");
 		String tokenRgpd = tokengenclientforrgpdactionservice.tokenGenForclientRgpdAction(client);
 
 		return tokenRgpd;
@@ -461,7 +466,7 @@ public class RgpdService {
 	 * @throws URISyntaxException Exception 
 	 */
 	private String urlConstructor(String token) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
-		
+		logger.info("RgpdService log : construction de l url Rgpd avec le token"); 
 		
 		URIBuilder ub = new URIBuilder().setScheme(schema).setHost(host).setPort(port).setPath(path).addParameter("tkn", token);
 		String urlToString = ub.build().toString();

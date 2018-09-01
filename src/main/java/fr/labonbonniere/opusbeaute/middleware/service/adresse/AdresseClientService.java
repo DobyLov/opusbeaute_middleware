@@ -33,7 +33,7 @@ public class AdresseClientService {
 	/**
 	 * Retourne la liste des AdressesClient
 	 * 
-	 * @return List
+	 * @return lalisteadresse List
 	 * @throws DaoException Exception
 	 */
 	public List<AdresseClient> recupereListeAdresse() throws DaoException {
@@ -55,7 +55,7 @@ public class AdresseClientService {
 	 * Recupere une Adresseclient Persistee
 	 * 
 	 * @param idAdresse Integer
-	 * @return AdresseClient
+	 * @return adresse AdresseClient
 	 * @throws AdresseInexistanteException Exception
 	 */
 	public AdresseClient recupererUneAdresse(final Integer idAdresse) throws AdresseInexistanteException {
