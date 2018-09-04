@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -108,7 +109,7 @@ public class ClientWs {
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("ClientWs log - Demande a la bdd le Client id :  " + idClient);
-			Client client = clientservice.recupererUnClient(idClient);
+			Client client = clientservice.recupererUnClientById(idClient);
 			logger.info("ClientWs log - Client demande " + client.getIdClient() + " transmis");
 			builder = Response.ok(client);
 
@@ -119,6 +120,35 @@ public class ClientWs {
 
 		return builder.build();
 	}
+	
+	/**
+	 * 
+	 * @param adresseMailClient String
+	 * @return Client client
+	 * @throws ClientInexistantException Exception
+	 */
+	@DefineUserRole({"ALLOWALL"})
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response theClientByMail(@QueryParam("adresseMailClient") String adresseMailClient) throws ClientInexistantException {
+		
+		Response.ResponseBuilder builder = null;
+		
+		try {
+			logger.info("ClientWs log - Demande a la bdd le Client via Email :  " + adresseMailClient);
+			Client client = clientservice.recupererUnClientParEmail(adresseMailClient);
+			logger.info("ClientWs log - Client email : " + client.getAdresseMailClient() + " recupere");
+			builder = Response.ok(client);
+			
+		} catch (ClientInexistantException message) {
+			logger.error("ClientWs log - Client email : " + adresseMailClient + " non inexistant");
+			throw new ClientInexistantException("ClientWs Exception - Client email : " + adresseMailClient + " non inexistant");
+			
+		}
+		
+		return builder.build();
+	}
+
 	/**
 	 * Ajoute un Client 
 	 *  

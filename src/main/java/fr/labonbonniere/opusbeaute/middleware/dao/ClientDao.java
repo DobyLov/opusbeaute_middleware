@@ -77,10 +77,10 @@ public class ClientDao {
 	 * Retourne le Client demande par son Id
 	 * 
 	 * @param idClient Integer 
-	 * @return Client
+	 * @return Client client
 	 * @throws ClientInexistantException Exception
 	 */
-	public Client obtenirClient(final Integer idClient) throws ClientInexistantException {
+	public Client obtenirClientByID(final Integer idClient) throws ClientInexistantException {
 
 		logger.info("ClientDAO log : Demande a la bdd le client id : " + idClient);
 		Client client = null;
@@ -96,6 +96,35 @@ public class ClientDao {
 		return client;
 
 	}
+	
+	/**
+	 * Retourne le Client recherche par mail
+	 * 
+	 * @param adresseClient String
+	 * @return Cleint client
+	 * @throws ClientInexistantException Exception
+	 */
+	public Client obtenirClientByMail(final String adresseClient) throws ClientInexistantException {
+		logger.info("ClientDAO log : Demande a la bdd le Client par adresse Mail : " + adresseClient);
+		Client client = null;
+		
+		logger.info("ClientDao log : Cherche le client avec le ");
+		String requeteCli = "SELECT c FROM Client c" 
+							+ " WHERE adresseClient = " + adresseClient;
+		TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
+		client = query.getSingleResult();
+		
+		if (Objects.isNull(client)) {
+			logger.error("ClientDAO log : Le Client Email : " + adresseClient + " est introuvable");
+			throw new ClientInexistantException(
+					"ClientDAO Exception : Le Client Email : " + adresseClient + " est introuvable dans la base");
+		
+		}
+		
+		logger.info("ClientDao log :  Envoi de la liste de Clients");
+		return client;
+			
+		}
 
 	/**
 	 * Persiste un nouveau Client

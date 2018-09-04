@@ -489,25 +489,36 @@ public class RgpdService {
 		
 		String customMailSubject = "La Bonbonnière d'Audrey : RGPD, vous informer sur la gestion de vos données personnelles.";
 
-		String customMessageDynamic = "<br><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+		String customMessageDynamic = ""
+				+ "<span align=" + '"' + "right" + '"' + "style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+				+ "<font color=gray><h3>Mail à conserver</h3></font></span><hr>"
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"				
 				+ "Bonjour " + client.getPrenomClient() + ",</span></p>"
+				
 				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 				+ "La Bonbonnière d'Audrey réalise sa tranformation digitale, <br>"
 				+ "cette démarche inclue d'informer sa clientèle sur la gestion / utilisation de vos donnees personnelles.<br>"
 				+ "La " + rgpdWikiUrl + " (wikipedia) est une description des actions à mêtre en oeuvre "
 				+ "pour garantir la sécurité et informer sur type d'usage de vos données.</span></p>"
+				
 				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-				+ "Afin d être au plus proche de vos souhaits, la Bonbonnière d'Audrey vous propose de choisir<br>"
+				+ "Afin d'être au plus proche de vos souhaits, la Bonbonnière d'Audrey vous propose de choisir<br>"
 				+ " les options d'usage de vos informations.<br>"
 				+ "Lien : "
 				+ "<a href="
 				+ '"'
 				+ urlRgpdLaBonbonniereDAudrey 
 				+ '"' 
-				+ ">La Bonbonnière d'Audrey RGPD</a></p>"
-				+ "<p style=\"font-size: 14.4px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-				+ "Cordialement,</span></p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-				+ "La Bonbonnière d'Audrey</span></p><p>&nbsp;</p>";
+				+ ">La Bonbonnière d'Audrey RGPD</a></span></p>"
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "Cordialement,<br>"
+				+ "La Bonbonnière d'Audrey</span></p>"
+				
+				+ "<hr><span align=" + '"' + "right" + '"' + "style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+				+ "<font color=gray><h3>Mail à conserver<h3></font>"
+				+ "</span>";
 
 		mailengine.moteurEmailEvoyer(customMessageDynamic, client.getAdresseMailClient(), customMailSubject);
 

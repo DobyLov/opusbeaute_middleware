@@ -140,8 +140,8 @@ public class RgpdWs {
 	 * @throws RgpdException Exception
 	 * @throws Exception Exception
 	 */
-//	@SecuApp
-//	@DefineUserRole({"RGPDCLIENT"})
+	@SecuApp
+	@DefineUserRole({"RGPDCLIENT"})
 	@GET	
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)

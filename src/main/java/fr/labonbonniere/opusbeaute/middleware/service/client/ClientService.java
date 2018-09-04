@@ -74,11 +74,11 @@ public class ClientService {
 	 * @return Client
 	 * @throws ClientInexistantException Exception
 	 */
-	public Client recupererUnClient(final Integer idClient) throws ClientInexistantException {
+	public Client recupererUnClientById(final Integer idClient) throws ClientInexistantException {
 
 		try {
 			logger.info("ClientService log : Demande a la bdd le Client id : " + idClient);
-			Client client = clientdao.obtenirClient(idClient);
+			Client client = clientdao.obtenirClientByID(idClient);
 			logger.info("ClientService log : Rdv id : " + idClient + " trouve, envoie de l objet Client a ClientWS");
 			return client;
 
