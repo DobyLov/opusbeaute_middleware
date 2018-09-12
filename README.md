@@ -1,8 +1,9 @@
 # ![](https://github.com/DobyLov/ob_IHM/blob/master/src/assets/Mini_4Git_OBLogoNoBkg.png) opusbeaute_middleware
 Est l'API, le Middlware du logiciel OpusBeaute.
 
-## Objectif de OpusBeauté
-Application de gestion clientelle en cosmétique. 
+## Objectif du logiciel OpusBeauté
+La mission du logiciel est d'augmenter la qualité de service des Rendez-Vous. Le vecteur d'amélioration est situé après la plannification d'un rendez-vous et intervient un jour avant le Rdv plannifié.
+Le système envoi la veille, un mail et / ou un SMS de rappel de Rendez-vous avec les informations liées à la prestation, le lieu de réalisation et le praticien(ne) 
  
 ### Fonctionnalités du middleware
 Le Middleware opusbeauté est l' API assurant la persistance des données dans une BDD et la mise à disposition de WebService REST avec une gestion des règles métier.  
