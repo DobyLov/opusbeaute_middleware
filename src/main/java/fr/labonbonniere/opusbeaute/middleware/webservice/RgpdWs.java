@@ -18,22 +18,22 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
+//import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.client.ClientInexistantException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
+//import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.GenreInvalideException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rgpd.Rgpd;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
-import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
-import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
-import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
-import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
+//import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharPaysException;
+//import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbCharRueVilleException;
+//import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumRueException;
+//import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeException;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
-import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
-import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTsAniversaireException;
-import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
-import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+//import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
+//import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
+//import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
+//import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTsAniversaireException;
+//import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
+//import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdException;
 import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdService;
 
@@ -178,20 +178,7 @@ public class RgpdWs {
 	 * 
 	 * @param rgpd Rgpd
 	 * @return Response
-	 * @throws ClientInexistantException Exception
-	 * @throws NbNumRueException Exception
-	 * @throws NbCharRueVilleException Exception
-	 * @throws NbNumZipcodeException Exception
-	 * @throws NbCharPaysException Exception
-	 * @throws NbCharPrenomException Exception
-	 * @throws NbCharNomException Exception
-	 * @throws NbCharTsAniversaireException Exception
-	 * @throws NbCharTelException Exception
-	 * @throws EmailFormatInvalidException Exception
-	 * @throws GenreInvalideException Exception
-	 * @throws DaoException Exception
-	 * @throws GenreClientNullException Exception
-	 * @throws RgpdException Exception
+	 * @throws Exception  Exception
 	 */
 	@SecuApp
 	@DefineUserRole({"RGPDCLIENT"})
@@ -199,10 +186,7 @@ public class RgpdWs {
 	@Path("/updatesettings/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateRgpdClientSettings(Rgpd rgpd) throws ClientInexistantException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, 
-				NbCharPaysException, NbCharPrenomException, NbCharNomException, NbCharTsAniversaireException, 
-				NbCharTelException, EmailFormatInvalidException, GenreInvalideException, DaoException, GenreClientNullException, 
-				RgpdException {
+	public Response updateRgpdClientSettings(Rgpd rgpd) throws Exception {
 		logger.info("RgpdWs log : Modifications des Reglages Rgpd");
 		logger.info("RgpdWs log : Modifications des Reglages Rgpd" 
 				+ rgpd.toString().trim());
@@ -211,7 +195,7 @@ public class RgpdWs {
 		try {
 			
 			rgpdservice.setRgpdClientSettings(rgpd);
-			logger.info("RgpdWs log : Le nouveaux reglege sont sauvegardes");
+			logger.info("RgpdWs log : Les nouveaux reglages sont sauvegardes");
 			builder = Response.ok(rgpd);
 		} catch (RgpdException message) {
 			logger.error("RgpdWs log : il y a eu un probleme lors de la sauvegrade des Rgpd Settings");

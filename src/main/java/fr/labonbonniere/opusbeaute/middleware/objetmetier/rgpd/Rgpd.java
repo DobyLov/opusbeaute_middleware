@@ -22,7 +22,8 @@ public class Rgpd {
 	private String rgpdSubsSmsRem;	// boolean T=true / f=false 
 	private String rgpdInfoCliVal; // boolean T=true / f=false 
 	private Timestamp rgpdDateCliVal;
-	private String rgpdCliCanModifyRgpdSettings; // boolean T=true / f=false 
+	private String rgpdCliCanModifyRgpdSettings; // boolean T=true / f=false
+	private String rgpdDemandeDeCorrectionInformations;
 
 
 	public Rgpd() {
@@ -32,7 +33,7 @@ public class Rgpd {
 
 	public Rgpd(Integer rgpdCliId, String rgpdCliPrenom, String rgpdCliEmail, String rgpdCliToken, String rgpdSubsComm,
 			String rgpdSubsNLetter, String rgpdSubsMailRem, String rgpdSubsSmsRem, String rgpdInfoCliVal,
-			Timestamp rgpdDateCliVal, String rgpdCliCanModifyRgpdSettings) {
+			Timestamp rgpdDateCliVal, String rgpdCliCanModifyRgpdSettings, String rgpdDemandeDeCorrectionInformations) {
 		
 		super();
 		this.rgpdCliId = rgpdCliId;
@@ -46,6 +47,7 @@ public class Rgpd {
 		this.rgpdInfoCliVal = rgpdInfoCliVal;
 		this.rgpdDateCliVal = rgpdDateCliVal;
 		this.rgpdCliCanModifyRgpdSettings = rgpdCliCanModifyRgpdSettings;
+		this.rgpdDemandeDeCorrectionInformations = rgpdDemandeDeCorrectionInformations;
 		
 	}
 
@@ -136,7 +138,16 @@ public class Rgpd {
 	public void setRgpdCliCanModifyRgpdSettings(String rgpdCliCanModifyRgpdSettings) {
 		this.rgpdCliCanModifyRgpdSettings = rgpdCliCanModifyRgpdSettings;
 	}
-	
+
+	public String getRgpdDemandeDeCorrectionInformations() {
+		return rgpdDemandeDeCorrectionInformations;
+	}
+
+
+	public void setRgpdDemandeDeCorrectionInformations(String rgpdDemandeDeCorrectionInformations) {
+		this.rgpdDemandeDeCorrectionInformations = rgpdDemandeDeCorrectionInformations;
+	}
+
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -156,6 +167,7 @@ public class Rgpd {
 				.append("rgpdSubsSmsRem", this.rgpdSubsSmsRem)
 				.append("rgpdDateCliVal", this.rgpdDateCliVal)
 				.append("rgpdCliCanModifyRgpdSettings", this.rgpdCliCanModifyRgpdSettings)
+				.append("rgpdDemandeDeCorrectionInformations", this.rgpdDemandeDeCorrectionInformations)
 				.build();
 	}
 	
@@ -175,6 +187,7 @@ public class Rgpd {
 		result = prime * result + ((rgpdInfoCliVal == null) ? 0 : rgpdInfoCliVal.hashCode());
 		result = prime * result + ((rgpdDateCliVal == null) ? 0 : rgpdDateCliVal.hashCode());
 		result = prime * result + ((rgpdCliCanModifyRgpdSettings == null) ? 0 : rgpdCliCanModifyRgpdSettings.hashCode());
+		result = prime * result +((rgpdDemandeDeCorrectionInformations == null ? 0 : rgpdDemandeDeCorrectionInformations.hashCode()));
 		return result;
 	}
 	
@@ -203,6 +216,7 @@ public class Rgpd {
 				.append(this.rgpdInfoCliVal, autre.rgpdInfoCliVal)
 				.append(this.rgpdDateCliVal, autre.rgpdDateCliVal)
 				.append(this.rgpdCliCanModifyRgpdSettings, autre.rgpdCliCanModifyRgpdSettings)
+				.append(this.rgpdDemandeDeCorrectionInformations, autre.rgpdDemandeDeCorrectionInformations)
 				.build();
 	}
 }

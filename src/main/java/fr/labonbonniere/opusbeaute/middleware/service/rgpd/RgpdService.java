@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -68,6 +69,9 @@ public class RgpdService {
 
 	Integer port = 4200;
 	String schema = "http", host = "192.168.1.100", path = "rgpd";
+	
+	// adresseMail administrateur
+	String eMailAdmin = "dobylov@gmail.com";
 	
 	String rgpdWikiUrl = "<a href=" 
 							+ '"' 
@@ -313,25 +317,9 @@ public class RgpdService {
 	 * 
 	 * @param rgpd Rgpd
 	 * @return rgpd Rgpd
-	 * @throws ClientInexistantException Exception
-	 * @throws NbNumRueException Exception
-	 * @throws NbCharRueVilleException Exception
-	 * @throws NbNumZipcodeException Exception
-	 * @throws NbCharPaysException Exception
-	 * @throws NbCharPrenomException Exception
-	 * @throws NbCharNomException Exception
-	 * @throws NbCharTsAniversaireException Exception
-	 * @throws NbCharTelException Exception
-	 * @throws EmailFormatInvalidException Exception
-	 * @throws GenreInvalideException Exception
-	 * @throws DaoException Exception
-	 * @throws GenreClientNullException Exception
-	 * @throws RgpdException Exception
+	 * @throws Exception Exception
 	 */
-	public Rgpd setRgpdClientSettings(Rgpd rgpd) throws ClientInexistantException, NbNumRueException, 
-	NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException, NbCharPrenomException, 
-	NbCharNomException, NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException, 
-	GenreInvalideException, DaoException, GenreClientNullException, RgpdException {
+	public Rgpd setRgpdClientSettings(Rgpd rgpd) throws Exception {
 		
 		logger.info("RgpdService log : modification de reglages Rgpd du client");
 		try {
@@ -339,8 +327,11 @@ public class RgpdService {
 			Client client = clientservice.recupererUnClientParEmail(rgpd.getRgpdCliEmail());
 			client = this.rgpdObjectToClientBddSettings(client, rgpd);
 			clientservice.modifDuClient(client);
-			logger.info("RgpdService log : modification des reglage Rgpd Ok");
+			logger.info("RgpdService log : modification des reglage Rgpd Ok");			
+			this.envoyerAuClientUnEmailRecapRgpdSettingsEtOuDmdModifInfoPerso(rgpd, client);		
+			this.envoyerAAdministrateurUnMailSettingsRgpdEtOuDeDemandeDeModificationDonnesPersoClient(client, rgpd);
 			return rgpd;
+			
 		} catch (ClientInexistantException message) {
 			logger.error("RgpdService log : Les reglages Rgpd du client n ont pas etes persistes");
 			throw new RgpdException("RgpdService Exception : Les reglages Rgpd du client n ont pas etes persistes");
@@ -477,7 +468,7 @@ public class RgpdService {
 	}
 
 	/**
-	 * Remplissage dynamique d l email qui sera envoye au cleint
+	 * Remplissage dynamique d l email qui sera envoye au client
 	 * 
 	 * @param client Client
 	 * @param tsjj Timestamp
@@ -553,14 +544,279 @@ public class RgpdService {
 		logger.info("RgpdService log : tsPlus6Days to Ts : " + tsJJPlusSixDays);		
 		try {
 			client.setRgpdDateClientvalidation(tsJJPlusSixDays);
-			clientservice.modifDuClient(client);	
-
+			clientservice.modifDuClient(client);
 			
 		} catch (ClientInexistantException message) {
-			throw new ClientInexistantException("RgpdService Exception : Le Client est introuvable");
+			throw new ClientInexistantException("RgpdService Exception : Le Client est introuvable");			
+		}
+		
+	}	
+	
+	/**
+	 * Envoyer un Email a l administrateur recapitulatif 
+	 * du client ayant validé ses reglages Rgpd
+	 * et aussi si le client demand une modification de ses informations personnelles
+	 * @param rgpd Rgpd
+	 * @param client Client
+	 * @throws Exception exception
+	 */
+	private void envoyerAAdministrateurUnMailSettingsRgpdEtOuDeDemandeDeModificationDonnesPersoClient(Client client, Rgpd rgpd) throws Exception {
+		
+		logger.info("RgpdService log : Envoi d un Email a L'administrateur/trice car le CLient a demande un modification des donnes perso");
+		String cliHouF = null;
+		String customMailSubject = "";
+		String msgDmdModifInfoPerso = "";
+		String identificationEtDate = "";
+		String moyenDeComm = "";
+		
+		//detection des moyens de contacter le / la client/te
+		if (!client.getTelMobileClient().isEmpty()) {
+			moyenDeComm = moyenDeComm + "Téléphone Mobile : " + this.siNonRenseignePas( client.getTelMobileClient() );
+		} else if (!client.getAdresseMailClient().isEmpty()) {
+			moyenDeComm = moyenDeComm + "Adresse eMail : " + this.siNonRenseignePas( client.getAdresseMailClient() );
+		} else if (!client.getTelephoneClient().isEmpty()) {
+			moyenDeComm = moyenDeComm + "Téléphone fixe : " + this.siNonRenseignePas( client.getTelephoneClient() );
+		} else {
+			moyenDeComm = moyenDeComm + "Aucun moyen renseigné pour joindre votre " + cliHouF + ".";
+		};
+		
+		// si Demande de modif d info personnelles par le client le Ajout du message dans le mail pour l'admin
+		if (rgpd.getRgpdDemandeDeCorrectionInformations().contentEquals("T")) {
 			
+			customMailSubject = "OpusBeauté : Rgpd_" + client.getPrenomClient() + " " + client.getNomClient() + " a validé ses réglages Rgpd et demande de modification de données personnelles";
+			msgDmdModifInfoPerso = ""
+			+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+			+ "Lors de la gestion des options sur la règlementationsu la RGPD, <br>"
+			+ "votre " + this.definirClientOuCliente(client) + " " + client.getPrenomClient() + " " + client.getNomClient() + " a demandé la modification<br>"
+			+ "d'au moins une de ses données personnelles le <b>" 
+			+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+			+ "</b> à <b>" 
+			+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+			+ ".</b><br>"
+			+ "Merci de revenir vers " + client.getPrenomClient() + " afin de réaliser l'action corrective."
+			+ "</span></p>"	
+			+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+			+ client.getPrenomClient() + " est joignable via :<br>"
+			
+			+ moyenDeComm
+			
+			+ "</span></p>";
+			
+			identificationEtDate = "";
+			
+			
+		} else {
+
+			customMailSubject = "OpusBeauté : Rgpd_" + "Votre " + cliHouF + " a validé ses réglages Rgpd";
+			identificationEtDate = ""
+					+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+					+ "Votre " + this.definirClientOuCliente(client) + " " + client.getPrenomClient() + " " + client.getNomClient() + " a modifié<br>"
+					+ "au moins un des ses paramètres Rgpd le <b>" 
+					+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+					+ "</b> à <b>" 
+					+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+					+ ".</b><br>";
+			
+		}		
+		
+		String msgMailAdmin = ""
+				+ "<span align=" + '"' + "right" + '"' + "style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+				+ "<font color=gray><h3>Mail à conserver</h3></font></span><hr>"
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"				
+				+ "Bonjour Audrey,</span></p>"
+				
+				+ msgDmdModifInfoPerso
+				+ identificationEtDate
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"				
+				+ "Voici le récapitulatif des réglages "
+				+ "de votre " + this.definirClientOuCliente(client) + " : <br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsComm()) + "</b>reçevoir des offres commerciales.<br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsNLetter()) + "</b>reçevoir la NewsLetter.<br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsSmsRem()) + "</b>reçevoir les rappels de Rdv par SMS.<br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsMailRem()) + "</b>reçevoir les rappels de Rdv par Mail.<br>"
+				+ "</p></span>"	
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "Cordialement,<br>"
+				+ "OpusBeauté</span></p>"
+				+ "<hr><span align=" + '"' + "right" + '"' + "style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+				+ "<font color=gray><h3>Mail à conserver<h3></font>"
+				+ "</span>";
+		
+		try {
+		
+			// Envoyer l email
+			this.mailengine.moteurEmailEvoyer(msgMailAdmin, eMailAdmin, customMailSubject);
+			logger.info("RgpdService log : l' email Rgpd pour l Administrateur a ete envoye");
+			
+		} catch (Exception message) {
+			
+			logger.error("RgpdService log : Probleme l' email Rgpd pour l Administrateur n est pas parti");
+			throw new Exception("RgpdService Exception : Probleme l' email Rgpd pour l Administrateur n est pas parti");
+			
+		}		
+		
+	}
+	
+	/**
+	 * Envoyer un email au client pour récapituler
+	 * ses reglages Rgpd et si besoin la demande de
+	 * modification des informations personnelles
+	 * @param rgpd Rgpd
+	 * @param client Client
+	 * @throws Exception exception
+	 */
+	private void envoyerAuClientUnEmailRecapRgpdSettingsEtOuDmdModifInfoPerso(Rgpd rgpd, Client client) throws Exception {
+		
+		logger.info("RgpdService log : Envoi d un email de confirmation au client que les informations sont prises en compte");
+		String customMailSubject = "";
+		String settingsRgpdTxt = "";
+		
+		// Message à ajouter dans l Email si le client a fait une demande de modification de ses donnees
+		if(rgpd.getRgpdDemandeDeCorrectionInformations().contentEquals("T")) {
+			
+			customMailSubject = "La Bonbonnière d'Audrey : RGPD, Demande de modification de vos informations et confirmation de vos réglages";
+			settingsRgpdTxt = ""
+			+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+			+ "Votre demande de modification de vos informations personnelles est prise en compte.<br>"
+			+ "Audrey reviendra vers vous pour effectuer la correction.</p></span>"
+			+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+			+ "Voici vos informations :<br>"
+			+ "<b>Nom : </b>" + this.siNonRenseignePas( client.getNomClient().trim() ) + " <br>"
+			+ "<b>Prenom : </b>" + this.siNonRenseignePas( client.getPrenomClient() ) + " <br>"
+			+ "<b>Email : </b>" + this.siNonRenseignePas( client.getAdresseMailClient() ) + " <br>"
+			+ "<b>Téléphone Ligne Fixe : </b>" + this.siNonRenseignePas( client.getTelephoneClient() ) + " <br>"
+			+ "<b>Téléphone Ligne Mobile : </b>" + this.siNonRenseignePas( client.getTelMobileClient() ) + " <br>"
+			+ "<b>Genre : </b>" + this.siNonRenseignePas( client.getGenreClient().getGenreHum() ) + " <br>"
+			+ "<b>Naissance : </b>" + this.siNonRenseignePas( client.getDateAnniversaireClient().toLocalDateTime().format( DateTimeFormatter.ofPattern("dd/MM/yyyy") ) ) + " <br>"
+			+ "<b>Rue : </b>" + this.siNonRenseignePas( client.getAdresse().getNumero() ) + " " + this.siNonRenseignePas( client.getAdresse().getRue() ) + " <br>"
+			+ "<b>Code postale : </b>" + this.siNonRenseignePas( client.getAdresse().getZipCode() ) + " <br>"
+			+ "<b>Ville : </b>" + this.siNonRenseignePas( client.getAdresse().getVille() ) + " <br>"
+			+ "</span></p>";
+			
+		} else {
+			
+			customMailSubject = "La Bombonnière d'Audrey : RGPD, confirmation de vos réglages";
+			settingsRgpdTxt = "";
 			
 		}
+		
+		
+		String messageMailClient = ""
+				+ "<span align=" + '"' + "right" + '"' + "style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+				+ "<font color=gray><h3>Mail à conserver</h3></font></span><hr>"
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"				
+				+ "Bonjour " + client.getPrenomClient() + ",</span></p>"
+				
+				+ settingsRgpdTxt
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "Vos réglages ont bien été pris en compte, <br></p></span>"
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "Voici le récapitulatif de vos choix : <br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsComm()) + "</b>reçevoir des offres commerciales.<br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsNLetter()) + "</b>reçevoir la NewsLetter.<br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsSmsRem()) + "</b>reçevoir les rappels de Rdv par SMS.<br>"
+				+ "<b>" + this.convertStringToSentence(rgpd.getRgpdSubsMailRem()) + "</b>reçevoir les rappels de Rdv par Mail.<br>"
+				+ "</p></span>"
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "Merci d'avoir consacré quelques minutes dans ce partenariat.<br>"
+				+ "</p></span>"
+				
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "Cordialement,<br>"
+				+ "La Bonbonnière d'Audrey</span></p>"
+				+ "<hr><span align=" + '"' + "right" + '"' + "style=\"font-family: arial, helvetica, sans-serif; font-size: large;\">"
+				+ "<font color=gray><h3>Mail à conserver<h3></font>"
+				+ "</span>";
+		try {
+		
+			this.mailengine.moteurEmailEvoyer(messageMailClient, client.getAdresseMailClient(), customMailSubject);
+			logger.info("RgpdService Log :Email Rgpd pour le Client est envoye");
+			
+		} catch (Exception msg) {
+			
+			logger.error("RgpdService Log : Probleme l' email Rgpd pour le Client n est pas parti");
+			throw new Exception ("RgpdService Exception : Probleme l' email Rgpd pour le Client n est pas parti ");
+			
+		}	
+		
+	}
+	
+	/**
+	 * Retourne une phrase en fonction de la valeur 
+	 * entree en parametre si HOMME ou FEMME
+	 * @param valueStringBoolean String 
+	 * @return accordOuPasAccord String
+	 */
+	private String convertStringToSentence(String valueStringBoolean) {	
+		
+		logger.info("RgpdService log : Comparaison des Rgpd settings depuis la Bdd et les WebService");
+		String accordOuPasAccord;
+		
+		if ( valueStringBoolean.contentEquals("T") ) {
+			
+			accordOuPasAccord = "Je suis d'accord pour ";
+			logger.info("RgpdService log : Valeur recue : " + valueStringBoolean + " alors " + accordOuPasAccord);
+			
+		} else {
+			
+			accordOuPasAccord = "Je ne suis pas d'accord pour ";
+			logger.info("RgpdService log : Valeur recue : " + valueStringBoolean + " alors " + accordOuPasAccord);
+		}
+		
+		return accordOuPasAccord;
+	}
+	
+	/**
+	 * Definir le Mot Client ou Client en fontion du genre
+	 * du Client
+	 * @param client Client
+	 * @return clientOuCliente String
+	 */
+	private String definirClientOuCliente(Client client) {
+		logger.info("RgpdService log : Definition de Client ou cliente en fonction du Genre du Client");
+		String clientOuCliente = "";
+		
+		// Detection du genre du Client
+		if (client.getGenreClient().getGenreHum().contentEquals("FEMME")) {
+			
+			clientOuCliente = "cliente";
+			logger.info("RgpdService log : " + client.getGenreClient().getGenreHum() + " detectee = " + clientOuCliente);
+			
+			
+		} else {
+			
+			clientOuCliente = "client";
+			logger.info("RgpdService log : " + client.getGenreClient().getGenreHum() + " detectee = " + clientOuCliente);
+		};
+		
+		return clientOuCliente;
+	}
+	
+	/**
+	 * Si la chaine fourni est vide ou nulle remplacer par "Non Renseigne"
+	 * sinon conserve la string tel quelle
+	 * @param checkSiNull String
+	 * @return String
+	 */
+	private String siNonRenseignePas(String checkSiNull) {
+		
+		logger.info("RgpdService log : test de champs vide pour y mettre a la place Non renseigne");
+		
+		if ( checkSiNull != null )  {
+			
+			return checkSiNull; 
+			
+		} else {
+			
+			String nonRenseign = "non renseigné";
+			logger.info("RgpdService log : Champs vide ou Null alors = " + nonRenseign);
+			return nonRenseign;
+			
+		}		
 		
 	}
 	

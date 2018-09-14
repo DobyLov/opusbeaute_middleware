@@ -718,14 +718,16 @@ public class ClientService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+//			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^é^è]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^-^a-zA-Z^é^è]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+//			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^-^a-zA-Z^é^è]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
