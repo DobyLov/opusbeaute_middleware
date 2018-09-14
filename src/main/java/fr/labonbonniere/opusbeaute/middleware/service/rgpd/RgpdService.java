@@ -607,7 +607,7 @@ public class RgpdService {
 			
 		} else {
 
-			customMailSubject = "OpusBeauté : Rgpd_" + "Votre " + cliHouF + " a validé ses réglages Rgpd";
+			customMailSubject = "OpusBeauté : Rgpd_" + client.getPrenomClient() + " " + client.getNomClient() + " a validé ses réglages Rgpd";
 			identificationEtDate = ""
 					+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 					+ "Votre " + this.definirClientOuCliente(client) + " " + client.getPrenomClient() + " " + client.getNomClient() + " a modifié<br>"
