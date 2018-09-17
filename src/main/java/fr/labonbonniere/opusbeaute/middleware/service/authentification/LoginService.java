@@ -86,7 +86,7 @@ public class LoginService {
 			loginexist = utilisateurService.recupererUnUtilisateurViaeMail(email);
 
 			if (loginexist != null) {
-				logger.info("LoginService log : L utilisateur : " + loginexist.getPrenomUtilisateur()
+				logger.info("LoginService log : L utilisateur a ce prenom : " + loginexist.getPrenomUtilisateur()
 						+ " a ete trouve avec le mail : " + loginexist.getAdresseMailUtilisateur());
 			}
 
@@ -169,17 +169,12 @@ public class LoginService {
 		logger.info("LoginService log : Generation du token :");
 		String token = null;
 
-		String idUtilisateur = utilisateurReconnu.getIdUtilisateur().toString();
-		String prenomUtilisateur = utilisateurReconnu.getPrenomUtilisateur();
-		String emailUtilisateur = utilisateurReconnu.getAdresseMailUtilisateur();
-		String roleUtilisateur = utilisateurReconnu.getRoles().getRoles();
-
 		try {
 
 			// The issued token must be associated to a user
 			// Return the issued token
-			logger.error("LoginService log : Tentive de creation du JWT");
-			token = tokenservice.CreationDuJWT(idUtilisateur, prenomUtilisateur, emailUtilisateur, roleUtilisateur);
+			logger.info("LoginService log : Tentive de creation du JWT");
+			token = tokenservice.CreationDuJWT(utilisateurReconnu.getIdUtilisateur().toString(), utilisateurReconnu.getPrenomUtilisateur(), utilisateurReconnu.getAdresseMailUtilisateur(), utilisateurReconnu.getRoles().getRoles());
 			// logger.info("LoginService log : Token genere =>" +
 			// token.toString());
 

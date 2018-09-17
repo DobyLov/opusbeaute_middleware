@@ -67,12 +67,11 @@ public class TokenService {
 
 		// We will sign our JWT with our ApiKey secret
 		 byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(cleeSecrete);
- 	
 		JwtBuilder token = Jwts.builder()
 				.setHeaderParam("type", "JWT")
 				.claim("idUser", idUtilisateur)
 				.claim("role",roleUtilisateur)
-				.claim("prenom", prenomUtilisateur)
+				.claim("prenom", convertCharAccentToWithoutaccent(prenomUtilisateur))
 				.setIssuedAt(now)
 				.setExpiration(exp)
 				.signWith(signatureAlgorithm, apiKeySecretBytes);
@@ -227,6 +226,18 @@ public class TokenService {
 			throw new TokenInvalidException("TokenService Exception : Il n y a pas role defini dans le token.");
 		}
 		
+	}
+	
+	/**
+	 * Remplace les accents aigues et graves de la String par un 'e'
+	 * @param checkCahr
+	 * @return String 
+	 */
+	private String convertCharAccentToWithoutaccent(String checkCahr) {
+		logger.error("TokenService log : Conversion si il y a des accents au prenom : " + checkCahr);
+		String stringChar = checkCahr.replace("^è", "e");
+		logger.error("TokenService log : Conversion si il y a des accents au prenom : " + stringChar);
+		return stringChar;
 	}
 	
 }
