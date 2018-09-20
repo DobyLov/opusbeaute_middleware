@@ -86,7 +86,7 @@ public class RdvService {
 	 * @param idPraticien Integer
 	 * @return List
 	 * @throws DaoException Exception
-	 * @throws RdvDateIncorrecteException 
+	 * @throws RdvDateIncorrecteException Exception
 	 */
 	public List<Rdv> recupereLaListeRdvParDateJJPraticien(final String dateJJ, final Integer idPraticien) throws DaoException, RdvDateIncorrecteException {
 		
@@ -113,7 +113,7 @@ public class RdvService {
 	 * @param idPraticien Integer
 	 * @return List 
 	 * @throws DaoException Exception
-	 * @throws RdvDateIncorrecteException 
+	 * @throws RdvDateIncorrecteException Exception
 	 */
 	public List<Rdv> recupereLaListeRdvParPlageDatePraticien(final String dateA, final String dateB, final Integer idPraticien) throws DaoException, RdvDateIncorrecteException {
 		
@@ -160,7 +160,7 @@ public class RdvService {
 	 * @param dateFournie String
 	 * @return List
 	 * @throws DaoException si pb Bdd
-	 * @throws RdvDateIncorrecteException 
+	 * @throws RdvDateIncorrecteException Exception
 	 */
 	public List<Rdv> recupereListeRdvParDate(final String dateFournie) throws DaoException, RdvDateIncorrecteException {
 
@@ -183,10 +183,10 @@ public class RdvService {
 	 * JourA 00h00
 	 * JourB 23H59
 	 * 
-	 * @param RdvPlageJourA String
-	 * @param RdvPlageJourB	String
-	 * @return List
-	 * @throws DaoException Si pb bdd
+	 * @param dateA String
+	 * @param dateB String
+	 * @return List lalisterdvplagedate
+	 * @throws DaoException Exception
 	 */
 	public List<Rdv> recupereListeRdvViaPlageDate(String dateA, String dateB) throws DaoException {
 
@@ -392,16 +392,30 @@ public class RdvService {
 		}
 	}
 	
-	private boolean isDateStringFormatValid(String dateToCheck) throws RdvDateIncorrecteException  {
+	/**
+	 * Verifie si le format (YYYY-MM-DD) de la date est respecte
+	 * @param dateToCheck String
+	 * @throws RdvDateIncorrecteException Exception
+	 */
+	private void isDateStringFormatValid(String dateToCheck) throws RdvDateIncorrecteException  {
 		
-		logger.info("RdvService log : Verifie le format de la date fournie");
+		logger.info("RdvService log : Verifie le format de la date fournie : " + dateToCheck);
 		try {
 			
 			Pattern pattern = Pattern.compile("(20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])");
 			Matcher matchOrNot = pattern.matcher(dateToCheck);
 			Boolean isDateFormatIsOk = matchOrNot.matches();
+			
+			if ( isDateFormatIsOk == true ) {
+				
+			logger.info("RdvService log : Le format de la date Fournie Matche : " + isDateFormatIsOk);
 			logger.info("RdvService log : Le format de la date Fournie Matche : " + dateToCheck);
-			return isDateFormatIsOk;
+			
+			
+			} else {
+				logger.error("RdvService log : Le format de la date est incorrecte");
+				throw new RdvDateIncorrecteException("RdvService Exception : Le format de la date est incorrecte");
+			}
 			
 		} catch (Exception message) {
 			logger.error("RdvService log : Le format de la date est incorrecte");

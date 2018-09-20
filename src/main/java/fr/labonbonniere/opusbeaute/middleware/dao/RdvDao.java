@@ -99,7 +99,7 @@ public class RdvDao {
 			logger.info("RdvDao log : Demande a la Bdd de la liste des Rdv's selon les criteres de date selectionnee et par praticien");
 			String requete = "SELECT c FROM Rdv c" + " WHERE rdv_dhdebut >= '" + dateJJ + " 00:00:00'"
 					+ " AND rdv_dhdebut <= '" + dateJJ + " 23:59:00'" 
-					+ " AND praticien_idPraticien = " + IdPraticien
+					+ " AND RDV_IDPRATICIEN_fk = " + IdPraticien
 					+ " ORDER BY rdv_dhdebut";
 			
 			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);

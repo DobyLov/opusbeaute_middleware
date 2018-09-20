@@ -10,6 +10,9 @@ Le Middleware opusbeauté est l' API assurant la persistance des données dans u
  
 La liste des services REST son consultables via le WADL (Web Application Document Language): [WADL](https://github.com/DobyLov/opusbeaute_middleware/blob/master/src/main/doc/application.wadl) 
 
+Comande pour compiler le Wadl :
+
+	mvn compile com.sun.jersey.contribs:maven-wadl-plugin:generate
 
 ### Prérequis
 Le MiddleWare s'appuie sur une base de donnée SQL(PostGres) pour la persistance des données.
@@ -23,7 +26,7 @@ Projet en Java (MiddleWare): [OpusBeaute_MiddleWare](https://github.com/DobyLov/
 JavaDoc : [Documentation](https://github.com/DobyLov/opusbeaute_middleware/blob/master/doc/index.html)
 
 
-### compilation du Projet
+### Compilation du Projet
 
 Aller dans le repertoire du projet:
 

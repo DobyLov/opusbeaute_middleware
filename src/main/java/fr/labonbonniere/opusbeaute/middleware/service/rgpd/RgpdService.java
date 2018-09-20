@@ -614,7 +614,7 @@ public class RgpdService {
 					+ "au moins un des ses paramètres Rgpd le <b>" 
 					+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 					+ "</b> à <b>" 
-					+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+					+ client.getRgpdDateClientvalidation().toLocalDateTime().format(DateTimeFormatter.ofPattern("H:m"))
 					+ ".</b><br>";
 			
 		}		

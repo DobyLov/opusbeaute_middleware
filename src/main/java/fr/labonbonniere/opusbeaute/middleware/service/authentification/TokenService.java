@@ -230,8 +230,8 @@ public class TokenService {
 	
 	/**
 	 * Remplace les accents aigues et graves de la String par un 'e'
-	 * @param checkCahr
-	 * @return String 
+	 * @param checkCahr String
+	 * @return stringChar String 
 	 */
 	private String convertCharAccentToWithoutaccent(String checkCahr) {
 		logger.error("TokenService log : Conversion si il y a des accents au prenom : " + checkCahr);

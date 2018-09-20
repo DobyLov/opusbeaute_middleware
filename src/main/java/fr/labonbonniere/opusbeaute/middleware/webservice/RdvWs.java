@@ -125,7 +125,7 @@ public class RdvWs {
 	 * Renvoie la liste de Rdv
 	 * Par jourJJ et par praticien
 	 * 
-	 * @param dateJJ String
+	 * @param date String
 	 * @param idPraticien Integer
 	 * @return Response List
 	 * @throws DaoException Exception
@@ -142,7 +142,7 @@ public class RdvWs {
 	@Path("/listepardateparpraticien")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParDateJJParPraticien(
-			@QueryParam("dateJJ") final String dateJJ,
+			@QueryParam("date") final String date,
 			@QueryParam("idPraticien") final Integer idPraticien) throws DaoException {
 		
 		Response.ResponseBuilder builder = null;
@@ -150,7 +150,7 @@ public class RdvWs {
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("RdvWs log : Demande au RdvService la liste des Rdv's par date selectionnee.");
-			final List<Rdv> listerdvpardate = rdvService.recupereLaListeRdvParDateJJPraticien(dateJJ, idPraticien);
+			final List<Rdv> listerdvpardate = rdvService.recupereLaListeRdvParDateJJPraticien(date, idPraticien);
 			logger.info("RdvWs log : Transmission de la Liste des Rdv's par date selectionnee.");
 			builder = Response.ok(listerdvpardate);
 
@@ -236,7 +236,7 @@ public class RdvWs {
 	/**
 	 * Retourne la liste des Rdv's du jour renseigne
 	 * 
-	 * @param listeRdvDateDuJour S
+	 * @param date String
 	 * @return Response List
 	 * @throws DaoException Exception
 	 */
@@ -252,14 +252,14 @@ public class RdvWs {
 	@Path("/listepardate")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParDate (
-			@QueryParam("listeRdvDateDuJour") final String listeRdvDateDuJour ) throws DaoException {		
+			@QueryParam("date") final String date ) throws DaoException {		
 		
 		Response.ResponseBuilder builder = null;
 		
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("RdvWs log : Demande au RdvService la liste des Rdv's par date selectionnee.");
-			final List<Rdv> listerdvpardate = rdvService.recupereListeRdvParDate(listeRdvDateDuJour);
+			final List<Rdv> listerdvpardate = rdvService.recupereListeRdvParDate(date);
 			logger.info("RdvWs log : Transmission de la Liste des Rdv's par date selectionnee.");
 			builder = Response.ok(listerdvpardate);
 
@@ -274,9 +274,9 @@ public class RdvWs {
 	/**
 	 * Retourne une liste de Rdv via une plage de jour
 	 * 
-	 * @param RdvPlageJourA String
-	 * @param RdvPlageJourB String
-	 * @return Response 
+	 * @param dateA String
+	 * @param dateB String
+	 * @return Response List
 	 * @throws DaoException Exception
 	 */
 	@DefineUserRole({"ALLOWALL"})
@@ -285,14 +285,14 @@ public class RdvWs {
 	@Path("/listeplagedate")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParPlageDate (
-			@QueryParam("RdvPlageJourA") final String RdvPlageJourA, 
-			@QueryParam("RdvPlageJourB") final String RdvPlageJourB) throws DaoException {
+			@QueryParam("dateA") final String dateA, 
+			@QueryParam("dateB") final String dateB) throws DaoException {
 		
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("RdvWs log : Demande au RdvService la liste des Rdv's par plage de dates selectionnees.");
-			final List<Rdv> listerdvpardate = rdvService.recupereListeRdvViaPlageDate(RdvPlageJourA, RdvPlageJourB );
+			final List<Rdv> listerdvpardate = rdvService.recupereListeRdvViaPlageDate( dateA, dateB );
 			logger.info("RdvWs log : Transmission de la Liste des Rdv's par plage de dates selectionnees.");
 			builder = Response.ok(listerdvpardate);
 		} catch (Exception message) {
