@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -16,7 +19,7 @@ import org.json.simple.JSONObject;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
-
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvDateIncorrecteException;
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
@@ -84,10 +87,12 @@ public class RdvService {
 	 * @param idPraticien Integer
 	 * @return List
 	 * @throws DaoException Exception
+	 * @throws RdvDateIncorrecteException 
 	 */
-	public List<Rdv> recupereLaListeRdvParDateJJPraticien(final String dateJJ, final Integer idPraticien) throws DaoException {
+	public List<Rdv> recupereLaListeRdvParDateJJPraticien(final String dateJJ, final Integer idPraticien) throws DaoException, RdvDateIncorrecteException {
 		
 		try {
+			isDateStringFormatValid(dateJJ);
 			logger.info("RdvService log : Demande au Dao la liste des Rdv's par praticien et par date");
 			List<Rdv> laListeRdvParDatePraticien = rdvdao.obtenirListeRdvDuJJParPraticien(dateJJ, idPraticien);
 			logger.info("RdvService - Liste des Rdv's recuperee");
@@ -109,10 +114,13 @@ public class RdvService {
 	 * @param idPraticien Integer
 	 * @return List 
 	 * @throws DaoException Exception
+	 * @throws RdvDateIncorrecteException 
 	 */
-	public List<Rdv> recupereLaListeRdvParPlageDatePraticien(final String dateA, final String dateB, final Integer idPraticien) throws DaoException {
+	public List<Rdv> recupereLaListeRdvParPlageDatePraticien(final String dateA, final String dateB, final Integer idPraticien) throws DaoException, RdvDateIncorrecteException {
 		
 		try {
+			isDateStringFormatValid(dateA);
+			isDateStringFormatValid(dateB);
 			logger.info("RdvService log : Demande au Dao la liste des Rdv's par praticien et par plage de date");
 			List<Rdv> laListeRdvParplageDeDatePraticien = rdvdao.obtenirListeRdvParPlageDeDateParPraticien(dateA, dateB, idPraticien);
 			logger.info("RdvService - Liste des Rdv's recuperee");
@@ -150,15 +158,17 @@ public class RdvService {
 	 * Recupere un liste de Rdv par Date
 	 * entre 00H00 et 23H59
 	 * 
-	 * @param listeRdvDateDuJour String
+	 * @param dateFournie String
 	 * @return List
 	 * @throws DaoException si pb Bdd
+	 * @throws RdvDateIncorrecteException 
 	 */
-	public List<Rdv> recupereListeRdvParDate(final String listeRdvDateDuJour) throws DaoException {
+	public List<Rdv> recupereListeRdvParDate(final String dateFournie) throws DaoException, RdvDateIncorrecteException {
 
 		try {
+			isDateStringFormatValid(dateFournie);
 			logger.info("Rdvservice log : Demande au Dao la liste des Rdv's par date selectionnee.");
-			List<Rdv> lalisterdvpardate = rdvdao.obtenirListeRdvParDate(listeRdvDateDuJour);
+			List<Rdv> lalisterdvpardate = rdvdao.obtenirListeRdvParDate(dateFournie);
 			logger.info("Rdvservice log : Envoie a RdvWs de la liste des Rdv's par date selectionnee.");
 			return lalisterdvpardate;
 
@@ -179,11 +189,13 @@ public class RdvService {
 	 * @return List
 	 * @throws DaoException Si pb bdd
 	 */
-	public List<Rdv> recupereListeRdvViaPlageDate(String RdvPlageJourA, String RdvPlageJourB) throws DaoException {
+	public List<Rdv> recupereListeRdvViaPlageDate(String dateA, String dateB) throws DaoException {
 
 		try {
+			isDateStringFormatValid(dateA);
+			isDateStringFormatValid(dateB);
 			logger.info("RdvService log : Demande au RdvDao la liste des Rdv's par plage de dates selectionnees.");
-			List<Rdv> lalisterdvplagedate = rdvdao.obtenirListeRdvViaPlageDate(RdvPlageJourA, RdvPlageJourB);
+			List<Rdv> lalisterdvplagedate = rdvdao.obtenirListeRdvViaPlageDate(dateA, dateB);
 			logger.info("RdvService log : Transmission de la Liste des Rdv's par plage de dates selectionnees.");
 			return lalisterdvplagedate;
 
@@ -377,6 +389,24 @@ public class RdvService {
 		} else {
 			
 			return false;
+			
+		}
+	}
+	
+	private boolean isDateStringFormatValid(String dateToCheck) throws RdvDateIncorrecteException  {
+		
+		logger.info("RdvService log : Verifie le format de la date fournie");
+		try {
+			
+			Pattern pattern = Pattern.compile("(20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])");
+			Matcher matchOrNot = pattern.matcher(dateToCheck);
+			Boolean isDateFormatIsOk = matchOrNot.matches();
+			logger.info("RdvService log : Le format de la date Fournie Matche : " + dateToCheck);
+			return isDateFormatIsOk;
+			
+		} catch (Exception message) {
+			logger.error("RdvService log : Le format de la date est incorrecte");
+			throw new RdvDateIncorrecteException("RdvService Exception : Le format de la date est incorrecte");
 			
 		}
 	}

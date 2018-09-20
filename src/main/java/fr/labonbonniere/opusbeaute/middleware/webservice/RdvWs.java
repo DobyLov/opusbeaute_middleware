@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -63,7 +64,7 @@ public class RdvWs {
 	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
-	@Path("/list")	
+	@Path("/liste")	
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListe() throws DaoException {
 		
@@ -95,10 +96,11 @@ public class RdvWs {
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/list/$idClient
 	@DefineUserRole({"ALLOWALL"})
 	@GET
-    @Path("/list/{idClient: \\d+}") // fonctionne bien 11/07
+//    @Path("/listerdvparclient/{idClient: \\d+}") // fonctionne bien 11/07
+	@Path("/listerdvparclient")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParClient(
-			@PathParam("idClient") final Integer idClient ) throws DaoException {
+			@QueryParam("idClient") final Integer idClient ) throws DaoException {
 		
 		Response.ResponseBuilder builder = null;
 		
@@ -136,11 +138,12 @@ public class RdvWs {
 	// !!! le regex ne gere pas le 30 fevrier ! a completer dans la partie service / metiers
 	@DefineUserRole({"ALLOWALL"})
 	@GET
-	@Path("/{dateJJ: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: \\d+}")
+//	@Path("/listepardateparpraticien/{dateJJ: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: \\d+}")
+	@Path("/listepardateparpraticien")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParDateJJParPraticien(
-			@PathParam("dateJJ") final String dateJJ,
-			@PathParam("idPraticien") final Integer idPraticien) throws DaoException {
+			@QueryParam("dateJJ") final String dateJJ,
+			@QueryParam("idPraticien") final Integer idPraticien) throws DaoException {
 		
 		Response.ResponseBuilder builder = null;
 		
@@ -172,12 +175,13 @@ public class RdvWs {
 	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
-	@Path("/{dateA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{dateB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: //d+}")
+//	@Path("/listeparplagedateparpraticien/{dateA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{dateB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: //d+}")
+	@Path("/listeparplagedateparpraticien")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParplageDateParPraticien(
-					@PathParam("dateA") String dateA,
-					@PathParam("dateB") String dateB,
-					@PathParam("idPraticien") Integer idPraticien) throws DaoException {
+					@QueryParam("dateA") String dateA,
+					@QueryParam("dateB") String dateB,
+					@QueryParam("idPraticien") Integer idPraticien) throws DaoException {
 		
 		Response.ResponseBuilder builder = null;
 		
@@ -244,10 +248,11 @@ public class RdvWs {
 	// !!! le regex ne gere pas le 30 fevrier ! a completer dans la partie service / metiers
 	@DefineUserRole({"ALLOWALL"})
 	@GET
-	@Path("/pardate/{listeRdvDateDuJour: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
+//	@Path("/listepardate/{listeRdvDateDuJour: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
+	@Path("/listepardate")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParDate (
-			@PathParam("listeRdvDateDuJour") final String listeRdvDateDuJour ) throws DaoException {		
+			@QueryParam("listeRdvDateDuJour") final String listeRdvDateDuJour ) throws DaoException {		
 		
 		Response.ResponseBuilder builder = null;
 		
@@ -276,11 +281,12 @@ public class RdvWs {
 	 */
 	@DefineUserRole({"ALLOWALL"})
 	@GET
-	@Path("/plagedate/{RdvPlageJourA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{RdvPlageJourB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
+//	@Path("/listeplagedate/{RdvPlageJourA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{RdvPlageJourB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}")
+	@Path("/listeplagedate")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response laListeRdvParPlageDate (
-			@PathParam("RdvPlageJourA") final String RdvPlageJourA, 
-			@PathParam("RdvPlageJourB") final String RdvPlageJourB) throws DaoException {
+			@QueryParam("RdvPlageJourA") final String RdvPlageJourA, 
+			@QueryParam("RdvPlageJourB") final String RdvPlageJourB) throws DaoException {
 		
 		Response.ResponseBuilder builder = null;
 		try {

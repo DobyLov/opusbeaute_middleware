@@ -79,7 +79,7 @@ public class RgpdWs {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response askForANewRgpdClientToken(@QueryParam("rgpdIdClient") final Integer rgpdIdClient,
-										@QueryParam("rgpdPrenomClient") String rgpdPrenomClient,
+										@QueryParam("rgpdPrenomClient") final String rgpdPrenomClient,
 										@QueryParam("rgpdEmailClient") final String rgpdEmailClient) throws Exception {
 		
 		logger.info("RgpdWs log : Demande une nouvelle URL avec token pour modif Rgpd settings.");
