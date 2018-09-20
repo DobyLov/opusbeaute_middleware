@@ -398,7 +398,7 @@ public class RdvWs {
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("RdvWs log : Demande de suppression du Rdv id : " + idRdv + " dans la Bdd.");
-			rdvService.suppressiondunrdv(idRdv);
+			rdvService.supprimerUnrdv(idRdv);
 			logger.info("RdvWs log : Rdv id : " + idRdv + " a bien ete modifie dans la Bdd.");	
 			String msg = "RdvWs log : le Rdv id : " + idRdv + " a ien ete supprime de la Bdd.";
 			builder = Response.ok(msg);

@@ -346,7 +346,7 @@ public class RdvService {
 	 * @param idRdv Integer
 	 * @throws RdvInexistantException Si Rdv inexistant
 	 */
-	public void suppressiondunrdv(final Integer idRdv) throws RdvInexistantException {
+	public void supprimerUnrdv(final Integer idRdv) throws RdvInexistantException {
 
 		try {
 			logger.info("RdvService log : Demande de suppression du Rdv id : " + idRdv + " dans la Bdd.");
@@ -370,10 +370,15 @@ public class RdvService {
 	 */
 	public static boolean testInterval(long incremRdvDateDebut, long rdvBddDateDebut, long rdvBddDateFin) {
 
-		if (rdvBddDateDebut < incremRdvDateDebut && incremRdvDateDebut < rdvBddDateFin)
-			return true;
-		else
+		if (rdvBddDateDebut < incremRdvDateDebut && incremRdvDateDebut < rdvBddDateFin) {
+			
+			return true; 
+		
+		} else {
+			
 			return false;
+			
+		}
 	}
 
 }

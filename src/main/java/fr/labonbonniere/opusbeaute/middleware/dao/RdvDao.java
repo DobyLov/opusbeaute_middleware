@@ -134,9 +134,9 @@ public class RdvDao {
 					+ " ORDER BY rdv_dhdebut";
 			
 			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
-			List<Rdv> rdv = query.getResultList();
+			List<Rdv> rdvList = query.getResultList();
 			logger.info("RdvDao log : Transmission de la Liste des Rdv's par plage de dates selectionnees et par praticien.");
-			return rdv;
+			return rdvList;
 
 		} catch (Exception message) {
 			logger.error("RdvDao log : probleme sur le format de la/des date(s).");
@@ -348,17 +348,17 @@ public class RdvDao {
 			throws DaoException {
 
 		try {
-			logger.info("RdvDao log : Demande au RdvDao la liste des Rdv's du jour demande.");
+			logger.info("RdvDao log : Demande a la Bdd la liste des Rdv's du jour demande.");
 
 			String requete = "SELECT c FROM Rdv c" + " WHERE rdv_dhdebut >= '" + rdvDateDuJourFormate + " 00:00:00'"
 					+ " AND rdv_dhdebut <= '" + rdvDateDuJourFormate + " 23:59:00'";
 			// + " AND suscribedMailReminder = 'T' ";
 
 			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
-			List<Rdv> rdv = query.getResultList();
+			List<Rdv> rdvList = query.getResultList();
 
 			logger.info("RdvDao log : Transmission de la Liste des Rdv's du jour selectionnes.");
-			return rdv;
+			return rdvList;
 
 		} catch (Exception message) {
 			logger.error("RdvDao log : probleme sur le format de la date.");
