@@ -1,4 +1,4 @@
-package fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv;
+package fr.labonbonniere.opusbeaute.middleware.service.rdv;
 
 public class RdvDateIncorrecteException extends Exception {
 	
