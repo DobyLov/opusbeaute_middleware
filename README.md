@@ -2,7 +2,7 @@
 C'est l'API, le Middlware du logiciel OpusBeaute qui fait la liaison entre la base de donnée et l'interface homme machine.
 
 ## Objectif du logiciel OpusBeauté
-La mission du logiciel est d'augmenter la qualité de service des Rendez-Vous. Le vecteur d'amélioration est situé après la plannification d'un rendez-vous et intervient un jour avant le Rdv plannifié.
+La mission du logiciel est d'augmenter la qualité de service autour des Rendez-Vous. Le vecteur d'amélioration est situé après la plannification d'un rendez-vous et intervient un jour avant le Rdv plannifié.
 Le système envoi la veille, un mail et / ou un SMS de rappel de Rendez-vous avec les informations liées à la prestation, le lieu de réalisation et le praticien(ne) 
  
 ### Fonctionnalités du middleware
