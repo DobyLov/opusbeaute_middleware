@@ -1,5 +1,5 @@
 # ![](https://github.com/DobyLov/ob_IHM/blob/master/src/assets/Mini_4Git_OBLogoNoBkg.png) opusbeaute_middleware
-Est l'API, le Middlware du logiciel OpusBeaute.
+C'est l'API, le Middlware du logiciel OpusBeaute.
 
 ## Objectif du logiciel OpusBeauté
 La mission du logiciel est d'augmenter la qualité de service des Rendez-Vous. Le vecteur d'amélioration est situé après la plannification d'un rendez-vous et intervient un jour avant le Rdv plannifié.
