@@ -134,6 +134,12 @@ public class SendMailReminderClientService {
 						+ "/M7AkuQu2hGHvzdYcDfxbPkcWaP9fe42G\">ici</a>."
 						+"</p>";
 
+				// appel methode pour envoyer l Email avec les infos
+				customMailSubject = "La Bonbonnière d'Audrey : Rappel de Rdv ";
+				String destinataire = clientEmail;
+				moteurEmail(customMessageDynamic, destinataire, customMailSubject);
+//				logger.info("Mail destinataire : " + clientEmail + "\n" + customMessageDynamic);
+				logger.info("Mail destinataire : Envoi d un mail Rappel de Rdv au client : " + clientEmail);
 
 			} else {
 
@@ -142,11 +148,11 @@ public class SendMailReminderClientService {
 						+ rdvList.get(i).getClient().getSuscribedMailReminder());
 			}
 
-			// appel methode pour envoyer l Email avec les infos
-			customMailSubject = "La Bonbonnière d'Audrey : Rappel de Rdv ";
-			String destinataire = clientEmail;
-			moteurEmail(customMessageDynamic, destinataire, customMailSubject);
-			logger.info("Mail destinataire : " + clientEmail + "\n" + customMessageDynamic);
+//			// appel methode pour envoyer l Email avec les infos
+//			customMailSubject = "La Bonbonnière d'Audrey : Rappel de Rdv ";
+//			String destinataire = clientEmail;
+//			moteurEmail(customMessageDynamic, destinataire, customMailSubject);
+//			logger.info("Mail destinataire : " + clientEmail + "\n" + customMessageDynamic);
 
 		}
 

@@ -25,12 +25,12 @@ import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdService;
  */
 @Stateless
 @Path("/email")
-//@DefineUserRole({"ANONYMOUS"})
+@DefineUserRole({"ANONYMOUS"})
 //@DefineUserRole({"ROOT","ADMINISTRATEUR","PRATICIEN","STAGIAIRE"})
 //@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 //@DefineUserRole({"ALLOWALL"})
 //@DefineUserRole({"DENYALL"})
-@DefineUserRole({"ROOT","ADMINISTRATEUR"})
+//@DefineUserRole({"ROOT","ADMINISTRATEUR"})
 public class EmailReminderWs {
 
 	private static final Logger logger = LogManager.getLogger(EmailReminderWs.class.getName());
