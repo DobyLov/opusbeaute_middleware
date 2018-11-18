@@ -76,7 +76,7 @@ public class Rdv implements Serializable {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="RDV_SEQ",
-	initialValue = 2, allocationSize = 99999)
+	initialValue = 8, allocationSize = 99999)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "RDV_IDRDV", nullable = false, length = 8)
 	public Integer getIdRdv() {

@@ -49,6 +49,7 @@ public class RdvService {
 			logger.info("RdvService log : Demande au Dao la liste des Rdv's");
 			List<Rdv> lalisterdv = rdvdao.obtenirListeRdv();
 			logger.info("RdvService - Liste des Rdv's recuperee");
+			logger.info("RdvService - Nombre d items recuperes : " + lalisterdv.size());
 			return lalisterdv;
 
 		} catch (DaoException message) {
@@ -70,6 +71,7 @@ public class RdvService {
 			logger.info("RdvService log : Demande au Dao la liste des Rdv's par client");
 			List<Rdv> laListeRdvParClient = rdvdao.obtenirListeRdvParClient(idClient);
 			logger.info("RdvService - Liste des Rdv's recuperee");
+			logger.info("RdvService - Nombre d items recuperes : " + laListeRdvParClient.size());
 			return laListeRdvParClient;
 			
 		} catch (DaoException message) {
@@ -95,6 +97,7 @@ public class RdvService {
 			logger.info("RdvService log : Demande au Dao la liste des Rdv's par praticien et par date");
 			List<Rdv> laListeRdvParDatePraticien = rdvdao.obtenirListeRdvDuJJParPraticien(dateJJ, idPraticien);
 			logger.info("RdvService - Liste des Rdv's recuperee");
+			logger.info("RdvService - Nombre d items recuperes : " + laListeRdvParDatePraticien.size());
 			return laListeRdvParDatePraticien;
 			
 		} catch (DaoException message) {
@@ -123,6 +126,7 @@ public class RdvService {
 			logger.info("RdvService log : Demande au Dao la liste des Rdv's par praticien et par plage de date");
 			List<Rdv> laListeRdvParplageDeDatePraticien = rdvdao.obtenirListeRdvParPlageDeDateParPraticien(dateA, dateB, idPraticien);
 			logger.info("RdvService - Liste des Rdv's recuperee");
+			logger.info("RdvService - Nombre d items dans la liste : " + laListeRdvParplageDeDatePraticien.size());
 			return laListeRdvParplageDeDatePraticien;
 			
 		} catch (DaoException message) {
@@ -414,6 +418,8 @@ public class RdvService {
 			
 			} else {
 				logger.error("RdvService log : Le format de la date est incorrecte");
+				logger.error("RdvService log : Format de la date recu : " + dateToCheck);
+				logger.error("RdvService log : Format attendu : YYYY-MM-DD");
 				throw new RdvDateIncorrecteException("RdvService Exception : Le format de la date est incorrecte");
 			}
 			
