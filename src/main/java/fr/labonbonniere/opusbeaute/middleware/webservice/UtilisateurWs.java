@@ -29,6 +29,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurIneffacableException;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
 /**
@@ -258,6 +259,7 @@ public class UtilisateurWs {
 	 * @param idUtilisateur Integer
 	 * @return Response
 	 * @throws AdresseInexistanteException Exception
+	 * @throws UtilisateurIneffacableException 
 	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
@@ -265,7 +267,7 @@ public class UtilisateurWs {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response supprimerUnUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur)
-			throws AdresseInexistanteException {
+			throws AdresseInexistanteException, UtilisateurIneffacableException {
 
 		Response.ResponseBuilder builder = null;
 		try {
@@ -277,7 +279,7 @@ public class UtilisateurWs {
 			String msg = "UtilisateurWs log : l adresse id : " + idUtilisateur + " a ien ete supprimee de la Bdd.";
 			builder = Response.ok(msg);
 
-		} catch (UtilisateurInexistantException message) {
+		} catch (UtilisateurIneffacableException message) {
 			logger.error(
 					"UtilisateurWs log : l Adresse id : " + idUtilisateur + " ne peut etre supprimee dans la Bdd.");
 			builder = Response.status(Response.Status.BAD_REQUEST);

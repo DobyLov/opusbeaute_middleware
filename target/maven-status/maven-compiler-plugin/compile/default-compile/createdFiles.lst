@@ -70,6 +70,7 @@ fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.cl
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailGeneratePwdNewUtilisateurService.class
 fr\labonbonniere\opusbeaute\middleware\service\wadl\WadlFileReaderService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PwdValidityCheckSendMailWS.class
+fr\labonbonniere\opusbeaute\middleware\service\utilisateur\UtilisateurIneffacableException.class
 fr\labonbonniere\opusbeaute\middleware\dao\LieuRdvDao.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresse\AdresseClientService.class

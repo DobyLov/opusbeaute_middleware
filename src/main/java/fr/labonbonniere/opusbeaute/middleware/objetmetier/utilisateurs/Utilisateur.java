@@ -51,6 +51,7 @@ public class Utilisateur implements Serializable {
 	private String suscribedSmsReminder;
 	private String suscribedMailReminder;
 	private Timestamp pwdExpirationDateTime;
+	private Boolean compteEffacable;
 	
 	public Utilisateur() {
 		super();
@@ -59,7 +60,7 @@ public class Utilisateur implements Serializable {
 	public Utilisateur(Integer idUtilisateur, String nomUtilisateur, String prenomUtilisateur,
 			String teleMobileUtilisateur, String adresseMailUtilisateur, String motDePasse,
 			Roles roles, String isLogged, String suscribedSmsReminder, String suscribedMailReminder,
-			Timestamp pwdExpirationDateTime) {
+			Timestamp pwdExpirationDateTime, boolean compteEffacable) {
 
 		super();
 		this.idUtilisateur = idUtilisateur;
@@ -73,6 +74,7 @@ public class Utilisateur implements Serializable {
 		this.suscribedSmsReminder = suscribedSmsReminder;
 		this.suscribedMailReminder = suscribedMailReminder;
 		this.pwdExpirationDateTime = pwdExpirationDateTime;
+		this.compteEffacable = compteEffacable;
 
 	}
 
@@ -177,9 +179,18 @@ public class Utilisateur implements Serializable {
 	public Timestamp getPwdExpirationDateTime() {
 		return pwdExpirationDateTime;
 	}
-
+	
 	public void setPwdExpirationDateTime(Timestamp pwdExpirationDateTime) {
 		this.pwdExpirationDateTime = pwdExpirationDateTime;
+	}
+	
+	@Column(name = "UTILISATEUR_COMPTEEFFACABLE", nullable = false, length = 1)
+	public Boolean getCompteEffacable() {
+		return compteEffacable;
+	}
+
+	public void setCompteEffacable(Boolean compteEffacable) {
+		this.compteEffacable = compteEffacable;
 	}
 
 	public static long getSerialversionuid() {
@@ -200,6 +211,7 @@ public class Utilisateur implements Serializable {
 				.append("suscribedSmsReminder",this.suscribedSmsReminder)
 				.append("suscribedMailReminder",this.suscribedMailReminder)
 				.append("pwdExpirationDateTime",this.pwdExpirationDateTime)
+				.append("compteEffacable",this.compteEffacable)
 				.build();
 
 	}
@@ -219,6 +231,7 @@ public class Utilisateur implements Serializable {
 		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
 		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
 		result = prime * result + ((pwdExpirationDateTime == null) ? 0 : pwdExpirationDateTime.hashCode());
+		result = prime * result + ((compteEffacable == null) ? 0 : compteEffacable.hashCode());
 		
 		return result;
 	}
@@ -247,7 +260,8 @@ public class Utilisateur implements Serializable {
 				.append(this.isLogged, autre.isLogged)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)
-				.append(this.pwdExpirationDateTime, autre.pwdExpirationDateTime)				
+				.append(this.pwdExpirationDateTime, autre.pwdExpirationDateTime)
+				.append(this.compteEffacable, autre.compteEffacable)
 				.build();
 
 	}

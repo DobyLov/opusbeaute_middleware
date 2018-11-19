@@ -197,8 +197,18 @@ public class LoginService {
 		Timestamp tsjj = Timestamp.from(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Europe/Paris")).toInstant());
 		// extrait la date d expiration du mot de passe de l utilisateur
 		Timestamp userPwdDate = utilisateur.getPwdExpirationDateTime();
-		// verifie si la validite de la date du mot de passe est expiree
-		if (userPwdDate.after(tsjj)) {
+		
+		// verifie si lutilisateur est root
+		// si c est le cas ne pas verifier la date d expiration.
+		if (utilisateur.getPrenomUtilisateur().matches("root") 
+				&& utilisateur.getNomUtilisateur().matches("root")) {
+			
+			logger.info("LoginService log : L'utilisateur " + utilisateur.getPrenomUtilisateur().toString()
+					+"/" + utilisateur.getNomUtilisateur().toString()
+					+ " n est pas concerne par le check de validite du mot de passe");
+			isPwdExpired = false;
+			
+		} else if (userPwdDate.after(tsjj)) {
 			
 			logger.info("LoginService log : le mot de passe dans la BDD n est pas expire");
 			isPwdExpired = false;
@@ -209,6 +219,8 @@ public class LoginService {
 			isPwdExpired = true;
 			
 		}
+		// verifie si la validite de la date du mot de passe est expiree		
+		
 		
 		return isPwdExpired;
 		

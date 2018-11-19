@@ -66,19 +66,29 @@ public class SendMailExpirationPwd7DaysBeforeService {
 			
 			Utilisateur jsonObj = listUsers.get(nbObj);
 			logger.info("SendMailExpirationPwd7DaysBeforeService log : Objet traite : " + jsonObj.toString());
-
 			Timestamp dateExp = checkIfPwdExpirationDateIsNull(jsonObj);
-
-			if(isDatePwdMatchingWithDateMinusXDays(plususXDaysFromLaDateDuJourZDT(), convertTimestampToDate(dateExp)) == true) {
+			
+			if (jsonObj.getPrenomUtilisateur().matches("root") 
+					&& jsonObj.getNomUtilisateur().matches("root")) {
+				
+				logger.info("LoginService log : L'utilisateur " + jsonObj.getPrenomUtilisateur().toString()
+						+"/" + jsonObj.getNomUtilisateur().toString()
+						+ " n est pas concerne par le check de validite du mot de passe");
+				nbObj++;
+				
+			} else if(isDatePwdMatchingWithDateMinusXDays(plususXDaysFromLaDateDuJourZDT(), convertTimestampToDate(dateExp)) == true) {
+				
 				logger.info("SendMailExpirationPwd7DaysBeforeService log : Le mot de passe utilisateur expire dans " + nbJrs + " jours");
 				logger.info("SendMailExpirationPwd7DaysBeforeService log : Envoie de mail pour prevenir l utilisateur");
 				// envoyer le mail de rappel Expiration pwd.
 				mailengine.moteurEmailEvoyer(mailMessage(jsonObj.getPrenomUtilisateur()), jsonObj.getAdresseMailUtilisateur(), customMailSubject);
 				
 			} else {
+				
 				logger.info("SendMailExpirationPwd7DaysBeforeService log : pas d Email a "
 						+ "envoyer car la date d expiration ne correspond pas a " + nbJrs);
 			}
+			
 			
 		}
 		

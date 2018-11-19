@@ -26,7 +26,6 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 
-
 /**
  * Gere les objets Utilisateurs
  * 
@@ -39,10 +38,10 @@ public class UtilisateurService {
 
 	@EJB
 	private UtilisateurDao utilisateurdao;
-	
+
 	@EJB
 	private PasswordHandlerService passwordHandler;
-	
+
 	@EJB
 	private GeneratePwdNewUtilisateurService generatepwdnewutilisateurservice;
 
@@ -50,7 +49,8 @@ public class UtilisateurService {
 	 * Recupere une Liste d Utilisateur
 	 * 
 	 * @return List
-	 * @throws DaoException Si pb Bdd
+	 * @throws DaoException
+	 *             Si pb Bdd
 	 */
 	public List<Utilisateur> recupereListeUtilisateur() throws DaoException {
 
@@ -70,9 +70,11 @@ public class UtilisateurService {
 	/**
 	 * Recupere un Utilisateur via son Id
 	 * 
-	 * @param idUtilisateur Integer
+	 * @param idUtilisateur
+	 *            Integer
 	 * @return Utilisateur
-	 * @throws UtilisateurInexistantException Si Utilisiteur inexistant
+	 * @throws UtilisateurInexistantException
+	 *             Si Utilisiteur inexistant
 	 */
 	public Utilisateur recupererUnUtilisateur(final Integer idUtilisateur) throws UtilisateurInexistantException {
 
@@ -93,25 +95,37 @@ public class UtilisateurService {
 	/**
 	 * Ajoute un nouvel Utilisateur
 	 * 
-	 * @param utilisateur Utilisateur
-	 * @throws UtilisateurExistantException	Si Utilisateur inexistant
-	 * @throws EmailFormatInvalidException si Format Email ne correspond pas
-	 * @throws NbCharNomException Si le nombre de caracteres ne correspond pas
-	 * @throws NbCharPrenomException Si le nombre de caracteres du prenom ne correspond pas
-	 * @throws NbCharTelException si le nombre de caracteres du numero de telephone ne correspond pas
-	 * @throws DaoException si il y a un probleme avec la bdd
-	 * @throws UtilisateurInexistantException Exception
+	 * @param utilisateur
+	 *            Utilisateur
+	 * @throws UtilisateurExistantException
+	 *             Si Utilisateur inexistant
+	 * @throws EmailFormatInvalidException
+	 *             si Format Email ne correspond pas
+	 * @throws NbCharNomException
+	 *             Si le nombre de caracteres ne correspond pas
+	 * @throws NbCharPrenomException
+	 *             Si le nombre de caracteres du prenom ne correspond pas
+	 * @throws NbCharTelException
+	 *             si le nombre de caracteres du numero de telephone ne
+	 *             correspond pas
+	 * @throws DaoException
+	 *             si il y a un probleme avec la bdd
+	 * @throws UtilisateurInexistantException
+	 *             Exception
 	 */
-	public void ajoutUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException, UtilisateurInexistantException, DaoException {
+	public void ajoutUnUtilisateur(Utilisateur utilisateur)
+			throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException,
+			NbCharTelException, UtilisateurInexistantException, DaoException {
 
 		try {
 			logger.info("UtilisateurService log : Demande d ajout d un nouvel Utilisateur dans la Bdd.");
 			validationformat(utilisateur);
-//			setInitialPwdExpirationDateTime(utilisateur);
+			// setInitialPwdExpirationDateTime(utilisateur);
 			utilisateurdao.ajouterUnutilisateur(utilisateur);
-			//envoyer un mail ave cles credentiels temporaires.
+			// envoyer un mail ave cles credentiels temporaires.
 			envoyerUnMessageAvecCredetielsAuNouvelUtilisateur(utilisateur);
-			logger.info("UtilisateurService log : Nouvelle Utilisateur ajoutee, avec l id : " + utilisateur.getIdUtilisateur());
+			logger.info("UtilisateurService log : Nouvelle Utilisateur ajoutee, avec l id : "
+					+ utilisateur.getIdUtilisateur());
 
 		} catch (UtilisateurExistantException message) {
 			logger.error("UtilisateurService log : Impossible de creer cet Utilisateur dans la Bdd.");
@@ -123,19 +137,26 @@ public class UtilisateurService {
 	/**
 	 * modifie un Utilisateur
 	 * 
-	 * @param utilisateur Utilisateur
-	 * @throws UtilisateurInexistantException si utilisateur inexistant
-	 * @throws EmailFormatInvalidException Si Le format Email ne correspond pas
-	 * @throws NbCharNomException Si le nombre de caractere du Nom ne correspond pas
-	 * @throws NbCharPrenomException Si le nombre de caractere du Prenom ne correspond pas
-	 * @throws NbCharTelException Si le nombre de caractere ne correspond pas
+	 * @param utilisateur
+	 *            Utilisateur
+	 * @throws UtilisateurInexistantException
+	 *             si utilisateur inexistant
+	 * @throws EmailFormatInvalidException
+	 *             Si Le format Email ne correspond pas
+	 * @throws NbCharNomException
+	 *             Si le nombre de caractere du Nom ne correspond pas
+	 * @throws NbCharPrenomException
+	 *             Si le nombre de caractere du Prenom ne correspond pas
+	 * @throws NbCharTelException
+	 *             Si le nombre de caractere ne correspond pas
 	 */
-	public void modifierUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public void modifierUnUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException,
+			EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
 
 		try {
 			logger.info("UtilisateurService log : Demande de modification du Utilisateur id : "
 					+ utilisateur.getIdUtilisateur() + " dans la Bdd.");
-			validationformat(utilisateur);			
+			validationformat(utilisateur);
 			utilisateurdao.modifieUnUtilisateur(utilisateur);
 			logger.info("UtilisateurService log : Utilisateur id : " + utilisateur.getIdUtilisateur()
 					+ " a ete modifie dans la Bdd.");
@@ -149,70 +170,85 @@ public class UtilisateurService {
 	}
 
 	/**
-	 * Supprime un Utilisateur
+	 * Supprime un Utilisateur par son Id
 	 * 
-	 * @param idUtilisateur Integer
-	 * @throws UtilisateurInexistantException Exception
+	 * @param idUtilisateur
+	 *            Integer
+	 * @throws UtilisateurInexistantException
+	 *             Exception
 	 */
-	public void suppressionDUnUtilisateur(final Integer idUtilisateur) throws UtilisateurInexistantException {
+	public void suppressionDUnUtilisateur(final Integer idUtilisateur) throws UtilisateurIneffacableException {
+
+		logger.info("UtilisateurService log :Procedure pour effacer l'utilisateur " + idUtilisateur);
 
 		try {
-			logger.info(
-					"UtilisateurService log : Demande de suppression de l Utilisateur id : " + idUtilisateur + " dans la Bdd.");
-			utilisateurdao.supprimeUnUtilisateur(idUtilisateur);
-			logger.info("UtilisateurService log : Utilisateur id : " + idUtilisateur + " a bien ete supprime de la Bdd.");
+
+			this.effaceUtilisateur(idUtilisateur);
+			logger.info("UtilisateurService log  : Utilisateur avec Id : " + idUtilisateur + " efface de la Bdd");
 
 		} catch (UtilisateurInexistantException message) {
-			logger.error(
-					"UtilisateurService log : Utilisateur id : " + idUtilisateur + " ne peut etre supprime dans la Bdd.");
-			throw new UtilisateurInexistantException("UtilisateurService Exception : Utilisateur id : " + idUtilisateur
-					+ " ne peut etre supprime dans la Bdd.");
+
+			logger.error("UtilisateurService log  : Utilisateur avec Id : " + idUtilisateur + " ineffacable");
+			throw new UtilisateurIneffacableException(
+					"UtilisateurService log  : Utilisateur avec Id : " + idUtilisateur + " ineffacable");
 		}
+
 	}
-	
+
 	/**
-	 *	Calcul la date du jour J en fonction de la Zone Europe/Paris
-	 *	et ajoute 90 Jours
+	 * Calcul la date du jour J en fonction de la Zone Europe/Paris et ajoute 90
+	 * Jours
 	 *
-	 * @param utilisateur Utilisateur
+	 * @param utilisateur
+	 *            Utilisateur
 	 * @return utilisateur Utilisateur
 	 */
 	public Utilisateur setInitialPwdExpirationDateTime(Utilisateur utilisateur) {
-		
-		// definition de la date du jourJ selon la zone de Paris et ajoute 90Jrs		
-		Timestamp tsZDTP90J = Timestamp.from(ZonedDateTime.of(LocalDateTime.now(), 
-							ZoneId.of("Europe/Paris")).plusMinutes(60).toInstant());
-		
+
+		// definition de la date du jourJ selon la zone de Paris et ajoute 90Jrs
+		Timestamp tsZDTP90J = Timestamp
+				.from(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Europe/Paris")).plusMinutes(60).toInstant());
+
 		utilisateur.setPwdExpirationDateTime(tsZDTP90J);
-		
+
 		return utilisateur;
 	}
-	
+
 	/**
-	 * Genere un mot de passe aleatoire
-	 * Envoyer un mail avec un mot de passe temporaire
+	 * Genere un mot de passe aleatoire Envoyer un mail avec un mot de passe
+	 * temporaire
 	 * 
-	 * @param nouvelUtilisateur Utilisateur
-	 * @throws UtilisateurInexistantException Exception
-	 * @throws DaoException Exception 
+	 * @param nouvelUtilisateur
+	 *            Utilisateur
+	 * @throws UtilisateurInexistantException
+	 *             Exception
+	 * @throws DaoException
+	 *             Exception
 	 */
-	public void envoyerUnMessageAvecCredetielsAuNouvelUtilisateur(Utilisateur nouvelUtilisateur) throws UtilisateurInexistantException, DaoException {
-		
+	public void envoyerUnMessageAvecCredetielsAuNouvelUtilisateur(Utilisateur nouvelUtilisateur)
+			throws UtilisateurInexistantException, DaoException {
+
 		generatepwdnewutilisateurservice.genereatePwd(nouvelUtilisateur.getAdresseMailUtilisateur());
 	}
-	
+
 	/**
 	 * Valide les champs d un Utilisateur
 	 * 
-	 * @param utilisateur Utilisateur
-	 * @return	Utilisateur
-	 * @throws EmailFormatInvalidException Exception
-	 * @throws NbCharNomException Exception
-	 * @throws NbCharPrenomException Exception
-	 * @throws NbCharTelException Exception
+	 * @param utilisateur
+	 *            Utilisateur
+	 * @return Utilisateur
+	 * @throws EmailFormatInvalidException
+	 *             Exception
+	 * @throws NbCharNomException
+	 *             Exception
+	 * @throws NbCharPrenomException
+	 *             Exception
+	 * @throws NbCharTelException
+	 *             Exception
 	 */
-	public Utilisateur validationformat(Utilisateur utilisateur) throws EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
-		
+	public Utilisateur validationformat(Utilisateur utilisateur)
+			throws EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
+
 		// Password validation et encryption Bcrypt
 		logger.info("UtilisateurService log : Test Utilisateur");
 		if (utilisateur.getMotDePasse() != null && !utilisateur.getMotDePasse().isEmpty()) {
@@ -234,10 +270,10 @@ public class UtilisateurService {
 			logger.error("UtilisateurService log : Utilisateur.MotDePasse est null.");
 			logger.error("UtilisateurService log : Utilisateur.MotDePasse est rempli de force");
 			utilisateur.setMotDePasse("ilfautdescaracteres");
-//			throw new NbCharNomException("Utilisateur Service Validation Exception : Client.MotDePass est Null");
+			// throw new NbCharNomException("Utilisateur Service Validation
+			// Exception : Client.MotDePass est Null");
 		}
-		
-		
+
 		// ---------------------------------------------------------------------------------------------------------
 		// ok
 		// Check Prenom est vide / depasse 30 caracteres.
@@ -252,7 +288,8 @@ public class UtilisateurService {
 			} else {
 				logger.info("UtilisateurService log : Utilisateur.Prenom formate en Xxxxx.");
 				String checkSpaceAtStrBeginAndCharacSpec = utilisateur.getPrenomUtilisateur();
-				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				String StringWithoutSpaceAndCharspec = checkSpaceAtStrBeginAndCharacSpec(
+						checkSpaceAtStrBeginAndCharacSpec);
 				utilisateur.setPrenomUtilisateur(WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec, '-'));
 
 			}
@@ -271,12 +308,14 @@ public class UtilisateurService {
 			if (utilisateur.getNomUtilisateur().length() > 30) {
 				logger.error("Utilisateur Service log : Utilisateur.Nom depasse 30 caracteres");
 				utilisateur.setNomUtilisateur(null);
-				throw new NbCharNomException("Utilisateur Service Validation Exception : Utilisteur.Nom depasse 30 caracteres.");
+				throw new NbCharNomException(
+						"Utilisateur Service Validation Exception : Utilisteur.Nom depasse 30 caracteres.");
 
 			} else {
 				logger.info("Utilisateur Service log : Utilisateur.Nom Nom formate en MAJ.");
 				String checkSpaceAtStrBeginAndCharacSpec = utilisateur.getNomUtilisateur();
-				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+				String StringWithoutSpaceAndCharspec = checkSpaceAtStrBeginAndCharacSpec(
+						checkSpaceAtStrBeginAndCharacSpec);
 				utilisateur.setNomUtilisateur(StringWithoutSpaceAndCharspec.toUpperCase());
 			}
 
@@ -286,7 +325,6 @@ public class UtilisateurService {
 			throw new NbCharNomException("Utilisateur Service Validation Exception : Utilisateur.Nom est Null");
 		}
 
-		
 		// OK ---------------------------------------------------
 		// Check Présence Numéro de portable égale à 10, commençant par 06 ou
 		// 07.
@@ -295,7 +333,7 @@ public class UtilisateurService {
 		if (utilisateur.getTeleMobileUtilisateur() != null && !utilisateur.getTeleMobileUtilisateur().isEmpty()) {
 			logger.info("Utilisateur Service log : Utilisateur.TelMobile n est pas null :)");
 			String checkSpaceAtStrBeginAndCharacSpec = utilisateur.getTeleMobileUtilisateur();
-			String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+			String StringWithoutSpaceAndCharspec = strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
 			utilisateur.setTeleMobileUtilisateur(StringWithoutSpaceAndCharspec);
 			if (utilisateur.getTeleMobileUtilisateur().length() == 10) {
 
@@ -308,14 +346,15 @@ public class UtilisateurService {
 
 				} else {
 					logger.error("Utilisateur Service log : SuscribedSmsReminder TRUE n est pas envisageable "
-							+ "car Utilisateur.TelMobile commence par : " + utilisateur.getTeleMobileUtilisateur().substring(0, 2));
-							utilisateur.setSuscribedSmsReminder("F");
+							+ "car Utilisateur.TelMobile commence par : "
+							+ utilisateur.getTeleMobileUtilisateur().substring(0, 2));
+					utilisateur.setSuscribedSmsReminder("F");
 					logger.info("Utilisateur Service log : SuscribedSmsReminder force a etre FALSE");
 				}
 
 			} else {
-				logger.info("Utilisateur Service log : Utilisateur.TelMobile comporte : " + utilisateur.getTeleMobileUtilisateur().length()
-						+ " alors que 10 sont attendus.");
+				logger.info("Utilisateur Service log : Utilisateur.TelMobile comporte : "
+						+ utilisateur.getTeleMobileUtilisateur().length() + " alors que 10 sont attendus.");
 				utilisateur.setSuscribedSmsReminder("F");
 				logger.info("Utilisateur Service log : SuscribedSmsReminder force a etre FALSE");
 				utilisateur.setTeleMobileUtilisateur(null);
@@ -339,23 +378,28 @@ public class UtilisateurService {
 
 			logger.info("Utilisateur Service log : test Utilisateur.AdresseMail non null.");
 			String checkSpaceAtStrBeginAndCharacSpec = utilisateur.getAdresseMailUtilisateur();
-			String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpecMail(checkSpaceAtStrBeginAndCharacSpec);
+			String StringWithoutSpaceAndCharspec = checkSpaceAtStrBeginAndCharacSpecMail(
+					checkSpaceAtStrBeginAndCharacSpec);
 			utilisateur.setAdresseMailUtilisateur(StringWithoutSpaceAndCharspec);
-			
+
 			if (utilisateur.getAdresseMailUtilisateur().length() > 50) {
-				logger.info("Utilisateur Service log : Utilisateur.AdresseMail format non valide depasse 50 caracteres.");
+				logger.info(
+						"Utilisateur Service log : Utilisateur.AdresseMail format non valide depasse 50 caracteres.");
 				utilisateur.setSuscribedMailReminder("F");
 				logger.info("Utilisateur Service log : SuscribedMailRemider force a FALSE");
-				throw new EmailFormatInvalidException("UtilisateurService Validation Exception : Utilisateur.Mail non valide");
+				throw new EmailFormatInvalidException(
+						"UtilisateurService Validation Exception : Utilisateur.Mail non valide");
 
 			} else {
 				Boolean emailFormatvalidation = isValidEmailAddress(utilisateur.getAdresseMailUtilisateur());
 
 				if (emailFormatvalidation == false) {
-					logger.info("Utilisateur Service log : Utilisateur.AdresseMail Format non valide : " + emailFormatvalidation);
+					logger.info("Utilisateur Service log : Utilisateur.AdresseMail Format non valide : "
+							+ emailFormatvalidation);
 					utilisateur.setSuscribedMailReminder("F");
 					logger.info("Utilisateur Service log : SuscribedMailRemider force a FALSE");
-					throw new EmailFormatInvalidException("UtilisateurService Validation Exception : Utilisateur.Mail non valide");
+					throw new EmailFormatInvalidException(
+							"UtilisateurService Validation Exception : Utilisateur.Mail non valide");
 
 				}
 			}
@@ -374,8 +418,9 @@ public class UtilisateurService {
 	/**
 	 * Valide le format de l adresse Email
 	 * 
-	 * @param emailFormatvalidation String
-	 * @return	boolean
+	 * @param emailFormatvalidation
+	 *            String
+	 * @return boolean
 	 */
 	public boolean isValidEmailAddress(String emailFormatvalidation) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -386,46 +431,51 @@ public class UtilisateurService {
 	}
 
 	/**
-	 * Verifie si le champs ne commence pas par un espace
-	 * et si possede des caracteres speciaux
-	 * Si oui suppression de ceux ci
+	 * Verifie si le champs ne commence pas par un espace et si possede des
+	 * caracteres speciaux Si oui suppression de ceux ci
 	 * 
-	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @param checkSpaceAtBeginAndCharacSpec
+	 *            String
 	 * @return String
 	 */
-	// Verifier la String Si elle commence par un espace ou possede des carcteres speciaux
-	// Si c est le cas ne clash pas l appli mais reformate la String sans l espace en debut et sans les carac Spec.
+	// Verifier la String Si elle commence par un espace ou possede des
+	// carcteres speciaux
+	// Si c est le cas ne clash pas l appli mais reformate la String sans l
+	// espace en debut et sans les carac Spec.
 	public String checkSpaceAtStrBeginAndCharacSpec(String checkSpaceAtBeginAndCharacSpec) {
 
 		String strWithoutSpaceAtBegin = null;
 		String strWithoutSpaceAtBeginCheckedCSpec = null;
 		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
-		
+
 		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
-			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _"
+					+ checkSpaceAtBeginAndCharacSpec);
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
 			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
-			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
-		
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _"
+					+ strWithoutSpaceAtBeginCheckedCSpec);
+
 		} else {
-			
+
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
-		
+
 		return strWithoutSpaceAtBegin;
 	}
 
 	/**
-	 * Verifie si la String commence par un espace
-	 * Verifie si la string comporte des caracteres speciaux
+	 * Verifie si la String commence par un espace Verifie si la string comporte
+	 * des caracteres speciaux
 	 * 
-	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @param checkSpaceAtBeginAndCharacSpec
+	 *            String
 	 * @return String
 	 */
 	public String strUniquemtNumero(String checkSpaceAtBeginAndCharacSpec) {
@@ -433,32 +483,35 @@ public class UtilisateurService {
 		String strWithoutSpaceAtBegin = null;
 		String strWithoutSpaceAtBeginCheckedCSpec = null;
 		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
-		
+
 		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
-			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _"
+					+ checkSpaceAtBeginAndCharacSpec);
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
 			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
-			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
-		
+			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _"
+					+ strWithoutSpaceAtBeginCheckedCSpec);
+
 		} else {
-			
+
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
-		
+
 		return strWithoutSpaceAtBegin;
 	}
 
 	/**
-	 * Verifie si la String commence par un espace
-	 * Verifie si la string comporte des caracteres speciaux 
+	 * Verifie si la String commence par un espace Verifie si la string comporte
+	 * des caracteres speciaux
 	 * 
-	 * @param checkSpaceAtBeginAndCharacSpec String
+	 * @param checkSpaceAtBeginAndCharacSpec
+	 *            String
 	 * @return String
 	 */
 	public String checkSpaceAtStrBeginAndCharacSpecMail(String checkSpaceAtBeginAndCharacSpec) {
@@ -466,46 +519,53 @@ public class UtilisateurService {
 		String strWithoutSpaceAtBegin = null;
 		String strWithoutSpaceAtBeginCheckedCSpec = null;
 		logger.info("StringBeginningSpaceCaraSpecDetector log : Check si la String debute avec un espace.");
-		
+
 		if (checkSpaceAtBeginAndCharacSpec.startsWith(" ")) {
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
-			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + checkSpaceAtBeginAndCharacSpec);
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _"
+					+ checkSpaceAtBeginAndCharacSpec);
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
 			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^.^@^a-zA-Z^-^é^è]", "");
-//			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^-^@^a-zA-Z^é^è]", "");
+			// strWithoutSpaceAtBeginCheckedCSpec =
+			// strWithoutSpaceAtBegin.replaceAll("[^-^@^a-zA-Z^é^è]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
-			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
-		
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _"
+					+ strWithoutSpaceAtBeginCheckedCSpec);
+
 		} else {
-			
+
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^.^@^a-zA-Z^-^é^è]", "");
-//			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^-^@^a-zA-Z^é^è]", "");
+			// strWithoutSpaceAtBegin =
+			// checkSpaceAtBeginAndCharacSpec.replaceAll("[^-^@^a-zA-Z^é^è]",
+			// "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
-		
+
 		return strWithoutSpaceAtBegin.toLowerCase();
 	}
-	
+
 	/**
 	 * Retrouve un utilisateur par son email
 	 * 
-	 * @param email String
+	 * @param email
+	 *            String
 	 * @return Utilisateur
-	 * @throws UtilisateurInexistantException Exception
+	 * @throws UtilisateurInexistantException
+	 *             Exception
 	 */
 	public Utilisateur recupererUnUtilisateurViaeMail(final String email) throws UtilisateurInexistantException {
 
 		try {
-			
+
 			logger.info("UtilisateurService log : Demande a la bdd le Utilisateur email : " + email);
-			
+
 			Utilisateur utilisateur = utilisateurdao.utilisateurParEmail(email.toLowerCase());
 			logger.info("UtilisateurService log : Utilisateur email : " + utilisateur.getAdresseMailUtilisateur()
 					+ " trouve, envoie de l objet Utilisateur");
-			
+
 			return utilisateur;
 
 		} catch (UtilisateurInexistantException message) {
@@ -514,38 +574,129 @@ public class UtilisateurService {
 					"UtilisateurService Exception : Pas d utilisateur est trouve dans la base avec l email : " + email);
 		}
 	}
-	
+
 	/**
 	 * Cherche si le mail fourni existe dans la table Utilisateur
 	 * 
-	 * @param email String
+	 * @param email
+	 *            String
 	 * @return boolean
-	 * @throws MailNotFoundException Exception
+	 * @throws MailNotFoundException
+	 *             Exception
 	 */
 	public boolean verifieSiAdresseMailFournieExisteDansUtilisateur(String email) throws MailNotFoundException {
-		
+
 		try {
-			
+
 			logger.info("UtilisateurService log : Demande si le mail " + email + " existe dans la table Utilisateur");
-			if (utilisateurdao.checkMailExistInDB(email.toLowerCase()) >=1) {
+			if (utilisateurdao.checkMailExistInDB(email.toLowerCase()) >= 1) {
 				logger.info("UtilisateurService log : Le mail " + email + " existe dans la table Utilisateur");
-			
+
 				return true;
-			} else {		
+			} else {
 				logger.info("UtilisateurService log : Le mail " + email + " n existe pas dans la table Utilisateur");
 
 				return false;
 			}
-			
+
 		} catch (MailNotFoundException message) {
 			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
 			return false;
-			
+
 		} catch (Exception message) {
-			logger.info("UtilisateurService log : Lee mail " + email + " n existe pas dans la table Utilisateur");
+			logger.error(
+					"UtilisateurService Exception : Lee mail " + email + " n existe pas dans la table Utilisateur");
 			return false;
 		}
-		
+
 	}
-	
+
+	/**
+	 * Effacer l'utilisateur par son Id en vérifiant que l utilisateur existe,
+	 * que l utilisateur a le status Effacable puis l efface
+	 * 
+	 * @param idUtilisateurToSwipe
+	 * @return Boolean
+	 * @throws UtilisateurIneffacableException
+	 * @throws UtilisateurInexistantException
+	 * @throws Exception
+	 *             UtilisateurInexistantException
+	 */
+	private Boolean effaceUtilisateur(Integer idUtilisateurToSwipe)
+			throws UtilisateurIneffacableException, UtilisateurInexistantException {
+
+		logger.info("UtilisateurService log : Verification de la possibilite de supprimer l utilisateur id : "
+				+ idUtilisateurToSwipe);
+
+		try {
+			// Recuperer lutilisateur via son ID
+			logger.info("UtilisateurService log : recherche Utilisateur id : " + idUtilisateurToSwipe);
+			Utilisateur utilisateur = this.recupererUnUtilisateur(idUtilisateurToSwipe);
+			// si l'utilisateur existe verifier qui a le status effacable
+			this.checkIfUserIsErasable(utilisateur);
+			// si le compte a le status effacable l'effacer
+			this.effacerUtilisateurFourniParSonId(idUtilisateurToSwipe);
+
+		} catch (UtilisateurIneffacableException message) {
+			logger.error("UtilisateurService log  : Utilisateur avec Id : " + idUtilisateurToSwipe + " ineffacable");
+			throw new UtilisateurIneffacableException(
+					"UtilisateurService Exception  : Utilisateur avec Id : " + idUtilisateurToSwipe + " ineffacable");
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Verifie le status EFFACABLEde l'utilisateur avent de l effacer
+	 * 
+	 * @param utilisateur
+	 *            Utilisateur
+	 * @return Boolean
+	 */
+	private Boolean checkIfUserIsErasable(Utilisateur utilisateur) throws UtilisateurIneffacableException {
+
+		logger.info("UtilisateurService log : Verification si l utilisateur a le status Effacable");
+
+		if (utilisateur.getCompteEffacable().booleanValue() == false) {
+
+			logger.error("UtilisateurService log : Cet utilisateur ne peut etre efface a cause de son status");
+
+			throw new UtilisateurIneffacableException(
+					"UtilisateurService Exception : Le status de l'utilisateur ne permet pas de leffacer");
+
+		}
+
+		logger.info("UtilisateurService log : Cet utilisateur peut etre efface");
+		return true;
+
+	}
+
+	/**
+	 * Effacer L'utilisateur par son Id
+	 * 
+	 * @param idUtilisateur
+	 * @throws UtilisateurInexistantException
+	 */
+	private boolean effacerUtilisateurFourniParSonId(Integer idUtilisateur) throws UtilisateurInexistantException {
+
+		try {
+
+			logger.info("UtilisateurService log : Demande de suppression de l Utilisateur id : " + idUtilisateur
+					+ " dans la Bdd.");
+			utilisateurdao.supprimeUnUtilisateur(idUtilisateur);
+			logger.info(
+					"UtilisateurService log : Utilisateur id : " + idUtilisateur + " a bien ete supprime de la Bdd.");
+
+		} catch (UtilisateurInexistantException message) {
+			logger.error("UtilisateurService log : Utilisateur id : " + idUtilisateur
+					+ " ne peut etre supprime dans la Bdd.");
+			throw new UtilisateurInexistantException("UtilisateurService Exception : Utilisateur id : " + idUtilisateur
+					+ " ne peut etre supprime dans la Bdd.");
+		}
+
+		return true;
+
+	}
+
 }
