@@ -69,8 +69,8 @@ public class SendMailExpirationPwd1DaysBeforeService {
 
 			Timestamp dateExp = checkIfPwdExpirationDateIsNull(jsonObj);
 
-			if (jsonObj.getPrenomUtilisateur().matches("root") 
-					&& jsonObj.getNomUtilisateur().matches("root")) {
+			if (jsonObj.getPrenomUtilisateur().toLowerCase().matches("root") 
+					&& jsonObj.getNomUtilisateur().toLowerCase().matches("root")) {
 				
 				logger.info("LoginService log : L'utilisateur " + jsonObj.getPrenomUtilisateur().toString()
 						+"/" + jsonObj.getNomUtilisateur().toString()

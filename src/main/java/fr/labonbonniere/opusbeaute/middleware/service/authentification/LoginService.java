@@ -200,8 +200,8 @@ public class LoginService {
 		
 		// verifie si lutilisateur est root
 		// si c est le cas ne pas verifier la date d expiration.
-		if (utilisateur.getPrenomUtilisateur().matches("root") 
-				&& utilisateur.getNomUtilisateur().matches("root")) {
+		if (utilisateur.getPrenomUtilisateur().toLowerCase().matches("root") 
+				&& utilisateur.getNomUtilisateur().toLowerCase().matches("root")) {
 			
 			logger.info("LoginService log : L'utilisateur " + utilisateur.getPrenomUtilisateur().toString()
 					+"/" + utilisateur.getNomUtilisateur().toString()
