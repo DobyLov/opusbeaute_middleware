@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityExistsException;
 import javax.persistence.TypedQuery;
@@ -290,15 +289,16 @@ public class RdvDao {
 
 		try {
 			logger.info("RdvDao log : Demande a la Bdd le nombre de Rdv's a la date selectionnee.");
-			logger.info("RdvDao log : date a traiter : " + rdvDateDuJour);
-
-			String requete = "SELECT count(c) FROM Rdv c" + " WHERE rdv_dhdebut >= '" + rdvDateDuJour + " 00:00:00'"
-					+ " AND rdv_dhdebut <= '" + rdvDateDuJour + " 23:59:00'";
-
+			logger.info("RdvDao log : Date a traiter : " + rdvDateDuJour);
+			logger.info("RdvDao log : toto : ");
+			String requete = "SELECT COUNT(*) FROM Rdv"
+					+ " WHERE rdv_dhdebut > '" + rdvDateDuJour + " 00:00:00'"
+					+ " AND rdv_dhdebut < '" + rdvDateDuJour + " 23:59:59'";
+			
 			logger.info("RdvDao log : Requete : " + requete);
-			Query query = em.createQuery(requete);
-			Integer compteurRdv = query.getFirstResult();
-
+			TypedQuery<Long> query = em.createQuery(requete, Long.class);
+			Integer compteurRdv = query.getSingleResult().intValue();
+			logger.info("RdvDao log : il y a : " + compteurRdv + " pour la date du : " + rdvDateDuJour);
 			logger.info("RdvDao log : Transmission du nombre de Rdv's par date selectionnee.");
 
 			return compteurRdv;

@@ -25,12 +25,17 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvExistantExcepti
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.RdvInexistantException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.service.authentification.SecuApp;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.DateConversionException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.NoRdvException;
-import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDebutChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDateIncorrecteException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauDateFinChevaucheRdvExistantDateDebutException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauEnglobeParRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEgaliteChevauchementException;
-import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEnglobantException;
-import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvFinChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNonIntegrableException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauEnglobeRdvExistantException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauDateDebutChevaucheRdvExistantDateFinException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvService;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.TimestampToZoneDateTimeConvertionException;
 
 /**
  * WebService REST Gestion des RDV's
@@ -311,22 +316,28 @@ public class RdvWs {
 	 * @throws DaoException Exception
 	 * @throws RdvEgaliteChevauchementException Exception
 	 * @throws NoRdvException Exception
-	 * @throws RdvDebutChevauchementException Exception
-	 * @throws RdvFinChevauchementException Exception
-	 * @throws RdvEnglobantException Exception
+	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException Exception
+	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException Exception
+	 * @throws RdvNouveauEnglobeRdvExistantException Exception
+	 * @throws RdvNouveauEnglobeParRdvExistantException 
+	 * @throws RdvNonIntegrableException 
+	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvDateIncorrecteException 
+	 * @throws DateConversionException 
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/add
 	// ne pas mettre l idRdv, ajouter a l' objet et les parametres RDV	
 	// POSTMAN
 	//		POST	BODY	raw		JSON	
-	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+//	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
+	@DefineUserRole({"ALLOWALL"})
 	@POST
 	@Path("/add")	// fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnRdv(Rdv rdv) throws RdvExistantException, DaoException, 
-											RdvEgaliteChevauchementException, NoRdvException, RdvDebutChevauchementException, 
-											RdvFinChevauchementException, RdvEnglobantException {
+											RdvEgaliteChevauchementException, NoRdvException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, 
+											RdvNouveauDateDebutChevaucheRdvExistantDateFinException, RdvNouveauEnglobeRdvExistantException, TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauEnglobeParRdvExistantException, RdvDateIncorrecteException, DateConversionException {
 		logger.info("-----------------------------------------------------");
 		logger.info("RdvWs log : Demande d ajout d un nouveau Rdv dans la Bdd.");
 		Response.ResponseBuilder builder = null;

@@ -60,7 +60,7 @@ public class PrestationWs {
 	 */
 	@DefineUserRole({ "ALLOWALL" })
 	@GET
-	@Path("/listeprestations")
+	@Path("/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listeDesPrestations() throws DaoException {
 

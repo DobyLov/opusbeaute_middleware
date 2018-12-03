@@ -51,6 +51,7 @@ public class Rdv implements Serializable {
 	private Client client;
 	private LieuRdv lieuRdv;
 	private Utilisateur utilisateur;
+	private Boolean isCancelled;
 
 	public Rdv() {
 		super();
@@ -58,7 +59,7 @@ public class Rdv implements Serializable {
 
 	public Rdv(Integer idRdv, String nom, String prenom, Timestamp dateHeureDebut, 
 			Timestamp dateHeureFin,	Timestamp dateDeSaisie, Prestation prestation, 
-			Praticien praticien, Client client, LieuRdv lieuRdv, Utilisateur utilisateur) {
+			Praticien praticien, Client client, LieuRdv lieuRdv, Utilisateur utilisateur, Boolean isCancelled) {
 
 		super();
 		this.idRdv = idRdv;
@@ -70,13 +71,14 @@ public class Rdv implements Serializable {
 		this.client = client;
 		this.lieuRdv = lieuRdv;
 		this.utilisateur = utilisateur;
+		this.isCancelled = isCancelled;
 
 	}
 
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="RDV_SEQ",
-	initialValue = 8, allocationSize = 99999)
+	initialValue = 30, allocationSize = 99999)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "RDV_IDRDV", nullable = false, length = 8)
 	public Integer getIdRdv() {
@@ -96,7 +98,7 @@ public class Rdv implements Serializable {
 		this.dateHeureDebut = dateHeureDebut;
 	}
 
-	@Column(name = "RDV_DHFIN", nullable = true)
+	@Column(name = "RDV_DHFIN", nullable = false)
 	public Timestamp getDateHeureFin() {
 		return dateHeureFin;
 	}
@@ -164,6 +166,15 @@ public class Rdv implements Serializable {
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
+	
+	@Column(name = "RDV_ISCANCELLED", nullable = false)
+	public Boolean getIsCancelled() {
+		return isCancelled;
+	}
+
+	public void setIsCancelled(Boolean isCancelled) {
+		this.isCancelled = isCancelled;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -180,6 +191,7 @@ public class Rdv implements Serializable {
 				.append(praticien)
 				.append(client)
 				.append(lieuRdv)
+				.append(isCancelled)
 				.build();
 	}
 
@@ -195,6 +207,7 @@ public class Rdv implements Serializable {
 		result = prime * result + ((praticien == null) ? 0 : praticien.hashCode());
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		result = prime * result + ((lieuRdv == null) ? 0 : lieuRdv.hashCode());
+		result = prime * result + ((isCancelled == null) ? 0 : isCancelled.hashCode());
 
 		return result;
 	}
@@ -221,6 +234,7 @@ public class Rdv implements Serializable {
 				.append(this.praticien, autre.praticien)
 				.append(this.lieuRdv, autre.lieuRdv)
 				.append(this.client, autre.client)
+				.append(this.isCancelled, autre.isCancelled)
 				.build();
 	}
 }
