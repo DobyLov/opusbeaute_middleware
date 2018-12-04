@@ -15,9 +15,6 @@ import javax.ejb.Stateless;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.RdvDao;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv.Rdv;
@@ -211,142 +208,26 @@ public class RdvService {
 	}
 
 	/**
-	 * Ajoute un nouveau Rdv
-	 * 
-	 * 
+	 * Ajoute un nouveau Rdv 
 	 * @param rdv Rdv 
-	 * @throws RdvDateIncorrecteException 
 	 * @throws DateConversionException 
-	 * @throws Exception RdvExistantException Si Rdv deja Existant
-	 * @throws Exception DaoException	Si pb Bdd
-	 * @throws Exception RdvEgaliteChevauchementException Si chevauchement de Rdv
-	 * @throws Exception NoRdvException Si pas de rdv
-	 * @throws Exception RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
-	 * @throws Exception RdvNouveauEnglobeRdvExistantException 
-	 * @throws Exception RdvNouveauEnglobeParRdvExistantException 
-	 * @throws Exception RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
-	 * @throws Exception RdvNonIntegrableException 
-	 * @throws Exception TimestampToInstantConvertionException 
-	 * @throws Exception RdvDebutChevauchementException Si Chevauchement au debut
-	 * @throws Exception RdvFinChevauchementException	Si chevauchement a la fin de Rdv
-	 * @throws Exception RdvEnglobantException probleme de Rdv engloabant
+	 * @throws RdvDateIncorrecteException 
+	 * @throws DaoException 
+	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
+	 * @throws RdvNouveauEnglobeRdvExistantException 
+	 * @throws RdvNouveauEnglobeParRdvExistantException 
+	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
+	 * @throws RdvNonIntegrableException 
+	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvExistantException 
 	 */
-	public void ajoutRdv(Rdv rdv) throws RdvExistantException, DaoException, RdvEgaliteChevauchementException,
-			NoRdvException, TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, RdvDateIncorrecteException, DateConversionException {
-//		rdvdao.ajouterUnRdv(rdv);
+	public void ajoutRdv(Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvExistantException {
 
-		logger.info(
-				"Rdvservice log : Debut traitement metier pour ajouter Du Rdv.");
-//		logger.info(
-//				"Rdvservice log : Requeter la bdd avec la date du Rdv afin de recuperer la liste des Rdv du jour demande.");
-//
-//		// Recuperation des ts debut et fin du rdv proposé
-//		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + rdv.getDateHeureDebut());
-//		Timestamp tsRdvDebut = rdv.getDateHeureDebut();
-//		logger.info("Rdvservice log : Convert du TimeStamp tsRdvDebut : " + tsRdvDebut);
-//		long longTsRdvDebutMilliSec = tsRdvDebut.getTime();
-//		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + longTsRdvDebutMilliSec);
-//
-//		Timestamp tsRdvFin = rdv.getDateHeureFin();
-//		long longTsRdvFinMilliSec = tsRdvFin.getTime();
-//		logger.info("Rdvservice log : Recuperation du TimeStamp tsRdvDebut : " + tsRdvFin);
-//
-//		// Conversion du TS date début prestation en String date yyyy-MM-dd
-//		logger.info("Rdvservice log : Conversion du tsRdvDebut en STR pour requeter la bdd.");
-//		// traitement du TS récupéré
-////		String convTsToStr = Long.toString(longTsRdvDebutMilliSec) + "000";
-////		logger.info("Rdvservice log : Conversion du TS en STR plus 000 : " + convTsToStr);
-////		Date tsToDate = new Date(Long.parseLong(convTsToStr));
-//		Date tsToDate = new Date(longTsRdvDebutMilliSec);
-//		logger.info("Rdvservice log : Conversion de la STR en Date : " + tsToDate);
-//		String dateformatpattern = "yyyy-MM-dd";
-////		String dateformatpattern = "dd/MM/yyyy";
-//		SimpleDateFormat sdf = new SimpleDateFormat(dateformatpattern);
-//		logger.info("Rdvservice log : Formatage de la date avec le pattern yyyy-MM-dd.");
-//		String rdvDateDuJour = (String) sdf.format(tsToDate);
-//		logger.info("Rdvservice log : Date formatee : " + rdvDateDuJour);
-//		logger.info("Rdvservice log : Date prete a etre envoyee a la Bdd pour requeter.");
-		List<Rdv> listRdvFournie = recupereLaListeDeRdvSelonLeJourFourniDansLeRdv(rdv);
+		logger.info("Rdvservice log : Debut traitement metier pour ajouter Du Rdv.");
 		try {
-			// Recupération du nombre de rdv programmés le jourj
-//			logger.info(
-//					"Rdvservice log : Demande a la Bdd le nb de Rdv a la date du : " + rdvDateDuJour);
-//			Integer compteurRdvDuJour = rdvdao.renvoyerLeNbDeRdvDuJour(rdvDateDuJour);
-//			logger.info(
-//					"Rdvservice log : Il y a : " + compteurRdvDuJour + " Rdv a la date du : " + rdvDateDuJour);
-
-			// recuperation des la dates de debut et fin du rdv a plannifier
-			// Compteur de rdv ds la bdd, si different de Zero rdv poursuivre l
-			// enregistrement du rdv
-			logger.info("Rdvservice log : Liste Rdv : " + listRdvFournie.size() + " items a la date : " + tsToZdt(rdv.getDateHeureDebut()) );
-			if (listRdvFournie.size() > 0 ) {
-				// recuperer la liste des rdv selon la date du rdv au format
-				// Json et la gere en JSONARRAY
-//				List<Rdv> listeRdvJson = rdvdao.obtenirListeRdvParDate(rdvDateDuJour);
-//				org.json.simple.JSONArray jsonobj =  (JSONArray) listeRdvJson; // a remettre si il le faut
-
-				// Recupere le nombre d objet json pour les intervals
-//				Integer nombreObjJson = jsonobj.size(); // a remettre si il le faut
-//				Integer nombreObjJson = listeRdvJson.size(); // a remettre si il le faut
-//				if (nombreObjJson == 0) {// a remettre si il le faut
-//					throw new NoRdvException("probleme pour les intervals Il n y a pas de rdv");// a remettre si il le faut
-//				}// a remettre si il le faut
-
-				// Genereateur d intermediare de Rdv pour check le chevauchement
-//				long tsResultSoustraction = longTsRdvFinMilliSec - longTsRdvDebutMilliSec;
-//				long divisionResultatSoustraction = tsResultSoustraction / 10;
-//				long incremRdvDateDebut = longTsRdvDebutMilliSec + divisionResultatSoustraction;
-
-//				for (int i = 0; i < nombreObjJson; i++) {// a remettre si il le faut
-				for (int i = 0; i < listRdvFournie.size(); i++) {
-//					JSONObject obj = (JSONObject) jsonobj.get(i); // a remettre si il le faut
-//					Rdv obj = listeRdvJson.get(i);// a remettre si il le faut
-					Rdv objRdv = listRdvFournie.get(i);
-//					Long rdvBddDateDebut = (Long) obj.get("dateHeureDebut");
-//					Timestamp rdvBddDateDebut = obj.getDateHeureDebut(); // a remettre si il le faut
-//					Timestamp rdvBddDateFin = obj.getDateHeureFin(); // a remettre si il le faut
-//					Instant testtsToInt = rdvBddDateDebut.toInstant(); // a remettre si il le faut
-					logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " + objRdv.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
-					verificationIntegrationNouveauRdvDansAgenda(rdv, objRdv);
-//					Boolean valbou = testInterval(incremRdvDateDebut, rdvBddDateDebut, rdvBddDateFin);
-//
-//					// test si le 
-//					if (rdvBddDateDebut < longTsRdvDebutMilliSec && longTsRdvDebutMilliSec < rdvBddDateFin) {
-//
-//						logger.info(
-//								"Rdvservice log : Probleme avec la Date de DEBUT du Rdv et le Rdv de la Bdd id : " + i);
-//						logger.info("Rdvservice log : objet : " + obj);
-//						throw new RdvDebutChevauchementException(
-//								"Probleme de chevauchement sur le debut du Rdv Propose");
-//
-//					} else if (rdvBddDateDebut < longTsRdvFinMilliSec && longTsRdvFinMilliSec < rdvBddDateFin) {
-//
-//						logger.info(
-//								"Rdvservice log : Probleme avec la date de FIN du Rdv et le Rdv de la Bdd id : " + i);
-//						logger.info("Rdvservice log : objet : " + obj);
-//						throw new RdvFinChevauchementException("Probleme de chevauchement sur la Fin du Rdv Propose");
-//
-//					} else if (rdvBddDateDebut == longTsRdvDebutMilliSec && longTsRdvFinMilliSec == rdvBddDateFin) {
-//
-//						logger.info(
-//								"Rdvservice log : Probleme ce craineau est deja occupe par un rdv de la Bdd id : " + i);
-//						logger.info("Rdvservice log : objet : " + obj);
-//						throw new RdvEgaliteChevauchementException(
-//								"Probleme de chevauchement sur le debut et la Fin du Rdv Propose");
-//
-//					} else if (valbou == true) {
-//
-//						logger.info(
-//								"Rdvservice log : Probleme ce craineau est deja occupe par un rdv de la Bdd id : " + i);
-//						logger.info("Rdvservice log : objet : " + obj);
-//						System.out.println("entree dans la boucle test englobage");
-//						throw new RdvEnglobantException(
-//								"Probleme de chevauchement, ce rdv englobe un ou plusieur Rdv de la Bdd");
-//					}
-				}
-			}
 
 			logger.info("RdvService log : Demande d ajout d un nouveau Rdv dans la Bdd.");
+			verificationIntegrationDuRdvDansAgenda(rdv);
 			rdvdao.ajouterUnRdv(rdv);
 			logger.info("RdvService log : Nouveau Rdv ajoute, avec l id : " + rdv.getIdRdv());
 
@@ -358,14 +239,25 @@ public class RdvService {
 
 	/**
 	 * Modifie un Rdv
-	 * 
 	 * @param rdv Rdv
-	 * @throws RdvInexistantException Si Rdv inexistant
+	 * @throws DateConversionException 
+	 * @throws RdvDateIncorrecteException 
+	 * @throws DaoException 
+	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
+	 * @throws RdvNouveauEnglobeRdvExistantException 
+	 * @throws RdvNouveauEnglobeParRdvExistantException 
+	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
+	 * @throws RdvNonIntegrableException 
+	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvInexistantException 
+
 	 */
-	public void modifduRdv(Rdv rdv) throws RdvInexistantException {
+	public void modifduRdv(Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvInexistantException {
 
 		try {
+			
 			logger.info("RdvService log : Demande de modification du Rdv id : " + rdv.getIdRdv() + " dans la Bdd.");
+			verificationIntegrationDuRdvDansAgenda(rdv);
 			rdvdao.modifieUnRdv(rdv);
 			logger.info("RdvService log : Rdv id : " + rdv.getIdRdv() + " a ete modifie dans la Bdd.");
 
@@ -380,7 +272,7 @@ public class RdvService {
 	 * Supprime un Rdv
 	 * 
 	 * @param idRdv Integer
-	 * @throws RdvInexistantException Si Rdv inexistant
+	 * @throws RdvInexistantException
 	 */
 	public void supprimerUnrdv(final Integer idRdv) throws RdvInexistantException {
 
@@ -395,32 +287,11 @@ public class RdvService {
 					"RdvService Exception : Rdv id : " + idRdv + " ne peut etre supprime dans la Bdd.");
 		}
 	}
-
-//	/**
-//	 * Charge de verifier le chevauchement de rdv
-//	 * 
-//	 * @param incremRdvDateDebut long
-//	 * @param rdvBddDateDebut long
-//	 * @param rdvBddDateFin long
-//	 * @return boolean
-//	 */
-//	public static boolean testInterval(long incremRdvDateDebut, long rdvBddDateDebut, long rdvBddDateFin) {
-//
-//		if (rdvBddDateDebut < incremRdvDateDebut && incremRdvDateDebut < rdvBddDateFin) {
-//			
-//			return true; 
-//		
-//		} else {
-//			
-//			return false;
-//			
-//		}
-//	}
 	
 	/**
 	 * Verifie si le format (YYYY-MM-DD) de la date est respecte
 	 * @param dateToCheck String
-	 * @throws RdvDateIncorrecteException Exception
+	 * @throws RdvDateIncorrecteException
 	 */
 	private void isDateStringFormatValid(String dateToCheck) throws RdvDateIncorrecteException  {
 		
@@ -451,6 +322,14 @@ public class RdvService {
 		}
 	}
 	
+	/**
+	 * Recuepere la liste de Rdv via le jour fourni par le Rdv transmi
+	 * @param rdvFourni
+	 * @return
+	 * @throws DaoException
+	 * @throws RdvDateIncorrecteException
+	 * @throws DateConversionException
+	 */
 	private List<Rdv> recupereLaListeDeRdvSelonLeJourFourniDansLeRdv(Rdv rdvFourni) throws DaoException, RdvDateIncorrecteException, DateConversionException {
 		
 		logger.info("RdvService Log : Recuperation de la liste de rdv selon le jour fourni");
@@ -498,54 +377,58 @@ public class RdvService {
 	 * 
 	 * 		 Vérification si le nouveau Rdv est intégrable dans le calendrier
 	 * temps 0 => (t) ( dateDébut < dateFin ) rdvDateDébut toujour inférieur à dateFin
+	 * ----------------------------------------------------------------------------------
 	 *						dd							df
 	 *	0					|			rdvBdd			|
-	 *				df
-	 *	1	|	newRdv	|
-	 *							df
-	 *	2			|	newRdv	|
-	 *								dd			df
-	 *	3							| 	newRdv	|
-	 *												dd
-	 *	4											|	newRdv	|
-	 *														dd
-	 *	5													| newRdv |
+	 *				dd			df
+	 *	1			|	newRdv	|
+	 *												dd			df
+	 *	2											|	newRdv	|
 	 *					dd									df
-	 *	6				|				newRdv				|					
-	 * Test 1&2 si rdvNewDateFin > rdvBddDateDebut 										=> newRdvDateFin Chevauche la date de debut d un rdv existant
-	 * Test	3 	si rdvBddDateDébut < newRdvDateDebut && newRdvDateFin < rdvBddDateFin 	=> rdvBdd englobe newRdv
-	 * Test 4&5 si rdvNewDateDebut < rdvBddDateFin 										=> newRdvDateFin chevauche la date de fin d un rdv Existant
-	 * Test 6	si rdvNewDateDebut > rdvBddDateDebut && rdvNewDateFin > rdvBddDatefin 	=> newRdv englobe rdvBdd
-	 *
-	 * Pour le test Retirer une minute à dateRdvdebut et dateRdvFin du nouveau Rdv pour eviter le erreures de tests
+	 *	3				|				newRdv				|					
+	 *------------------------------------------------------------------------------------
+	 * Pour le test Retirer / Ajouter  une minute à dateRdvdebut et dateRdvFin du nouveau Rdv pour eviter le erreures de tests
 	 * 
 	 * @param Rdv newRdv
 	 * @param Rdv rdvFromBdd
-	 * @throws Exception TimestampToInstantConvertionException 
-	 * @throws Exception RdvNonIntegrableException 
-	 * @throws Exception RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
-	 * @throws Exception RdvNouveauEnglobeParRdvExistantException 
-	 * @throws Exception RdvNouveauEnglobeRdvExistantException 
-	 * @throws Exception RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
-	 * @throws Exception RdvFinChevauchementException 
+	 * @throws DateConversionException 
+	 * @throws RdvDateIncorrecteException 
+	 * @throws DaoException 
 	 */
-	private void verificationIntegrationNouveauRdvDansAgenda( Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException {
+	private void verificationIntegrationDuRdvDansAgenda(Rdv newRdv) throws TimestampToZoneDateTimeConvertionException, 
+	RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, 
+	RdvNouveauEnglobeParRdvExistantException, 
+	RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException {
 		
 		logger.info("RdvService Log : Verification de l integration du rdv dans le calendrier");
 		
 		try {
 			
-			checkChevauchementDebutRdvExistant( newRdv, rdvFromBdd );
+			List<Rdv> listRdvFournie = recupereLaListeDeRdvSelonLeJourFourniDansLeRdv(newRdv);
+			logger.info("Rdvservice log : Liste Rdv : " + listRdvFournie.size() + " items a la date : " 
+					+ tsToZdt(newRdv.getDateHeureDebut()) );
 			
-//			checkNouveauRdvEnglobeParRdvExistant( tsToZdt(newRdv.getDateHeureDebut()), tsToZdt( rdvFromBdd.getDateHeureDebut()), 
-//												  tsToZdt(newRdv.getDateHeureFin()), tsToZdt( rdvFromBdd.getDateHeureFin()));
-//			
-//			checkChevauchementFinRdvExistant( dateHeureFourniePlusUneMinute( tsToZdt(newRdv.getDateHeureDebut()) ), 
-//					tsToZdt( rdvFromBdd.getDateHeureFin()) );
-//			checkRdvExistantEnglobeParNouveauRdv( dateHeureFournieMoinUneMinute( tsToZdt(newRdv.getDateHeureDebut()) ), 
-//					tsToZdt(rdvFromBdd.getDateHeureDebut()), 
-//												  dateHeureFournieMoinUneMinute( tsToZdt(newRdv.getDateHeureFin()) ), 
-//												  tsToZdt(rdvFromBdd.getDateHeureFin()) );
+			if (listRdvFournie.size() > 0 ) {
+				
+				for (int i = 0; i < listRdvFournie.size(); i++) {
+					
+					Rdv objRdvFromList = listRdvFournie.get(i);
+					logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
+							+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
+					checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
+					checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
+					checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
+					
+				}
+				
+			} else {
+				
+				logger.info("Rdvservice Log : Pas de Rdv de plannifie pour la date : " + newRdv.getDateHeureDebut() + ",");						
+				logger.info("Rdvservice Log : alors le Rdv sera ajoute dans la Bdd sans tester,");
+				logger.info("les differnets chevauchements possibles.");
+			}
+			
+
 			
 		} catch (Error msg) {
 			logger.error("RdvService Log : Le rdv n est pas integrable");
@@ -555,16 +438,14 @@ public class RdvService {
 	}
 	
 	/**
-	 * Vérifie si la dateDeFin du nouveau Rdv chevauche la dateDeDebut du rdv dans la Bdd
-	 * @param Instant newRdvDateHeureFin
-	 * @param Instant rdvFromBddDateHeureDebut
+	 * Vérifie si la dateDeFin du nouveau Rdv
+	 * se retrouve dans l interval(plage dateDebut dateFin) du rdvBdd
+	 * @param Rdv newRdv
+	 * @param Rdv rdvFromBdd
 	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
-	 * @throws  
-	 * @throws RdvFinChevauchementException 
 	 */
-	private void checkChevauchementDebutRdvExistant(Rdv newRdv, Rdv rdvFromBdd) 
-			throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException, TimestampToZoneDateTimeConvertionException  {
+	private void checkChevauchementDebutRdvExistant(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException  {
 		
 		logger.info("RdvService log : Verification si la fin nouveau Rdv chevauche le debut du rdv bdd");
 		
@@ -577,40 +458,24 @@ public class RdvService {
 			throw new RdvNouveauDateFinChevaucheRdvExistantDateDebutException("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
 		}
 		
-	}
+	}	
 	
 	/**
-	 * Verifie si le nouveau Rdv n est pas englobe par le rdv existant
-	 * @param Instant newRdvDateDebut
-	 * @param Instant rdvBddDateDebut
-	 * @param Instant newRdvDateFin
-	 * @param Instant rdvBddDateFin
-	 * @throws Exception RdvNouveauEnglobeParRdvExistantException
+	 * Verifie si le début du  nouveau Rdv
+	 * se retrouve dans la plage(dateDebut dateFin) du rdv 
+	 * @param newRdv
+	 * @param rdvFromBdd
+	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
+	 * @throws TimestampToZoneDateTimeConvertionException 
 	 */
-	private void checkNouveauRdvEnglobeParRdvExistant(ZonedDateTime newRdvDateDebut, ZonedDateTime rdvBddDateDebut, 
-			ZonedDateTime newRdvDateFin, ZonedDateTime rdvBddDateFin) throws RdvNouveauEnglobeParRdvExistantException {
-		
-		logger.info("RdvService log : Verification si le nouveau Rdv est englobe par le rdv existant");
-		
-		if (newRdvDateDebut.isAfter(rdvBddDateDebut) & newRdvDateFin.isBefore(rdvBddDateDebut)) {
-			
-			logger.error("RdvService Exception : Le nouveau Rdv englobe par le rdv existant");
-			throw new RdvNouveauEnglobeParRdvExistantException("RdvService Exception : Le nouveau Rdv est englobe par le rdv existant");
-		}	
-
-	}
-	
-	/**
-	 * Verifie si le début du  nouveau Rdv chevauche le rdvBdd
-	 * @param newRdvDateDebut
-	 * @param rdvBddDateFin
-	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException
-	 */
-	private void checkChevauchementFinRdvExistant(ZonedDateTime newRdvDateDebut, ZonedDateTime rdvBddDateFin) throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException {
+	private void checkChevauchementFinRdvExistant(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException {
 		
 		logger.info("RdvService log : Verification si le debut du  nouveau Rdv chevauche le rdvBdd");
 		
-		if (newRdvDateDebut.isBefore(rdvBddDateFin)) {
+		if (dateHeureFourniePlusUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
+				.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) 
+					& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
+					.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut()))) {
 			
 			logger.error("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
 			throw new RdvNouveauDateDebutChevaucheRdvExistantDateFinException("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
@@ -620,17 +485,19 @@ public class RdvService {
 	
 	/**
 	 * Verifie si le nouveau Rdv n englobe pas le rdv existant
-	 * @param Instant newRdvDateDebut
-	 * @param Instant rdvBddDateDebut
-	 * @param Instant newRdvDateFin
-	 * @param Instant rdvBddDateFin
-	 * @throws Exception RdvNouveauEnglobeRdvExistantException
+	 * @param Rdv newRdv
+	 * @param Rdv rdvFromBdd
+	 * @throws RdvNouveauEnglobeRdvExistantException 
+	 * @throws TimestampToZoneDateTimeConvertionException 
 	 */
-private void checkRdvExistantEnglobeParNouveauRdv(ZonedDateTime newRdvDateDebut, ZonedDateTime rdvBddDateDebut, ZonedDateTime newRdvDateFin, ZonedDateTime rdvBddDateFin) throws RdvNouveauEnglobeRdvExistantException {
+	private void checkRdvExistantEnglobeParNouveauRdv(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauEnglobeRdvExistantException  {
 		
 		logger.info("RdvService log : Verification si le nouveau Rdv englobe le rdv existant");
 		
-		if (newRdvDateDebut.isBefore(rdvBddDateDebut) & newRdvDateFin.isAfter(rdvBddDateFin)) {
+		if (dateHeureFourniePlusUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
+			.isBefore(tsToZdt(rdvFromBdd.getDateHeureDebut()))
+			& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
+					.isAfter(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
 			
 			logger.error("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
 			throw new RdvNouveauEnglobeRdvExistantException("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
@@ -645,43 +512,38 @@ private void checkRdvExistantEnglobeParNouveauRdv(ZonedDateTime newRdvDateDebut,
 	 */
 	private ZonedDateTime dateHeureFournieMoinUneMinute(ZonedDateTime dateHeureFournie) {
 		
-//		logger.info("RdvService Log : Soustrait 60 seconde a l'instant fourni : " + dateHeureFournie);
-//		logger.info("RdvService Log : Instant moins 60S : " + dateHeureFournie.minusSeconds(60));
 		return dateHeureFournie.minusSeconds(60);
 	}
 	
 	/**
 	 * Ajoute 60 secondes a l instant fourni
-	 * @param Instant dateHeureFournie
+	 * @param dateHeureFournie
 	 * @return ZonedDateTime 
 	 */
 	private ZonedDateTime dateHeureFourniePlusUneMinute(ZonedDateTime dateHeureFournie) {
 		
-//		logger.info("RdvService Log : Ajoute 60 seconde a l'instant fourni : " + dateHeureFournie);
-//		logger.info("RdvService Log : Instant moins 60S : " + dateHeureFournie.minusSeconds(60));
 		return dateHeureFournie.plusSeconds(60);
 	}
 	
 	/**
 	 * Converti un Timestamp en Instant
-	 * @param dateHeureToConvert
+	 * @param Timestamp
 	 * @return dateHeureConverted Instant
-	 * @throws TimestampToZoneDateTimeConvertionException
+	 * @throws TimestampToZoneDateTimeConvertionException 
 	 */
 	private ZonedDateTime tsToZdt(Timestamp dateHeureToConvert) throws TimestampToZoneDateTimeConvertionException {
 		
 		try {
 			
-//			logger.info("RdvService Log : Timestamp a convertir en ZDT: " + dateHeureToConvert);
 			ZonedDateTime tsToZdt = dateHeureToConvert.toInstant().atZone(ZoneId.of("Europe/Paris"));
-//			logger.info("RdvService Log : TS to ZDT : " + tsToZdt);
-
 			
 			return tsToZdt;
 			
 		} catch (Error msg) {
+			
 			logger.error("RdvService Exception : Il y a un probleme avec la conversion du Timestamp fourni : " + dateHeureToConvert);
 			throw new TimestampToZoneDateTimeConvertionException("RdvService Exception : Il y a un probleme avec la conversion du Timestamp fourni : " + dateHeureToConvert);
+		
 		}
 	}
 

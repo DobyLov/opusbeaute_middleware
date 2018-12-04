@@ -359,8 +359,16 @@ public class RdvWs {
 	 * Modifie le Rdv
 	 * 
 	 * @param rdv Rdv
-	 * @return Response
-	 * @throws RdvInexistantException Exception
+	 * @return Response 
+	 * @throws DateConversionException 
+	 * @throws RdvDateIncorrecteException 
+	 * @throws DaoException 
+	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
+	 * @throws RdvNouveauEnglobeRdvExistantException 
+	 * @throws RdvNouveauEnglobeParRdvExistantException 
+	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
+	 * @throws RdvNonIntegrableException 
+	 * @throws TimestampToZoneDateTimeConvertionException 
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/mod
 	// Mettre l idRdv de l objet et les parametres a modifier rdv
@@ -371,7 +379,7 @@ public class RdvWs {
 	@Path("/mod") // fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnRdv (Rdv rdv) throws RdvInexistantException {
+	public Response modifieUnRdv (Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException {
 		
 		Response.ResponseBuilder builder = null;
 		try {

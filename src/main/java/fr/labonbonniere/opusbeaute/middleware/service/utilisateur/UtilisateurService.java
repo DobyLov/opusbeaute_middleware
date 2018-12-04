@@ -173,9 +173,7 @@ public class UtilisateurService {
 	 * Supprime un Utilisateur par son Id
 	 * 
 	 * @param idUtilisateur
-	 *            Integer
 	 * @throws UtilisateurInexistantException
-	 *             Exception
 	 */
 	public void suppressionDUnUtilisateur(final Integer idUtilisateur) throws UtilisateurIneffacableException {
 
@@ -619,8 +617,7 @@ public class UtilisateurService {
 	 * @return Boolean
 	 * @throws UtilisateurIneffacableException
 	 * @throws UtilisateurInexistantException
-	 * @throws Exception
-	 *             UtilisateurInexistantException
+	 * @throws UtilisateurInexistantException
 	 */
 	private Boolean effaceUtilisateur(Integer idUtilisateurToSwipe)
 			throws UtilisateurIneffacableException, UtilisateurInexistantException {
@@ -675,7 +672,7 @@ public class UtilisateurService {
 	/**
 	 * Effacer L'utilisateur par son Id
 	 * 
-	 * @param idUtilisateur
+	 * @param Integer idUtilisateur
 	 * @throws UtilisateurInexistantException
 	 */
 	private boolean effacerUtilisateurFourniParSonId(Integer idUtilisateur) throws UtilisateurInexistantException {

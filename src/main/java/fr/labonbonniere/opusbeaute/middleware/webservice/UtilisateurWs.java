@@ -19,7 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.labonbonniere.opusbeaute.middleware.dao.DaoException;
-import fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient.AdresseInexistanteException;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.roles.DefineUserRole;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.Utilisateur;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs.UtilisateurExistantException;
@@ -258,16 +257,13 @@ public class UtilisateurWs {
 	 * 
 	 * @param idUtilisateur Integer
 	 * @return Response
-	 * @throws AdresseInexistanteException Exception
-	 * @throws UtilisateurIneffacableException 
 	 */
 	@DefineUserRole({"PRATICIEN"})
 	@DELETE
 	@Path("/del/{idUtilisateur: \\d+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response supprimerUnUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur)
-			throws AdresseInexistanteException, UtilisateurIneffacableException {
+	public Response supprimerUnUtilisateur(@PathParam("idUtilisateur") final Integer idUtilisateur) {
 
 		Response.ResponseBuilder builder = null;
 		try {

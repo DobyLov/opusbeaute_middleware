@@ -2,7 +2,6 @@ fr\labonbonniere\opusbeaute\middleware\objetmetier\roles\RoleEnum.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdv.class
 fr\labonbonniere\opusbeaute\middleware\webservice\ChangePwdWs.class
 fr\labonbonniere\opusbeaute\middleware\service\rgpd\RgpdService.class
-fr\labonbonniere\opusbeaute\middleware\service\rdv\TimestampToInstantConvertionException.class
 fr\labonbonniere\opusbeaute\middleware\service\adresselieurdv\AdresseLieuRdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenService.class
@@ -44,6 +43,7 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvService.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\MailNotFoundException.class
 fr\labonbonniere\opusbeaute\middleware\service\client\ClientService.class
 fr\labonbonniere\opusbeaute\middleware\service\client\MailNonTrouveClientException.class
+fr\labonbonniere\opusbeaute\middleware\service\rdv\TimestampToZoneDateTimeConvertionException.class
 fr\labonbonniere\opusbeaute\middleware\webservice\CheckMailNotUsedClientWS.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenRoleInvalidException.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvNonIntegrableException.class
