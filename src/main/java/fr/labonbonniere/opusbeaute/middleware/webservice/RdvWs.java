@@ -128,6 +128,123 @@ public class RdvWs {
 	
 	/**
 	 * Renvoie la liste de Rdv
+	 * Par jourJJ et par Client
+	 * 
+	 * @param date String
+	 * @param idClient Integer
+	 * @return Response List
+	 * @throws DaoException Exception
+	 */
+	// regex qui gere le format yyyy-mm-dd numeric separe par "-" 
+	// le regex va un petit peu plus loin :
+	// yyyy => 2010 a 2029
+	// mm => 01 à 12
+	// dd => 01 à 31
+	// !!! le regex ne gere pas le 30 fevrier ! a completer dans la partie service / metiers
+	@DefineUserRole({"ALLOWALL"})
+	@GET
+//	@Path("/listepardateparpraticien/{dateJJ: (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: \\d+}")
+	@Path("/listepardateparclient")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListeRdvParDateJJParClient(
+			@QueryParam("date") final String date,
+			@QueryParam("idClient") final Integer idClient) throws DaoException {
+		
+		Response.ResponseBuilder builder = null;
+		
+		try {
+			logger.info("-----------------------------------------------------");
+			logger.info("RdvWs log : Demande au RdvService la liste des Rdv's par date selectionnee.");
+			final List<Rdv> listerdvpardate = rdvService.recupereLaListeRdvParDateJJClient(date, idClient);
+			logger.info("RdvWs log : Transmission de la Liste des Rdv's par date selectionnee.");
+			builder = Response.ok(listerdvpardate);
+
+		} catch (Exception message) {
+			logger.error("RdvWs Exception : probleme sur le format de la date.");
+			builder = Response.status(Response.Status.NOT_ACCEPTABLE);
+		
+		} 		
+		return builder.build();
+	}
+
+	/**
+	 * Renvoie la liste de Rdv
+	 * par plage de date 
+	 * dateA et dateB par Client
+	 * 
+	 * @param dateA	String
+	 * @param dateB String
+	 * @param idClient Integer
+	 * @return Response List
+	 * @throws DaoException Exception
+	 */
+	@DefineUserRole({"ALLOWALL"})
+	@GET
+//	@Path("/listeparplagedateparpraticien/{dateA:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{dateB:  (20[1-2][0-9])-(0[1-9]|10|11|12)-(0[1-9]|1[0-9]|2[0-9]|3[0-1])}-{idPraticien: //d+}")
+	@Path("/listeparplagedateparclient")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListeRdvParplageDateParClient(
+					@QueryParam("dateA") String dateA,
+					@QueryParam("dateB") String dateB,
+					@QueryParam("idClient") Integer idClient) throws DaoException {
+		
+		Response.ResponseBuilder builder = null;
+		
+		try {
+			logger.info("-----------------------------------------------------");
+			logger.info("RdvWs log : Demande au RdvService la liste des Rdv's par plage de dates selectionnees.");
+			final List<Rdv> listerdvpardate = rdvService.recupereLaListeRdvParPlageDateClient(dateA, dateB, idClient);
+			logger.info("RdvWs log : Transmission de la Liste des Rdv's par plage de dates selectionnees.");
+			builder = Response.ok(listerdvpardate);
+		} catch (Exception message) {
+			logger.error("RdvWs Exception : probleme sur le format de la/des date(s).");
+			builder = Response.status(Response.Status.NOT_ACCEPTABLE);
+		}
+		return builder.build();
+		
+	}
+
+	
+	
+	/**
+	 * renvoie la liste totale de Rdv
+	 * d un Praticien
+	 * 
+	 * @param idPraticien Integer
+	 * @return Response Rdv
+	 * @throws DaoException Exception
+	 */
+	//	http://localhost:8080/opusbeaute-0/obws/rdv/list/$idClient
+	@DefineUserRole({"ALLOWALL"})
+	@GET
+//    @Path("/listerdvparclient/{idClient: \\d+}") // fonctionne bien 11/07
+	@Path("/listerdvparpraticien")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response laListeRdvParPraticien(
+			@QueryParam("idPraticien") final Integer idPraticien ) throws DaoException {
+		
+		Response.ResponseBuilder builder = null;
+		
+		try {
+		logger.info("-----------------------------------------------------");			
+		logger.info("WebService log - Demande a la bdd la list des Rdv avec IdPraticien :  " + idPraticien);
+		List<Rdv> listeRdv = rdvService.recupereListRdvParPraticien(idPraticien);
+		logger.info("WebService log - Le Liste rdv demande transmise");
+		builder = Response.ok(listeRdv);		
+
+		} catch (DaoException message) {
+			logger.error("WebService log - La Liste de rdv demande est introuvable");
+			builder = Response.status(Response.Status.NOT_FOUND);
+			
+		}	
+		
+		return builder.build();
+		
+	}
+
+	
+	/**
+	 * Renvoie la liste de Rdv
 	 * Par jourJJ et par praticien
 	 * 
 	 * @param date String

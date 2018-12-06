@@ -70,19 +70,103 @@ public class RdvDao {
 	 */
 	public List<Rdv> obtenirListeRdvParClient(final Integer idClient) throws DaoException{
 		try {
-			logger.info("RdvDao log : Demande a la Bdd de la liste des Rdv's selon les criteres de date selectionnee et par praticien");
+			logger.info("RdvDao log : Demande a la Bdd de la liste des Rdv's selon les criteres de date selectionnee et par Client");
 			String requete = "SELECT c FROM Rdv c" + " WHERE client_idClient = " + idClient;
 			
 			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
 			List<Rdv> listeRdvClient = query.getResultList();
-			logger.info("RdvDao log : Transmission de la Liste des Rdv's par date selectionnee et par praticien.");
+			logger.info("RdvDao log : Transmission de la Liste des Rdv's par date selectionnee et par Client.");
 			return listeRdvClient;
+
+		} catch (Exception message) {
+			logger.error("RdvDao log : probleme sur le format de la date ou id_Client.");
+			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
+		}
+	}
+	
+	/**
+	 * Recupere la liste de rdv par Date et
+	 * Par Client
+	 * 
+	 * @param dateJJ String
+	 * @param IdClient Integer
+	 * @return List
+	 * @throws DaoException Exception
+	 */
+	public List<Rdv> obtenirListeRdvDuJJParClient(final String dateJJ, final Integer IdClient) throws DaoException {
+		try {
+			logger.info("RdvDao log : Demande a la Bdd de la liste des Rdv's selon les criteres de date selectionnee et par Client");
+			String requete = "SELECT c FROM Rdv c" + " WHERE rdv_dhdebut >= '" + dateJJ + " 00:00:00'"
+					+ " AND rdv_dhdebut <= '" + dateJJ + " 23:59:00'" 
+					+ " AND RDV_IDCLIENT_fk = " + IdClient
+					+ " ORDER BY rdv_dhdebut";
+			
+			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
+			List<Rdv> listeRdvDateJJClient = query.getResultList();
+			logger.info("RdvDao log : Transmission de la Liste des Rdv's par date selectionnee et par client.");
+			return listeRdvDateJJClient;
+
+		} catch (Exception message) {
+			logger.error("RdvDao log : probleme sur le format de la date ou id_Client.");
+			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
+		}
+	}
+	
+	/**
+	 * Recupere la liste de Rdv par plage de date 
+	 * et par Praticien
+	 * 
+	 * @param dateA String
+	 * @param dateB String
+	 * @param IdClient Integer
+	 * @return List
+	 * @throws DaoException Exception
+	 */
+	public List<Rdv> obtenirListeRdvParPlageDeDateParClient(final String dateA, final String dateB, final Integer IdClient) throws DaoException {
+		
+		try {
+			
+			logger.info("RdvDao log : Demande au RdvDao la liste des Rdv's par plage de dates selectionnees et par Client");
+			String requete = "SELECT c FROM Rdv c" + " WHERE rdv_dhdebut >= '" + dateA + " 00:00:00'"
+					+ " AND rdv_dhdebut <= '" + dateB + " 23:59:00'" 
+					+ " AND RDV_IDCLIENT_fk = " + IdClient
+					+ " ORDER BY rdv_dhdebut";
+			
+			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
+			List<Rdv> rdvList = query.getResultList();
+			logger.info("RdvDao log : Transmission de la Liste des Rdv's par plage de dates selectionnees et par Client.");
+			return rdvList;
+
+		} catch (Exception message) {
+			logger.error("RdvDao log : probleme sur le format de la/des date(s).");
+			throw new DaoException("RdvDao Exception : probleme sur le format de la/des date(s).");
+		}
+	
+	}
+	
+	/**
+	 * Recupere la liste de rdv par Praticien
+	 * 
+	 * @param idPraticien Integer
+	 * @return List
+	 * @throws DaoException Exception
+	 */
+	public List<Rdv> obtenirListeRdvParPraticien(final Integer idPraticien) throws DaoException{
+		try {
+			logger.info("RdvDao log : Demande a la Bdd de la liste des Rdv's selon les criteres de date selectionnee et par praticien");
+			String requete = "SELECT c FROM Rdv c" + " WHERE client_idPraticien = " + idPraticien;
+			
+			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
+			List<Rdv> listeRdvPraticien = query.getResultList();
+			logger.info("RdvDao log : Transmission de la Liste des Rdv's par date selectionnee et par Praticien.");
+			return listeRdvPraticien;
 
 		} catch (Exception message) {
 			logger.error("RdvDao log : probleme sur le format de la date ou id_Praticien.");
 			throw new DaoException("RdvDao Exception : Date non existante dans calendrier.");
 		}
 	}
+
 	
 	/**
 	 * Recupere la liste de rdv par Date et
@@ -126,7 +210,7 @@ public class RdvDao {
 		
 		try {
 			
-			logger.info("RdvDao log : Demande au RdvDao la liste des Rdv's par plage de dates selectionnees et par praticien");
+			logger.info("RdvDao log : Demande au RdvDao la liste des Rdv's par plage de dates selectionnees et par Praticien");
 			String requete = "SELECT c FROM Rdv c" + " WHERE rdv_dhdebut >= '" + dateA + " 00:00:00'"
 					+ " AND rdv_dhdebut <= '" + dateB + " 23:59:00'" 
 					+ " AND RDV_IDPRATICIEN_fk = " + IdPraticien 
@@ -134,7 +218,7 @@ public class RdvDao {
 			
 			TypedQuery<Rdv> query = em.createQuery(requete, Rdv.class);
 			List<Rdv> rdvList = query.getResultList();
-			logger.info("RdvDao log : Transmission de la Liste des Rdv's par plage de dates selectionnees et par praticien.");
+			logger.info("RdvDao log : Transmission de la Liste des Rdv's par plage de dates selectionnees et par Praticien.");
 			return rdvList;
 
 		} catch (Exception message) {
