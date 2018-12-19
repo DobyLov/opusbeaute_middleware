@@ -91,11 +91,11 @@ public class SendSmsReminderClientService {
 		// Iteration de l arrayList bien moche :
 		for (Integer i = 0; i < rdvList.size(); i++) {
 
-			String isSucribedSmsReminder = rdvList.get(i).getClient().getSuscribedMailReminder();
+			boolean isSucribedSmsReminder = rdvList.get(i).getClient().getSuscribedMailReminder();
 
 			// logger.info("MailRemiderSender log : SUSreminder : " +
 			// isSucribedSmsReminder);
-			if (isSucribedSmsReminder.equalsIgnoreCase("t")) {
+			if (isSucribedSmsReminder == true) {
 
 				// Recuperation des informations necessaires pour l envoie de l
 				// Email.
@@ -123,7 +123,7 @@ public class SendSmsReminderClientService {
 
 				String clientPrenom = WordUtils.capitalize(rdvList.get(i).getClient().getPrenomClient());
 				String clientTelMobile = rdvList.get(i).getClient().getTelMobileClient();
-				String activite = rdvList.get(i).getPrestation().getActivite();
+				String activite = rdvList.get(i).getPrestation().getActivite().getActiviteNom();
 				String prestationsoin = WordUtils.capitalize(rdvList.get(i).getPrestation().getSoin());
 				String lieuRdv = null;
 				String adresseLieuRdvNumeroRue = null;

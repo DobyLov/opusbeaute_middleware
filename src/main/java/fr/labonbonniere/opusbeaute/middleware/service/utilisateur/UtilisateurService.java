@@ -346,14 +346,16 @@ public class UtilisateurService {
 					logger.error("Utilisateur Service log : SuscribedSmsReminder TRUE n est pas envisageable "
 							+ "car Utilisateur.TelMobile commence par : "
 							+ utilisateur.getTeleMobileUtilisateur().substring(0, 2));
-					utilisateur.setSuscribedSmsReminder("F");
+//					utilisateur.setSuscribedSmsReminder("F"); // Correction de type
+					utilisateur.setSuscribedSmsReminder(false);
 					logger.info("Utilisateur Service log : SuscribedSmsReminder force a etre FALSE");
 				}
 
 			} else {
 				logger.info("Utilisateur Service log : Utilisateur.TelMobile comporte : "
 						+ utilisateur.getTeleMobileUtilisateur().length() + " alors que 10 sont attendus.");
-				utilisateur.setSuscribedSmsReminder("F");
+//				utilisateur.setSuscribedSmsReminder("F"); // Correction de Type
+				utilisateur.setSuscribedSmsReminder(false);
 				logger.info("Utilisateur Service log : SuscribedSmsReminder force a etre FALSE");
 				utilisateur.setTeleMobileUtilisateur(null);
 				throw new NbCharTelException(
@@ -362,7 +364,8 @@ public class UtilisateurService {
 
 		} else {
 			logger.info("Utilisateur Service log : TelMobileClient est null ou vide.)");
-			utilisateur.setSuscribedSmsReminder("F");
+//			utilisateur.setSuscribedSmsReminder("F"); // Correction de Type
+			utilisateur.setSuscribedSmsReminder(false); 
 			logger.info("Utilisateur Service log : SuscribedSmsReminder force a etre FALSE");
 			utilisateur.setTeleMobileUtilisateur(null);
 
@@ -383,7 +386,8 @@ public class UtilisateurService {
 			if (utilisateur.getAdresseMailUtilisateur().length() > 50) {
 				logger.info(
 						"Utilisateur Service log : Utilisateur.AdresseMail format non valide depasse 50 caracteres.");
-				utilisateur.setSuscribedMailReminder("F");
+//				utilisateur.setSuscribedMailReminder("F");// Correction de Type
+				utilisateur.setSuscribedMailReminder(false);
 				logger.info("Utilisateur Service log : SuscribedMailRemider force a FALSE");
 				throw new EmailFormatInvalidException(
 						"UtilisateurService Validation Exception : Utilisateur.Mail non valide");
@@ -394,7 +398,8 @@ public class UtilisateurService {
 				if (emailFormatvalidation == false) {
 					logger.info("Utilisateur Service log : Utilisateur.AdresseMail Format non valide : "
 							+ emailFormatvalidation);
-					utilisateur.setSuscribedMailReminder("F");
+//					utilisateur.setSuscribedMailReminder("F"); // Correction de Type
+					utilisateur.setSuscribedMailReminder(false); 
 					logger.info("Utilisateur Service log : SuscribedMailRemider force a FALSE");
 					throw new EmailFormatInvalidException(
 							"UtilisateurService Validation Exception : Utilisateur.Mail non valide");
@@ -404,7 +409,8 @@ public class UtilisateurService {
 
 		} else {
 			logger.info("Utilisateur Service log : Client.AdresseMail null ou vide.");
-			utilisateur.setSuscribedMailReminder("F");
+//			utilisateur.setSuscribedMailReminder("F");// Correction de Type
+			utilisateur.setSuscribedMailReminder(false);
 			logger.info("Utilisateur Service log : SuscribedMailRemider force a False");
 			utilisateur.setAdresseMailUtilisateur(null);
 		}

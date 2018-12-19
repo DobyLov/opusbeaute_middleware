@@ -60,8 +60,8 @@ public class UtilisateurValidateurITest {
 		nouvelUtilisateurTest.setNomUtilisateur("BEAUDEAUTest");
 		nouvelUtilisateurTest.setMotDePasse("bonjour");
 		nouvelUtilisateurTest.setAdresseMailUtilisateur("Test@tesT.cOm");
-		nouvelUtilisateurTest.setSuscribedMailReminder("t");
-		nouvelUtilisateurTest.setSuscribedSmsReminder("t");
+		nouvelUtilisateurTest.setSuscribedMailReminder(true);
+		nouvelUtilisateurTest.setSuscribedSmsReminder(true);
 		nouvelUtilisateurTest.setTeleMobileUtilisateur("0620790050");
 		logger.info("UtilisateurTest log : Objet Utilisateur avant Formatage Utilisateur");
 		logger.info("UtilisateurTest log : Entite : " + nouvelUtilisateurTest.toString().trim());

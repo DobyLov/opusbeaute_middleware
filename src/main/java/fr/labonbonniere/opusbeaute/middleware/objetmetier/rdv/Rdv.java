@@ -46,6 +46,7 @@ public class Rdv implements Serializable {
 	private Timestamp dateHeureDebut;
 	private Timestamp dateDeSaisie;
 	private Timestamp dateHeureFin;
+	private Timestamp dateDeModif;
 	private Prestation prestation;
 	private Praticien praticien;
 	private Client client;
@@ -58,7 +59,7 @@ public class Rdv implements Serializable {
 	}
 
 	public Rdv(Integer idRdv, String nom, String prenom, Timestamp dateHeureDebut, 
-			Timestamp dateHeureFin,	Timestamp dateDeSaisie, Prestation prestation, 
+			Timestamp dateHeureFin,	Timestamp dateDeSaisie, Timestamp dateDeModif, Prestation prestation, 
 			Praticien praticien, Client client, LieuRdv lieuRdv, Utilisateur utilisateur, Boolean isCancelled) {
 
 		super();
@@ -66,6 +67,7 @@ public class Rdv implements Serializable {
 		this.dateHeureDebut = dateHeureDebut;
 		this.dateHeureFin = dateHeureFin;
 		this.dateDeSaisie = dateDeSaisie;
+		this.dateDeModif = dateDeModif;
 		this.prestation = prestation;
 		this.praticien = praticien;
 		this.client = client;
@@ -114,6 +116,15 @@ public class Rdv implements Serializable {
 
 	public void setDateDeSaisie(Timestamp dateDeSaisie) {
 		this.dateDeSaisie = dateDeSaisie;
+	}
+
+	@Column(name = "RDV_DATEDEMODIF", nullable = true)
+	public Timestamp getDateDeModif() {
+		return dateDeModif;
+	}
+
+	public void setDateDeModif(Timestamp dateDeModif) {
+		this.dateDeModif = dateDeModif;
 	}
 
 	@OneToOne
@@ -187,6 +198,7 @@ public class Rdv implements Serializable {
 				.append("dateHeureDebut", this.dateHeureDebut)
 				.append("dateHeureFin", this.dateHeureFin)
 				.append("dateDeSaisie", this.dateDeSaisie)
+				.append("dateDeModif", this.dateDeModif)
 				.append(prestation)
 				.append(praticien)
 				.append(client)
@@ -203,6 +215,7 @@ public class Rdv implements Serializable {
 		result = prime * result + ((dateHeureDebut == null) ? 0 : dateHeureDebut.hashCode());
 		result = prime * result + ((dateHeureFin == null) ? 0 : dateHeureFin.hashCode());
 		result = prime * result + ((dateDeSaisie == null) ? 0 : dateDeSaisie.hashCode());
+		result = prime * result + ((dateDeModif == null) ? 0 : dateDeModif.hashCode());		
 		result = prime * result + ((prestation == null) ? 0 : prestation.hashCode());
 		result = prime * result + ((praticien == null) ? 0 : praticien.hashCode());
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
@@ -230,6 +243,7 @@ public class Rdv implements Serializable {
 				.append(this.dateHeureDebut, autre.dateHeureDebut)
 				.append(this.dateDeSaisie, autre.dateDeSaisie)
 				.append(this.dateHeureFin, autre.dateHeureFin)
+				.append(this.dateDeModif, autre.dateDeModif)
 				.append(this.prestation, autre.prestation)
 				.append(this.praticien, autre.praticien)
 				.append(this.lieuRdv, autre.lieuRdv)

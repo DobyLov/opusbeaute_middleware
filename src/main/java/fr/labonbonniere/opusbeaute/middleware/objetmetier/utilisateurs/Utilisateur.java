@@ -47,9 +47,9 @@ public class Utilisateur implements Serializable {
 	private String adresseMailUtilisateur;
 	private String motDePasse;
 	private Roles roles;
-	private String isLogged;
-	private String suscribedSmsReminder;
-	private String suscribedMailReminder;
+	private boolean isLogged;
+	private boolean suscribedSmsReminder;
+	private boolean suscribedMailReminder;
 	private Timestamp pwdExpirationDateTime;
 	private Boolean compteEffacable;
 	
@@ -59,7 +59,7 @@ public class Utilisateur implements Serializable {
 
 	public Utilisateur(Integer idUtilisateur, String nomUtilisateur, String prenomUtilisateur,
 			String teleMobileUtilisateur, String adresseMailUtilisateur, String motDePasse,
-			Roles roles, String isLogged, String suscribedSmsReminder, String suscribedMailReminder,
+			Roles roles, boolean isLogged, boolean suscribedSmsReminder, boolean suscribedMailReminder,
 			Timestamp pwdExpirationDateTime, boolean compteEffacable) {
 
 		super();
@@ -147,31 +147,31 @@ public class Utilisateur implements Serializable {
 	}
 
 
-	@Column(name = "UTILISATEUR_ISLOGGED", nullable = false, length = 1)
-	public String getIsLogged() {
+	@Column(name = "UTILISATEUR_ISLOGGED", nullable = false)
+	public boolean getIsLogged() {
 		return isLogged;
 	}
 
 
-	public void setIsLogged(String isLogged) {
+	public void setIsLogged(boolean isLogged) {
 		this.isLogged = isLogged;
 	}
 
-	@Column(name = "UTILISATEUR_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
-	public String getSuscribedSmsReminder() {
+	@Column(name = "UTILISATEUR_SUSCRIBEDSMSREMINDER", nullable = false)
+	public boolean getSuscribedSmsReminder() {
 		return suscribedSmsReminder;
 	}
 
-	public void setSuscribedSmsReminder(String suscribedSmsReminder) {
+	public void setSuscribedSmsReminder(boolean suscribedSmsReminder) {
 		this.suscribedSmsReminder = suscribedSmsReminder;
 	}
 
-	@Column(name = "UTILISATEUR_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
-	public String getSuscribedMailReminder() {
+	@Column(name = "UTILISATEUR_SUSCRIBEDMAILREMINDER", nullable = false)
+	public boolean getSuscribedMailReminder() {
 		return suscribedMailReminder;
 	}
 
-	public void setSuscribedMailReminder(String suscribedMailReminder) {
+	public void setSuscribedMailReminder(boolean suscribedMailReminder) {
 		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
@@ -222,14 +222,17 @@ public class Utilisateur implements Serializable {
 		int result = 1;
 		result = prime * result + ((adresseMailUtilisateur == null) ? 0 : adresseMailUtilisateur.hashCode());
 		result = prime * result + ((idUtilisateur == null) ? 0 : idUtilisateur.hashCode());
-		result = prime * result + ((isLogged == null) ? 0 : isLogged.hashCode());
+//		result = prime * result + ((isLogged == null) ? 0 : isLogged.hashCode());
+		result = prime * result + (Boolean.hashCode(isLogged));
 		result = prime * result + ((motDePasse == null) ? 0 : motDePasse.hashCode());
 		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((nomUtilisateur == null) ? 0 : nomUtilisateur.hashCode());
 		result = prime * result + ((prenomUtilisateur == null) ? 0 : prenomUtilisateur.hashCode());
 		result = prime * result + ((teleMobileUtilisateur == null) ? 0 : teleMobileUtilisateur.hashCode());		
-		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
-		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
+//		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
+		result = prime * result + (Boolean.hashCode(suscribedSmsReminder));
+//		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode(suscribedMailReminder));
+		result = prime * result + (Boolean.hashCode(suscribedMailReminder));
 		result = prime * result + ((pwdExpirationDateTime == null) ? 0 : pwdExpirationDateTime.hashCode());
 		result = prime * result + ((compteEffacable == null) ? 0 : compteEffacable.hashCode());
 		

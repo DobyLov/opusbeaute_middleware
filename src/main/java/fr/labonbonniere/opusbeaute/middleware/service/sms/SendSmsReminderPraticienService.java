@@ -129,7 +129,7 @@ public class SendSmsReminderPraticienService {
 				praticienTelMobile = rdvList.get(numRdv).getPraticien().getTeleMobilePraticien();
 				String clientPrenom = WordUtils.capitalize(rdvList.get(numRdv).getClient().getPrenomClient());
 				String clientNom = (rdvList.get(numRdv).getClient().getNomClient()).toUpperCase();
-				String activite = (rdvList.get(numRdv).getPrestation().getActivite()).toUpperCase();
+				String activite = (rdvList.get(numRdv).getPrestation().getActivite().getActiviteNom()).toUpperCase();
 				String prestationsoin = WordUtils.capitalizeFully(rdvList.get(numRdv).getPrestation().getSoin());
 				
 				Integer idLieuRdv = rdvList.get(numRdv).getLieuRdv().getIdLieuRdv();

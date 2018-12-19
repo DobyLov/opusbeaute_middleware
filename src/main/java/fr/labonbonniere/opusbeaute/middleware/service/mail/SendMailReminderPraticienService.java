@@ -136,7 +136,7 @@ public class SendMailReminderPraticienService {
 					praticienEmail = rdvList.get(numRdv).getPraticien().getAdresseMailPraticien();
 					String clientPrenom = WordUtils.capitalize(rdvList.get(numRdv).getClient().getPrenomClient());
 					String clientNom = rdvList.get(numRdv).getClient().getNomClient().toUpperCase();
-					String activite = rdvList.get(numRdv).getPrestation().getActivite().toUpperCase();
+					String activite = rdvList.get(numRdv).getPrestation().getActivite().getActiviteNom().toUpperCase();
 					String prestationsoin = WordUtils.capitalize(rdvList.get(numRdv).getPrestation().getSoin());
 					Integer idLieuRdv = rdvList.get(numRdv).getLieuRdv().getIdLieuRdv();
 					String adresseLieuRdvNumeroRue, adresseLieuRdvRue, adresseLieuRdvZipCode, adresseLieuRdvVille;

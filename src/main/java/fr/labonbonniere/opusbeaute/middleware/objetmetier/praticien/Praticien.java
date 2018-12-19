@@ -40,15 +40,15 @@ public class Praticien implements Serializable {
 	private String prenomPraticien;
 	private String teleMobilePraticien;
 	private String adresseMailPraticien;
-	private String suscribedSmsReminder;
-	private String suscribedMailReminder;
+	private boolean suscribedSmsReminder;
+	private boolean suscribedMailReminder;
 
 	public Praticien() {
 		super();
 	}
 
 	public Praticien(Integer idPraticien, String nomPraticien, String prenomPraticien, String teleMobilePraticien,
-			String adresseMailPraticien, String suscribedSmsReminder, String suscribedMailReminder) {
+			String adresseMailPraticien, boolean suscribedSmsReminder, boolean suscribedMailReminder) {
 		super();
 		this.idPraticien = idPraticien;
 		this.nomPraticien = nomPraticien;
@@ -114,22 +114,22 @@ public class Praticien implements Serializable {
 	}
 
 //	@Column(name = "UTILISATEUR_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
-	@Column(name = "PRATICIEN_SUSCRIBEDSMSREMINDER", nullable = false, length = 1)
-	public String getSuscribedSmsReminder() {
+	@Column(name = "PRATICIEN_SUSCRIBEDSMSREMINDER", nullable = false)
+	public boolean getSuscribedSmsReminder() {
 		return suscribedSmsReminder;
 	}
 
-	public void setSuscribedSmsReminder(String suscribedSmsReminder) {
+	public void setSuscribedSmsReminder(boolean suscribedSmsReminder) {
 		this.suscribedSmsReminder = suscribedSmsReminder;
 	}
 
 //	@Column(name = "UTILISATEUR_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
-	@Column(name = "PRATICIEN_SUSCRIBEDMAILREMINDER", nullable = false, length = 1)
-	public String getSuscribedMailReminder() {
+	@Column(name = "PRATICIEN_SUSCRIBEDMAILREMINDER", nullable = false)
+	public boolean getSuscribedMailReminder() {
 		return suscribedMailReminder;
 	}
 
-	public void setSuscribedMailReminder(String suscribedMailReminder) {
+	public void setSuscribedMailReminder(boolean suscribedMailReminder) {
 		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
@@ -158,8 +158,11 @@ public class Praticien implements Serializable {
 		result = prime * result + ((nomPraticien == null) ? 0 : nomPraticien.hashCode());
 		result = prime * result + ((prenomPraticien == null) ? 0 : prenomPraticien.hashCode());
 		result = prime * result + ((teleMobilePraticien == null) ? 0 : teleMobilePraticien.hashCode());
-		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
-		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
+//		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
+//		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
+		// test HashCode pour boolean 1231=>true, 1237=>false
+		result = prime * result + (Boolean.hashCode(suscribedSmsReminder));
+		result = prime * result + (Boolean.hashCode(suscribedMailReminder));
 
 		return result;
 	}

@@ -77,17 +77,17 @@ public class SendMailReminderClientService {
 		// Iteration de l arrayList bien moche :
 		for (Integer i = 0; i < rdvList.size(); i++) {
 
-			String isSucribedMailreminder = rdvList.get(i).getClient().getSuscribedMailReminder();
+			boolean isSucribedMailreminder = rdvList.get(i).getClient().getSuscribedMailReminder();
 			// logger.info("MailRemiderSender log : SUSreminder : " +
 
-			if (isSucribedMailreminder.equalsIgnoreCase("t")) {
+			if (isSucribedMailreminder == true) {
 
 				// Recuperation des informations necessaires pour l envoie de l
 				// Email.
 				String clientPrenom = rdvList.get(i).getClient().getPrenomClient();
 				clientEmail = rdvList.get(i).getClient().getAdresseMailClient();
 				Timestamp rdvDateHeure = rdvList.get(i).getDateHeureDebut();
-				String activite = rdvList.get(i).getPrestation().getActivite();
+				String activite = rdvList.get(i).getPrestation().getActivite().getActiviteNom();
 				String prestationsoin = rdvList.get(i).getPrestation().getSoin();
 				Integer idLieuRdv = rdvList.get(i).getLieuRdv().getIdLieuRdv();
 				String adresseLieuRdvNumeroRue, adresseLieuRdvRue, adresseLieuRdvZipCode, adresseLieuRdvVille;

@@ -1,5 +1,4 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.prestations;
-
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +15,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import fr.labonbonniere.opusbeaute.middleware.objetmetier.activite.Activite;
 import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
 /**
  * Objet Metier Prestation
@@ -38,10 +38,10 @@ public class Prestation implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idPrestation;
-	private String activite;
+	private Activite activite;
 	private String soin;
 	private Genre genre;
-	private String forfait;
+	private Boolean forfait;
 	private Integer nbSeance; 
 	private Integer dureeSeance;
 	private float prix;
@@ -52,8 +52,8 @@ public class Prestation implements Serializable {
 		super();
 	}
 	
-	public Prestation( Integer idPrestation, String activite, 
-			String soin, Genre genre, String forfait, Integer nbSeance,
+	public Prestation( Integer idPrestation, Activite activite, 
+			String soin, Genre genre, boolean forfait, Integer nbSeance,
 			Integer dureeSeance, float prix, String description) {
 		
 		super();
@@ -83,12 +83,14 @@ public class Prestation implements Serializable {
 		this.idPrestation = idPrestation;
 	}
 
-	@Column(name = "PRESTATION_ACTIVITE", nullable = false, length = 50)
-	public String getActivite() {
+	@OneToOne
+	@JoinColumn(name = "PRESTATION_IDACTIVITE_fk", referencedColumnName = "ACTIVITE_IDACTIVITE", 
+	nullable = true, updatable = true, insertable = true)
+	public Activite getActivite() {
 		return activite;
 	}
 
-	public void setActivite(String activite) {
+	public void setActivite(Activite activite) {
 		this.activite = activite;
 	}
 	@Column(name = "PRESTATION_SOIN", nullable = false, length = 50)
@@ -110,12 +112,12 @@ public class Prestation implements Serializable {
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
-	@Column(name = "PRESTATION_FORFAIT", nullable = false, length = 3)
-	public String getForfait() {
+	@Column(name = "PRESTATION_FORFAIT", nullable = false)
+	public boolean getForfait() {
 		return forfait;
 	}
 
-	public void setForfait(String forfait) {
+	public void setForfait(boolean forfait) {
 		this.forfait = forfait;
 	}
 	@Column(name = "PRESTATION_NBSEANCE", nullable = false, length = 3)
@@ -179,10 +181,12 @@ public class Prestation implements Serializable {
 		result = prime * result + ((activite == null) ? 0 : activite.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((dureeSeance == null) ? 0 : dureeSeance.hashCode());
-		result = prime * result + ((forfait == null) ? 0 : forfait.hashCode());
+//		result = prime * result + (forfait ? 1231 : 1237);
+		result = prime * result + (Boolean.hashCode(forfait));
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((idPrestation == null) ? 0 : idPrestation.hashCode());
 		result = prime * result + ((nbSeance == null) ? 0 : nbSeance.hashCode());
+		result = prime * result + Float.floatToIntBits(prix);
 		result = prime * result + ((soin == null) ? 0 : soin.hashCode());
 		return result;
 	}
@@ -206,6 +210,7 @@ public class Prestation implements Serializable {
 				.append(this.description, autre.description)
 				.append(this.dureeSeance, autre.dureeSeance)
 				.append(this.forfait, autre.forfait)
+				.append(this.prix, autre.prix)
 				.append(this.genre, autre.genre)
 				.append(this.nbSeance, autre.nbSeance)
 				.append(this.soin, autre.soin)

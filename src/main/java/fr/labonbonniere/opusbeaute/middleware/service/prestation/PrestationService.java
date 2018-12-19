@@ -272,33 +272,79 @@ public class PrestationService {
 			throws NbCharPrestationException, PrestationInvalideException, GenreInvalideException, 
 			DaoException, GenrePrestationNullException {
 
+		// activite
+		checkActivite(prestation);
+		// soin
+		checkSoin(prestation);
+		// nombre seances
+		checkNombreSeances(prestation);
+		// forfait
+		checkNombreSeancePourValiderForfait(prestation);
+		// Description
+		checkDescription(prestation);
+		// dureeseance
+		checkDureeSeance(prestation);
+		// genre
+		checkNbEntreeGenre(prestation);
+		
+		return prestation;
+	}
+	
+	/**
+	 * Verifie l activite de la prestation
+	 * - Check si nulle ou vide
+	 * - Check si le nombre de characteres depasse 50
+	 * @param prestation
+	 * @throws NbCharPrestationException
+	 * @throws PrestationInvalideException
+	 */
+	private void checkActivite(Prestation prestation) throws NbCharPrestationException, PrestationInvalideException {
+		
 		// Prestation.Activite
-		if (prestation.getActivite() != null && !prestation.getActivite().isEmpty()) {
+		if (prestation.getActivite().getActiviteNom() != null && !prestation.getActivite().getActiviteNom().isEmpty()) {
 			logger.error("PrestationService log : Prestation.Action n est pas nul :)");
-			if (prestation.getActivite().length() > 50) {
+			if (prestation.getActivite().getActiviteNom().length() > 50) {
 				logger.error("PrestationService log : Prestation.Action depasse 50 caracteres");
 				throw new NbCharPrestationException(
 						"PrestationService log : Prestation.Activite depasse 50 caracteres");
 			} else {
 				logger.info("PrestationService log : Prestation.Action est valide");
 				
-				String checkSpaceAtStrBeginAndCharacSpec = prestation.getActivite();
+				String checkSpaceAtStrBeginAndCharacSpec = prestation.getActivite().getActiviteNom();
 				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
 				String activiteStringyfy = StringWithoutSpaceAndCharspec.toLowerCase();
-				prestation.setActivite(activiteStringyfy);
+//				prestation.setActivite(activiteStringyfy);
+				prestation.getActivite().setActiviteNom(activiteStringyfy);
 			}
+			
 		} else {
 			logger.error("PrestationService log : Prestation.Action est vide ou null :/");
 			throw new PrestationInvalideException("PrestationService log : Prestation.Action est vide ou null :/");
 		}
-
+		
+	}
+	
+	/**
+	 * Verifie le soin de la presttaion
+	 * - Check si nulle ou vide
+	 * - Check si le nombre de characteres depasse 50
+	 * @param prestation
+	 * @throws NbCharPrestationException
+	 * @throws PrestationInvalideException
+	 */
+	private void checkSoin(Prestation prestation) throws NbCharPrestationException, PrestationInvalideException {
+		
 		// Prestation.Soin
 		if (prestation.getSoin() != null && !prestation.getSoin().isEmpty()) {
+			
 			logger.error("PrestationService log : Prestation.Soin n est pas nul :)");
+			
 			if (prestation.getSoin().length() > 50) {
 				logger.error("PrestationService log : Prestation.Soin depasse 50 caracteres");
 				throw new NbCharPrestationException("PrestationService log : Prestation.Soin depasse 50 caracteres");
+				
 			} else {
+				
 				logger.info("PrestationService log : Prestation.Action est valide");
 				String checkSpaceAtStrBeginAndCharacSpec = prestation.getSoin();
 				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
@@ -309,7 +355,19 @@ public class PrestationService {
 			logger.error("PrestationService log : Prestation.Soin est vide ou null :/");
 			throw new PrestationInvalideException("PrestationService log : Prestation.Soin est vide ou null :/");
 		}
-
+		
+	}
+	
+	/**
+	 * Verifie la Description de la prestation
+	 * - Check si la description est nulle ou vide
+	 * - Check si le nombre de characteres dépassent 500
+	 * @param prestation
+	 * @throws NbCharPrestationException
+	 * @throws PrestationInvalideException 
+	 */
+	private void checkDescription(Prestation prestation) throws NbCharPrestationException, PrestationInvalideException {
+		
 		// Prestation.Description
 		if (prestation.getDescription() != null && !prestation.getDescription().isEmpty()) {
 			logger.error("PrestationService log : Prestation.Description n est pas nul :)");
@@ -325,68 +383,67 @@ public class PrestationService {
 						+ prestation.getDescription().substring(1).toLowerCase();
 				prestation.setDescription(descriptionstringyfy);
 			}
+			
 		} else {
 			logger.error("PrestationService log : Prestation.Description est vide ou null :/");
 			throw new PrestationInvalideException("PrestationService log : Prestation.Description est vide ou null :/");
 		}
-
-		if (prestation.getForfait() != null && !prestation.getForfait().isEmpty()) {
-
-			logger.info("PrestationService log : Prestation.Forfait n est pas nul :)");
-			if (prestation.getNbSeance() <= 0) {
-				logger.info("PrestationService log : Prestation.NbSeance <=0 ne valide pas Prestation.Forfait)");
-				logger.info("PrestationService log : Prestation.Forfait positionne a null");
-				prestation.setForfait(null);
-				throw new NbCharPrestationException("PrestationService log : Prestation.Forfait force a null");
-			}
-			if (prestation.getForfait().length() > 4) {
-				logger.error("PrestationService log : Prestation.Forfait depasse 4 caracteres");
-				prestation.setForfait(null);
-				throw new NbCharPrestationException("PrestationService log : Prestation.Forfait force a null");
-			}
-			if (prestation.getNbSeance() == 1) {
-				logger.info("PrestationService log : Prestation.NbSeance =1 ne valide pas valide Prestation.Forfait)");
-				prestation.setForfait("F");
-			} else {
-				logger.info(
-						"PrestationService log : Prestation.NbSeances > 1 alors positionne a Prestation.Forfait à T ");
-				prestation.setForfait("T");
-				String forfaitstringyfy = prestation.getForfait().toUpperCase();
-				prestation.setForfait(forfaitstringyfy);
-			}
-		} else {
-			logger.error("PrestationService log : Prestation.Forfait est vide ou null :/");
-			prestation.setForfait(null);
-			throw new PrestationInvalideException("PrestationService log : Prestation.Forfait est vide ou null :/");
-		}
-
+		
+	}
+	
+	/**
+	 * Verifie le nombre de séances
+	 * - Check si nbSeance est nulle ou vide
+	 * - Check si nbSeance est inferieur à 0
+	 * - Check si nbSeance est superieur à trois charcatères
+	 * @param prestation
+	 * @throws PrestationInvalideException
+	 */
+	private void checkNombreSeances(Prestation prestation) throws PrestationInvalideException {
+		
 		// Prestation.NbSeance
 		// Conversion du Int en str pour le test de la clause null ou vide.
 		String IntToStrNbseance = Integer.toString(prestation.getNbSeance());
 		if (prestation.getNbSeance() != null && !IntToStrNbseance.isEmpty()) {
+			
 			logger.info("PrestationService log : Prestation.NbSeance n est pas vide :)");
+			
 			if (prestation.getNbSeance() <= 0) {
 				logger.error("PrestationService log : Prestation.nbSeance est <= 0");
 				throw new PrestationInvalideException("PrestationService log : Prestation.NbSeances <= 0");
 			}
+			
 			if (IntToStrNbseance.length() > 3) {
 				logger.error("PrestationService log : Prestation.nbSeance depase trois chracteres");
 				throw new PrestationInvalideException(
 						"PrestationService log : Prestation.NbSeances depasse 3 caracteres.");
 			}
-			if (prestation.getNbSeance() > 1) {
-				logger.info("PrestationService log : Prestation.NbSeance > 1 force forfait a T");
-				prestation.setForfait("T");
-			} else {
-				logger.info("PrestationService log : Prestation.NbSeance <= 1 force forfait a F");
-				prestation.setForfait("F");
-			}
+//			if (prestation.getNbSeance() > 1) {
+//				logger.info("PrestationService log : Prestation.NbSeance > 1 force forfait a T");
+//				prestation.setForfait(true);
+//			} else {
+//				logger.info("PrestationService log : Prestation.NbSeance <= 1 force forfait a F");
+//				prestation.setForfait(false);
+//			}
 
 		} else {
 			logger.info("PrestationService log : Prestation.NbSeance est null ou vide :)");
 			throw new PrestationInvalideException("PrestationService log : Prestation.NbSeances est null ou vide");
 		}
-
+		
+	}
+	
+	/**
+	 * Vérifie la durée de la seance
+	 * - Check si la duree n est pas nulle
+	 * - Check si le nobre de characteres ne depassent pas 3
+	 * - Check si la duree n est pas inferieur à 0 minutes.
+	 * - Check si la duree n est pas superieur a 180 minutes.
+	 * @param prestation
+	 * @throws PrestationInvalideException 
+	 */
+	private void checkDureeSeance(Prestation prestation) throws PrestationInvalideException {
+		
 		// Prestation.Dureeseace
 		// Conversion du Int en Str pour test de la clause null ou vide
 		String IntToStrDureeseance = Integer.toString(prestation.getDureeSeance());
@@ -413,10 +470,47 @@ public class PrestationService {
 			throw new PrestationInvalideException("PrestationService log : Prestation.Dureeseance est null ou vide.");
 		}
 		
-		// genre
-		checkNbEntreeGenre(prestation);
+	}
+	
+	
+	private void checkNombreSeancePourValiderForfait(Prestation prestation) throws PrestationInvalideException {
 		
-		return prestation;
+//		if (prestation.getForfait() != Boolean.null && !prestation.getForfait().isEmpty()) {
+
+			logger.info("PrestationService log : test si nombre prestation est bien un integer");
+			if (prestation.getNbSeance() instanceof Integer) {
+
+				logger.info("PrestationService log : Prestation.NbSeance est bien un Integer)");				
+			
+			} else {
+				
+				logger.info("PrestationService log : Prestation.NbSeance n est aps un Integer");
+				throw new PrestationInvalideException("PrestationService log : Prestation.Forfait null ou inferieur a ");
+			}
+			
+			if (prestation.getNbSeance() <= 0) {
+				
+				logger.info("PrestationService log : Prestation.NbSeance <=0 ne valide pas Prestation.Forfait)");
+				throw new PrestationInvalideException("PrestationService log : Prestation.Forfait null ou inferieur a 0");
+			}
+			
+			if (prestation.getNbSeance() == 1) {
+				logger.info("PrestationService log : Prestation.NbSeance = 1 ne valide pas valide Prestation.Forfait)");
+//				prestation.setForfait("F"); // Correction de 
+				prestation.setForfait(false);
+			
+			} else {
+				
+				logger.info(
+						"PrestationService log : Prestation.NbSeances > 1 alors positionne a Prestation.Forfait à T ");
+				prestation.setForfait(true);
+				
+			}
+//		} else {
+//			logger.error("PrestationService log : Prestation.Forfait est vide ou null :/");
+//			prestation.setForfait(null);
+//			throw new PrestationInvalideException("PrestationService log : Prestation.Forfait est vide ou null :/");
+//		}
 	}
 	
 	/**
@@ -430,7 +524,7 @@ public class PrestationService {
 	public void checkNbEntreeGenre(Prestation prestation)
 			throws GenreInvalideException, DaoException, GenrePrestationNullException {
 
-		Integer NbRowGenreFromBdd = (int) genredao.CountGenre();
+		Integer NbRowGenreFromBdd = (int) genredao.countGenre();
 		logger.info("PrestationService log : Nombre d id Genre BDD : " + NbRowGenreFromBdd);
 
 		try {

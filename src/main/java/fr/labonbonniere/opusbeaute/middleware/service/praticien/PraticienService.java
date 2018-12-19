@@ -296,14 +296,16 @@ public class PraticienService {
 				} else {
 					logger.error("PraticienService log : SuscribedSmsReminder TRUE n est pas envisageable "
 							+ "car Praticien.TelMobile commence par : " + praticien.getTeleMobilePraticien().substring(0, 2));
-							praticien.setSuscribedSmsReminder("F");
+//							praticien.setSuscribedSmsReminder("F"); // Correction car chnagement de type
+							praticien.setSuscribedSmsReminder(false);
 					logger.info("PraticienService log : SuscribedSmsReminder force a etre FALSE");
 				}
 
 			} else {
 				logger.info("PraticienService log : Praticien.TelMobile comporte : " + praticien.getTeleMobilePraticien().length()
 						+ " alors que 10 sont attendus.");
-				praticien.setSuscribedSmsReminder("F");
+//				praticien.setSuscribedSmsReminder("F"); // Correction car chnagement de type
+				praticien.setSuscribedSmsReminder(false); 
 				logger.info("PraticienService log : SuscribedSmsReminder force a etre FALSE");
 				praticien.setTeleMobilePraticien(null);
 				throw new NbCharTelException(
@@ -312,7 +314,8 @@ public class PraticienService {
 
 		} else {
 			logger.info("PraticienService log : TelMobileClient est null ou vide.)");
-			praticien.setSuscribedSmsReminder("F");
+//			praticien.setSuscribedSmsReminder("F");  // Correction car chnagement de type
+			praticien.setSuscribedSmsReminder(false);
 			logger.info("PraticienService log : SuscribedSmsReminder force a etre FALSE");
 			praticien.setTeleMobilePraticien(null);
 
@@ -331,7 +334,8 @@ public class PraticienService {
 			
 			if (praticien.getAdresseMailPraticien().length() > 50) {
 				logger.info("PraticienService log : Praticien.AdresseMail format non valide depasse 50 caracteres.");
-				praticien.setSuscribedMailReminder("F");
+//				praticien.setSuscribedMailReminder("F"); // Correction car chnagement de type
+				praticien.setSuscribedMailReminder(false); 
 				logger.info("PraticienService log : SuscribedMailRemider force a FALSE");
 				throw new EmailFormatInvalidException("PraticienService Validation Exception : Praticien.Mail non valide");
 
@@ -340,7 +344,8 @@ public class PraticienService {
 
 				if (emailFormatvalidation == false) {
 					logger.info("PraticienService log : Praticien.AdresseMail Format non valide : " + emailFormatvalidation);
-					praticien.setSuscribedMailReminder("F");
+//					praticien.setSuscribedMailReminder("F"); // Correction car chnagement de type
+					praticien.setSuscribedMailReminder(false);
 					logger.info("PraticienService log : SuscribedMailRemider force a FALSE");
 					throw new EmailFormatInvalidException("PraticienService Validation Exception : Praticien.Mail non valide");
 
@@ -349,7 +354,8 @@ public class PraticienService {
 
 		} else {
 			logger.info("PraticienService log : Client.AdresseMail null ou vide.");
-			praticien.setSuscribedMailReminder("F");
+//			praticien.setSuscribedMailReminder("F"); // Correction car changement de type
+			praticien.setSuscribedMailReminder(false);
 			logger.info("PraticienService log : SuscribedMailRemider force a False");
 			praticien.setAdresseMailPraticien(null);
 		}

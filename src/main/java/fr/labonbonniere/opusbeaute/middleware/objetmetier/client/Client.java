@@ -28,7 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.objetmetier.genre.Genre;
  * Lors de l intervention de L ORM Hibernate / JPA, 
  * l instance devient une entite
  * 
- * "@Overide" des Methodes
+ * "@Override" des Methodes
  * 
  *          toString Equals HashCode
  * 
@@ -53,13 +53,13 @@ public class Client implements Serializable {
 	private String adresseMailClient;
 
 	private Timestamp dateAnniversaireClient;
-	private String suscribedCommercials;
-	private String suscribedNewsLetter;
-	private String suscribedMailReminder;
-	private String suscribedSmsReminder;
-	private String rgpdInfoClientValidation; // boolean T=true / f=false 
+	private boolean suscribedCommercials;
+	private boolean suscribedNewsLetter;
+	private boolean suscribedMailReminder;
+	private boolean suscribedSmsReminder;
+	private boolean rgpdInfoClientValidation; // boolean T=true / f=false // type corrigé
 	private Timestamp rgpdDateClientvalidation;
-	private String rgpdClientCanModifyRgpdSettings; // boolean T=true / f=false 
+	private boolean rgpdClientCanModifyRgpdSettings; // boolean T=true / f=false type corrigé
 
 	public Client() {
 		super();
@@ -67,9 +67,9 @@ public class Client implements Serializable {
 
 	public Client(Integer idClient, String nomClient, String prenomClient, String telephoneClient,
 			String telMobileClient, Genre genreClient, AdresseClient adresse, String adresseMailClient,
-			Timestamp dateAnniversaireClient, String suscribedNewsLetter, String suscribedMailReminder,
-			String suscribedSmsRemider, String suscribedCommercials, String rgpdInfoClientValidation, 
-			Timestamp rgpdDateClientvalidation, String rgpdClientCanModifyRgpdSettings) {
+			Timestamp dateAnniversaireClient, boolean suscribedNewsLetter, boolean suscribedMailReminder,
+			boolean suscribedSmsRemider, boolean suscribedCommercials, boolean rgpdInfoClientValidation, 
+			Timestamp rgpdDateClientvalidation, boolean rgpdClientCanModifyRgpdSettings) {
 
 		super();
 		this.idClient = idClient;
@@ -181,48 +181,48 @@ public class Client implements Serializable {
 		this.dateAnniversaireClient = dateAnniversaireClient;
 	}
 
-	@Column(name = "CLIENT_SUSCRIBEDNEWSLETTER", nullable = false, length = 4)
-	public String getSuscribedNewsLetter() {
+	@Column(name = "CLIENT_SUSCRIBEDNEWSLETTER", nullable = false)
+	public boolean getSuscribedNewsLetter() {
 		return suscribedNewsLetter;
 	}
 
-	public void setSuscribedNewsLetter(String suscribedNewsLetter) {
+	public void setSuscribedNewsLetter(boolean suscribedNewsLetter) {
 		this.suscribedNewsLetter = suscribedNewsLetter;
 	}
 
-	@Column(name = "CLIENT_SUSCRIBEDMAILREMINDER", nullable = false, length = 4)
-	public String getSuscribedMailReminder() {
+	@Column(name = "CLIENT_SUSCRIBEDMAILREMINDER", nullable = false)
+	public boolean getSuscribedMailReminder() {
 		return suscribedMailReminder;
 	}
 
-	public void setSuscribedMailReminder(String suscribedMailReminder) {
+	public void setSuscribedMailReminder(boolean suscribedMailReminder) {
 		this.suscribedMailReminder = suscribedMailReminder;
 	}
 
-	@Column(name = "CLIENT_SUSCRIBEDSMSREMINDER", nullable = false, length = 4)
-	public String getSuscribedSmsReminder() {
+	@Column(name = "CLIENT_SUSCRIBEDSMSREMINDER", nullable = false)
+	public boolean getSuscribedSmsReminder() {
 		return suscribedSmsReminder;
 	}
 
-	public void setSuscribedSmsReminder(String suscribedSmsReminder) {
+	public void setSuscribedSmsReminder(boolean suscribedSmsReminder) {
 		this.suscribedSmsReminder = suscribedSmsReminder;
 	}
 
-	@Column(name = "CLIENT_SUSCRIBEDCOMMERCIALS", nullable = false, length = 4)
-	public String getSuscribedCommercials() {
+	@Column(name = "CLIENT_SUSCRIBEDCOMMERCIALS", nullable = false)
+	public boolean getSuscribedCommercials() {
 		return suscribedCommercials;
 	}
 
-	public void setSuscribedCommercials(String suscribedCommercials) {
+	public void setSuscribedCommercials(boolean suscribedCommercials) {
 		this.suscribedCommercials = suscribedCommercials;
 	}
 	
-	@Column(name = "CLIENT_RGPDINFOCLIENTVALIDATION", nullable = false, length = 1)
-	public String getRgpdInfoClientValidation() {
+	@Column(name = "CLIENT_RGPDINFOCLIENTVALIDATION", nullable = false)
+	public boolean getRgpdInfoClientValidation() {
 		return rgpdInfoClientValidation;
 	}
 
-	public void setRgpdInfoClientValidation(String rgpdInfoClientValidation) {
+	public void setRgpdInfoClientValidation(boolean rgpdInfoClientValidation) {
 		this.rgpdInfoClientValidation = rgpdInfoClientValidation;
 	}
 
@@ -236,11 +236,11 @@ public class Client implements Serializable {
 	}
 
 	@Column(name = "CLIENT_RGPDCLIENTCANMODIFYRGPDSETTINGS", nullable = true, length = 1)
-	public String getRgpdClientCanModifyRgpdSettings() {
+	public boolean getRgpdClientCanModifyRgpdSettings() {
 		return rgpdClientCanModifyRgpdSettings;
 	}
 
-	public void setRgpdClientCanModifyRgpdSettings(String rgpdClientCanModifyRgpdSettings) {
+	public void setRgpdClientCanModifyRgpdSettings(boolean rgpdClientCanModifyRgpdSettings) {
 		this.rgpdClientCanModifyRgpdSettings = rgpdClientCanModifyRgpdSettings;
 	}
 
@@ -280,13 +280,14 @@ public class Client implements Serializable {
 		result = prime * result + ((prenomClient == null) ? 0 : prenomClient.hashCode());
 		result = prime * result + ((telephoneClient == null) ? 0 : telephoneClient.hashCode());
 		result = prime * result + ((telMobileClient == null) ? 0 : telMobileClient.hashCode());
-		result = prime * result + ((suscribedNewsLetter == null) ? 0 : suscribedNewsLetter.hashCode());
-		result = prime * result + ((suscribedMailReminder == null) ? 0 : suscribedMailReminder.hashCode());
-		result = prime * result + ((suscribedSmsReminder == null) ? 0 : suscribedSmsReminder.hashCode());
-		result = prime * result + ((suscribedCommercials == null) ? 0 : suscribedCommercials.hashCode());
-		result = prime * result + ((rgpdInfoClientValidation == null) ? 0 : rgpdInfoClientValidation.hashCode());		
+//		result = prime * result + ((suscribedNewsLetter == null) ? 0 : suscribedNewsLetter.hashCode());
+		result = prime * result + (Boolean.hashCode(suscribedNewsLetter));
+		result = prime * result + (Boolean.hashCode(suscribedMailReminder));
+		result = prime * result + (Boolean.hashCode(suscribedSmsReminder));
+		result = prime * result + (Boolean.hashCode(suscribedCommercials));
+		result = prime * result + (Boolean.hashCode(rgpdInfoClientValidation));		
 		result = prime * result + ((rgpdDateClientvalidation == null) ? 0 : rgpdDateClientvalidation.hashCode());
-		result = prime * result + ((rgpdClientCanModifyRgpdSettings == null) ? 0 : rgpdClientCanModifyRgpdSettings.hashCode());		
+		result = prime * result + (Boolean.hashCode(rgpdClientCanModifyRgpdSettings));		
 		return result;
 	}
 

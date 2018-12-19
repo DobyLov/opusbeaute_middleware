@@ -139,9 +139,9 @@ public class ClientService {
 				adresseValiderFormater(client);
 				logger.info("ClientService log : Adresse est valide.");
 			}
-			logger.info("ClientService Log : Check Sousciptions");
-			checkPreRequisSouscriptions(client);
-			logger.info("ClientService Log : Sousciptions ok");
+//			logger.info("ClientService Log : Check Sousciptions");
+//			checkPreRequisSouscriptions(client);
+//			logger.info("ClientService Log : Sousciptions ok");
 
 		} catch (NbNumRueException message) {
 			throw new NbNumRueException();
@@ -200,8 +200,8 @@ public class ClientService {
 				logger.info("ClientService log : Adresse est valide.");
 			}
 			logger.info("ClientService Log : Check Sousciptions");
-			checkPreRequisSouscriptions(client);
-			logger.info("ClientService Log : Sousciptions ok");
+//			checkPreRequisSouscriptions(client);
+//			logger.info("ClientService Log : Sousciptions ok");
 		} catch (NbNumRueException message) {
 			throw new NbNumRueException();
 
@@ -531,14 +531,16 @@ public class ClientService {
 					logger.error("ClientService log : SuscribedSmsReminder TRUE n est pas envisageable "
 							+ "car TelMobileClient commence par : " + client.getTelMobileClient().substring(0, 2)
 							+ " il ne commence pas par 06 ou 07 :)");
-					client.setSuscribedSmsReminder("F");
+//					client.setSuscribedSmsReminder("F"); // Correction de Type
+					client.setSuscribedSmsReminder(false);
 					logger.info("ClientService log : SuscribedSmsReminder force a etre FALSE");
 				}
 
 			} else {
 				logger.info("ClientService log : TelMobileClient comporte : " + client.getTelMobileClient().length()
 						+ " alors que 10 sont attendus.");
-				client.setSuscribedSmsReminder("F");
+//				client.setSuscribedSmsReminder("F");// Correction de Type
+				client.setSuscribedSmsReminder(false);// Correction de Type
 				logger.info("ClientService log : SuscribedSmsReminder force a etre FALSE");
 				client.setTelMobileClient(null);
 				throw new NbCharTelException(
@@ -547,7 +549,8 @@ public class ClientService {
 
 		} else {
 			logger.info("ClientService log : TelMobileClient est null ou vide.)");
-			client.setSuscribedSmsReminder("F");
+//			client.setSuscribedSmsReminder("F"); // Correction de Type
+			client.setSuscribedSmsReminder(false);
 			logger.info("ClientService log : SuscribedSmsReminder force a etre FALSE");
 			client.setTelMobileClient(null);
 
@@ -568,11 +571,14 @@ public class ClientService {
 			
 			if (client.getAdresseMailClient().length() > 50) {
 				logger.info("ClientService log : Client.AdresseMail format non valide depasse 50 caracteres.");
-				client.setSuscribedMailReminder("F");
+//				client.setSuscribedMailReminder("F"); // Correction de type
+				client.setSuscribedMailReminder(false);
 				logger.info("ClientService log : SuscribedMailRemider force a FALSE");
-				client.setSuscribedNewsLetter("F");
+//				client.setSuscribedNewsLetter("F"); // Correction de type
+				client.setSuscribedNewsLetter(false);
 				logger.info("ClientService log : SuscribedNewsLetter force a FALSE");
-				client.setSuscribedCommercials("F");
+//				client.setSuscribedCommercials("F"); // Correction de Type
+				client.setSuscribedCommercials(false);
 				logger.info("ClientService log : SuscribedCommercials force a FALSE");
 				throw new EmailFormatInvalidException("ClientService Validation Exception : Client.Mail non valide");
 
@@ -581,11 +587,14 @@ public class ClientService {
 
 				if (emailFormatvalidation == false) {
 					logger.info("ClientService log : Client.AdresseMail Format non valide : " + emailFormatvalidation);
-					client.setSuscribedMailReminder("F");
+//					client.setSuscribedMailReminder("F"); // Corection de type
+					client.setSuscribedMailReminder(false); 
 					logger.info("ClientService log : SuscribedMailRemider force a FALSE");
-					client.setSuscribedNewsLetter("F");
+//					client.setSuscribedNewsLetter("F"); // Correction de type
+					client.setSuscribedNewsLetter(false); 
 					logger.info("ClientService log : SuscribedNewsLetter force a FALSE");
-					client.setSuscribedCommercials("F");
+//					client.setSuscribedCommercials("F"); // Correction de type
+					client.setSuscribedCommercials(false); // Correction de type
 					logger.info("ClientService log : SuscribedCommercials force a FALSE");
 					throw new EmailFormatInvalidException("ClientService Validation Exception : Client.Mail non valide");
 
@@ -594,11 +603,14 @@ public class ClientService {
 
 		} else {
 			logger.info("ClientService log : Client.AdresseMail null ou vide.");
-			client.setSuscribedMailReminder("F");
+//			client.setSuscribedMailReminder("F"); // Correction de type
+			client.setSuscribedMailReminder(false); 
 			logger.info("ClientService log : SuscribedMailRemider force a False");
-			client.setSuscribedNewsLetter("F");
+//			client.setSuscribedNewsLetter("F"); // Correction de type
+			client.setSuscribedNewsLetter(false);
 			logger.info("ClientService log : SuscribedNewsLetter force a False");
-			client.setSuscribedCommercials("F");
+//			client.setSuscribedCommercials("F"); // Correction de type
+			client.setSuscribedCommercials(false);
 			logger.info("ClientService log : SuscribedCommercials force a False");
 			client.setAdresseMailClient(null);
 		}
@@ -606,19 +618,20 @@ public class ClientService {
 		
 		if (client.getRgpdDateClientvalidation() != null) {
 			
-			if (client.getRgpdInfoClientValidation() != null && !client.getRgpdInfoClientValidation().isEmpty()) {
-				
-				if (client.getRgpdInfoClientValidation().contains("f")) {
-					client.setRgpdInfoClientValidation("F");
-					
-				} else if (client.getRgpdInfoClientValidation().contains("t")) {
-					client.setRgpdInfoClientValidation("T");
-		
-				}
-				
-			} else {
-				client.setRgpdInfoClientValidation("F");
-			}
+//			if (client.getRgpdInfoClientValidation() != null && !client.getRgpdInfoClientValidation().isEmpty()) {
+//				
+//				if (client.getRgpdInfoClientValidation().contains("f")) {
+//					client.setRgpdInfoClientValidation("F");
+//					
+//				} else if (client.getRgpdInfoClientValidation().contains("t")) {
+//					client.setRgpdInfoClientValidation("T");
+//		
+//				}
+//				
+//			} else {
+//				client.setRgpdInfoClientValidation("F");
+//			}
+			client.setRgpdInfoClientValidation(false);
 			
 		} else {
 			
@@ -627,15 +640,15 @@ public class ClientService {
 
 		}
 		
-		if (client.getRgpdClientCanModifyRgpdSettings() != null) {
-			if (client.getRgpdClientCanModifyRgpdSettings().contains("f")) {
-				client.setRgpdClientCanModifyRgpdSettings("F");
-			} else if (client.getRgpdClientCanModifyRgpdSettings().contains("t")) {
-				client.setRgpdClientCanModifyRgpdSettings("T");
-			}
-		} else {
-			client.setRgpdClientCanModifyRgpdSettings("F");
-		}
+//		if (client.getRgpdClientCanModifyRgpdSettings() != null) {
+//			if (client.getRgpdClientCanModifyRgpdSettings().contains("f")) {
+//				client.setRgpdClientCanModifyRgpdSettings("F");
+//			} else if (client.getRgpdClientCanModifyRgpdSettings().contains("t")) {
+//				client.setRgpdClientCanModifyRgpdSettings("T");
+//			}
+//		} else {
+//			client.setRgpdClientCanModifyRgpdSettings("F");
+//		}
 		
 
 
@@ -668,7 +681,7 @@ public class ClientService {
 	public void checkNbEntreeGenre(Client client)
 			throws GenreInvalideException, DaoException, GenreClientNullException {
 
-		Integer NbRowGenreFromBdd = (int) genredao.CountGenre();
+		Integer NbRowGenreFromBdd = (int) genredao.countGenre();
 		logger.info("ClientService log : Nombre d id Genre BDD : " + NbRowGenreFromBdd);
 
 		try {
@@ -820,19 +833,19 @@ public class ClientService {
 		 *				
 		 */
 		// COMMERCIALS
-		if (client.getSuscribedCommercials() != null && !client.getSuscribedCommercials().isEmpty()) {
-			if (client.getSuscribedCommercials().equalsIgnoreCase("T")) {
-				if (client.getAdresseMailClient() !=null && !client.getAdresseMailClient().isEmpty()) {
-					client.setSuscribedCommercials("T");
-				} else {
-					client.setSuscribedCommercials("F");
-				}
-			} else {
-				client.setSuscribedCommercials("F");
-			}
-		} else {
-			client.setSuscribedCommercials("F");
-		}
+//		if (client.getSuscribedCommercials() != null && !client.getSuscribedCommercials().isEmpty()) {
+//			if (client.getSuscribedCommercials().equalsIgnoreCase("T")) {
+//				if (client.getAdresseMailClient() !=null && !client.getAdresseMailClient().isEmpty()) {
+//					client.setSuscribedCommercials("T");
+//				} else {
+//					client.setSuscribedCommercials("F");
+//				}
+//			} else {
+//				client.setSuscribedCommercials("F");
+//			}
+//		} else {
+//			client.setSuscribedCommercials("F");
+//		}
 		
 		/*
 		 * (Si la SOUSCRIPTION AUX RAPPELS PAR MAIL n est pas NULLE et non VIDE)
@@ -848,19 +861,19 @@ public class ClientService {
 		 *			
 		 */
 		// MAIL Reminder
-		if (client.getSuscribedMailReminder() != null && !client.getSuscribedMailReminder().isEmpty()) {
-			if (client.getSuscribedMailReminder().equalsIgnoreCase("T")) {
-				if (client.getAdresseMailClient() !=null && !client.getAdresseMailClient().isEmpty()) {
-					client.setSuscribedMailReminder("T");
-				} else {
-					client.setSuscribedMailReminder("F");
-				}
-			} else {
-				client.setSuscribedMailReminder("F");
-			}
-		} else {
-			client.setSuscribedMailReminder("F");
-		}
+//		if (client.getSuscribedMailReminder() != null && !client.getSuscribedMailReminder().isEmpty()) {
+//			if (client.getSuscribedMailReminder().equalsIgnoreCase("T")) {
+//				if (client.getAdresseMailClient() !=null && !client.getAdresseMailClient().isEmpty()) {
+//					client.setSuscribedMailReminder("T");
+//				} else {
+//					client.setSuscribedMailReminder("F");
+//				}
+//			} else {
+//				client.setSuscribedMailReminder("F");
+//			}
+//		} else {
+//			client.setSuscribedMailReminder("F");
+//		}
 		
 		/* 
 		 * (Si la SOUSCRIPTION A LA NEWSLETTER n est pas NULLE et non VIDE)
@@ -876,19 +889,19 @@ public class ClientService {
 		 *				
 		 */
 		// MAIL NewsLetter
-		if (client.getSuscribedNewsLetter() != null && !client.getSuscribedNewsLetter().isEmpty()) {
-			if (client.getSuscribedMailReminder().equalsIgnoreCase("T")) {
-				if (client.getAdresseMailClient() !=null && !client.getAdresseMailClient().isEmpty()) {
-					client.setSuscribedNewsLetter("T");
-				} else {
-					client.setSuscribedNewsLetter("F");
-				}
-			} else {
-				client.setSuscribedNewsLetter("F");
-			}
-		} else {
-			client.setSuscribedNewsLetter("F");
-		}
+//		if (client.getSuscribedNewsLetter() != null && !client.getSuscribedNewsLetter().isEmpty()) {
+//			if (client.getSuscribedMailReminder().equalsIgnoreCase("T")) {
+//				if (client.getAdresseMailClient() !=null && !client.getAdresseMailClient().isEmpty()) {
+//					client.setSuscribedNewsLetter("T");
+//				} else {
+//					client.setSuscribedNewsLetter("F");
+//				}
+//			} else {
+//				client.setSuscribedNewsLetter("F");
+//			}
+//		} else {
+//			client.setSuscribedNewsLetter("F");
+//		}
 		
 		/*
 		 * (Si la SOUSCRIPTION AUX RAPPELS PAR SMS n est pas NULLE et non VIDE)
@@ -904,19 +917,19 @@ public class ClientService {
 		 *				
 		 */
 		// SMSReminder
-		if (client.getSuscribedSmsReminder() != null && !client.getSuscribedSmsReminder().isEmpty()) {
-			if (client.getSuscribedSmsReminder().equalsIgnoreCase("T")) {
-				if (client.getTelMobileClient() !=null && !client.getTelMobileClient().isEmpty()) {
-					client.setSuscribedSmsReminder("T");
-				} else {
-					client.setSuscribedSmsReminder("F");
-				}
-			} else {
-				client.setSuscribedSmsReminder("F");
-			}
-		} else {
-			client.setSuscribedSmsReminder("F");
-		}
+//		if (client.getSuscribedSmsReminder() != null && !client.getSuscribedSmsReminder().isEmpty()) {
+//			if (client.getSuscribedSmsReminder().equalsIgnoreCase("T")) {
+//				if (client.getTelMobileClient() !=null && !client.getTelMobileClient().isEmpty()) {
+//					client.setSuscribedSmsReminder("T");
+//				} else {
+//					client.setSuscribedSmsReminder("F");
+//				}
+//			} else {
+//				client.setSuscribedSmsReminder("F");
+//			}
+//		} else {
+//			client.setSuscribedSmsReminder("F");
+//		}
 		
 	}
 

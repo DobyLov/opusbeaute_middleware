@@ -31,7 +31,12 @@ public class GenreDao {
 	@PersistenceContext(unitName = "opusBeautePU")
 	private EntityManager em;
 	
-	public long CountGenre() throws DaoException {
+	/**
+	 * Retourne le nombre d entree dans la base pour la table Genre
+	 * @return
+	 * @throws DaoException
+	 */
+	public long countGenre() throws DaoException {
 		logger.info("GenreDao log : Compte le nombre de Genre dans la table Genre");
 		String requete = "SELECT COUNT(G) FROM Genre g";
 //		String requete = "SELECT COUNT(*) FROM T_CLIENT";
@@ -84,7 +89,7 @@ public class GenreDao {
 					"GenreDao Exception : L' Id : " + idGenre + " est introuvable dans la base");
 		}
 
-		logger.info("GenreDao log : Prestations " + idGenre + " trouve, envoie du Genre a PrestationsService");
+		logger.info("GenreDao log : Genre " + idGenre + " trouve, envoie du Genre a GenreService");
 		return genre;
 
 	}
@@ -121,11 +126,11 @@ public class GenreDao {
 		Genre genreBdd = em.find(Genre.class, genre.getIdGenre());
 		if (Objects.nonNull(genreBdd)) {
 			em.merge(genre);
-			logger.info("GenreDao log : Rdv id : " + genre.getIdGenre() + " a ete modifie dans la Bdd.");
+			logger.info("GenreDao log : Genre id : " + genre.getIdGenre() + " a ete modifie dans la Bdd.");
 		} else {
-			logger.error("GenreDao log : Rdv id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
+			logger.error("GenreDao log : Genre id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
 			throw new GenreInexistantException("GenreDao log : Modification impossible,"
-					+ "il n'y a pas de Client à modifier pour l'id : " + genre.getIdGenre() + " demande.");
+					+ "il n'y a pas de Genre à modifier pour l'id : " + genre.getIdGenre() + " demande.");
 		}
 	}
 

@@ -55,14 +55,17 @@ public class UnsuscribeMailReminderClientService {
 				
 				logger.info("UnsuscribeRdvEmail log : Test si SuscribedRdvReminder est a True (T ou t).");
 				logger.info("UnsuscribeRdvEmail log : Valeur de SuscribedRdvReminder : " + clientParMail.getSuscribedMailReminder());
-				if (clientParMail.getSuscribedMailReminder().contentEquals("T") ==  true 
-						|| clientParMail.getSuscribedMailReminder().contentEquals("t") == true ) {
+//				if (clientParMail.getSuscribedMailReminder().contentEquals("T") ==  true 
+//						|| clientParMail.getSuscribedMailReminder().contentEquals("t") == true ) {
+				if (clientParMail.getSuscribedMailReminder() ==  true 
+						|| clientParMail.getSuscribedMailReminder() == true ) {
 				logger.info("UnsuscribeRdvEmail log : SuscribedRdvmail est a : " + clientParMail.getSuscribedMailReminder());
 				
 				logger.info("UnsuscribeRdvEmail log : Email present et compte souscri au reminder");
 				logger.info("UnsuscribeRdvEmail log : Modification de suscribeMailReminder boolean true a false ");
 				// definit SuscribedMailReminder sur False
-				clientParMail.setSuscribedMailReminder("F");
+//				clientParMail.setSuscribedMailReminder("F");
+				clientParMail.setSuscribedMailReminder(false);
 				logger.info("UnsuscribeRdvEmail log : suscribeMailReminder positionne a false avant persistance");
 				
 				try {

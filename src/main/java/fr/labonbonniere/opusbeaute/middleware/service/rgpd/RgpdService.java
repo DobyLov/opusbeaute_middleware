@@ -350,7 +350,7 @@ public class RgpdService {
 		logger.info("RgpdService log : map Rgpd RgpdClient to Client");
 		client.setRgpdClientCanModifyRgpdSettings(rgpd.getRgpdCliCanModifyRgpdSettings());
 		client.setRgpdDateClientvalidation(tsjj);
-		client.setRgpdInfoClientValidation("T");
+		client.setRgpdInfoClientValidation(true);
 		client.setSuscribedCommercials(rgpd.getRgpdSubsComm());
 		client.setSuscribedMailReminder(rgpd.getRgpdSubsMailRem());
 		client.setSuscribedNewsLetter(rgpd.getRgpdSubsNLetter());
@@ -581,8 +581,8 @@ public class RgpdService {
 		};
 		
 		// si Demande de modif d info personnelles par le client le Ajout du message dans le mail pour l'admin
-		if (rgpd.getRgpdDemandeDeCorrectionInformations().contentEquals("T")) {
-			
+//		if (rgpd.getRgpdDemandeDeCorrectionInformations().contentEquals("T")) { // Correction de type
+		if (rgpd.getRgpdDemandeDeCorrectionInformations() == true ) {
 			customMailSubject = "OpusBeauté : Rgpd_" + client.getPrenomClient() + " " + client.getNomClient() + " a validé ses réglages Rgpd et demande de modification de données personnelles";
 			msgDmdModifInfoPerso = ""
 			+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
@@ -673,7 +673,8 @@ public class RgpdService {
 		String settingsRgpdTxt = "";
 		
 		// Message à ajouter dans l Email si le client a fait une demande de modification de ses donnees
-		if(rgpd.getRgpdDemandeDeCorrectionInformations().contentEquals("T")) {
+//		if(rgpd.getRgpdDemandeDeCorrectionInformations().contentEquals("T")) { // Correction de Type
+		if(rgpd.getRgpdDemandeDeCorrectionInformations() == true) {
 			
 			customMailSubject = "La Bonbonnière d'Audrey : RGPD, Demande de modification de vos informations et confirmation de vos réglages";
 			settingsRgpdTxt = ""
@@ -751,12 +752,13 @@ public class RgpdService {
 	 * @param valueStringBoolean String 
 	 * @return accordOuPasAccord String
 	 */
-	private String convertStringToSentence(String valueStringBoolean) {	
+	private String convertStringToSentence(Boolean valueStringBoolean) {	
 		
 		logger.info("RgpdService log : Comparaison des Rgpd settings depuis la Bdd et les WebService");
 		String accordOuPasAccord;
 		
-		if ( valueStringBoolean.contentEquals("T") ) {
+//		if ( valueStringBoolean.contentEquals("T") ) { // Correction de type
+		if ( valueStringBoolean == true ) {
 			
 			accordOuPasAccord = "Je suis d'accord pour ";
 			logger.info("RgpdService log : Valeur recue : " + valueStringBoolean + " alors " + accordOuPasAccord);

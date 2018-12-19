@@ -16,14 +16,14 @@ public class Rgpd {
 	private String rgpdCliPrenom;
 	private String rgpdCliEmail;
 	private String rgpdCliToken;
-	private String rgpdSubsComm; // boolean T=true / f=false 
-	private String rgpdSubsNLetter; // boolean T=true / f=false 
-	private String rgpdSubsMailRem; // boolean T=true / f=false 
-	private String rgpdSubsSmsRem;	// boolean T=true / f=false 
-	private String rgpdInfoCliVal; // boolean T=true / f=false 
+	private boolean rgpdSubsComm; // boolean T=true / f=false 
+	private boolean rgpdSubsNLetter; // boolean T=true / f=false 
+	private boolean rgpdSubsMailRem; // boolean T=true / f=false 
+	private boolean rgpdSubsSmsRem;	// boolean T=true / f=false 
+	private boolean rgpdInfoCliVal; // boolean T=true / f=false 
 	private Timestamp rgpdDateCliVal;
-	private String rgpdCliCanModifyRgpdSettings; // boolean T=true / f=false
-	private String rgpdDemandeDeCorrectionInformations;
+	private boolean rgpdCliCanModifyRgpdSettings; // boolean T=true / f=false
+	private boolean rgpdDemandeDeCorrectionInformations;
 
 
 	public Rgpd() {
@@ -31,9 +31,9 @@ public class Rgpd {
 	}
 	
 
-	public Rgpd(Integer rgpdCliId, String rgpdCliPrenom, String rgpdCliEmail, String rgpdCliToken, String rgpdSubsComm,
-			String rgpdSubsNLetter, String rgpdSubsMailRem, String rgpdSubsSmsRem, String rgpdInfoCliVal,
-			Timestamp rgpdDateCliVal, String rgpdCliCanModifyRgpdSettings, String rgpdDemandeDeCorrectionInformations) {
+	public Rgpd(Integer rgpdCliId, String rgpdCliPrenom, String rgpdCliEmail, String rgpdCliToken, boolean rgpdSubsComm,
+			boolean rgpdSubsNLetter, boolean rgpdSubsMailRem, boolean rgpdSubsSmsRem, boolean rgpdInfoCliVal,
+			Timestamp rgpdDateCliVal, boolean rgpdCliCanModifyRgpdSettings, boolean rgpdDemandeDeCorrectionInformations) {
 		
 		super();
 		this.rgpdCliId = rgpdCliId;
@@ -83,43 +83,43 @@ public class Rgpd {
 		this.rgpdCliToken = rgpdCliToken;
 	}
 
-	public String getRgpdSubsComm() {
+	public boolean getRgpdSubsComm() {
 		return rgpdSubsComm;
 	}
 
-	public void setRgpdSubsComm(String rgpdSubsComm) {
+	public void setRgpdSubsComm(boolean rgpdSubsComm) {
 		this.rgpdSubsComm = rgpdSubsComm;
 	}
 
-	public String getRgpdSubsNLetter() {
+	public boolean getRgpdSubsNLetter() {
 		return rgpdSubsNLetter;
 	}
 
-	public void setRgpdSubsNLetter(String rgpdSubsNLetter) {
+	public void setRgpdSubsNLetter(boolean rgpdSubsNLetter) {
 		this.rgpdSubsNLetter = rgpdSubsNLetter;
 	}
 
-	public String getRgpdSubsMailRem() {
+	public boolean getRgpdSubsMailRem() {
 		return rgpdSubsMailRem;
 	}
 
-	public void setRgpdSubsMailRem(String rgpdSubsMailRem) {
+	public void setRgpdSubsMailRem(boolean rgpdSubsMailRem) {
 		this.rgpdSubsMailRem = rgpdSubsMailRem;
 	}
 
-	public String getRgpdSubsSmsRem() {
+	public boolean getRgpdSubsSmsRem() {
 		return rgpdSubsSmsRem;
 	}
 
-	public void setRgpdSubsSmsRem(String rgpdSubsSmsRem) {
+	public void setRgpdSubsSmsRem(boolean rgpdSubsSmsRem) {
 		this.rgpdSubsSmsRem = rgpdSubsSmsRem;
 	}
 
-	public String getRgpdInfoCliVal() {
+	public boolean getRgpdInfoCliVal() {
 		return rgpdInfoCliVal;
 	}
 
-	public void setRgpdInfoCliVal(String rgpdInfoCliVal) {
+	public void setRgpdInfoCliVal(boolean rgpdInfoCliVal) {
 		this.rgpdInfoCliVal = rgpdInfoCliVal;
 	}
 
@@ -131,20 +131,20 @@ public class Rgpd {
 		this.rgpdDateCliVal = rgpdDateCliVal;
 	}
 
-	public String getRgpdCliCanModifyRgpdSettings() {
+	public boolean getRgpdCliCanModifyRgpdSettings() {
 		return rgpdCliCanModifyRgpdSettings;
 	}
 
-	public void setRgpdCliCanModifyRgpdSettings(String rgpdCliCanModifyRgpdSettings) {
+	public void setRgpdCliCanModifyRgpdSettings(boolean rgpdCliCanModifyRgpdSettings) {
 		this.rgpdCliCanModifyRgpdSettings = rgpdCliCanModifyRgpdSettings;
 	}
 
-	public String getRgpdDemandeDeCorrectionInformations() {
+	public boolean getRgpdDemandeDeCorrectionInformations() {
 		return rgpdDemandeDeCorrectionInformations;
 	}
 
 
-	public void setRgpdDemandeDeCorrectionInformations(String rgpdDemandeDeCorrectionInformations) {
+	public void setRgpdDemandeDeCorrectionInformations(boolean rgpdDemandeDeCorrectionInformations) {
 		this.rgpdDemandeDeCorrectionInformations = rgpdDemandeDeCorrectionInformations;
 	}
 
@@ -180,14 +180,14 @@ public class Rgpd {
 		result = prime * result + ((rgpdCliPrenom == null) ? 0 : rgpdCliPrenom.hashCode());
 		result = prime * result + ((rgpdCliEmail == null) ? 0 : rgpdCliEmail.hashCode());
 		result = prime * result + ((rgpdCliToken == null) ? 0 : rgpdCliToken.hashCode());
-		result = prime * result + ((rgpdSubsComm == null) ? 0 : rgpdSubsComm.hashCode());
-		result = prime * result + ((rgpdSubsNLetter == null) ? 0 : rgpdSubsNLetter.hashCode());
-		result = prime * result + ((rgpdSubsMailRem == null) ? 0 : rgpdSubsMailRem.hashCode());
-		result = prime * result + ((rgpdSubsSmsRem == null) ? 0 : rgpdSubsSmsRem.hashCode());
-		result = prime * result + ((rgpdInfoCliVal == null) ? 0 : rgpdInfoCliVal.hashCode());
+		result = prime * result + (Boolean.hashCode(rgpdSubsComm));
+		result = prime * result + (Boolean.hashCode(rgpdSubsNLetter));
+		result = prime * result + (Boolean.hashCode(rgpdSubsMailRem));
+		result = prime * result + (Boolean.hashCode(rgpdSubsSmsRem));
+		result = prime * result + (Boolean.hashCode(rgpdInfoCliVal));
 		result = prime * result + ((rgpdDateCliVal == null) ? 0 : rgpdDateCliVal.hashCode());
-		result = prime * result + ((rgpdCliCanModifyRgpdSettings == null) ? 0 : rgpdCliCanModifyRgpdSettings.hashCode());
-		result = prime * result +((rgpdDemandeDeCorrectionInformations == null ? 0 : rgpdDemandeDeCorrectionInformations.hashCode()));
+		result = prime * result + (Boolean.hashCode(rgpdCliCanModifyRgpdSettings));
+		result = prime * result +(Boolean.hashCode(rgpdDemandeDeCorrectionInformations));
 		return result;
 	}
 	
