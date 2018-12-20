@@ -69,12 +69,14 @@ fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvNouveauDateDebutChevaucheR
 fr\labonbonniere\opusbeaute\middleware\service\roles\RolesAndTokenAuthorizationFilter.class
 fr\labonbonniere\opusbeaute\middleware\dao\RolesDao.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\NoRdvException.class
+fr\labonbonniere\opusbeaute\middleware\webservice\ActiviteWs.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInexistanteException.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailExpirationPwd1DaysBeforeService.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\lieurdv\LieuRdvInexistantException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\PasswordHandlerService.class
 fr\labonbonniere\opusbeaute\middleware\service\genre\GenreClientNullException.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailGeneratePwdNewUtilisateurService.class
+fr\labonbonniere\opusbeaute\middleware\service\activite\ActiviteInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\wadl\WadlFileReaderService.class
 fr\labonbonniere\opusbeaute\middleware\webservice\PwdValidityCheckSendMailWS.class
 fr\labonbonniere\opusbeaute\middleware\service\utilisateur\UtilisateurIneffacableException.class

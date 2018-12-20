@@ -132,7 +132,7 @@ public class RolesWs {
 			builder = Response.ok(role);
 
 		} catch (DaoException message) {
-			logger.error("RolesWs log : Impossible de creer ce Client dans la Bdd.");
+			logger.error("RolesWs log : Impossible de creer ce Role dans la Bdd.");
 			throw new DaoException("RolesWs Exception : Impossible de creer ce Role dans la Bdd.");
 
 		} catch (RolesUtilisateurNullException message) {
