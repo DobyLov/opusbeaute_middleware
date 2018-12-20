@@ -1,6 +1,7 @@
 fr.labonbonniere.opusbeaute
 fr.labonbonniere.opusbeaute.middleware.dao
 fr.labonbonniere.opusbeaute.middleware.intercepteur
+fr.labonbonniere.opusbeaute.middleware.objetmetier.activite
 fr.labonbonniere.opusbeaute.middleware.objetmetier.adresseclient
 fr.labonbonniere.opusbeaute.middleware.objetmetier.adresselieurdv
 fr.labonbonniere.opusbeaute.middleware.objetmetier.client
@@ -12,6 +13,7 @@ fr.labonbonniere.opusbeaute.middleware.objetmetier.rdv
 fr.labonbonniere.opusbeaute.middleware.objetmetier.rgpd
 fr.labonbonniere.opusbeaute.middleware.objetmetier.roles
 fr.labonbonniere.opusbeaute.middleware.objetmetier.utilisateurs
+fr.labonbonniere.opusbeaute.middleware.service.activite
 fr.labonbonniere.opusbeaute.middleware.service.adresse
 fr.labonbonniere.opusbeaute.middleware.service.adresselieurdv
 fr.labonbonniere.opusbeaute.middleware.service.authentification

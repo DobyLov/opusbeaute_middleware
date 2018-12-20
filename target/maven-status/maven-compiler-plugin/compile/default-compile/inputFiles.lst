@@ -12,6 +12,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\o
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvNouveauDateFinChevaucheRdvExistantDateDebutException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\LieuRdvWs.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\client\MailNonTrouveClientException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\activite\ActiviteInexistanteException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreExistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInexistanteException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\client\Client.java
@@ -66,6 +67,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\o
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\Genre.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\genre\GenreInvalideException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\authentification\SecuApp.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\ActiviteDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\rdv\TimestampToZoneDateTimeConvertionException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\client\ClientInvalideException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\webservice\AdresseLieuRdvWs.java
@@ -76,6 +78,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\s
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationInexistanteException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\utilisateurs\UtilisateurExistantException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvDateIncorrecteException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\activite\Activite.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\authentification\RenewPwdUtilisateurService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\prestations\PrestationExistanteException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenExpiredException.java
@@ -128,6 +131,7 @@ E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\w
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\ClientDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\prestation\GenrePrestationNullException.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\objetmetier\praticien\PraticienExistantException.java
+E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\activite\ActiviteService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\sms\SendSmsReminderClientService.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\dao\AdresseLieuRdvDao.java
 E:\Dev\Projets\opusbeaute\src\main\java\fr\labonbonniere\opusbeaute\middleware\service\mail\SendMailExpirationPwd1DaysBeforeService.java
