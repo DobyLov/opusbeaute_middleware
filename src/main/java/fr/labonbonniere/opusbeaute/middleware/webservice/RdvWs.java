@@ -31,6 +31,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvDateIncorrecteExcep
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauDateFinChevaucheRdvExistantDateDebutException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauEnglobeParRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvEgaliteChevauchementException;
+import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvIdPraticienProblemeException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNonIntegrableException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauEnglobeRdvExistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.rdv.RdvNouveauDateDebutChevaucheRdvExistantDateFinException;
@@ -441,6 +442,7 @@ public class RdvWs {
 	 * @throws TimestampToZoneDateTimeConvertionException 
 	 * @throws RdvDateIncorrecteException 
 	 * @throws DateConversionException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/add
 	// ne pas mettre l idRdv, ajouter a l' objet et les parametres RDV	
@@ -454,7 +456,7 @@ public class RdvWs {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnRdv(Rdv rdv) throws RdvExistantException, DaoException, 
 											RdvEgaliteChevauchementException, NoRdvException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, 
-											RdvNouveauDateDebutChevaucheRdvExistantDateFinException, RdvNouveauEnglobeRdvExistantException, TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauEnglobeParRdvExistantException, RdvDateIncorrecteException, DateConversionException {
+											RdvNouveauDateDebutChevaucheRdvExistantDateFinException, RdvNouveauEnglobeRdvExistantException, TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauEnglobeParRdvExistantException, RdvDateIncorrecteException, DateConversionException, RdvIdPraticienProblemeException {
 		logger.info("-----------------------------------------------------");
 		logger.info("RdvWs log : Demande d ajout d un nouveau Rdv dans la Bdd.");
 		Response.ResponseBuilder builder = null;
@@ -486,6 +488,7 @@ public class RdvWs {
 	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
 	 * @throws RdvNonIntegrableException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
 	//	http://localhost:8080/opusbeaute-0/obws/rdv/mod
 	// Mettre l idRdv de l objet et les parametres a modifier rdv
@@ -496,13 +499,13 @@ public class RdvWs {
 	@Path("/mod") // fonctionne bien 11/07
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifieUnRdv (Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException {
+	public Response modifieUnRdv (Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvIdPraticienProblemeException {
 		
 		Response.ResponseBuilder builder = null;
 		try {
 			logger.info("-----------------------------------------------------");
 			logger.info("RdvWs log : Demande de modification du Rdv id : " + rdv.getIdRdv() + " dans la Bdd.");
-			rdvService.modifduRdv(rdv);
+			rdvService.modifDuRdv(rdv);
 			logger.info("RdvWs log : Rdv id : " + rdv.getIdRdv() + " a bien ete modifie dans la Bdd.");
 			String msg = "Rdv id : " + rdv.getIdRdv() + " a bien ete modifie dans la Bdd.";
 			builder = Response.ok(msg);
@@ -527,12 +530,12 @@ public class RdvWs {
 	// http://localhost:8080/opusbeaute-0/obws/rdv/del/$idRdv
 	// Mettre l id du rdv
 	// POSTMAN
-	// 		DELETE	Authorisation	Body	Json	
+	// DELETE	Authorisation	Body	Json	
 	@DefineUserRole({"PRATICIEN"})
+//	@DefineUserRole({"ALLOWALL"})
 	@DELETE
     @Path("/del/{idRdv: \\d+}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
 	public Response deleteTheRdv(
 			@PathParam("idRdv") final Integer idRdv) throws RdvInexistantException {
 
@@ -542,7 +545,7 @@ public class RdvWs {
 			logger.info("RdvWs log : Demande de suppression du Rdv id : " + idRdv + " dans la Bdd.");
 			rdvService.supprimerUnrdv(idRdv);
 			logger.info("RdvWs log : Rdv id : " + idRdv + " a bien ete modifie dans la Bdd.");	
-			String msg = "RdvWs log : le Rdv id : " + idRdv + " a ien ete supprime de la Bdd.";
+			String msg = "Rdv id: " + idRdv + " supprime de la Bdd.";
 			builder = Response.ok(msg);
 
 		} catch (RdvInexistantException message ) {

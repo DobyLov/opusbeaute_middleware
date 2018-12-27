@@ -298,8 +298,9 @@ public class RdvService {
 	 * @throws RdvNonIntegrableException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
 	 * @throws RdvExistantException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
-	public void ajoutRdv(Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvExistantException {
+	public void ajoutRdv(Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvExistantException, RdvIdPraticienProblemeException {
 
 		logger.info("Rdvservice log : Debut traitement metier pour ajouter Du Rdv.");
 		try {
@@ -328,9 +329,10 @@ public class RdvService {
 	 * @throws RdvNonIntegrableException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
 	 * @throws RdvInexistantException 
+	 * @throws RdvIdPraticienProblemeException 
 
 	 */
-	public void modifduRdv(Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvInexistantException {
+	public void modifDuRdv(Rdv rdv) throws TimestampToZoneDateTimeConvertionException, RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvNouveauEnglobeParRdvExistantException, RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvInexistantException, RdvIdPraticienProblemeException {
 
 		try {
 			
@@ -452,6 +454,7 @@ public class RdvService {
 	
 	/**
 	 * Verifie si le nouveau Rdv est Integrable dans le calendrier parmis les rdv existants
+	 * Le test s'applique selement si l id du praticien est le meme que celui du Rdv depuis la liste
 	 * 
 	 * 		 Vérification si le nouveau Rdv est intégrable dans le calendrier
 	 * temps 0 => (t) ( dateDébut < dateFin ) rdvDateDébut toujour inférieur à dateFin
@@ -472,11 +475,12 @@ public class RdvService {
 	 * @throws DateConversionException 
 	 * @throws RdvDateIncorrecteException 
 	 * @throws DaoException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
 	private void verificationIntegrationDuRdvDansAgenda(Rdv newRdv) throws TimestampToZoneDateTimeConvertionException, 
 	RdvNonIntegrableException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, 
 	RdvNouveauEnglobeParRdvExistantException, 
-	RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException {
+	RdvNouveauEnglobeRdvExistantException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, DaoException, RdvDateIncorrecteException, DateConversionException, RdvIdPraticienProblemeException {
 		
 		logger.info("RdvService Log : Verification de l integration du rdv dans le calendrier");
 		
@@ -495,7 +499,7 @@ public class RdvService {
 							+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
 					checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
 					checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
-					checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
+					checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );					
 					
 				}
 				
@@ -516,69 +520,85 @@ public class RdvService {
 	}
 	
 	/**
+	 * Si l id du Praticien du nouveau Rdv est le meme que le Rdv de la liste alors:
 	 * Vérifie si la dateDeFin du nouveau Rdv
 	 * se retrouve dans l interval(plage dateDebut dateFin) du rdvBdd
 	 * @param Rdv newRdv
 	 * @param Rdv rdvFromBdd
 	 * @throws RdvNouveauDateFinChevaucheRdvExistantDateDebutException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
-	private void checkChevauchementDebutRdvExistant(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException  {
+	private void checkChevauchementDebutRdvExistant(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauDateFinChevaucheRdvExistantDateDebutException, RdvIdPraticienProblemeException  {
 		
 		logger.info("RdvService log : Verification si la fin nouveau Rdv chevauche le debut du rdv bdd");
-		
-		if (dateHeureFournieMoinUneMinute( tsToZdt(newRdv.getDateHeureFin()))
-				.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut())) 
-				& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
-				.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
-			
-			logger.error("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
-			throw new RdvNouveauDateFinChevaucheRdvExistantDateDebutException("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
-		}
+		 if (checkIdPraticienFromNewRdvIsTheSameThanIdPraticienFromRdvList(newRdv, rdvFromBdd)) {
+			 
+				if (dateHeureFournieMoinUneMinute( tsToZdt(newRdv.getDateHeureFin()))
+						.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut())) 
+						& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
+						.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
+					
+					logger.error("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
+					throw new RdvNouveauDateFinChevaucheRdvExistantDateDebutException("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
+				}
+		 }
+
 		
 	}	
 	
 	/**
+	 * Si l id du Praticien du nouveau Rdv est le meme que le Rdv de la liste alors:
 	 * Verifie si le début du  nouveau Rdv
 	 * se retrouve dans la plage(dateDebut dateFin) du rdv 
 	 * @param newRdv
 	 * @param rdvFromBdd
 	 * @throws RdvNouveauDateDebutChevaucheRdvExistantDateFinException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
-	private void checkChevauchementFinRdvExistant(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException {
+	private void checkChevauchementFinRdvExistant(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauDateDebutChevaucheRdvExistantDateFinException, RdvIdPraticienProblemeException {
 		
 		logger.info("RdvService log : Verification si le debut du  nouveau Rdv chevauche le rdvBdd");
+		if (checkIdPraticienFromNewRdvIsTheSameThanIdPraticienFromRdvList(newRdv, rdvFromBdd)) {
 		
-		if (dateHeureFourniePlusUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
-				.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) 
-					& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
-					.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut()))) {
+			if (dateHeureFourniePlusUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
+					.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) 
+						& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
+						.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut()))) {
+				
+				logger.error("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
+				throw new RdvNouveauDateDebutChevaucheRdvExistantDateFinException("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
+			}
 			
-			logger.error("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
-			throw new RdvNouveauDateDebutChevaucheRdvExistantDateFinException("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
 		}
 	
 	}
 	
 	/**
+	 * Si l id du Praticien du nouveau Rdv est le meme que le Rdv de la liste alors:
 	 * Verifie si le nouveau Rdv n englobe pas le rdv existant
 	 * @param Rdv newRdv
 	 * @param Rdv rdvFromBdd
 	 * @throws RdvNouveauEnglobeRdvExistantException 
 	 * @throws TimestampToZoneDateTimeConvertionException 
+	 * @throws RdvIdPraticienProblemeException 
 	 */
-	private void checkRdvExistantEnglobeParNouveauRdv(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauEnglobeRdvExistantException  {
+	private void checkRdvExistantEnglobeParNouveauRdv(Rdv newRdv, Rdv rdvFromBdd) throws TimestampToZoneDateTimeConvertionException, RdvNouveauEnglobeRdvExistantException, RdvIdPraticienProblemeException  {
 		
 		logger.info("RdvService log : Verification si le nouveau Rdv englobe le rdv existant");
 		
-		if (dateHeureFourniePlusUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
-			.isBefore(tsToZdt(rdvFromBdd.getDateHeureDebut()))
-			& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
-					.isAfter(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
+		if (checkIdPraticienFromNewRdvIsTheSameThanIdPraticienFromRdvList(newRdv, rdvFromBdd)) {
+		
+			if (dateHeureFourniePlusUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
+					.isBefore(tsToZdt(rdvFromBdd.getDateHeureDebut()))
+					& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
+							.isAfter(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
+					
+					logger.error("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
+					throw new RdvNouveauEnglobeRdvExistantException("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
+			}
 			
-			logger.error("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
-			throw new RdvNouveauEnglobeRdvExistantException("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
 		}
 		
 	}
@@ -624,5 +644,25 @@ public class RdvService {
 		
 		}
 	}
+	
+	/**
+	 * Check si le nouveau rdv comporte le meme praticien 
+	 * @param nouveauRdv
+	 * @param rdvFromList
+	 * @throws RdvIdPraticienProblemeException 
+	 */
+	private boolean checkIdPraticienFromNewRdvIsTheSameThanIdPraticienFromRdvList(Rdv nouveauRdv, Rdv rdvFromList) throws RdvIdPraticienProblemeException {
+		
+		if (nouveauRdv.getPraticien().getIdPraticien() == rdvFromList.getPraticien().getIdPraticien()) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
+		
+	}
+	
 
 }

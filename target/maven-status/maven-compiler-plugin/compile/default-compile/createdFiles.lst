@@ -50,6 +50,7 @@ fr\labonbonniere\opusbeaute\middleware\webservice\CheckMailNotUsedClientWS.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\TokenRoleInvalidException.class
 fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvNonIntegrableException.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\Clee.class
+fr\labonbonniere\opusbeaute\middleware\service\rdv\RdvIdPraticienProblemeException.class
 fr\labonbonniere\opusbeaute\middleware\objetmetier\adresseclient\AdresseInvalideException.class
 fr\labonbonniere\opusbeaute\middleware\service\mail\MailEngine.class
 fr\labonbonniere\opusbeaute\middleware\service\authentification\GeneratePwdNewUtilisateurService.class
