@@ -453,10 +453,13 @@ public class RdvService {
 
 	
 	/**
-	 * Verifie si le nouveau Rdv est Integrable dans le calendrier parmis les rdv existants
+	 * Verifie si le nouveau Rdv est Integrable dans le calendrier parmis les rdv existants et NON ANNULES
 	 * Le test s'applique selement si l id du praticien est le meme que celui du Rdv depuis la liste
+	 * Le test s applique pour la creation d un Rdv
+	 * Le test s applique a la modification d un Rdv
+	 * Le test n est pas réalisé sur un idRdv de la Bdd egal a l IdRdv du Rdv en cours de modification 
 	 * 
-	 * 		 Vérification si le nouveau Rdv est intégrable dans le calendrier
+	 * Vérification si le nouveau Rdv est intégrable dans le calendrier
 	 * temps 0 => (t) ( dateDébut < dateFin ) rdvDateDébut toujour inférieur à dateFin
 	 * ----------------------------------------------------------------------------------
 	 *						dd							df
@@ -492,14 +495,27 @@ public class RdvService {
 			
 			if (listRdvFournie.size() > 0 ) {
 				
-				for (int i = 0; i < listRdvFournie.size(); i++) {
-					
-					Rdv objRdvFromList = listRdvFournie.get(i);
-					logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
-							+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
-					checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
-					checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
-					checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );					
+				/* Iteration du tableau d' objets Rdv */
+				for (int i = 0; i < listRdvFournie.size(); i++) {					
+					/* Extraction du l objet Rdv Index i du tableau */
+					Rdv objRdvFromList = listRdvFournie.get(i);	
+					/* Si le Rdv extrait de la Bdd n'a pas le status Annulé alors faire les tests de chevauchement */
+					if (objRdvFromList.getIsCancelled() == false) {
+						
+						/* Si le nouvel objet ne comporte pas un idRdv et qu il n'est pas égal au rdv extrait du tableau 
+						 * procede aux tests de chevauchement */
+						if (newRdv.getIdRdv() != null && newRdv.getIdRdv() != objRdvFromList.getIdRdv()) {
+							
+							/* realisation des test de chevauchement */
+							logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
+									+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
+							checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
+							checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
+							checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
+							
+						}
+						
+					}								
 					
 				}
 				

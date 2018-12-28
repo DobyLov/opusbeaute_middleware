@@ -33,7 +33,7 @@ public class SendMailExpirationPwd1DaysBeforeService {
 	// Specifie le nombre de jours avant expiration.
 	static Integer nbJrs = 3;
 	static String ZonePays = "Europe/Paris";
-	static String customMailSubject = "OpusBeaute: Expiration du mot de passe dans : " + nbJrs + " jours."  ;
+	String customMailSubject = "OpusBeaute: Expiration du mot de passe dans : " + jourAuSingulierOuPlurielEnFonctiondunombreDeJour(nbJrs) + "."  ;
 
 	static final Logger logger = LogManager.getLogger(SendMailExpirationPwd1DaysBeforeService.class.getSimpleName());
 	
@@ -200,8 +200,9 @@ public class SendMailExpirationPwd1DaysBeforeService {
 				+ "Bonjour " + prenom + ",</span></p>"
 				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 				+ "Votre mot de passe d'authentification, <br>"
-				+ "expire dans " + nbJrs + " jour.</span></p>"
-				+ "<p style=\"font-size: 14.4px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
+				+ "expire dans " + nbJrs + " " + jourAuSingulierOuPlurielEnFonctiondunombreDeJour(nbJrs) + ".</span></p>"
+//				+ "<p style=\"font-size: 14.4px;\">&nbsp;</p>"
+				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 				+ "Cordialement,</span></p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
 				+ "La Bonbonni&egrave;re d'Audrey</span></p><p>&nbsp;</p>"
 				+ "<p style=\"font-size: 4.0px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: small;\">";
@@ -209,5 +210,27 @@ public class SendMailExpirationPwd1DaysBeforeService {
 		return msg;
 	}
 	
+	/**
+	 * En fonction du nombre de jours restant 
+	 * pour l expiration du mot de passe
+	 * retourner la String 'jour' au singulier si il reste 1 jour
+	 * retourner la String 'jours' au pluriel si il reste 1 jour
+	 * @param nbJour
+	 * @return String
+	 */
+	private String jourAuSingulierOuPlurielEnFonctiondunombreDeJour(Integer nbJrs) {
+		
+		String jourSingulierOuPluriel;
+		if (nbJrs > 1) {
+			
+			jourSingulierOuPluriel = "jours";
+			
+		} else {
+			
+			jourSingulierOuPluriel = "jour";
+		}
+		
+		return jourSingulierOuPluriel;
+	}
 	
 }

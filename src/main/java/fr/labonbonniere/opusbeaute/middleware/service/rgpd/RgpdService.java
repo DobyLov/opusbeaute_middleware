@@ -488,8 +488,8 @@ public class RgpdService {
 				+ "Bonjour " + client.getPrenomClient() + ",</span></p>"
 				
 				+ "<p><span style=\"font-family: arial, helvetica, sans-serif; font-size: medium;\">"
-				+ "La Bonbonnière d'Audrey réalise sa tranformation digitale, <br>"
-				+ "cette démarche inclue d'informer sa clientèle sur la gestion / utilisation de vos donnees personnelles.<br>"
+				+ "La Bonbonnière d'Audrey réalise sa transformation digitale, <br>"
+				+ "cette démarche inclue d'informer sa clientèle sur la gestion / utilisation de vos données personnelles.<br>"
 				+ "La " + rgpdWikiUrl + " (wikipedia) est une description des actions à mêtre en oeuvre "
 				+ "pour garantir la sécurité et informer sur type d'usage de vos données.</span></p>"
 				
