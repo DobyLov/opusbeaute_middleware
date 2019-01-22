@@ -101,19 +101,19 @@ public class RolesService {
 	
 	private Roles validationFormat (Roles role) throws RolesUtilisateurNullException {
 				
-		if (role.getRoles() != null && !role.getRoles().isEmpty()) {
+		if (role.getRolesName() != null && !role.getRolesName().isEmpty()) {
 			
-			if (role.getRoles().length() > 5) {
+			if (role.getRolesName().length() > 5) {
 				throw new RolesUtilisateurNullException(
 						"RolesService Validation Exception : Genre.Genrehum depasse 5 caracteres.");
 			} else {
-				String checkSpaceAtStrBeginAndCharacSpec = role.getRoles();
+				String checkSpaceAtStrBeginAndCharacSpec = role.getRolesName();
 				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
-				role.setRoles(StringWithoutSpaceAndCharspec.toUpperCase());
+				role.setRolesName(StringWithoutSpaceAndCharspec.toUpperCase());
 			}
 			
 		} else {
-			role.setRoles(null);
+			role.setRolesName(null);
 			throw new RolesUtilisateurNullException(
 					"RolesService Validation Exception : Roles.Roleshum depasse 5 caracteres.");
 		}

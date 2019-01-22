@@ -31,7 +31,9 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
 import fr.labonbonniere.opusbeaute.middleware.service.praticien.PraticienService;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 
 /**
  * WebService REST
@@ -124,6 +126,9 @@ public class PraticienWs {
 	 * @throws NbCharNomException Exception
 	 * @throws NbCharPrenomException Exception
 	 * @throws NbCharTelException Exception
+	 * @throws MailExistantException 
+	 * @throws MailNotFoundException 
+	 * @throws DaoException 
 	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
@@ -131,7 +136,7 @@ public class PraticienWs {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalidException,
-			NbCharNomException, NbCharPrenomException, NbCharTelException {
+			NbCharNomException, NbCharPrenomException, NbCharTelException, DaoException, MailNotFoundException, MailExistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {

@@ -174,7 +174,7 @@ public class LoginService {
 			// The issued token must be associated to a user
 			// Return the issued token
 			logger.info("LoginService log : Tentive de creation du JWT");
-			token = tokenservice.CreationDuJWT(utilisateurReconnu.getIdUtilisateur().toString(), utilisateurReconnu.getPrenomUtilisateur(), utilisateurReconnu.getAdresseMailUtilisateur(), utilisateurReconnu.getRoles().getRoles());
+			token = tokenservice.CreationDuJWT(utilisateurReconnu.getIdUtilisateur().toString(), utilisateurReconnu.getPrenomUtilisateur(), utilisateurReconnu.getAdresseMailUtilisateur(), utilisateurReconnu.getRolesUtilisateur().getRolesName());
 			// logger.info("LoginService log : Token genere =>" +
 			// token.toString());
 

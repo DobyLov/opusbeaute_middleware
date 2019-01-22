@@ -41,6 +41,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedNewsLetter
 import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedSmsReminderException;
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 
 /**
  * Gere le WebService Rest Client
@@ -170,6 +172,8 @@ public class ClientWs {
 	 * @throws SuscribeMailReminderException Exception
 	 * @throws SuscribedNewsLetterException Exception
 	 * @throws SuscribedSmsReminderException Exception
+	 * @throws MailExistantException 
+	 * @throws MailNotFoundException 
 	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
@@ -179,7 +183,7 @@ public class ClientWs {
 	public Response creerUnClient(Client client)
 			throws NbNumZipcodeException, NbNumRueException, NbCharRueVilleException, NbCharPrenomException,
 			NbCharNomException, NbCharTsAniversaireException, NbCharPaysException, NbCharTelException, EmailFormatInvalidException,
-			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException {
+			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException, MailNotFoundException, MailExistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {

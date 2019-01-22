@@ -112,14 +112,20 @@ public class UtilisateurService {
 	 *             si il y a un probleme avec la bdd
 	 * @throws UtilisateurInexistantException
 	 *             Exception
+	 * @throws MailNotFoundException 
+	 * @throws MailExistantException 
 	 */
 	public void ajoutUnUtilisateur(Utilisateur utilisateur)
 			throws UtilisateurExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException,
-			NbCharTelException, UtilisateurInexistantException, DaoException {
+			NbCharTelException, UtilisateurInexistantException, DaoException, MailNotFoundException, MailExistantException {
 
 		try {
 			logger.info("UtilisateurService log : Demande d ajout d un nouvel Utilisateur dans la Bdd.");
 			validationformat(utilisateur);
+			if (verifieSiAdresseMailFournieExisteDansUtilisateur(utilisateur.getAdresseMailUtilisateur())) {
+				
+				throw new MailExistantException("UtilisateurService log : Email deja existant dans la Bdd.");
+			}
 			// setInitialPwdExpirationDateTime(utilisateur);
 			utilisateurdao.ajouterUnutilisateur(utilisateur);
 			// envoyer un mail ave cles credentiels temporaires.
@@ -584,7 +590,6 @@ public class UtilisateurService {
 	 * 
 	 * @param email
 	 *            String
-	 * @return boolean
 	 * @throws MailNotFoundException
 	 *             Exception
 	 */
@@ -612,7 +617,7 @@ public class UtilisateurService {
 					"UtilisateurService Exception : Lee mail " + email + " n existe pas dans la table Utilisateur");
 			return false;
 		}
-
+//
 	}
 
 	/**

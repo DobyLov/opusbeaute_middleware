@@ -189,7 +189,7 @@ public class AdresseClientService {
 	 */
 	private AdresseClient adresseValiderFormater(AdresseClient adresse)
 			throws NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
-		
+		logger.info("AdresseClientService log : Verification de l adresse");
 		AdresseClient adresseFormatee = new AdresseClient();
 		
 		if (adresse.getNumero() != null && !adresse.getNumero().isEmpty()) {
@@ -197,16 +197,18 @@ public class AdresseClientService {
 			if (adresse.getNumero().length() > 3) {
 				throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue depasse 3 caracteres");
 			} else {
-				String checkSpaceAtStrBeginAndCharacSpec = adresse.getNumero();
-				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
-				adresseFormatee.setNumero(StringWithoutSpaceAndCharspec);
+//				String checkSpaceAtStrBeginAndCharacSpec = adresse.getNumero();
+//				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+//				adresseFormatee.setNumero(StringWithoutSpaceAndCharspec);
+				adresseFormatee.setNumero(nombreUniquement(adresse.getNumero()));
 			}
 		} else {
-			throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue est a null");
+			adresse.setNumero(null);
+//			throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue est a null");
 		}
 
 		
-		if (adresse.getRue() != null && !adresse.getRue().isEmpty()) {
+		if (adresse.getRue() != null || !adresse.getRue().isEmpty()) {
 			if (adresse.getRue().length() > 30) {
 				throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue a depasse 30 caracteres");
 			} else {
@@ -215,11 +217,12 @@ public class AdresseClientService {
 				adresseFormatee.setRue(WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec));
 			}
 		} else {
-			throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue est null");
+			adresse.setRue(null);
+//			throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue est null");
 		}
 
 		
-		if (adresse.getVille() != null && !adresse.getVille().isEmpty()) {
+		if (adresse.getVille() != null || !adresse.getVille().isEmpty()) {
 			if (adresse.getVille().length() > 30) {
 				throw new NbCharRueVilleException(
 						"ClientService Validation Exception : Le nom de la Ville depasse 30 caracteres");
@@ -229,23 +232,25 @@ public class AdresseClientService {
 				adresseFormatee.setVille(StringWithoutSpaceAndCharspec.toUpperCase());
 			}
 		} else {
-			throw new NbCharRueVilleException(
-					"ClientService Validation Exception : Le nom de la Ville est null");
+			adresse.setVille(null);
+//			throw new NbCharRueVilleException(
+//					"ClientService Validation Exception : Le nom de la Ville est null");
 		}
 		
 
-		if (adresse.getZipCode() != null && !adresse.getZipCode().isEmpty()) {
+		if (adresse.getZipCode() != null || !adresse.getZipCode().isEmpty()) {
 			if (adresse.getZipCode().toString().length() > 5) {
 				throw new NbNumZipcodeException("ClientService Validation Exception : Le ZipCode depasse 5 caracteres");
 			} else {
 				adresseFormatee.setZipCode(adresse.getZipCode());
 			}
 		} else {
-			throw new NbNumZipcodeException("ClientService Validation Exception : Le ZipCode est null");
+			adresse.setZipCode(null);
+//			throw new NbNumZipcodeException("ClientService Validation Exception : Le ZipCode est null");
 		}
 		
 		
-		if (adresse.getPays() != null && !adresse.getPays().isEmpty()) {
+		if (adresse.getPays() != null || !adresse.getPays().isEmpty()) {
 			if (adresse.getPays().length() > 6) {
 				throw new NbCharPaysException("ClientService Validation Exception : Le Pays depasse 6 caracteres");
 			} else {
@@ -254,7 +259,8 @@ public class AdresseClientService {
 				adresseFormatee.setPays(StringWithoutSpaceAndCharspec.toUpperCase());
 			}
 		} else {
-			throw new NbCharPaysException("ClientService Validation Exception : Le Pays est null");
+			adresse.setPays("FRANCE");
+//			throw new NbCharPaysException("ClientService Validation Exception : Le Pays est null");
 		}
 
 		adresse.setNumero(adresseFormatee.getNumero());
@@ -288,14 +294,16 @@ public class AdresseClientService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+//			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+//			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
@@ -322,18 +330,42 @@ public class AdresseClientService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
+//			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
+//			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
 		return strWithoutSpaceAtBegin;
+	}
+	
+	/**
+	 * Supprime tout ce qui n est pas characteres 0 a 9
+	 * @param chaineDeNombre
+	 * @return
+	 */
+	private String nombreUniquement(String chaineDeNombre) {
+		
+		if (chaineDeNombre.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + chaineDeNombre);
+
+			int nbLengthStr = chaineDeNombre.length();
+
+			return chaineDeNombre.substring(1, nbLengthStr).replaceAll("^[0-9]", "");
+			
+		} else {
+			
+			return chaineDeNombre.replaceAll("^[0-9]", "");
+			
+		}
 	}
 
 }

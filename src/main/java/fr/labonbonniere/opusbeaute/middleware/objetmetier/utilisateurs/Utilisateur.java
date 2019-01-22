@@ -46,7 +46,7 @@ public class Utilisateur implements Serializable {
 	private String teleMobileUtilisateur;
 	private String adresseMailUtilisateur;
 	private String motDePasse;
-	private Roles roles;
+	private Roles rolesUtilisateur;
 	private boolean isLogged;
 	private boolean suscribedSmsReminder;
 	private boolean suscribedMailReminder;
@@ -59,7 +59,7 @@ public class Utilisateur implements Serializable {
 
 	public Utilisateur(Integer idUtilisateur, String nomUtilisateur, String prenomUtilisateur,
 			String teleMobileUtilisateur, String adresseMailUtilisateur, String motDePasse,
-			Roles roles, boolean isLogged, boolean suscribedSmsReminder, boolean suscribedMailReminder,
+			Roles rolesUtilisateur, boolean isLogged, boolean suscribedSmsReminder, boolean suscribedMailReminder,
 			Timestamp pwdExpirationDateTime, boolean compteEffacable) {
 
 		super();
@@ -69,7 +69,7 @@ public class Utilisateur implements Serializable {
 		this.teleMobileUtilisateur = teleMobileUtilisateur;
 		this.adresseMailUtilisateur = adresseMailUtilisateur;
 		this.motDePasse = motDePasse;
-		this.roles = roles;
+		this.rolesUtilisateur = rolesUtilisateur;
 		this.isLogged = isLogged;
 		this.suscribedSmsReminder = suscribedSmsReminder;
 		this.suscribedMailReminder = suscribedMailReminder;
@@ -138,16 +138,16 @@ public class Utilisateur implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "UTILISATEUR_IDROLES_fk", referencedColumnName = "ROLES_IDROLES", 
 	nullable = true, updatable = true, insertable = true)
-	public Roles getRoles() {
-		return roles;
+	public Roles getRolesUtilisateur() {
+		return rolesUtilisateur;
 	}
 
-	public void setRoles(Roles roles) {
-		this.roles = roles;
+	public void setRolesUtilisateur(Roles rolesUtilisateur) {
+		this.rolesUtilisateur = rolesUtilisateur;
 	}
 
 
-	@Column(name = "UTILISATEUR_ISLOGGED", nullable = false)
+	@Column(name = "UTILISATEUR_ISLOGGED", nullable = true)
 	public boolean getIsLogged() {
 		return isLogged;
 	}
@@ -206,7 +206,7 @@ public class Utilisateur implements Serializable {
 				.append("teleMobileUtilisateur", this.teleMobileUtilisateur)
 				.append("adresseMailUtilisateur", this.adresseMailUtilisateur)
 				.append("motdePasse", this.motDePasse)
-				.append("roles", this.roles)
+				.append("rolesUtilisateur", this.rolesUtilisateur)
 				.append("isLogged", this.isLogged)
 				.append("suscribedSmsReminder",this.suscribedSmsReminder)
 				.append("suscribedMailReminder",this.suscribedMailReminder)
@@ -225,7 +225,7 @@ public class Utilisateur implements Serializable {
 //		result = prime * result + ((isLogged == null) ? 0 : isLogged.hashCode());
 		result = prime * result + (Boolean.hashCode(isLogged));
 		result = prime * result + ((motDePasse == null) ? 0 : motDePasse.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((rolesUtilisateur == null) ? 0 : rolesUtilisateur.hashCode());
 		result = prime * result + ((nomUtilisateur == null) ? 0 : nomUtilisateur.hashCode());
 		result = prime * result + ((prenomUtilisateur == null) ? 0 : prenomUtilisateur.hashCode());
 		result = prime * result + ((teleMobileUtilisateur == null) ? 0 : teleMobileUtilisateur.hashCode());		
@@ -259,7 +259,7 @@ public class Utilisateur implements Serializable {
 				.append(this.teleMobileUtilisateur, autre.teleMobileUtilisateur)
 				.append(this.adresseMailUtilisateur, autre.adresseMailUtilisateur)
 				.append(this.motDePasse, autre.motDePasse)
-				.append(this.roles, autre.roles)
+				.append(this.rolesUtilisateur, autre.rolesUtilisateur)
 				.append(this.isLogged, autre.isLogged)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)
 				.append(this.suscribedSmsReminder, autre.suscribedSmsReminder)

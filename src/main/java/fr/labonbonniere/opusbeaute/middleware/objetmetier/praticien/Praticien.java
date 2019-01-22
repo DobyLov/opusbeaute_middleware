@@ -181,7 +181,8 @@ public class Praticien implements Serializable {
 		final Praticien autre = (Praticien) candidat;
 
 		return new EqualsBuilder().append(this.idPraticien, autre.idPraticien)
-				.append(this.nomPraticien, autre.nomPraticien).append(this.prenomPraticien, autre.prenomPraticien)
+				.append(this.nomPraticien, autre.nomPraticien)
+				.append(this.prenomPraticien, autre.prenomPraticien)
 				.append(this.teleMobilePraticien, autre.teleMobilePraticien)
 				.append(this.adresseMailPraticien, autre.adresseMailPraticien)
 				.append(this.suscribedMailReminder, autre.suscribedMailReminder)

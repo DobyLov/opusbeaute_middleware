@@ -28,6 +28,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharNomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomException;
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
+import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurIneffacableException;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.UtilisateurService;
 
@@ -154,6 +156,8 @@ public class UtilisateurWs {
 	 * @throws NbCharTelException Exception
 	 * @throws DaoException Exception
 	 * @throws UtilisateurInexistantException Exception
+	 * @throws MailExistantException 
+	 * @throws MailNotFoundException 
 	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
@@ -161,7 +165,7 @@ public class UtilisateurWs {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creerUnUtilisateur(Utilisateur utilisateur) throws UtilisateurExistantException, EmailFormatInvalidException,
-			NbCharNomException, NbCharPrenomException, NbCharTelException, UtilisateurInexistantException, DaoException {
+			NbCharNomException, NbCharPrenomException, NbCharTelException, UtilisateurInexistantException, DaoException, MailNotFoundException, MailExistantException {
 
 		Response.ResponseBuilder builder = null;
 		try {

@@ -42,7 +42,7 @@ public class ClientDao {
 
 		try {
 			logger.info("ClientDao log : Demande a la bdd la liste des Clients");
-			String requeteCli = "SELECT c FROM Client c" + " ORDER BY idClient asc";
+			String requeteCli = "SELECT c FROM Client c" + " ORDER BY nomClient asc";
 			TypedQuery<Client> query = em.createQuery(requeteCli, Client.class);
 			List<Client> listeClient = query.getResultList();
 			logger.info("ClientDao log :  Envoi de la liste de Clients");

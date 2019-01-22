@@ -33,17 +33,17 @@ public class Roles implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idRoles;
-	private String roles;
+	private String rolesName;
 	
 	public Roles() {
 		super();
 	}
 	
-	public Roles (Integer idRoles, String roles) {	
+	public Roles (Integer idRoles, String rolesName) {	
 		
 		super();
 		this.idRoles = idRoles;
-		this.roles = roles;
+		this.rolesName = rolesName;
 	}
 
 	@Id
@@ -57,13 +57,13 @@ public class Roles implements Serializable {
 		this.idRoles = idRoles;
 	}
 
-	@Column(name ="ROLES_ROLES", length = 20)
-	public String getRoles() {
-		return roles;
+	@Column(name ="ROLES_ROLESNAME", length = 20)
+	public String getRolesName() {
+		return rolesName;
 	}
 
-	public void setRoles(String roles) {
-		this.roles = roles;
+	public void setRolesName(String rolesName) {
+		this.rolesName = rolesName;
 	}
 
 	public static long getSerialversionuid() {
@@ -74,7 +74,7 @@ public class Roles implements Serializable {
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
 				.append("idRoles", this.idRoles)
-				.append("roles", this.roles)
+				.append("rolesName", this.rolesName)
 				.build();
 
 	}
@@ -84,7 +84,7 @@ public class Roles implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idRoles == null) ? 0 : idRoles.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((rolesName == null) ? 0 : rolesName.hashCode());
 		return result;
 	}
 
@@ -103,7 +103,7 @@ public class Roles implements Serializable {
 
 		return new EqualsBuilder()
 				.append(this.idRoles, autre.idRoles)
-				.append(this.roles, autre.roles)
+				.append(this.rolesName, autre.rolesName)
 				
 				.build();
 

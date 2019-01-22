@@ -28,6 +28,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeExcept
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 
 /**
  * Gestion des regles Metier ClientService
@@ -109,12 +110,14 @@ public class ClientService {
 	 * @throws SuscribedNewsLetterException Exception
 	 * @throws SuscribedSmsReminderException Exception
 	 * @throws PhoneMobileNotStartWith0607Exception Exception
+	 * @throws MailExistantException 
+	 * @throws MailNotFoundException 
 	 */
 	public void ajoutClient(Client client)
 			throws DaoException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException,
 			NbCharPrenomException, NbCharNomException, NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException,
 			DaoException, GenreInvalideException, GenreClientNullException, SuscribeMailReminderException,
-			SuscribedNewsLetterException, SuscribedSmsReminderException, PhoneMobileNotStartWith0607Exception {
+			SuscribedNewsLetterException, SuscribedSmsReminderException, PhoneMobileNotStartWith0607Exception, MailNotFoundException, MailExistantException {
 
 		logger.info("ClientService log : Demande d ajout d un nouveau Client dans la Bdd.");
 
@@ -132,6 +135,7 @@ public class ClientService {
 
 			logger.info("ClientService log : Check Adresse.");
 			AdresseClient adresseCheker = client.getAdresse();
+			logger.info("ClientService log : Adresse checkée.");
 			if (Objects.isNull(adresseCheker)) {
 				logger.info("ClientService log : Adresse est null.");
 				adresseSetToNull(client);
@@ -148,6 +152,10 @@ public class ClientService {
 		}
 
 		try {
+			if (verifieSiAdresseMailFournieExisteDansClient(client.getAdresseMailClient())) {
+				
+				throw new MailExistantException("UtilisateurService log : Email deja existant dans la Bdd.");
+			}
 			clientdao.ajouterUnClient(client);
 			logger.info("ClientService log : Nouveau Client ajoute, avec l id : " + client.getIdClient());
 		} catch (DaoException message) {
@@ -313,24 +321,28 @@ public class ClientService {
 	 */
 	private Client adresseValiderFormater(Client client)
 			throws NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException {
-
+		logger.info("ClientService log : verification de l adress");
 		AdresseClient adresseFormatee = new AdresseClient();
 		
-		if (client.getAdresse().getNumero() != null && !client.getAdresse().getNumero().isEmpty()) {
+		logger.info("ClientService log : verification de l adress => NumeroRue ");
+		if (client.getAdresse().getNumero() != null && !client.getAdresse().getNumero().toString().isEmpty()) {
 			
 			if (client.getAdresse().getNumero().length() > 3) {
 				throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue depasse 3 caracteres");
 			} else {
-				String checkSpaceAtStrBeginAndCharacSpec = client.getAdresse().getNumero();
-				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
-				adresseFormatee.setNumero(StringWithoutSpaceAndCharspec);
+//				String checkSpaceAtStrBeginAndCharacSpec = client.getAdresse().getNumero();
+//				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+//				adresseFormatee.setNumero(StringWithoutSpaceAndCharspec);
+				adresseFormatee.setNumero(nombreUniquement(client.getAdresse().getNumero()));
 			}
 		} else {
-			throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue est a null");
+			logger.info("ClientService log : champs Force a null");
+			client.getAdresse().setNumero(null);
+//			throw new NbNumRueException("ClientService Validation Exception : Le numero de Rue est a null");
 		}
 
-		
-		if (client.getAdresse().getRue() != null && !client.getAdresse().getRue().isEmpty()) {
+		logger.info("ClientService log : verification de l adress => Rue");
+		if (client.getAdresse().getRue() != null || !client.getAdresse().getRue().isEmpty()) {
 			if (client.getAdresse().getRue().length() > 30) {
 				throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue a depasse 30 caracteres");
 			
@@ -341,11 +353,13 @@ public class ClientService {
 			}
 			
 		} else {
-			throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue est null");
+			logger.info("ClientService log : champs Force a null");
+			client.getAdresse().setRue(null);
+//			throw new NbCharRueVilleException("ClientService Exception : Le nom de la Rue est null");
 		}
 
-		
-		if (client.getAdresse().getVille() != null && !client.getAdresse().getVille().isEmpty()) {
+		logger.info("ClientService log : verification de l adress => Ville");
+		if (client.getAdresse().getVille() != null || !client.getAdresse().getVille().isEmpty()) {
 			if (client.getAdresse().getVille().length() > 30) {
 				throw new NbCharRueVilleException(
 						"ClientService Validation Exception : Le nom de la Ville depasse 30 caracteres");
@@ -357,23 +371,27 @@ public class ClientService {
 				
 			}
 		} else {
-			throw new NbCharRueVilleException(
-					"ClientService Validation Exception : Le nom de la Ville est null");
+			logger.info("ClientService log : champs Force a null");
+			client.getAdresse().setVille(null);
+//			throw new NbCharRueVilleException(
+//					"ClientService Validation Exception : Le nom de la Ville est null");
 		}
 		
 
-		if (client.getAdresse().getZipCode() != null && !client.getAdresse().getZipCode().isEmpty()) {
+		if (client.getAdresse().getZipCode() != null || !client.getAdresse().getZipCode().isEmpty()) {
 			if (client.getAdresse().getZipCode().toString().length() > 5) {
 				throw new NbNumZipcodeException("ClientService Validation Exception : Le ZipCode depasse 5 caracteres");
 			} else {
-				adresseFormatee.setZipCode(client.getAdresse().getZipCode());
+				adresseFormatee.setZipCode(nombreUniquement(client.getAdresse().getZipCode()));
 			}
 		} else {
-			throw new NbNumZipcodeException("ClientService Validation Exception : Le ZipCode est null");
+			logger.info("ClientService log : champs Force a null");
+			client.getAdresse().setZipCode(null);
+//			throw new NbNumZipcodeException("ClientService Validation Exception : Le ZipCode est null");
 		}
 		
-		
-		if (client.getAdresse().getPays() != null && !client.getAdresse().getPays().isEmpty()) {
+		logger.info("ClientService log : verification de l adress => Pays");
+		if (client.getAdresse().getPays() != null || !client.getAdresse().getPays().isEmpty()) {
 			if (client.getAdresse().getPays().length() > 6) {
 				throw new NbCharPaysException("ClientService Validation Exception : Le Pays depasse 6 caracteres");
 			} else {
@@ -382,7 +400,9 @@ public class ClientService {
 				adresseFormatee.setPays(StringWithoutSpaceAndCharspec);
 			}
 		} else {
-			throw new NbCharPaysException("ClientService Validation Exception : Le Pays est null");
+			logger.info("ClientService log : champs Force a FRANCE");
+			client.getAdresse().setPays("FRANCE");
+//			throw new NbCharPaysException("ClientService Validation Exception : Le Pays est null");
 		}
 
 		
@@ -473,21 +493,21 @@ public class ClientService {
 			throw new NbCharNomException("ClientService Validation Exception : Client.Nom est Null");
 		}
 
-		// la date anniversaire du client ne peut pas etre superieur a celle du
-		// jour!!!
+		// la date anniversaire du client 
 		logger.info("ClientService log : test Client.DateAnniversaire.");
-		if (client.getDateAnniversaireClient() != null) {
+		if (client.getDateAnniversaireClient() != null ) {
 			logger.info("ClientService log : Client.DateAnniversaire  n est pas null.");
 			if (client.getDateAnniversaireClient().toString().length() > 21) {
 				logger.error(
 						"ClientService log : Client.DateAnniversaire depase 21 caracteres du format yyyy-MM-dd HH:MM:SS.m");
 				client.setDateAnniversaireClient(null);
-				throw new NbCharTsAniversaireException(
-						"ClientService Validation Exception : Client.DateAnniversaire probleme de Timestamp.");
+//				throw new NbCharTsAniversaireException(
+//						"ClientService Validation Exception : Client.DateAnniversaire probleme de Timestamp.");
 			}
 
 		} else {
-			logger.error("ClientService log : Client.DateAnniversaire est null");
+			
+			logger.error("ClientService log : Client.DateAnniversaire forcee a null");
 			client.setDateAnniversaireClient(null);
 
 		}
@@ -501,8 +521,9 @@ public class ClientService {
 			if (client.getTelephoneClient().length() != 10) {
 				logger.info("ClientService log : Client.TelephoneLe numéro comporte : "
 						+ client.getTelephoneClient().length() + " numeros alors que 10 sont attendus.");
-				throw new NbCharTelException(
-						"ClientService Validation Exception : Le Telephone du Client depasse 10 caracteres");
+				
+				//				throw new NbCharTelException(
+//						"ClientService Validation Exception : Le Telephone du Client depasse 10 caracteres");
 			}
 
 		} else {
@@ -543,8 +564,8 @@ public class ClientService {
 				client.setSuscribedSmsReminder(false);// Correction de Type
 				logger.info("ClientService log : SuscribedSmsReminder force a etre FALSE");
 				client.setTelMobileClient(null);
-				throw new NbCharTelException(
-						"ClientService Validation Exception : Client.Telephone numero <10< à caracteres");
+//				throw new NbCharTelException(
+//						"ClientService Validation Exception : Client.Telephone numero <10< à caracteres");
 			}
 
 		} else {
@@ -732,7 +753,7 @@ public class ClientService {
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
 //			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^é^è]", "");
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^-^a-zA-Z^é^è]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^-^a-zA-Z^é^è^à^ ]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
@@ -740,7 +761,7 @@ public class ClientService {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
 //			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è]", "");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^-^a-zA-Z^é^è]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^-^a-zA-Z^é^è^à^ ]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
@@ -766,14 +787,14 @@ public class ClientService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
@@ -931,6 +952,30 @@ public class ClientService {
 //			client.setSuscribedSmsReminder("F");
 //		}
 		
+	}
+	
+	/**
+	 * Supprime tout ce qui n est pas characteres 0 a 9
+	 * @param chaineDeNombre
+	 * @return
+	 */
+	private String nombreUniquement(String chaineDeNombre) {
+		logger.info("ClientService log : verification si la chaine fournie est compose que de chiffres");
+		logger.info("ClientService log : La String " + chaineDeNombre);
+		if (chaineDeNombre.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + chaineDeNombre);
+
+			int nbLengthStr = chaineDeNombre.length();
+
+			return chaineDeNombre.substring(1, nbLengthStr).replaceAll("[^0-9]", "");
+			
+		} else {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas avec un espace.");
+			
+			return chaineDeNombre.replaceAll("[^0-9]", "");
+			
+		}
 	}
 
 }

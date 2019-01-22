@@ -19,6 +19,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharPrenomExcepti
 import fr.labonbonniere.opusbeaute.middleware.service.client.NbCharTelException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
+import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 
 /**
  * Gestion de l objet Praticien
@@ -145,12 +146,19 @@ public class PraticienService {
 	 * @throws NbCharNomException	Si le nombre de catractere du nom ne correspond pas
 	 * @throws NbCharPrenomException	si le nombre de caractere du prenom ne correspond pas
 	 * @throws NbCharTelException	Si le nombre de charactere du numero de tel ne correspond pas
+	 * @throws MailExistantException 
+	 * @throws MailNotFoundException 
+	 * @throws DaoException 
 	 */
-	public void ajoutUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException {
+	public void ajoutUnPraticien(Praticien praticien) throws PraticienExistantException, EmailFormatInvalidException, NbCharNomException, NbCharPrenomException, NbCharTelException, DaoException, MailNotFoundException, MailExistantException {
 
 		try {
 			logger.info("PraticienService log : Demande d ajout d un nouvel Praticien dans la Bdd.");
 			validationFormat(praticien);
+			if (verifieSiAdresseMailFournieExisteDansPraticien(praticien.getAdresseMailPraticien())) {
+				
+				throw new MailExistantException("UtilisateurService log : Email deja existant dans la Bdd.");
+			}
 			praticiendao.ajouterUnPraticien(praticien);
 			logger.info("PraticienService log : Nouvelle Praticien ajoutee, avec l id : " + praticien.getIdPraticien());
 
@@ -230,18 +238,21 @@ public class PraticienService {
 		// Check Prenom est vide / depasse 30 caracteres.
 		logger.info("PraticienService log : test Praticien.Prenom.");
 		if (praticien.getPrenomPraticien() != null && !praticien.getPrenomPraticien().isEmpty()) {
-			logger.info("PraticienService log : Praticien.Prenom n est pas null.");
+			logger.info("PraticienService log : Praticien.Prenom n'est pas null.");
 			if (praticien.getPrenomPraticien().length() > 30) {
 				logger.error("PraticienService log : Praticien.Prenom depasse 30 caracteres");
 				praticien.setPrenomPraticien(null);
 				throw new NbCharPrenomException(
 						"PraticienService Validation Exception : Praticien.Prenom est null ou depasse 30 caracteres");
 			} else {
-				logger.info("PraticienService log : Praticien.Prenom formate en Xxxxx.");
+				
 				String checkSpaceAtStrBeginAndCharacSpec = praticien.getPrenomPraticien();
+				logger.info("PraticienService log : Praticien.Prenom : " + checkSpaceAtStrBeginAndCharacSpec);
 				String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
+				logger.info("PraticienService log : Praticien.Prenom filtre : " + StringWithoutSpaceAndCharspec);
+				logger.info("PraticienService log : Praticien.Prenom formate en Xxxxx :" + WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec, '-'));
 				praticien.setPrenomPraticien(WordUtils.capitalizeFully(StringWithoutSpaceAndCharspec, '-'));
-
+				
 			}
 
 		} else {
@@ -281,9 +292,10 @@ public class PraticienService {
 
 		if (praticien.getTeleMobilePraticien() != null && !praticien.getTeleMobilePraticien().isEmpty()) {
 			logger.info("PraticienService log : Praticien.TelMobile n est pas null :)");
-			String checkSpaceAtStrBeginAndCharacSpec = praticien.getTeleMobilePraticien();
-			String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);
-			praticien.setTeleMobilePraticien(StringWithoutSpaceAndCharspec);;
+//			String checkSpaceAtStrBeginAndCharacSpec = praticien.getTeleMobilePraticien();
+			String checkSpaceAtStrBeginAndCharacSpec = nombreUniquement(praticien.getTeleMobilePraticien());
+//			String StringWithoutSpaceAndCharspec =	strUniquemtNumero(checkSpaceAtStrBeginAndCharacSpec);			
+			praticien.setTeleMobilePraticien(checkSpaceAtStrBeginAndCharacSpec);
 			if (praticien.getTeleMobilePraticien().length() == 10) {
 
 				if (praticien.getTeleMobilePraticien().substring(0, 2).equalsIgnoreCase("06") == true
@@ -399,14 +411,16 @@ public class PraticienService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+//			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+//			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
@@ -432,14 +446,14 @@ public class PraticienService {
 
 			int nbLengthStr = checkSpaceAtBeginAndCharacSpec.length();
 			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.substring(1, nbLengthStr);
-			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBeginCheckedCSpec = strWithoutSpaceAtBegin.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			strWithoutSpaceAtBegin = strWithoutSpaceAtBeginCheckedCSpec;
 			logger.error("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBeginCheckedCSpec);
 		
 		} else {
 			
 			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas par un espace.");
-			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^0-9^-]", "");
+			strWithoutSpaceAtBegin = checkSpaceAtBeginAndCharacSpec.replaceAll("[^\\s+^a-zA-Z^-^é^è^ç^à^ ^-]", "");
 			logger.info("StringBeginningSpaceCaraSpecDetector log : Str apres traitement _" + strWithoutSpaceAtBegin);
 		}
 		
@@ -478,6 +492,33 @@ public class PraticienService {
 		
 		return strWithoutSpaceAtBegin;
 	}
+	
+	/**
+	 * Supprime tout ce qui n est pas characteres 0 a 9
+	 * @param chaineDeNombre
+	 * @return
+	 */
+	private String nombreUniquement(String chaineDeNombre) {
+		logger.info("ClientService log : verification si la chaine fournie est compose que de chiffres");
+		logger.info("ClientService log : La String " + chaineDeNombre);
+		if (chaineDeNombre.startsWith(" ")) {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String debute avec un espace.");
+			logger.info("StringBeginningSpaceCaraSpecDetector log : Str avant traitement _" + chaineDeNombre);
+
+			int nbLengthStr = chaineDeNombre.length();
+
+			return chaineDeNombre.substring(1, nbLengthStr).replaceAll("[^0-9]", "");
+			
+		} else {
+			logger.info("StringBeginningSpaceCaraSpecDetector log : La String ne debute pas avec un espace.");
+			
+			return chaineDeNombre.replaceAll("[^0-9]", "");
+			
+		}
+	}
+	
+	
+	
 	
 	
 }

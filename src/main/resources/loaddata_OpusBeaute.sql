@@ -2,10 +2,10 @@ insert into T_GENRE (GENRE_GENREHUM) values ('FEMME');
 insert into T_GENRE (GENRE_GENREHUM) values ('HOMME');
 insert into T_GENRE (GENRE_GENREHUM) values ('Autre_Genre');
 
-insert into T_ROLES (ROLES_ROLES) values ('ROOT');
-insert into T_ROLES (ROLES_ROLES) values ('ADMINSTRATEUR');
-insert into T_ROLES (ROLES_ROLES) values ('PRATICIEN');
-insert into T_ROLES (ROLES_ROLES) values ('STAGIARE');                      
+insert into T_ROLES (ROLES_ROLESNAME) values ('ROOT');
+insert into T_ROLES (ROLES_ROLESNAME) values ('ADMINISTRATEUR');
+insert into T_ROLES (ROLES_ROLESNAME) values ('PRATICIEN');
+insert into T_ROLES (ROLES_ROLESNAME) values ('STAGIAIRE');                      
 
 insert into T_ADRESSELIEURDV (ADRESSELIEURDV_IDADRESSELIEURDV, ADRESSELIEURDV_NUMERO, ADRESSELIEURDV_PAYS, ADRESSELIEURDV_RUE, ADRESSELIEURDV_VILLE, ADRESSELIEURDV_ZIPCODE) values (1,'6','FRANCE','Rue de la pointe','Nanteuil le Haudouin','60440');
 insert into T_ADRESSELIEURDV (ADRESSELIEURDV_IDADRESSELIEURDV, ADRESSELIEURDV_NUMERO, ADRESSELIEURDV_PAYS, ADRESSELIEURDV_RUE, ADRESSELIEURDV_VILLE, ADRESSELIEURDV_ZIPCODE) values (2,'23','FRANCE','Avenue du chemin de fer','Villepinte','93420');
