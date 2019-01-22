@@ -44,7 +44,7 @@ public class Prestation implements Serializable {
 	private Boolean forfait;
 	private Integer nbSeance; 
 	private Integer dureeSeance;
-	private float prix;
+	private double prix;
 	private String description;
 
 
@@ -54,7 +54,7 @@ public class Prestation implements Serializable {
 	
 	public Prestation( Integer idPrestation, Activite activite, 
 			String soin, Genre genre, boolean forfait, Integer nbSeance,
-			Integer dureeSeance, float prix, String description) {
+			Integer dureeSeance, double prix, String description) {
 		
 		super();
 		this.idPrestation = idPrestation;
@@ -137,12 +137,12 @@ public class Prestation implements Serializable {
 		this.dureeSeance = dureeSeance;
 	}
 
-	@Column(name = "PRESTATION_PRIX", nullable = true, length = 3)
-	public float getPrix() {
+	@Column(name = "PRESTATION_PRIX", nullable = true, length = 4)
+	public double getPrix() {
 		return prix;
 	}
 
-	public void setPrix(float prix) {
+	public void setPrix(double prix) {
 		this.prix = prix;
 	}
 	@Column(name = "PRESTATION_DESCRIPTION", nullable = true, length = 500 )
@@ -186,7 +186,8 @@ public class Prestation implements Serializable {
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((idPrestation == null) ? 0 : idPrestation.hashCode());
 		result = prime * result + ((nbSeance == null) ? 0 : nbSeance.hashCode());
-		result = prime * result + Float.floatToIntBits(prix);
+//		result = prime * result + Float.floatToIntBits(prix);
+		result = prime * result + (Double.hashCode(prix));
 		result = prime * result + ((soin == null) ? 0 : soin.hashCode());
 		return result;
 	}
