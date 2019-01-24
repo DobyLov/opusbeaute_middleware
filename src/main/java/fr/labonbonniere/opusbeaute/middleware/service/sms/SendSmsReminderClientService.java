@@ -92,11 +92,11 @@ public class SendSmsReminderClientService {
 		for (Integer i = 0; i < rdvList.size(); i++) {
 
 			boolean isSucribedSmsReminder = rdvList.get(i).getClient().getSuscribedMailReminder();
-
+			logger.info("MailRemiderSender log : Valeur de SmsRemider du client : " + isSucribedSmsReminder);
 			// logger.info("MailRemiderSender log : SUSreminder : " +
 			// isSucribedSmsReminder);
-			if (isSucribedSmsReminder == true) {
-
+			if (isSucribedSmsReminder = true) {
+				logger.info("MailRemiderSender log : Entre dans la boucle de traitement d envoi de SMS");
 				// Recuperation des informations necessaires pour l envoie de l
 				// Email.
 
