@@ -1,10 +1,13 @@
 package fr.labonbonniere.opusbeaute.middleware.objetmetier.activite;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,7 +32,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @XmlRootElement
 @Entity
 @Table(name = "T_ACTIVITE")
-public class Activite {
+public class Activite implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -51,7 +54,9 @@ public class Activite {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "seq", sequenceName = "ACTIVITE_SEQ", initialValue = 20, allocationSize = 100)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "ACTIVITE_IDACTIVITE", nullable = false, length = 3)
 	public Integer getIdActivite() {
 		return idActivite;
@@ -78,7 +83,7 @@ public class Activite {
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
 				.append("idActivite", this.idActivite)
-				.append("activite", this.activiteNom).build();
+				.append("activiteNom", this.activiteNom).build();
 
 	}
 
@@ -86,8 +91,8 @@ public class Activite {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activiteNom == null) ? 0 : activiteNom.hashCode());
 		result = prime * result + ((idActivite == null) ? 0 : idActivite.hashCode());
+		result = prime * result + ((activiteNom == null) ? 0 : activiteNom.hashCode());
 		return result;
 	}
 
@@ -106,6 +111,7 @@ public class Activite {
 
 		return new EqualsBuilder()
 				.append(this.idActivite, autre.idActivite)
-				.append(this.activiteNom, autre.activiteNom).build();
+				.append(this.activiteNom, autre.activiteNom)
+				.build();
 	}
 }

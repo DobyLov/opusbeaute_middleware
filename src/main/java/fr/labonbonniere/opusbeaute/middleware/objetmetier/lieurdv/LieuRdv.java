@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -59,12 +58,12 @@ public class LieuRdv implements Serializable {
 
 
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@GeneratedValue(generator="increment")
 //	@GenericGenerator(name="increment", strategy = "increment", generator="seq")
-	@SequenceGenerator(name="seq",sequenceName="LIEURRDV_SEQ",
-						initialValue = 4, allocationSize = 50)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+//	@SequenceGenerator(name="seq",sequenceName="LIEURRDV_SEQ",
+//						initialValue = 5, allocationSize = 50)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "LIEURDV_IDLIEURDV", nullable = false)
 	public Integer getIdLieuRdv() {
 		return idLieuRdv;

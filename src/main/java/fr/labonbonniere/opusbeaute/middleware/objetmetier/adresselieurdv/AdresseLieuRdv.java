@@ -62,7 +62,7 @@ public class AdresseLieuRdv implements Serializable {
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@GeneratedValue
 	@SequenceGenerator(name="seq",sequenceName="ADRESSELIEURRDV_SEQ",
-	initialValue = 4, allocationSize = 50)
+	initialValue = 20, allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "ADRESSELIEURDV_IDADRESSELIEURDV", unique = true, nullable = false)
 	public Integer getIdAdresseLieuRdv() {

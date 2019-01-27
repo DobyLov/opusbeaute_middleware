@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -48,7 +49,9 @@ public class Genre implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "seq", sequenceName = "GENRE_SEQ", initialValue = 15)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "GENRE_IDGENRE", nullable = false, length = 1)
 	public Integer getIdGenre() {
 		return idGenre;

@@ -63,7 +63,7 @@ public class Praticien implements Serializable {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="seq",sequenceName="PRATICIEN_SEQ",
-	initialValue = 1, allocationSize = 10)
+	initialValue = 5, allocationSize = 10)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
 	@Column(name = "PRATICIEN_IDPRATICIEN", nullable = false, length = 4)
 	public Integer getIdPraticien() {

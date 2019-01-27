@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,6 +88,8 @@ public class ActiviteService {
 		try{
 			
 			checkValiditeActivite(activite);
+			String formateActiviteNom = formateString(activite.getActiviteNom());
+			activite.setActiviteNom(formateActiviteNom);
 			activitedao.ajouterUneActivite(activite);
 			logger.info("ActiviteService log : Activite ajoutee");
 			
@@ -109,6 +112,8 @@ public class ActiviteService {
 		try {
 			
 			checkValiditeActivite(activite);
+			String formateActiviteNom = formateString(activite.getActiviteNom());
+			activite.setActiviteNom(formateActiviteNom);
 			activitedao.modifieUneActivite(activite);
 			logger.info("ActiviteService log : Activite modifiée");
 			
@@ -160,7 +165,9 @@ public class ActiviteService {
 					throw new ActiviteInvalideException("ActiviteService Exception : Le type n est pas de type String");
 				
 				} else {
+					
 					logger.info("ActiviteService log : Activite <50 characteres");
+
 				}
 				
 			} else {
@@ -169,6 +176,102 @@ public class ActiviteService {
 				throw new ActiviteInvalideException("ActiviteService Exception : Le type n est pas de type String");
 			}
 		}
+		
+	}
+	
+	/**
+	 * Formate la string 
+	 * Supprime les espaces au debut et a la fin
+	 * supprime les characteres speciaux
+	 * supprime des nombres
+	 * remplace les characteres avec accent par des sans accent
+	 * @param stringAFormater
+	 * @return String
+	 */
+	private String formateString(String stringAFormater) {
+		
+		logger.info("ActiviteService log : Formatage de la String Activite.nom");
+		String retirEspace = supprimerEspaceAuDebutEtALaFinDeLaString(stringAFormater);
+		String retirChiffresEtCharSpec = supprimeLesChiffresEtCharacteresSpeciauxDeLaString(retirEspace);
+		String remplaceAccentsParSansAccent = remplaceCharacteresAvecAccentsParDesCharacteresSansAccents(retirChiffresEtCharSpec);
+		String formateLaPremiereLettreEnMaj = formateLaPremiereLettreEnMajLeResteEnMin(remplaceAccentsParSansAccent);
+		
+		return formateLaPremiereLettreEnMaj;
+		
+	}
+	
+	/**
+	 * Supprimer TOUS les Espaces de la String donnée en paramètres
+	 * @param stringAFiltrer
+	 * @return String
+	 */
+	private String supprimerEspaceAuDebutEtALaFinDeLaString(String stringAFiltrer) {
+		
+		String stringFiltree = "";
+		
+		if (stringAFiltrer.startsWith(" ")) {
+			
+			stringFiltree = stringAFiltrer.substring(1, stringAFiltrer.length());
+			
+		} if (stringAFiltrer.endsWith(" ")) {
+			
+			stringFiltree = stringAFiltrer.substring(0, stringAFiltrer.length()-1);
+		
+		} else {
+			
+			stringFiltree = stringAFiltrer;
+		}
+		
+		return stringFiltree;
+	}
+	
+	/**
+	 * Supprimer les Chiffres et characteres speciaux de la String donnée en paramètre
+	 * @param stringAFiltrer
+	 * @return String
+	 */
+	private String supprimeLesChiffresEtCharacteresSpeciauxDeLaString(String stringAFiltrer) { 
+		
+		return stringAFiltrer.replaceAll("[^\\s+^a-zA-Z^-^é^è^à^ù^û^ç]", "");		
+	}
+	
+	/**
+	 * Remplace les charactères avec accent cédilles
+	 * par des charcateres sans accent ni cedille.
+	 * @param stringAFlitrer
+	 * @return
+	 */
+	private String remplaceCharacteresAvecAccentsParDesCharacteresSansAccents(String stringAFlitrer) {
+		
+		return stringAFlitrer.replaceAll("é", "e")
+								.replaceAll("è", "e")
+								.replaceAll("à", "a")
+								.replaceAll("ç", "c")
+								.replaceAll("û", "u")
+								.replaceAll("ù", "u");
+		
+		
+	}
+	
+	/**
+	 * Formate la String donnée en majuscule
+	 * @param stringAFormater
+	 * @return
+	 */
+//	private String formateEnMajusculeLaString(String stringAFormater) {
+//		
+//		return stringAFormater.toUpperCase();
+//	}
+	
+	/**
+	 * Formate la premiere lettre de la String donnée en majuscule
+	 * et le reste en minuscule
+	 * @param stringAFormater
+	 * @return
+	 */
+	private String formateLaPremiereLettreEnMajLeResteEnMin(String stringAFormater) {
+		
+		return WordUtils.capitalizeFully(stringAFormater);
 		
 	}
 

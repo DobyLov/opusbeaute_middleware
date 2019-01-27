@@ -57,9 +57,9 @@ public class AdresseClient implements Serializable {
 	}
 
 	@Id
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	// @GeneratedValue
-	@SequenceGenerator(name = "seq", sequenceName = "ADRESSECLIENT_SEQ", initialValue = 2, allocationSize = 2000)
+	@SequenceGenerator(name = "seq", sequenceName = "ADRESSECLIENT_SEQ", initialValue = 20, allocationSize = 2000)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "CLIENT_IDADRESSE", unique = true, nullable = false)
 	public Integer getIdAdresse() {

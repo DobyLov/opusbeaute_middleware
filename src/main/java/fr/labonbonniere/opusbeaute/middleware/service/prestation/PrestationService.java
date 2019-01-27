@@ -273,7 +273,7 @@ public class PrestationService {
 			DaoException, GenrePrestationNullException {
 
 		// activite
-		checkActivite(prestation);
+//		checkActivite(prestation);
 		// soin
 		checkSoin(prestation);
 		// nombre seances
@@ -298,31 +298,34 @@ public class PrestationService {
 	 * @throws NbCharPrestationException
 	 * @throws PrestationInvalideException
 	 */
-	private void checkActivite(Prestation prestation) throws NbCharPrestationException, PrestationInvalideException {
-		
-		// Prestation.Activite
-		if (prestation.getActivite().getActiviteNom() != null && !prestation.getActivite().getActiviteNom().isEmpty()) {
-			logger.error("PrestationService log : Prestation.Action n est pas nul :)");
-			if (prestation.getActivite().getActiviteNom().length() > 50) {
-				logger.error("PrestationService log : Prestation.Action depasse 50 caracteres");
-				throw new NbCharPrestationException(
-						"PrestationService log : Prestation.Activite depasse 50 caracteres");
-			} else {
-				logger.info("PrestationService log : Prestation.Action est valide");
-				
-				String checkSpaceAtStrBeginAndCharacSpec = prestation.getActivite().getActiviteNom();
-				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
-				String activiteStringyfy = StringWithoutSpaceAndCharspec.toLowerCase();
-//				prestation.setActivite(activiteStringyfy);
-				prestation.getActivite().setActiviteNom(activiteStringyfy);
-			}
-			
-		} else {
-			logger.error("PrestationService log : Prestation.Action est vide ou null :/");
-			throw new PrestationInvalideException("PrestationService log : Prestation.Action est vide ou null :/");
-		}
-		
-	}
+//	private void checkActivite(Prestation prestation) throws NbCharPrestationException, PrestationInvalideException {
+//		
+////		logger.info("PrestationService : Log valeur de activite ID " + prestation.getActivite().getIdActivite());
+//		
+//		// Prestation.Activite
+//		if (prestation.getActivite().getIdActivite() != null && !prestation.getActivite().getIdActivite().toString().isEmpty()) {
+//			logger.error("PrestationService log : Prestation.Action n est pas nul :)");
+//			
+//			if (prestation.getActivite().getActiviteNom().length() > 50) {
+//				logger.error("PrestationService log : Prestation.Action depasse 50 caracteres");
+//				throw new NbCharPrestationException(
+//						"PrestationService log : Prestation.Activite depasse 50 caracteres");
+//			} else {
+//				logger.info("PrestationService log : Prestation.Action est valide");
+//				
+//				String checkSpaceAtStrBeginAndCharacSpec = prestation.getActivite().getActiviteNom();
+//				String StringWithoutSpaceAndCharspec =	checkSpaceAtStrBeginAndCharacSpec(checkSpaceAtStrBeginAndCharacSpec);
+//				String activiteStringyfy = StringWithoutSpaceAndCharspec.toLowerCase();
+////				prestation.setActivite(activiteStringyfy);
+//				prestation.getActivite().setActiviteNom(activiteStringyfy);
+//			}
+//			
+//		} else {
+//			logger.error("PrestationService log : Prestation.Action est vide ou null :/");
+//			throw new PrestationInvalideException("PrestationService log : Prestation.Action est vide ou null :/");
+//		}
+//		
+//	}
 	
 	/**
 	 * Verifie le soin de la presttaion
@@ -386,7 +389,7 @@ public class PrestationService {
 			
 		} else {
 			logger.error("PrestationService log : Prestation.Description est vide ou null :/");
-			throw new PrestationInvalideException("PrestationService log : Prestation.Description est vide ou null :/");
+//			throw new PrestationInvalideException("PrestationService log : Prestation.Description est vide ou null :/");
 		}
 		
 	}
@@ -528,7 +531,7 @@ public class PrestationService {
 		logger.info("PrestationService log : Nombre d id Genre BDD : " + NbRowGenreFromBdd);
 
 		try {
-			logger.info("PrestationService log : id Genre Client : " + prestation.getGenre().getIdGenre());
+			logger.info("PrestationService log : id Genre prestation : " + prestation.getGenre().getIdGenre());
 			if (prestation.getGenre().getIdGenre() <= 0) {
 				logger.error("PrestationService log : Il y a un probleme sur L id Genre.");
 				throw new GenreInvalideException(
