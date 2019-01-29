@@ -1,6 +1,5 @@
 insert into T_GENRE (GENRE_IDGENRE, GENRE_GENREHUM) values (1, 'FEMME');
 insert into T_GENRE (GENRE_IDGENRE, GENRE_GENREHUM) values (2, 'HOMME');
-insert into T_GENRE (GENRE_IDGENRE, GENRE_GENREHUM) values (3, 'Autre_Genre');
 
 insert into T_ROLES (ROLES_ROLESNAME) values ('ROOT');
 insert into T_ROLES (ROLES_ROLESNAME) values ('ADMINISTRATEUR');

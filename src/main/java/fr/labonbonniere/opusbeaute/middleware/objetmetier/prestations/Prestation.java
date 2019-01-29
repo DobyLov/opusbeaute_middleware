@@ -85,7 +85,7 @@ public class Prestation implements Serializable {
 
 	@OneToOne
 	@JoinColumn(name = "PRESTATION_IDACTIVITE_fk", referencedColumnName = "ACTIVITE_IDACTIVITE", 
-	nullable = true, updatable = true, insertable = true)
+	nullable = false, updatable = true, insertable = true)
 	public Activite getActivite() {
 		return activite;
 	}

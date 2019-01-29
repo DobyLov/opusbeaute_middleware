@@ -61,7 +61,7 @@ public class ActiviteDao {
 		try {
 			
 			logger.info("ActiviteDao log : Demande a la bdd la liste des Activites");
-			String requete = "SELECT A FROM Activite A" + " ORDER BY idActivite asc";
+			String requete = "SELECT A FROM Activite A" + " ORDER BY activiteNom asc";
 			
 			TypedQuery<Activite> query = em.createQuery(requete, Activite.class);
 			List<Activite> liste = query.getResultList();
