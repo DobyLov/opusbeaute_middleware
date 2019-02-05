@@ -35,7 +35,7 @@ public class SendSmsReminderPraticienService {
 	
 	// RASPISMS ip et authentification
 
-	private String adresseIp = "192.168.1.50";
+	private String adresseIp = "78.234.179.176";
 	private String raspiSmsLogin = "admin@example.fr";
 	private String raspiSmsPwd = "admin";
 	private String lignesDeRdv = "";
@@ -61,7 +61,7 @@ public class SendSmsReminderPraticienService {
 	// recupere la liste des rdv du jour J+1 dans un ArrayList
 	ArrayList<Rdv> rdvList = new ArrayList<Rdv>();
 	rdvList = (ArrayList<Rdv>) rdvdao.obtenirListeRdvViaDatePraticienSuscribedMailReminder(rdvDateDuJourFormate);
-	logger.info("SmsPraticien log: Liste des rdv recupereree dans un ArrayList");
+	logger.info("SmsReminderPraticienService Log: Liste des rdv recupereree dans un ArrayList");
 	// Les IdPraticien sont envoyés dans un nouvel ArrayList.
 //	ArrayList<Integer> listIdPratt = new ArrayList<Integer>();
 	ArrayList<Integer> listIdPratt = new ArrayList<Integer>();
@@ -72,7 +72,7 @@ public class SendSmsReminderPraticienService {
 		i++;
 		iter.next();
 	}
-	logger.info("SmsPraticien log: creation ArrayList avec uniquement les IdPratt");
+	logger.info("SmsReminderPraticienService Log : creation ArrayList avec uniquement les IdPratt");
 	//	Si idPratt > 1 ipPrattMoreThanOnce = (boolean) True or False
 	//		Mettre les idPraticien dan un tableau pour compter les occurence
 	// 			recupere les 
@@ -82,36 +82,36 @@ public class SendSmsReminderPraticienService {
 
 	// Filtre des Id pour eviter les doublons
 	HashSet<Integer> listWithSortedUniqIdPratt = new HashSet<Integer>(listIdPratt);
-	logger.info("SmsPraticien log: tri des IdPratt pour enlever les doulons avec HashSet");
+	logger.info("SmsReminderPraticienService Log: tri des IdPratt pour enlever les doulons avec HashSet");
 	// Envoi le HasSet dans un tableau pour exploiter le tri 
 	Integer nbIdPrattFiltreeUnique[] = new Integer[listWithSortedUniqIdPratt.size()];
-	logger.info("SmsPraticien log: Creation d un tableau IdPratt pour iteration");
+	logger.info("SmsReminderPraticienService Log : Creation d un tableau IdPratt pour iteration");
 	// Envoie les IdPraticiens dans tableau pour Iteration
 	listWithSortedUniqIdPratt.toArray(nbIdPrattFiltreeUnique);
 	Iterator<Rdv> iterRdv = rdvList.iterator();
 	iterRdv = rdvList.iterator();	
 	
 	for(Integer bouclePraticien = 0;bouclePraticien<listWithSortedUniqIdPratt.size();bouclePraticien++)	{
-		logger.info("SmsPraticien log: Entree dans boucle principale FOR");
-		logger.info("SmsPraticien log: Position de la Boucle : " + ((bouclePraticien) + 1 ) + " / " + listWithSortedUniqIdPratt.size());
+		logger.info("SmsReminderPraticienService Log log: Entree dans boucle principale FOR");
+		logger.info("SmsReminderPraticienService Log log: Position de la Boucle : " + ((bouclePraticien) + 1 ) + " / " + listWithSortedUniqIdPratt.size());
 		
 		// Initialistion de numRdv pour
 		Integer numRdv = 0;
 		// inititialisation de la liste des Rdv qui sera dans le mail.
 		
 		while (iterRdv.hasNext()) {
-			logger.info("SmsPraticien log: Entree dans le WHILE");
-			logger.info("SmsPraticien log: getIdPraticien_rdvlist : " + rdvList.get(numRdv).getPraticien().getIdPraticien());
-			logger.info("SmsPraticien log: getIdPraticien_Array : " + nbIdPrattFiltreeUnique[bouclePraticien]);
+			logger.info("SmsReminderPraticienService Log log: Entree dans le WHILE");
+			logger.info("SmsReminderPraticienService Log log: getIdPraticien_rdvlist : " + rdvList.get(numRdv).getPraticien().getIdPraticien());
+			logger.info("SmsReminderPraticienService Log log: getIdPraticien_Array : " + nbIdPrattFiltreeUnique[bouclePraticien]);
 			if (rdvList.get(numRdv).getPraticien().getIdPraticien() == nbIdPrattFiltreeUnique[bouclePraticien]) {
 				
 				// appel à la methode pour savoir si l idPraticien a plusieur rdv dan rdvList
 				// envoie a la methode Arraylist<Rdv>listIdPratt et Integer IdPraticien
-				logger.info("Avant detecteur d ocurences rdvLsit : " + rdvList.get(numRdv).getIdRdv());
-				logger.info("Avant detecteur d ocurences idPratitien : " + rdvList.get(numRdv).getPraticien().getIdPraticien());
-				logger.info("Avant detecteur d ocurences : liste idPratt: " + listIdPratt.toString());
+				logger.info("SmsReminderPraticienService Log :Avant detecteur d ocurences rdvLsit : " + rdvList.get(numRdv).getIdRdv());
+				logger.info("SmsReminderPraticienService Log : Avant detecteur d ocurences idPratitien : " + rdvList.get(numRdv).getPraticien().getIdPraticien());
+				logger.info("SmsReminderPraticienService Log : liste idPratt: " + listIdPratt.toString());
 				Boolean idPrattMoreThanOnce = numberOfidPrattMoreThanOnceDetector(listIdPratt, rdvList.get(numRdv).getPraticien().getIdPraticien());
-				logger.info("SmsPraticien log: idpraticien > 1 : " + idPrattMoreThanOnce);
+				logger.info("SmsReminderPraticienService log: idpraticien > 1 : " + idPrattMoreThanOnce);
 				
 				Timestamp rdvDateHeureTS = rdvList.get(numRdv).getDateHeureDebut();
 				long rdvDHDebutTsToLong = rdvDateHeureTS.getTime();
@@ -226,9 +226,9 @@ public class SendSmsReminderPraticienService {
 	 * @return boolean
 	 */
 	private Boolean numberOfidPrattMoreThanOnceDetector(ArrayList<Integer> listIdPratt, Integer nbIdPrattFiltreeUnique) {
-		logger.info("Occurrences checker : Reception de la liste listIdPratt " + listIdPratt.toString());
-		logger.info("Occurrences checker : Taille de la liste listIdPratt " + listIdPratt.size());
-		logger.info("Occurrences checker : verifier si occurence de l idPratt suivant : " + nbIdPrattFiltreeUnique);
+		logger.info("SmsReminderPraticienService Log : Reception de la liste listIdPratt " + listIdPratt.toString());
+		logger.info("SmsReminderPraticienService Log : Taille de la liste listIdPratt " + listIdPratt.size());
+		logger.info("SmsReminderPraticienService Log : verifier si occurence de l idPratt suivant : " + nbIdPrattFiltreeUnique);
 		
 		// Conversion ArrayList en array
 		Integer arrayOfIdPrattFromArrayListOfIdPratt [] = new Integer [listIdPratt.size()];
@@ -246,14 +246,14 @@ public class SendSmsReminderPraticienService {
         }  
         
       	if (iFound > 1) {
-    		logger.info("Occurrences checker : Occurrence idPratt => " + nbIdPrattFiltreeUnique + ", trouve "+ iFound + " fois");
+    		logger.info("SmsReminderPraticienService Log : Occurrence idPratt => " + nbIdPrattFiltreeUnique + ", trouve "+ iFound + " fois");
     		idPrattMoreThanOnce = true;
     	} else {
-    		logger.info("Occurrences checker : Pas d occurrence pour l idPratt => " + nbIdPrattFiltreeUnique);
+    		logger.info("SmsReminderPraticienService Log : Pas d occurrence pour l idPratt => " + nbIdPrattFiltreeUnique);
     		idPrattMoreThanOnce = false;
     	}
 
-        logger.info("Occurrences checker : Valeur du Boolean idPrattMoreThanOnce => " + idPrattMoreThanOnce);
+        logger.info("SmsReminderPraticienService Log : Valeur du Boolean idPrattMoreThanOnce => " + idPrattMoreThanOnce);
 		return idPrattMoreThanOnce;
 	}
 
@@ -265,7 +265,7 @@ public class SendSmsReminderPraticienService {
 	 */
 	private String recuDateDuJourplusUnFormate() throws DaoException {
 	
-		logger.info("MailRemiderSender log : Recuperation de la date J+1");
+		logger.info("SmsReminderPraticienService log : Recuperation de la date J+1");
 	
 		// recuperer la date du jour et ajout 1 jours pour J+1
 		LocalDate DateTimeDuJour = LocalDate.now();
@@ -294,15 +294,15 @@ public class SendSmsReminderPraticienService {
 				+ raspiSmsPwd + "&numbers=" + praticienTelMobile + "&text=" + messSms;
 
 		URL url = new URL(buildUrl);
-
+		logger.info("SmsReminderPraticienService log : sms url : " + url);
 		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 		httpCon.setDoOutput(true);
 		httpCon.setRequestMethod("GET");
 		OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-		logger.info("SmsReminderPraticienWs Exception : code reponse : " + httpCon.getResponseCode());
-		logger.info("SmsReminderPraticienWs Exception : code reponse : " + httpCon.getResponseMessage());
+		logger.info("SmsReminderPraticienService Exception : code reponse : " + httpCon.getResponseCode());
+		logger.info("SmsReminderPraticienService Exception : code reponse : " + httpCon.getResponseMessage());
 		out.close();
-		logger.info("SmsReminderPraticienWs Exception : Fin de procedure.");
+		logger.info("SmsReminderPraticienService Exception : Fin de procedure.");
 		
 	}
 

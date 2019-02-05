@@ -68,7 +68,7 @@ public class RgpdService {
 	private MailEngine mailengine;
 
 	Integer port = 4200;
-	String schema = "http", host = "192.168.1.100", path = "rgpd";
+	String schema = "http", host = "www.opusbeaute.fr", path = "rgpd";
 	
 	// adresseMail administrateur
 	String eMailAdmin = "dobylov@gmail.com";

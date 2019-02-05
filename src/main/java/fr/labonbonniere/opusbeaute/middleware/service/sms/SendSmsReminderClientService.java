@@ -34,7 +34,7 @@ public class SendSmsReminderClientService {
 	private static final Logger logger = LogManager.getLogger(SendSmsReminderClientService.class);
 
 	// RASPISMS ip et authentificatio
-	private String adresseIp = "192.168.1.50";
+	private String adresseIp = "78.234.179.176";
 	private String raspiSmsLogin = "admin@example.fr";
 	private String raspiSmsPwd = "admin";
 
@@ -51,7 +51,7 @@ public class SendSmsReminderClientService {
 	@Schedule(dayOfWeek = "*", hour = "20", minute = "00")
 	public void sendSmsClientScheduled() throws Exception {
 
-		logger.info("SendMailReminderClientService log : Envoi d SMS Client.");
+		logger.info("SmsReminderClientservice log : Envoi d SMS Client.");
 		// logger.info("MailRemiderSender log : Recuperation de la date J+1" );
 
 		// recuperer la date du jour et ajout 1 jours pour J+1
@@ -92,11 +92,11 @@ public class SendSmsReminderClientService {
 		for (Integer i = 0; i < rdvList.size(); i++) {
 
 			boolean isSucribedSmsReminder = rdvList.get(i).getClient().getSuscribedMailReminder();
-			logger.info("MailRemiderSender log : Valeur de SmsRemider du client : " + isSucribedSmsReminder);
+			logger.info("SmsReminderClientservice log : Valeur de SmsRemider du client : " + isSucribedSmsReminder);
 			// logger.info("MailRemiderSender log : SUSreminder : " +
 			// isSucribedSmsReminder);
 			if (isSucribedSmsReminder = true) {
-				logger.info("MailRemiderSender log : Entre dans la boucle de traitement d envoi de SMS");
+				logger.info("SmsReminderClientservice log : Entre dans la boucle de traitement d envoi de SMS");
 				// Recuperation des informations necessaires pour l envoie de l
 				// Email.
 
@@ -148,7 +148,7 @@ public class SendSmsReminderClientService {
 
 				// Creation du text pour SMS
 
-				logger.info("MailRemiderSender log : Tentative Envoi SMS.");
+				logger.info("SmsReminderClientservice log : Tentative Envoi SMS.");
 
 				String messageClientPrenom = "Bonjour%20" + clientPrenom + ",%0d%0a%0d%0a";
 				String messageCorps01 = "La%20Bonbonnière%20d%27Audrey%0d%0avous%20rappelle%20votre%20rendez-vous%0d%0ade%20demain%20à%20"
@@ -190,18 +190,18 @@ public class SendSmsReminderClientService {
 						+ raspiSmsPwd + "&numbers=" + clientTelMobile + "&text=" + messSms;
 
 				URL url = new URL(buildUrl);
-
+				logger.info("SmsReminderClientservice log : sms url : " + url);
 				HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 				httpCon.setDoOutput(true);
 				httpCon.setRequestMethod("GET");
 				OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-				logger.info("SmsReminderClientWs Exception : code reponse : " + httpCon.getResponseCode());
-				logger.info("SmsReminderClientWs Exception : code reponse : " + httpCon.getResponseMessage());
+				logger.info("SmsReminderClientservice Exception : code reponse : " + httpCon.getResponseCode());
+				logger.info("SmsReminderClientService Exception : code reponse : " + httpCon.getResponseMessage());
 				out.close();
 				logger.info("SmsReminderClientWs Exception : Fin de procedure.");
 
 			} else { // fin de la boucle check suscribed to F
-				logger.info("MailRemiderSender log : le Rdv id : " + rdvList.get(i).getIdRdv() + "/" + rdvList.size()
+				logger.info("SmsReminderClientService log : le Rdv id : " + rdvList.get(i).getIdRdv() + "/" + rdvList.size()
 						+ " n est pas traite car subscribeSmsReminder est a : "
 						+ rdvList.get(i).getClient().getSuscribedSmsReminder());
 			}

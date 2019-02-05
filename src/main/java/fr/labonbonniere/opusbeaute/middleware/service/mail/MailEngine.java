@@ -26,8 +26,8 @@ public class MailEngine {
 	static final Logger logger = LogManager.getLogger(MailEngine.class.getSimpleName());
 	
 	// credentiel du compt mail
-	private static final String compteEmailLogin = "dobylov";
-	private static final String compteEmailPwd = "lasouris";
+	private static final String compteEmailLogin = "opusbeaute";
+	private static final String compteEmailPwd = "!1DemoOpusBeaute";
 	// @IP du serveur ou est hebergé l application.
 //	private static final String ipAppSrvHoster = "192.168.1.100";
 	
