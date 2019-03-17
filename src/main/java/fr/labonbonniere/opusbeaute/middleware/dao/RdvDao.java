@@ -35,10 +35,10 @@ public class RdvDao {
 	private EntityManager em;
 
 	/**
-	 * Recupere la liste de Rdv persistes
+	 * Recuperer la liste de Rdv
 	 * 
 	 * @return List
-	 * @throws DaoException Exception
+	 * @throws DaoException Exception si pas d eliste trouvée
 	 */
 	public List<Rdv> obtenirListeRdv() throws DaoException {
 
@@ -53,8 +53,8 @@ public class RdvDao {
 			listeRdvs = requete.getResultList();
 
 		} catch (Exception message) {
-			logger.error("RdvDao Exception : Probleme de la bdd.");
-			throw new DaoException("RdvDao Exception : Probleme de la bdd.");
+			logger.error("RdvDao Exception : Probleme de la bdd pas de liste de rdv trouvée.");
+			throw new DaoException("RdvDao Exception : Probleme de la bdd pas de liste de rdv trouvée.");
 		}
 		logger.info("RdvDao log :  Envoi de la liste de Rdv");
 		return listeRdvs;

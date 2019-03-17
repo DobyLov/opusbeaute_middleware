@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: fr.labonbonniere.opusbeaute.CheckNbCharGenreUTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.141 sec - in fr.labonbonniere.opusbeaute.CheckNbCharGenreUTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.563 sec - in fr.labonbonniere.opusbeaute.CheckNbCharGenreUTest
