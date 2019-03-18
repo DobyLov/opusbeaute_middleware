@@ -41,7 +41,7 @@ public class Prestation implements Serializable {
 	private Activite activite;
 	private String soin;
 	private Genre genre;
-	private Boolean forfait;
+	private boolean forfait;
 	private Integer nbSeance; 
 	private Integer dureeSeance;
 	private double prix;

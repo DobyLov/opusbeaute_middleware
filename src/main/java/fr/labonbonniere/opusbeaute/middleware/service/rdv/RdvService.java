@@ -494,25 +494,30 @@ public class RdvService {
 					+ tsToZdt(newRdv.getDateHeureDebut()) );
 			
 			if (listRdvFournie.size() > 0 ) {
-				
+				logger.info("Rdvservice Log : Liste Rdv supperieure a 0");
 				/* Iteration du tableau d' objets Rdv */
 				for (int i = 0; i < listRdvFournie.size(); i++) {					
 					/* Extraction du l objet Rdv Index i du tableau */
 					Rdv objRdvFromList = listRdvFournie.get(i);	
 					/* Si le Rdv extrait de la Bdd n'a pas le status Annulé alors faire les tests de chevauchement */
 					if (objRdvFromList.getIsCancelled() == false) {
-						
+						logger.info("Rdvservice Log : Le Rdv " + objRdvFromList.getIdRdv() + " n est pas annulle");
 						/* Si le nouvel objet ne comporte pas un idRdv et qu il n'est pas égal au rdv extrait du tableau 
 						 * procede aux tests de chevauchement */
-						if (newRdv.getIdRdv() != null && newRdv.getIdRdv() != objRdvFromList.getIdRdv()) {
+						logger.info("Rdvservice Log : Preparation a tester le nouveau rdv avec les rdvs de la bdd");
+//						if (newRdv.getIdRdv() != null && newRdv.getIdRdv() != objRdvFromList.getIdRdv()) {
+						if (newRdv.getIdRdv() != null) {	
+							logger.info("Rdvservice Log : Modification de rdv alors pas de test de chevauchement");
 							
+						} else {
+							
+							logger.info("Rdvservice Log : Nouveau Rdv alors procedure de test de chevauchement");
 							/* realisation des test de chevauchement */
 							logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
 									+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
 							checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
 							checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
 							checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
-							
 						}
 						
 					}								
@@ -557,6 +562,9 @@ public class RdvService {
 					
 					logger.error("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
 					throw new RdvNouveauDateFinChevaucheRdvExistantDateDebutException("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
+				} else {
+					
+					logger.info("RdvService Log : Ok La fin du nouveau Rdv ne chevauche pas le debut du rdv de la Bdd");
 				}
 		 }
 
@@ -585,6 +593,9 @@ public class RdvService {
 				
 				logger.error("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
 				throw new RdvNouveauDateDebutChevaucheRdvExistantDateFinException("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
+			} else {
+				
+				logger.info("RdvService Log : Ok Le debut du nouveau Rdv ne chevauche pas la fin du Rdv dans la Bdd");
 			}
 			
 		}
@@ -613,6 +624,9 @@ public class RdvService {
 					
 					logger.error("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
 					throw new RdvNouveauEnglobeRdvExistantException("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
+			} else {
+				
+				logger.info("RdvService Exception : Le nouveau Rdv n englobe pas le rdv existant");
 			}
 			
 		}
@@ -669,12 +683,14 @@ public class RdvService {
 	 */
 	private boolean checkIdPraticienFromNewRdvIsTheSameThanIdPraticienFromRdvList(Rdv nouveauRdv, Rdv rdvFromList) throws RdvIdPraticienProblemeException {
 		
+		logger.info("RdvService Log : Verification si le praticien du rdvBdd est le meme que celui du nouveau Rdv");
 		if (nouveauRdv.getPraticien().getIdPraticien() == rdvFromList.getPraticien().getIdPraticien()) {
-			
+			logger.info("RdvService Log : Praticien Identique");
 			return true;
 			
 		} else {
 			
+			logger.info("RdvService Log : Praticien Non Identique");
 			return false;
 		}
 		
