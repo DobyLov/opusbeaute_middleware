@@ -459,7 +459,8 @@ public class RgpdService {
 	private String urlConstructor(String token) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
 		logger.info("RgpdService log : construction de l url Rgpd avec le token"); 
 		
-		URIBuilder ub = new URIBuilder().setScheme(schema).setHost(host).setPort(port).setPath(path).addParameter("tkn", token);
+//		URIBuilder ub = new URIBuilder().setScheme(schema).setHost(host).setPort(port).setPath(path).addParameter("tkn", token);
+		URIBuilder ub = new URIBuilder().setScheme(schema).setHost(host).setPath(path).addParameter("tkn", token);
 		String urlToString = ub.build().toString();
 		logger.info("RgpdService log : UrlEncode :" + urlToString );
 		

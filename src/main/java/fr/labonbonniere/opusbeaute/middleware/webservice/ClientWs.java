@@ -1,5 +1,8 @@
 package fr.labonbonniere.opusbeaute.middleware.webservice;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -42,6 +45,7 @@ import fr.labonbonniere.opusbeaute.middleware.service.client.SuscribedSmsReminde
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
+import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdException;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 
 /**
@@ -174,6 +178,11 @@ public class ClientWs {
 	 * @throws SuscribedSmsReminderException Exception
 	 * @throws MailExistantException 
 	 * @throws MailNotFoundException 
+	 * @throws URISyntaxException 
+	 * @throws RgpdException 
+	 * @throws ClientInexistantException 
+	 * @throws MalformedURLException 
+	 * @throws UnsupportedEncodingException 
 	 */
 	@DefineUserRole({"PRATICIEN","STAGIAIRE"})
 	@POST
@@ -183,7 +192,7 @@ public class ClientWs {
 	public Response creerUnClient(Client client)
 			throws NbNumZipcodeException, NbNumRueException, NbCharRueVilleException, NbCharPrenomException,
 			NbCharNomException, NbCharTsAniversaireException, NbCharPaysException, NbCharTelException, EmailFormatInvalidException,
-			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException, MailNotFoundException, MailExistantException {
+			DaoException, GenreInvalideException, GenreClientNullException, PhoneMobileNotStartWith0607Exception, SuscribeMailReminderException, SuscribedNewsLetterException, SuscribedSmsReminderException, MailNotFoundException, MailExistantException, UnsupportedEncodingException, MalformedURLException, ClientInexistantException, RgpdException, URISyntaxException {
 
 		Response.ResponseBuilder builder = null;
 		try {

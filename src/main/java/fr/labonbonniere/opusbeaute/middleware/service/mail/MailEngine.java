@@ -26,8 +26,10 @@ public class MailEngine {
 	static final Logger logger = LogManager.getLogger(MailEngine.class.getSimpleName());
 	
 	// credentiel du compt mail
-	private static final String compteEmailLogin = "opusbeaute";
-	private static final String compteEmailPwd = "!1DemoOpusBeaute";
+//	private static final String compteEmailLogin = "opusbeaute";
+//	private static final String compteEmailPwd = "!1DemoOpusBeaute";
+	private static final String compteEmailLogin = "dobylov";
+	private static final String compteEmailPwd = "lasouris";
 	// @IP du serveur ou est hebergé l application.
 //	private static final String ipAppSrvHoster = "192.168.1.100";
 	
@@ -47,7 +49,7 @@ public class MailEngine {
 
 		// Declare recipient's & sender's e-mail id.
 		String destmailid = email;
-		String sendrmailid = "opusbeaute@gmail.com";
+		String sendrmailid = "dobylov@gmail.com";
 		// Mention user name and password as per your configuration
 		final String uname = compteEmailLogin;
 		final String pwd = compteEmailPwd;

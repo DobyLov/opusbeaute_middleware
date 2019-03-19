@@ -44,7 +44,7 @@ public class SendMailReminderClientService {
 	private static final String compteEmailLogin = "dobylov";
 	private static final String compteEmailPwd = "lasouris";
 	// @IP du serveur ou est hebergé l application.
-	private static final String ipAppSrvHoster = "192.168.1.100";
+	private static final String ipAppSrvHoster = "http://www.opusbeaute.fr";
 	
 	private static String customMailSubject;
 	private static String customMessageDynamic;

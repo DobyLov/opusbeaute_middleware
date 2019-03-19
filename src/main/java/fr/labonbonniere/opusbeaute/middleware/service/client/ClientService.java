@@ -1,5 +1,8 @@
 package fr.labonbonniere.opusbeaute.middleware.service.client;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -28,6 +31,8 @@ import fr.labonbonniere.opusbeaute.middleware.service.adresse.NbNumZipcodeExcept
 import fr.labonbonniere.opusbeaute.middleware.service.genre.GenreClientNullException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.EmailFormatInvalidException;
 import fr.labonbonniere.opusbeaute.middleware.service.mail.MailNotFoundException;
+import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdException;
+import fr.labonbonniere.opusbeaute.middleware.service.rgpd.RgpdService;
 import fr.labonbonniere.opusbeaute.middleware.service.utilisateur.MailExistantException;
 
 /**
@@ -46,6 +51,8 @@ public class ClientService {
 	private AdresseClientDao adressedao;
 	@EJB
 	private GenreDao genredao;
+	@EJB
+	private RgpdService rgpdservice;
 
 	/**
 	 * Retourne la liste des Objets client persistes
@@ -112,12 +119,17 @@ public class ClientService {
 	 * @throws PhoneMobileNotStartWith0607Exception Exception
 	 * @throws MailExistantException 
 	 * @throws MailNotFoundException 
+	 * @throws URISyntaxException 
+	 * @throws RgpdException 
+	 * @throws ClientInexistantException 
+	 * @throws MalformedURLException 
+	 * @throws UnsupportedEncodingException 
 	 */
 	public void ajoutClient(Client client)
 			throws DaoException, NbNumRueException, NbCharRueVilleException, NbNumZipcodeException, NbCharPaysException,
 			NbCharPrenomException, NbCharNomException, NbCharTsAniversaireException, NbCharTelException, EmailFormatInvalidException,
 			DaoException, GenreInvalideException, GenreClientNullException, SuscribeMailReminderException,
-			SuscribedNewsLetterException, SuscribedSmsReminderException, PhoneMobileNotStartWith0607Exception, MailNotFoundException, MailExistantException {
+			SuscribedNewsLetterException, SuscribedSmsReminderException, PhoneMobileNotStartWith0607Exception, MailNotFoundException, MailExistantException, UnsupportedEncodingException, MalformedURLException, ClientInexistantException, RgpdException, URISyntaxException {
 
 		logger.info("ClientService log : Demande d ajout d un nouveau Client dans la Bdd.");
 
@@ -152,11 +164,17 @@ public class ClientService {
 		}
 
 		try {
+			
 			if (verifieSiAdresseMailFournieExisteDansClient(client.getAdresseMailClient())) {
 				
 				throw new MailExistantException("UtilisateurService log : Email deja existant dans la Bdd.");
 			}
+			
 			clientdao.ajouterUnClient(client);
+			// evoyer un email au nouvel utilisateur
+			rgpdservice.rgpdClientAskForANewValidToken(client.getIdClient(), client.getAdresseMailClient().toLowerCase(), client.getPrenomClient());
+			
+			
 			logger.info("ClientService log : Nouveau Client ajoute, avec l id : " + client.getIdClient());
 		} catch (DaoException message) {
 			logger.error("ClientService log : Le Client demande est introuvable");
