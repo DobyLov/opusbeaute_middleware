@@ -92,6 +92,7 @@ public class AdresseClientDao {
 		try {
 			logger.info("AdresseDao log : Demande d ajout d une nouvelle Adresse dans la Bdd.");
 			em.persist(adresse);
+			em.flush();
 			logger.info("AdresseDao log : Nouvelle Adresse ajoutee, avec l id : " + adresse.getIdAdresse());
 
 		} catch (EntityExistsException message) {
@@ -115,6 +116,7 @@ public class AdresseClientDao {
 		AdresseClient adresseBdd = em.find(AdresseClient.class, adresse.getIdAdresse());
 		if (Objects.nonNull(adresseBdd)) {
 			em.merge(adresse);
+			em.flush();
 			logger.info("AdresseDao log : Adresse id : " + adresse.getIdAdresse() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error(
@@ -137,6 +139,7 @@ public class AdresseClientDao {
 		AdresseClient adresseBdd = em.find(AdresseClient.class, adresse.getIdAdresse());
 		if (Objects.nonNull(adresseBdd)) {
 			em.merge(adresse);
+			em.flush();
 			logger.info("AdresseDao log : Adresse id : " + adresse.getIdAdresse() + " a ete reinitialise dans la Bdd.");
 		} else {
 			logger.error("AdresseDao log : Adresse id : " + adresse.getIdAdresse()
@@ -159,6 +162,7 @@ public class AdresseClientDao {
 		adresse = em.find(AdresseClient.class, idAdresse);
 		if (Objects.nonNull(adresse)) {
 			em.remove(adresse);
+			em.flush();
 			logger.info("AdresseDao log : Adresse id : " + idAdresse + " a bien ete supprime de la Bdd.");
 		} else {
 			logger.error("AdresseDao log : Adresse id : " + idAdresse

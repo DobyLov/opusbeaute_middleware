@@ -94,6 +94,7 @@ public class PraticienDao {
 		try {
 			logger.info("PraticienDao log : Demande d ajout d un nouveau Praticien dans la Bdd.");
 			em.persist(praticien);
+			em.flush();
 			logger.info(
 					"PraticienDao log : Nouveau Praticien ajoute, avec l id : " + praticien.getIdPraticien());
 
@@ -118,6 +119,7 @@ public class PraticienDao {
 		Praticien praticienBdd = em.find(Praticien.class, praticien.getIdPraticien());
 		if (Objects.nonNull(praticienBdd)) {
 			em.merge(praticien);
+			em.flush();
 			logger.info("PraticienDao log : L praticien id : " + praticien.getIdPraticien()
 					+ " a ete modifie dans la Bdd.");
 		} else {
@@ -142,6 +144,7 @@ public class PraticienDao {
 		praticien = em.find(Praticien.class, idPraticien);
 		if (Objects.nonNull(praticien)) {
 			em.remove(praticien);
+			em.flush();
 			logger.info(
 					"PraticienDao log : L Praticien  id : " + idPraticien + " a bien ete supprime de la Bdd.");
 		} else {

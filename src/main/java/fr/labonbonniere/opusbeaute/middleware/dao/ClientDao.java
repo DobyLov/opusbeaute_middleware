@@ -137,6 +137,7 @@ public class ClientDao {
 		try {
 			logger.info("ClientDao log : Demande d ajout d un nouveau Client dans la Bdd.");
 			em.persist(client);
+			em.flush();
 			logger.info("ClientDao log : Client Id : " + client.getIdClient() + " enregistre dans la Bdd dans la Bdd.");
 		} catch (Exception e) {
 			logger.error("ClientDao Exception : Probleme de la bdd.");
@@ -159,6 +160,7 @@ public class ClientDao {
 			adresse.setIdAdresse(client.getIdClient());
 			client.setAdresse(adresse);
 			em.merge(client);
+			em.flush();
 			logger.info("ClientDao log : Client id : " + client.getIdClient() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error("ClientDao log : Client id : " + client.getIdClient() + " ne peut etre modifie dans la Bdd.");
@@ -180,6 +182,7 @@ public class ClientDao {
 		client = em.find(Client.class, idClient);
 		if (Objects.nonNull(client)) {
 			em.remove(client);
+			em.flush();
 			logger.info("ClientDao log : Le Client et Adresse id : " + idClient + " ont bien ete supprimes de la Bdd.");
 
 		} else {

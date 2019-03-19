@@ -94,6 +94,7 @@ public class UtilisateurDao {
 		try {
 			logger.info("UtilisateurDao log : Demande d ajout d un nouvel Utilisateur dans la Bdd.");
 			em.persist(utilisateur);
+			em.flush();
 			logger.info(
 					"UtilisateurDao log : Nouvel utilisateur ajoute, avec l id : " + utilisateur.getIdUtilisateur());
 
@@ -118,6 +119,7 @@ public class UtilisateurDao {
 		Utilisateur utilisateurBdd = em.find(Utilisateur.class, utilisateur.getIdUtilisateur());
 		if (Objects.nonNull(utilisateurBdd)) {
 			em.merge(utilisateur);
+			em.flush();
 			logger.info("UtilisateurDao log : L utilisateur id : " + utilisateur.getIdUtilisateur()
 					+ " a ete modifie dans la Bdd.");
 		} else {
@@ -142,6 +144,7 @@ public class UtilisateurDao {
 		utilisateur = em.find(Utilisateur.class, idUtilisateur);
 		if (Objects.nonNull(utilisateur)) {
 			em.remove(utilisateur);
+			em.flush();
 			logger.info(
 					"UtilisateurDao log : L utilisateur  id : " + idUtilisateur + " a bien ete supprime de la Bdd.");
 		} else {

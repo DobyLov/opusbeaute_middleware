@@ -210,6 +210,7 @@ public class PrestationDao {
 		try {
 			logger.info("PrestationsDao log : Demande d ajout d une nouvelle Prestations dans la Bdd.");
 			em.persist(prestation);
+			em.flush();
 			logger.info("PrestationsDao log : Nouveau Prestations ajoute, avec l id : " + prestation.getIdPrestation());
 
 		} catch (EntityExistsException message) {
@@ -233,6 +234,7 @@ public class PrestationDao {
 		Prestation prestationbdd = em.find(Prestation.class, prestation.getIdPrestation());
 		if (Objects.nonNull(prestationbdd)) {
 			em.merge(prestation);
+			em.flush();
 			logger.info("PrestationsDao log : Prestation id : " + prestation.getIdPrestation()
 					+ " a ete modifie dans la Bdd.");
 		} else {
@@ -257,6 +259,7 @@ public class PrestationDao {
 		prestation = em.find(Prestation.class, idPrestation);
 		if (Objects.nonNull(prestation)) {
 			em.remove(prestation);
+			em.flush();
 			logger.info("PrestationsDao log : Prestation id : " + idPrestation + " a bien ete supprime de la Bdd.");
 		} else {
 			logger.error("PrestationsDao log : Prestation id : " + idPrestation

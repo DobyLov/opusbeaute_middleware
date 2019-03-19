@@ -92,6 +92,7 @@ public class LieuRdvDao {
 		try {
 			logger.info("LieuRdvDao log : Demande d ajout d un nouveau LieuRdv dans la Bdd.");
 			em.persist(lieurdv);
+			em.flush();
 			logger.info("LieuRdvDao log : Nouveau LieuRdv ajoute, avec l id : " + lieurdv.getIdLieuRdv());
 
 		} catch (EntityExistsException message) {
@@ -113,6 +114,7 @@ public class LieuRdvDao {
 		LieuRdv lieuRdvBdd = em.find(LieuRdv.class, lieurdv.getIdLieuRdv());
 		if (Objects.nonNull(lieuRdvBdd)) {
 			em.merge(lieurdv);
+			em.flush();
 			logger.info("LieuRdvDao log : LieuRdv id : " + lieurdv.getIdLieuRdv() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error("LieuRdvDao log : LieuRdv id : " + lieurdv.getIdLieuRdv() + " ne peut etre modifie dans la Bdd.");
@@ -134,6 +136,7 @@ public class LieuRdvDao {
 		lieurdv = em.find(LieuRdv.class, idLieuRdv);
 		if (Objects.nonNull(lieurdv)) {
 			em.remove(lieurdv);
+			em.flush();
 			logger.info("LieuRdvDao log : LieuRdv id : " + idLieuRdv + " a bien ete supprime de la Bdd.");
 		} else {
 			logger.error(

@@ -105,6 +105,7 @@ public class GenreDao {
 		try {
 			logger.info("GenreDao log : Demande d ajout d un nouveau Genre dans la Bdd.");
 			em.persist(genre);
+			em.flush();
 			logger.info("GenreDao log : Nouveau type de Genre ajoute, avec l id : " + genre.getIdGenre());
 
 		} catch (Exception message) {
@@ -126,6 +127,7 @@ public class GenreDao {
 		Genre genreBdd = em.find(Genre.class, genre.getIdGenre());
 		if (Objects.nonNull(genreBdd)) {
 			em.merge(genre);
+			em.flush();
 			logger.info("GenreDao log : Genre id : " + genre.getIdGenre() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error("GenreDao log : Genre id : " + genre.getIdGenre() + " ne peut etre modifie dans la Bdd.");
@@ -147,6 +149,7 @@ public class GenreDao {
 		genre = em.find(Genre.class, idGenre);
 		if (Objects.nonNull(genre)) {
 			em.remove(genre);
+			em.flush();
 			logger.info("GenreDao log : Type de Genre id : " + idGenre + " a bien ete supprime de la Bdd.");
 		} else {
 			logger.error(

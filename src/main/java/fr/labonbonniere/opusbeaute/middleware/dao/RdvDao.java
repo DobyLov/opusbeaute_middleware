@@ -311,6 +311,7 @@ public class RdvDao {
 		try {
 			logger.info("RdvDao log : Demande d ajout d un nouveau Rdv dans la Bdd.");
 			em.persist(rdv);
+			em.flush();
 			logger.info("RdvDao log : Nouveau Rdv ajoute, avec l id : " + rdv.getIdRdv());
 		}
 
@@ -333,6 +334,7 @@ public class RdvDao {
 		Rdv rdvbdd = em.find(Rdv.class, rdv.getIdRdv());
 		if (Objects.nonNull(rdvbdd)) {
 			em.merge(rdv);
+			em.flush();
 			logger.info("RdvDao log : Rdv id : " + rdv.getIdRdv() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error("RdvDao log : Rdv id : " + rdv.getIdRdv() + " ne peut etre modifie de la Bdd.");
@@ -354,6 +356,7 @@ public class RdvDao {
 		rdv = em.find(Rdv.class, idRdv);
 		if (Objects.nonNull(rdv)) {
 			em.remove(rdv);
+			em.flush();
 			logger.info("RdvDao log : Rdv id : " + idRdv + " a bien ete supprime de la Bdd.");
 		} else {
 			logger.error("RdvDao log : Rdv id : " + idRdv + " inexistant alors il ne peut etre supprime de la Bdd.");

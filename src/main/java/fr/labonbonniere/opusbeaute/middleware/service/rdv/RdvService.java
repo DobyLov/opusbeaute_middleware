@@ -506,19 +506,26 @@ public class RdvService {
 						 * procede aux tests de chevauchement */
 						logger.info("Rdvservice Log : Preparation a tester le nouveau rdv avec les rdvs de la bdd");
 //						if (newRdv.getIdRdv() != null && newRdv.getIdRdv() != objRdvFromList.getIdRdv()) {
-						if (newRdv.getIdRdv() != null) {	
-							logger.info("Rdvservice Log : Modification de rdv alors pas de test de chevauchement");
-							
-						} else {
-							
-							logger.info("Rdvservice Log : Nouveau Rdv alors procedure de test de chevauchement");
-							/* realisation des test de chevauchement */
-							logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
-									+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
-							checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
-							checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
-							checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
-						}
+						
+						logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
+								+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
+						checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
+						checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
+						checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
+						
+//						if (newRdv.getIdRdv() != null) {	
+//							logger.info("Rdvservice Log : Modification de rdv alors pas de test de chevauchement");
+//							
+//						} else {
+//							
+//							logger.info("Rdvservice Log : Nouveau Rdv alors procedure de test de chevauchement");
+//							/* realisation des test de chevauchement */
+//							logger.info("Rdvservice Log : Comparaison du nouveau Rdv avec Rdvid " 
+//									+ objRdvFromList.getIdRdv() + " dela liste => " + listRdvFournie.size() + " items");
+//							checkChevauchementDebutRdvExistant( newRdv, objRdvFromList );			
+//							checkChevauchementFinRdvExistant(newRdv, objRdvFromList );
+//							checkRdvExistantEnglobeParNouveauRdv(newRdv, objRdvFromList );
+//						}
 						
 					}								
 					
@@ -559,7 +566,7 @@ public class RdvService {
 						.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut())) 
 						& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
 						.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
-					
+					newRdv = null;
 					logger.error("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
 					throw new RdvNouveauDateFinChevaucheRdvExistantDateDebutException("RdvService Exception : La fin du nouveau Rdv chevauche le debut du rdv dans la Bdd");
 				} else {
@@ -590,7 +597,7 @@ public class RdvService {
 					.isBefore(tsToZdt(rdvFromBdd.getDateHeureFin())) 
 						& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureDebut()))
 						.isAfter(tsToZdt(rdvFromBdd.getDateHeureDebut()))) {
-				
+				newRdv = null;
 				logger.error("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
 				throw new RdvNouveauDateDebutChevaucheRdvExistantDateFinException("RdvService Exception : Le debut du nouveau Rdv chevauche la fin du Rdv dans la Bdd");
 			} else {
@@ -621,7 +628,7 @@ public class RdvService {
 					.isBefore(tsToZdt(rdvFromBdd.getDateHeureDebut()))
 					& dateHeureFournieMoinUneMinute(tsToZdt(newRdv.getDateHeureFin()))
 							.isAfter(tsToZdt(rdvFromBdd.getDateHeureFin())) ) {
-					
+				newRdv = null;	
 					logger.error("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
 					throw new RdvNouveauEnglobeRdvExistantException("RdvService Exception : Le nouveau Rdv englobe le rdv existant");
 			} else {

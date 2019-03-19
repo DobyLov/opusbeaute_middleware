@@ -107,6 +107,7 @@ public class RolesDao {
 		try {
 			logger.info("RolesDao log : Demande d ajout d un nouveau Role dans la Bdd.");
 			em.persist(role);
+			em.flush();
 			logger.info("RolesDao log : Nouveau type de Role ajoute, avec l id : " + role.getIdRoles());
 
 		} catch (Exception message) {
@@ -128,6 +129,7 @@ public class RolesDao {
 		Roles roleBdd = em.find(Roles.class, role.getIdRoles());
 		if (Objects.nonNull(roleBdd)) {
 			em.merge(role);
+			em.flush();
 			logger.info("RolesDao log : Rdv id : " + role.getIdRoles() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error("RolesDao log : Rdv id : " + role.getIdRoles() + " ne peut etre modifie dans la Bdd.");
@@ -149,6 +151,7 @@ public class RolesDao {
 		genre = em.find(Roles.class, idRoles);
 		if (Objects.nonNull(genre)) {
 			em.remove(genre);
+			em.flush();
 			logger.info("RolesDao log : Type de Role id : " + idRoles + " a bien ete supprime de la Bdd.");
 		} else {
 			logger.error(

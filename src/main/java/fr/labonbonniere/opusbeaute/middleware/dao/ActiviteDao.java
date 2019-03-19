@@ -115,6 +115,7 @@ public class ActiviteDao {
 			
 			logger.info("ActiviteDao log : Demande d ajout d un nouveau Genre dans la Bdd.");
 			em.persist(activite);
+			em.flush();
 			logger.info("ActiviteDao log : Nouveau type de Genre ajoute, avec l id : " + activite.getIdActivite());
 
 		} catch (Exception message) {
@@ -136,7 +137,7 @@ public class ActiviteDao {
 		Activite activiteBdd = em.find(Activite.class, activite.getIdActivite());
 		if (Objects.nonNull(activiteBdd)) {
 			em.merge(activite);
-			
+			em.flush();
 			logger.info("ActiviteDao log : Activite id : " + activite.getIdActivite() + " a ete modifie dans la Bdd.");
 		} else {
 			logger.error("ActiviteDao log : Activite id : " + activite.getIdActivite() + " ne peut etre modifie dans la Bdd.");
@@ -153,6 +154,7 @@ public class ActiviteDao {
 		if (Objects.nonNull(activite)) {
 			
 			em.remove(activite);
+			em.flush();
 			logger.info("ActiviteDao log : Activite id : " + idActivite + " a bien ete supprimee de la Bdd.");
 		
 		} else {

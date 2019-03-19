@@ -94,6 +94,7 @@ public class AdresseLieuRdvDao {
 		try {
 			logger.info("AdresseLieuRdv Dao log : Demande d ajout d une nouvelle AdresselieuRdv dans la Bdd.");
 			em.persist(adresseLieuRdv);
+			em.flush();
 			logger.info("AdresseLieuRdv Dao log : Nouvelle AdresseLieuRdv ajoutee, avec l id : " + adresseLieuRdv.getIdAdresseLieuRdv());
 		
 		}catch (EntityExistsException message) { 
@@ -114,7 +115,8 @@ public class AdresseLieuRdvDao {
 			logger.info("AdresseLieuRdv Dao log : Demande de modification de l AdresseLieuRdv id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " a la Bdd.");
 			AdresseLieuRdv adresseBdd = em.find(AdresseLieuRdv.class, adresseLieuRdv.getIdAdresseLieuRdv());		
 			if ( Objects.nonNull(adresseBdd) ) {
-				em.merge(adresseLieuRdv);			
+				em.merge(adresseLieuRdv);
+				em.flush();
 				logger.info("AdresseLieuRdv Dao log : Adresse id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " a ete modifie dans la Bdd.");
 			} else {
 				logger.error("AdresseLieuRdv Dao log : Adresse id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " ne peut etre modifie dans la Bdd.");
@@ -135,7 +137,8 @@ public class AdresseLieuRdvDao {
 			logger.info("AdresseLieuRdv Dao log : Demande de reinitialisation de l AdresseLieuRdv id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " a la Bdd.");
 			AdresseLieuRdv adresseBdd = em.find(AdresseLieuRdv.class, adresseLieuRdv.getIdAdresseLieuRdv());		
 			if ( Objects.nonNull(adresseBdd) ) {
-				em.merge(adresseLieuRdv);			
+				em.merge(adresseLieuRdv);	
+				em.flush();
 				logger.info("AdresseLieuRdv Dao log : Adresse id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " a ete reinitialise dans la Bdd.");
 			} else {
 				logger.error("AdresseLieuRdv Dao log : AdresseLieuRdv id : " + adresseLieuRdv.getIdAdresseLieuRdv() + " ne peut etre reinitialisee dans la Bdd.");
@@ -160,6 +163,7 @@ public class AdresseLieuRdvDao {
 				adresseLieuRdv = em.find(AdresseLieuRdv.class, idAdresseLieuRdv);
 				if (Objects.nonNull(adresseLieuRdv)) {
 				em.remove(adresseLieuRdv);
+				em.flush();
 				logger.info("AdresseLieuRdv Dao log : AdresseLieuRdv id : " + idAdresseLieuRdv + " a bien ete supprime de la Bdd.");
 				} else {
 				logger.error("AdresseLieuRdv Dao log : AdresseLieuRdv id : " + idAdresseLieuRdv + " inexistante alors elle ne peut etre supprimee de la Bdd.");
