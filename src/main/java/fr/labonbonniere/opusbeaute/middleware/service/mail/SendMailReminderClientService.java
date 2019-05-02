@@ -129,7 +129,8 @@ public class SendMailReminderClientService {
 						+ "La Bonbonni&egrave;re d'Audrey</span></p><p>&nbsp;</p>"
 						+ "<p style=\"font-size: 4.0px;\">&nbsp;</p><p><span style=\"font-family: arial, helvetica, sans-serif; font-size: small;\">"
 						+ "Se desinscrire au rappel de rendez-vous " 
-						+ "<a href=\"http://" + ipAppSrvHoster + ":8080/opusbeaute-0/obws/unsuscribe/rdvreminder/"
+//						+ "<a href=\"http://" + ipAppSrvHoster + ":8080/opusbeaute-0/obws/unsuscribe/rdvreminder/"
+						+ "<a href=" + ipAppSrvHoster + ":8080/opusbeaute-0/obws/unsuscribe/rdvreminder/"
 						+ clientEmail 
 						+ "/M7AkuQu2hGHvzdYcDfxbPkcWaP9fe42G\">ici</a>."
 						+"</p>";

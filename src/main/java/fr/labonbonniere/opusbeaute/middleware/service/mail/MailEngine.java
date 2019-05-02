@@ -29,7 +29,7 @@ public class MailEngine {
 //	private static final String compteEmailLogin = "opusbeaute";
 //	private static final String compteEmailPwd = "!1DemoOpusBeaute";
 	private static final String compteEmailLogin = "dobylov";
-	private static final String compteEmailPwd = "lasouris";
+	private static final String compteEmailPwd = "*********";
 	// @IP du serveur ou est hebergé l application.
 //	private static final String ipAppSrvHoster = "192.168.1.100";
 	

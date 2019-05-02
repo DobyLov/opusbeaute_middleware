@@ -5,7 +5,7 @@
     <property name="sun.boot.library.path" value="E:\Dev\Java\JDK\jre\bin"/>
     <property name="java.vm.version" value="25.121-b13"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="E:\dev\Projets\opusbeaute"/>
+    <property name="maven.multiModuleProjectDirectory" value="E:\Dev\Projets\opusbeaute"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
