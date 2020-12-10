@@ -24,7 +24,7 @@ Projet en Java (MiddleWare): [OpusBeaute_MiddleWare](https://github.com/DobyLov/
 
 ### Shema Application
 JavaDoc : [Documentation](https://github.com/DobyLov/opusbeaute_middleware/blob/master/doc/index.html)
-Schema application: [Schéma](https://coggle.it/diagram/WgWBQ)
+Schema application: [Schéma](<iframe width='853' height='480' src='https://embed.coggle.it/diagram/WgWBQjvR8gAB6GZo/d45ed1195c764accaf27ae8aadc1e946e6af9c798e850a438c8c560c4559dfec' frameborder='0' allowfullscreen></iframe>)
 
 ### Compilation du Projet
 
