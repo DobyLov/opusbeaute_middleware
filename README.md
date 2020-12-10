@@ -7,7 +7,7 @@ Le système envoi la veille, un mail et / ou un SMS de rappel de Rendez-vous ave
  
 ### Fonctionnalités du middleware
 Le Middleware opusbeauté est l' API assurant la persistance des données dans une BDD et la mise à disposition de WebService REST avec une gestion des règles métier.  
- 
+  
 La liste des services REST son consultables via le WADL (Web Application Document Language): [WADL](https://github.com/DobyLov/opusbeaute_middleware/blob/master/src/main/doc/application.wadl) 
 
 Comande pour compiler le Wadl :
@@ -22,9 +22,9 @@ Projet en Java (MiddleWare): [OpusBeaute_MiddleWare](https://github.com/DobyLov/
 ### Version des outils de développement
 ![](https://img.shields.io/badge/Java%20:-V%208.0-orange.svg) ![](https://img.shields.io/badge/Maven%20:-V%202.4-blue.svg) ![](https://img.shields.io/badge/PostgresSQL%20:-V%209.6-orange.svg) ![](https://img.shields.io/badge/Wildfly%20CLI%20:-V%2013-orange.svg) 
 
-### Documentation Application
+### Shema Application
 JavaDoc : [Documentation](https://github.com/DobyLov/opusbeaute_middleware/blob/master/doc/index.html)
-
+Schema application: [Schéma](https://coggle.it/diagram/WgWBQ)
 
 ### Compilation du Projet
 
