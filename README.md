@@ -33,4 +33,4 @@ Aller dans le repertoire du projet:
 	mvn clean install
 
 ### Soutenance du Projet
-Consulter le document PDf: [Soutenance](https://github.com/DobyLov/opusbeaute_middleware/blob/master/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
+Consulter le document PDf: [Soutenance](https://github.com/DobyLov/soutenance/blob/main/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
