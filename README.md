@@ -32,5 +32,5 @@ Aller dans le repertoire du projet:
 
 	mvn clean install
 
-### Soutenanance du Projet
+### Soutenance du Projet
 Consulter le document PDf: [Soutenance](https://github.com/DobyLov/opusbeaute_middleware/blob/master/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
