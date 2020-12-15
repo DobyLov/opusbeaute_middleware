@@ -34,3 +34,5 @@ Aller dans le repertoire du projet:
 
 ### Soutenance du Projet
 Consulter le document PDf: [Soutenance](https://github.com/DobyLov/soutenance/blob/main/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
+
+[<img src="https://github.com/DobyLov/soutenance/blob/main/pgarde_soutenance.png">](https://github.com/DobyLov/soutenance/blob/main/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
