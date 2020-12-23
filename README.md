@@ -31,8 +31,3 @@ Schema application: [Schéma](<iframe width='853' height='480' src='https://embe
 Aller dans le repertoire du projet:
 
 	mvn clean install
-
-### Soutenance du Projet
-Consulter le document PDf: [Soutenance](https://github.com/DobyLov/soutenance/blob/main/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
-
-[<img src="https://github.com/DobyLov/soutenance/blob/main/pgarde_soutenance.png">](https://github.com/DobyLov/soutenance/blob/main/FBeaudeau_Soutenance_V16032019_VFinale05.pdf)
